@@ -1,0 +1,6 @@
+ext.deps = [
+    kotlin: [
+        stdlib: "org.jetbrains.kotlin:kotlin-stdlib",
+        junit: "org.jetbrains.kotlin:kotlin-test-junit",
+    ],
+]

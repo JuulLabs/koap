@@ -1,0 +1,13 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jmailen.kotlinter'
+    id 'jacoco'
+}
+
+apply from: rootProject.file('gradle/kotlin.gradle')
+apply from: rootProject.file('gradle/jacoco.gradle')
+
+dependencies {
+    api deps.kotlin.stdlib
+    testImplementation deps.kotlin.junit
+}
