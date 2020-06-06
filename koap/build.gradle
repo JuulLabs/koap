@@ -7,7 +7,13 @@ plugins {
 apply from: rootProject.file('gradle/kotlin.gradle')
 apply from: rootProject.file('gradle/jacoco.gradle')
 
+kotlinter {
+    disabledRules = ["no-multi-spaces"]
+}
+
 dependencies {
     api deps.kotlin.stdlib
+    implementation deps.okio
     testImplementation deps.kotlin.junit
+    testImplementation deps.mockk
 }
