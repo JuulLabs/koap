@@ -3,8 +3,6 @@ package com.juul.koap
 import com.juul.koap.Message.Code.Method
 import com.juul.koap.Message.Option.Companion.UriPath
 import com.juul.koap.Message.Udp.Type.Confirmable
-import io.mockk.every
-import io.mockk.mockk
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -46,11 +44,8 @@ class EncoderTest {
             options = emptyList(),
             payload = byteArrayOf()
         )
-        val content = mockk<Buffer> {
-            every { size } returns UINT32_MAX_EXTENDED_LENGTH
-        }
 
-        val buffer = Buffer().apply { writeHeader(message, content) }
+        val buffer = Buffer().apply { writeHeader(message, UINT32_MAX_EXTENDED_LENGTH) }
         assertEquals(
             expected = """
                 F0          # Len of 15 (Reserved) indicating content length >= 65805, Token Length of 0

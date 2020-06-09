@@ -113,7 +113,7 @@ private fun BufferedSink.writeMessage(message: Message) {
     val header = Buffer().apply {
         when (message) {
             is Udp -> writeHeader(message)
-            is Tcp -> writeHeader(message, content)
+            is Tcp -> writeHeader(message, content.size)
         }
     }
 
@@ -182,10 +182,9 @@ private fun Udp.Type.toInt(): Int = when (this) {
  * ```
  *
  * @param message to write the header for
- * @param content used for calculating `Len`
+ * @param length content length, used for calculating `Len`
  */
-internal fun BufferedSink.writeHeader(message: Tcp, content: Buffer) {
-    val length = content.size
+internal fun BufferedSink.writeHeader(message: Tcp, length: Long) {
     require(length <= UINT32_MAX_EXTENDED_LENGTH) {
         "Content length $length exceeds maximum allowable of $UINT32_MAX_EXTENDED_LENGTH"
     }
