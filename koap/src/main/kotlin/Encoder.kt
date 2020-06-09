@@ -334,38 +334,47 @@ private fun BufferedSink.writeOption(option: Option, preceding: Option?) {
     write(optionValue, optionValue.size)
 }
 
-private fun Message.Code.toInt(): Int = when (this) {
-    // RFC7252: 12.1.1. Method Codes
-    is Method -> when (this) {
+/**
+ * Returns the 8-bit unsigned integer representation of [Message.Code] receiver.
+ *
+ * Per "RFC 7252 3. Message Format", **Code** is an:
+ *
+ * > 8-bit unsigned integer, split into a 3-bit class (most significant bits) and a 5-bit detail
+ * > (least significant bits), documented as "c.dd" where "c" is a digit from 0 to 7 for the 3-bit
+ * > subfield and "dd" are two digits from 00 to 31 for the 5-bit subfield.
+ */
+private fun Message.Code.toInt(): Int = when (val code = this) {
+    // RFC 7252: 12.1.1. Method Codes
+    is Method -> when (code) {
         GET -> 1    // 0.01
         POST -> 2   // 0.02
         PUT -> 3    // 0.03
         DELETE -> 4 // 0.04
     }
 
-    // RFC7252: 12.1.2. Response Codes
-    is Response -> when (this) {
-        Created -> (2 shl 5) or 1                   // 2.01
-        Deleted -> (2 shl 5) or 2                   // 2.02
-        Valid -> (2 shl 5) or 3                     // 2.03
-        Changed -> (2 shl 5) or 4                   // 2.04
-        Content -> (2 shl 5) or 5                   // 2.05
-        BadRequest -> 4 shl 5                       // 4.00
-        Unauthorized -> (4 shl 5) or 1              // 4.01
-        BadOption -> (4 shl 5) or 2                 // 4.02
-        Forbidden -> (4 shl 5) or 3                 // 4.03
-        NotFound -> (4 shl 5) or 4                  // 4.04
-        MethodNotAllowed -> (4 shl 5) or 5          // 4.05
-        NotAcceptable -> (4 shl 5) or 6             // 4.06
-        PreconditionFailed -> (4 shl 5) or 12       // 4.12
-        RequestEntityTooLarge -> (4 shl 5) or 13    // 4.13
-        UnsupportedContentFormat -> (4 shl 5) or 15 // 4.15
-        InternalServerError -> 5 shl 5              // 5.00
-        NotImplemented -> (5 shl 5) or 1            // 5.01
-        BadGateway -> (5 shl 5) or 2                // 5.02
-        ServiceUnavailable -> (5 shl 5) or 3        // 5.03
-        GatewayTimeout -> (5 shl 5) or 4            // 5.04
-        ProxyingNotSupported -> (5 shl 5) or 5      // 5.05
+    // RFC 7252: 12.1.2. Response Codes
+    is Response -> when (code) {
+        Created -> 65                   // (2 shl 5) or  1  =>  2.01
+        Deleted -> 66                   // (2 shl 5) or  2  =>  2.02
+        Valid -> 67                     // (2 shl 5) or  3  =>  2.03
+        Changed -> 68                   // (2 shl 5) or  4  =>  2.04
+        Content -> 69                   // (2 shl 5) or  5  =>  2.05
+        BadRequest -> 128               //  4 shl 5         =>  4.00
+        Unauthorized -> 129             // (4 shl 5) or  1  =>  4.01
+        BadOption -> 130                // (4 shl 5) or  2  =>  4.02
+        Forbidden -> 131                // (4 shl 5) or  3  =>  4.03
+        NotFound -> 132                 // (4 shl 5) or  4  =>  4.04
+        MethodNotAllowed -> 133         // (4 shl 5) or  5  =>  4.05
+        NotAcceptable -> 134            // (4 shl 5) or  6  =>  4.06
+        PreconditionFailed -> 140       // (4 shl 5) or 12  =>  4.12
+        RequestEntityTooLarge -> 141    // (4 shl 5) or 13  =>  4.13
+        UnsupportedContentFormat -> 143 // (4 shl 5) or 15  =>  4.15
+        InternalServerError -> 160      //  5 shl 5         =>  5.00
+        NotImplemented -> 161           // (5 shl 5) or  1  =>  5.01
+        BadGateway -> 162               // (5 shl 5) or  2  =>  5.02
+        ServiceUnavailable -> 163       // (5 shl 5) or  3  =>  5.03
+        GatewayTimeout -> 164           // (5 shl 5) or  4  =>  5.04
+        ProxyingNotSupported -> 165     // (5 shl 5) or  5  =>  5.05
     }
 }
 
