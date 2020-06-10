@@ -7,29 +7,49 @@ sealed class Message {
     abstract val options: List<Option>
     abstract val payload: ByteArray
 
-    @Suppress("ClassName", "FunctionName") // Names defined to match RFC.
+    @Suppress("ClassName") // Names defined to match RFC.
     sealed class Option {
 
-        abstract val number: Int
+        /** RFC 7252 3.1. Option Format */
+        sealed class Format : Option() {
 
-        data class empty internal constructor(
-            override val number: Int
-        ) : Option()
+            abstract val number: Int
 
-        data class opaque internal constructor(
-            override val number: Int,
-            val value: ByteArray
-        ) : Option()
+            data class empty constructor(
+                override val number: Int
+            ) : Format()
 
-        data class uint internal constructor(
-            override val number: Int,
-            val value: Long
-        ) : Option()
+            data class opaque constructor(
+                override val number: Int,
+                val value: ByteArray
+            ) : Format() {
 
-        data class string internal constructor(
-            override val number: Int,
-            val value: String
-        ) : Option()
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) return true
+                    if (javaClass != other?.javaClass) return false
+                    other as opaque
+                    if (number != other.number) return false
+                    if (!value.contentEquals(other.value)) return false
+                    return true
+                }
+
+                override fun hashCode(): Int {
+                    var result = number
+                    result = 31 * result + value.contentHashCode()
+                    return result
+                }
+            }
+
+            data class uint constructor(
+                override val number: Int,
+                val value: Long
+            ) : Format()
+
+            data class string constructor(
+                override val number: Int,
+                val value: String
+            ) : Format()
+        }
 
         /* RFC 7252 5.10. Table 4: Options
          *
@@ -53,38 +73,141 @@ sealed class Message {
          * |  60 | Size1          | uint   | 0-4    |
          * +-----+----------------+--------+--------+
          */
-        companion object {
-            fun IfMatch(etag: ByteArray) = opaque(1, etag.requireLength(0..8)) // 5.10.8.1.
-            fun UriHost(value: String) = string(3, value.requireLength(1..255))
-            fun ETag(value: ByteArray) = opaque(4, value.requireLength(1..8))
-            fun IfNoneMatch(value: ByteArray) = empty(5)
-            fun UriPort(value: Long) = uint(7, value.requireLength(0..2))
-            fun LocationPath(value: String) = string(8, value.requireLength(0..255))
-            fun UriPath(value: String) = string(11, value.requireLength(0..255))
-            fun ContentFormat(value: Long) = uint(12, value.requireLength(0..2))
-            fun MaxAge(value: Long = 60) = uint(14, value.requireLength(0..4))
-            fun UriQuery(value: String) = string(15, value.requireLength(0..255))
-            fun Accept(value: Long) = uint(17, value.requireLength(0..2))
-            fun LocationQuery(value: String) = string(20, value.requireLength(0..255))
-            fun ProxyUri(value: String) = string(35, value.requireLength(1..1034))
-            fun ProxyScheme(value: String) = string(39, value.requireLength(1..255))
-            fun Size1(value: Long) = uint(60, value.requireLength(0..4))
 
-            private fun ByteArray.requireLength(range: IntRange): ByteArray {
-                require(size in range) { "Length $size is not within required range $range" }
-                return this
+        /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */
+        data class UriHost(val uri: String) : Option() {
+            init {
+                uri.requireLength(1..255)
             }
+        }
 
-            private fun String.requireLength(range: IntRange): String {
-                require(length in range) { "Length $length is not within required range $range" }
-                return this
+        /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */
+        data class UriPort(val port: Long) : Option() {
+            init {
+                port.requireUShort()
             }
+        }
 
-            private fun Long.requireLength(range: IntRange): Long {
-                require(uint32Size in range) {
-                    "Length $uint32Size is not within required range $range"
+        /**
+         * RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query
+         *
+         * > The Uri-Path and Uri-Query Option can contain any character sequence. No percent-
+         * > encoding is performed. The value of a Uri-Path Option MUST NOT be "." or ".." (as the
+         * > request URI must be resolved before parsing it into options).
+         */
+        data class UriPath(val uri: String) : Option() {
+            init {
+                require(uri != "." && uri != "..") { "Uri-Path must not be \".\" or \"..\"" }
+                uri.requireLength(0..255)
+            }
+        }
+
+        /**
+         * RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query
+         *
+         * @see UriPath
+         */
+        data class UriQuery(val uri: String) : Option() {
+            init {
+                require(uri != "." && uri != "..") { "Uri-Query must not be \".\" or \"..\"" }
+                uri.requireLength(0..255)
+            }
+        }
+
+        /** RFC 7252 5.10.2. Proxy-Uri and Proxy-Scheme */
+        data class ProxyUri(val uri: String) : Option() {
+            init {
+                uri.requireLength(1..1034)
+            }
+        }
+
+        /** RFC 7252 5.10.2. Proxy-Uri and Proxy-Scheme */
+        data class ProxyScheme(val uri: String) : Option() {
+            init {
+                uri.requireLength(1..255)
+            }
+        }
+
+        /** RFC 7252 5.10.3. Content-Format */
+        data class ContentFormat(val format: Long) : Option() {
+            init {
+                format.requireUShort()
+            }
+        }
+
+        /** RFC 7252 5.10.4. Accept */
+        data class Accept(val format: Long) : Option() {
+            init {
+                format.requireUShort()
+            }
+        }
+
+        /** RFC 7252 5.10.5. Max-Age */
+        data class MaxAge(val seconds: Long) : Option() {
+            init {
+                require(seconds.fitsInUInt()) { // ~136.1 years
+                    "Max-Age of $seconds seconds is outside of allowable range"
                 }
-                return this
+            }
+        }
+
+        /** RFC 7252 5.10.6. ETag */
+        data class ETag(val etag: ByteArray) : Option() {
+            init {
+                etag.requireLength(1..8)
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) return true
+                if (javaClass != other?.javaClass) return false
+                other as ETag
+                if (!etag.contentEquals(other.etag)) return false
+                return true
+            }
+
+            override fun hashCode(): Int = etag.contentHashCode()
+        }
+
+        /** RFC 7252 5.10.7. Location-Path and Location-Query */
+        data class LocationPath(val uri: String) : Option() {
+            init {
+                uri.requireLength(0..255)
+            }
+        }
+
+        /** RFC 7252 5.10.7. Location-Path and Location-Query */
+        data class LocationQuery(val uri: String) : Option() {
+            init {
+                uri.requireLength(0..255)
+            }
+        }
+
+        /** RFC 7252 5.10.8.1. If-Match */
+        data class IfMatch(val etag: ByteArray) : Option() {
+            init {
+                etag.requireLength(0..8)
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) return true
+                if (javaClass != other?.javaClass) return false
+                other as IfMatch
+                if (!etag.contentEquals(other.etag)) return false
+                return true
+            }
+
+            override fun hashCode(): Int {
+                return etag.contentHashCode()
+            }
+        }
+
+        /** RFC 7252 5.10.8.2. If-None-Match */
+        object IfNoneMatch : Option()
+
+        /** RFC 7252 5.10.9. Size1 Option */
+        data class Size1(val bytes: Long) : Option() {
+            init {
+                bytes.requireUInt()
             }
         }
     }
@@ -121,6 +244,11 @@ sealed class Message {
             object GatewayTimeout : Response()
             object ProxyingNotSupported : Response()
         }
+
+        data class Raw(
+            val `class`: Int,
+            val detail: Int
+        ) : Code()
     }
 
     data class Udp(
@@ -138,6 +266,29 @@ sealed class Message {
             Acknowledgement,
             Reset,
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            other as Udp
+            if (type != other.type) return false
+            if (code != other.code) return false
+            if (id != other.id) return false
+            if (token != other.token) return false
+            if (options != other.options) return false
+            if (!payload.contentEquals(other.payload)) return false
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = type.hashCode()
+            result = 31 * result + code.hashCode()
+            result = 31 * result + id
+            result = 31 * result + (token?.hashCode() ?: 0)
+            result = 31 * result + options.hashCode()
+            result = 31 * result + payload.contentHashCode()
+            return result
+        }
     }
 
     data class Tcp(
@@ -145,15 +296,25 @@ sealed class Message {
         override val token: Long?,
         override val options: List<Option>,
         override val payload: ByteArray
-    ) : Message()
+    ) : Message() {
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            other as Tcp
+            if (code != other.code) return false
+            if (token != other.token) return false
+            if (options != other.options) return false
+            if (!payload.contentEquals(other.payload)) return false
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = code.hashCode()
+            result = 31 * result + (token?.hashCode() ?: 0)
+            result = 31 * result + options.hashCode()
+            result = 31 * result + payload.contentHashCode()
+            return result
+        }
+    }
 }
-
-/**
- * Determines the smallest number of bytes needed to fit the [Long] receiver as an unsigned 32-bit
- * integer.
- */
-@OptIn(ExperimentalStdlibApi::class)
-private val Long.uint32Size: Int
-    get() = (Long.SIZE_BITS - uint32.countLeadingZeroBits() + 7) / Byte.SIZE_BITS
-
-private val Long.uint32: Long get() = this and 0xFF_FF_FF_FF

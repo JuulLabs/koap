@@ -1,7 +1,7 @@
 package com.juul.koap
 
 import com.juul.koap.Message.Code.Method
-import com.juul.koap.Message.Option.Companion.UriPath
+import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Udp.Type.Confirmable
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -45,12 +45,14 @@ class EncoderTest {
             payload = byteArrayOf()
         )
 
-        val buffer = Buffer().apply { writeHeader(message, UINT32_MAX_EXTENDED_LENGTH) }
+        val buffer = Buffer().apply {
+            writeHeader(message, tokenSize = 0, length = UINT32_MAX_EXTENDED_LENGTH)
+        }
         assertEquals(
             expected = """
-                F0          # Len of 15 (Reserved) indicating content length >= 65805, Token Length of 0
-                FF FF FF FF # Extended Content Length at max allowable
-                01          # Code of 1 (GET)
+                F0          # Len: 15 (Reserved; content length >= 65805), Token length: 0
+                FF FF FF FF # Extended Content Length: 4,295,033,100 (max allowable)
+                01          # Code: 1 (GET)
             """.stripComments(),
             actual = buffer.readByteArray().toHexString()
         )
@@ -58,7 +60,7 @@ class EncoderTest {
 
     @Test
     fun `Too long of UriPath throws IllegalArgumentException`() {
-        val path = (0..256).joinToString { it.toString() }
+        val path = "*".repeat(256) // 255 is maximum allowable UriPath length
         assertFailsWith<IllegalArgumentException> {
             UriPath(path)
         }

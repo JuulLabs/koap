@@ -5,6 +5,7 @@ import com.juul.koap.Message.Code.Method.DELETE
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Method.POST
 import com.juul.koap.Message.Code.Method.PUT
+import com.juul.koap.Message.Code.Raw
 import com.juul.koap.Message.Code.Response
 import com.juul.koap.Message.Code.Response.BadGateway
 import com.juul.koap.Message.Code.Response.BadOption
@@ -28,10 +29,26 @@ import com.juul.koap.Message.Code.Response.Unauthorized
 import com.juul.koap.Message.Code.Response.UnsupportedContentFormat
 import com.juul.koap.Message.Code.Response.Valid
 import com.juul.koap.Message.Option
-import com.juul.koap.Message.Option.empty
-import com.juul.koap.Message.Option.opaque
-import com.juul.koap.Message.Option.string
-import com.juul.koap.Message.Option.uint
+import com.juul.koap.Message.Option.Accept
+import com.juul.koap.Message.Option.ContentFormat
+import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.Format
+import com.juul.koap.Message.Option.Format.empty
+import com.juul.koap.Message.Option.Format.opaque
+import com.juul.koap.Message.Option.Format.string
+import com.juul.koap.Message.Option.Format.uint
+import com.juul.koap.Message.Option.IfMatch
+import com.juul.koap.Message.Option.IfNoneMatch
+import com.juul.koap.Message.Option.LocationPath
+import com.juul.koap.Message.Option.LocationQuery
+import com.juul.koap.Message.Option.MaxAge
+import com.juul.koap.Message.Option.ProxyScheme
+import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.UriHost
+import com.juul.koap.Message.Option.UriPath
+import com.juul.koap.Message.Option.UriPort
+import com.juul.koap.Message.Option.UriQuery
 import com.juul.koap.Message.Tcp
 import com.juul.koap.Message.Udp
 import com.juul.koap.Message.Udp.Type.Acknowledgement
@@ -47,7 +64,7 @@ import okio.BufferedSink
 private const val COAP_VERSION = 1
 
 private const val PAYLOAD_MARKER = 0xFF
-internal const val UINT32_MAX_EXTENDED_LENGTH = 4_294_967_295L + 65_805L
+internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
 
 /**
  * Encodes [Message] receiver as a [ByteArray].
@@ -97,8 +114,9 @@ private fun BufferedSink.writeMessage(message: Message) {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
     // Content is encoded first, as the encoded content length is needed for `Len` (in TCP header).
-    val content = Buffer().apply {
-        message.token?.let { writeToken(it) } // Write Token (if present).
+    val content = Buffer()
+    val tokenSize = message.token?.let { content.writeToken(it) } ?: 0 // Write Token (if present).
+    content.apply {
         writeOptions(message.options)
         if (message.payload.isNotEmpty()) {
             writeByte(PAYLOAD_MARKER)
@@ -112,8 +130,8 @@ private fun BufferedSink.writeMessage(message: Message) {
 
     val header = Buffer().apply {
         when (message) {
-            is Udp -> writeHeader(message)
-            is Tcp -> writeHeader(message, content.size)
+            is Udp -> writeHeader(message, tokenSize)
+            is Tcp -> writeHeader(message, tokenSize, content.size)
         }
     }
 
@@ -135,14 +153,16 @@ private fun BufferedSink.writeMessage(message: Message) {
  *
  * @param message to write the header for
  */
-private fun BufferedSink.writeHeader(message: Udp) {
+internal fun BufferedSink.writeHeader(message: Udp, tokenSize: Long) {
+    checkTokenSize(tokenSize)
+
     // |7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+
     // |Ver| T |  TKL  |
     // +-+-+-+-+-+-+-+-+
     val ver = COAP_VERSION shl 6
     val t = message.type.toInt() shl 4
-    val tkl = message.token?.size ?: 0
+    val tkl = tokenSize.toInt()
     writeByte(ver or t or tkl)
 
     // |7 6 5 4 3 2 1 0|
@@ -184,10 +204,13 @@ private fun Udp.Type.toInt(): Int = when (this) {
  * @param message to write the header for
  * @param length content length, used for calculating `Len`
  */
-internal fun BufferedSink.writeHeader(message: Tcp, length: Long) {
-    require(length <= UINT32_MAX_EXTENDED_LENGTH) {
-        "Content length $length exceeds maximum allowable of $UINT32_MAX_EXTENDED_LENGTH"
-    }
+internal fun BufferedSink.writeHeader(
+    message: Tcp,
+    tokenSize: Long,
+    length: Long
+) {
+    checkTokenSize(tokenSize)
+    checkContentSize(length)
 
     val len = when {
         length < 13 -> length // No Extended Length
@@ -195,7 +218,7 @@ internal fun BufferedSink.writeHeader(message: Tcp, length: Long) {
         length < 65805 -> 14  // Reserved, indicates 16-bit unsigned integer Extended Length
         else -> 15            // Reserved, indicates 32-bit unsigned integer Extended Length
     }.toInt()
-    val tkl = message.token?.size ?: 0
+    val tkl = tokenSize.toInt()
 
     // |7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+
@@ -236,15 +259,36 @@ private fun BufferedSink.writeShort(short: Long) = writeShort(short.toInt())
 private fun BufferedSink.writeInt(int: Long) = writeInt(int.toInt())
 
 private fun BufferedSink.writeOptions(options: List<Option>) {
-    val sorted = options.sortedBy { it.number }
+    val sorted = options.map(Option::toFormat).sortedBy(Format::number)
     for (i in sorted.indices) {
         val preceding = if (i == 0) null else sorted[i - 1]
         buffer.writeOption(sorted[i], preceding)
     }
 }
 
+/** Converts predefined [Option] receiver to raw [Option.Format]. */
+private fun Option.toFormat(): Format =
+    when (val option = this) {
+        is Format -> option
+        is IfMatch -> opaque(1, option.etag)
+        is UriHost -> string(3, option.uri)
+        is ETag -> opaque(4, option.etag)
+        is IfNoneMatch -> empty(5)
+        is UriPort -> uint(7, option.port)
+        is LocationPath -> string(8, option.uri)
+        is UriPath -> string(11, option.uri)
+        is ContentFormat -> uint(12, option.format)
+        is MaxAge -> uint(14, option.seconds)
+        is UriQuery -> string(15, option.uri)
+        is Accept -> uint(17, option.format)
+        is LocationQuery -> string(20, option.uri)
+        is ProxyUri -> string(35, option.uri)
+        is ProxyScheme -> string(39, option.uri)
+        is Size1 -> uint(60, option.bytes)
+    }
+
 /**
- * 3.1. Option Format, Figure 8: Option Format
+ * 3.1. Option Format (Figure 8: Option Format)
  *
  * ```
  *   0   1   2   3   4   5   6   7
@@ -263,7 +307,7 @@ private fun BufferedSink.writeOptions(options: List<Option>) {
  * +-------------------------------+
  * ```
  */
-private fun BufferedSink.writeOption(option: Option, preceding: Option?) {
+private fun BufferedSink.writeOption(option: Format, preceding: Format?) {
     val delta = option.number - (preceding?.number ?: 0)
     val optionDelta = when {
         delta < 13 -> delta // No Option Delta (extended)
@@ -274,7 +318,8 @@ private fun BufferedSink.writeOption(option: Option, preceding: Option?) {
 
     val optionValue = Buffer().apply {
         when (option) {
-            is empty -> { /* no-op */ }
+            is empty -> { /* no-op */
+            }
             is opaque -> write(option.value)
             is uint -> {
                 var write = false
@@ -375,20 +420,25 @@ private fun Message.Code.toInt(): Int = when (val code = this) {
         GatewayTimeout -> 164           // (5 shl 5) or  4  =>  5.04
         ProxyingNotSupported -> 165     // (5 shl 5) or  5  =>  5.05
     }
+
+    is Raw -> (code.`class` shl 5) or code.detail
 }
 
-private fun BufferedSink.writeToken(token: Long) {
-    val size = token.size
-    when {
-        size <= Byte.SIZE_BYTES -> writeByte(token.toInt())
-        size <= Short.SIZE_BYTES -> writeShort(token.toInt())
-        size <= Int.SIZE_BYTES -> writeInt(token.toInt())
-        size <= Long.SIZE_BYTES -> writeLong(token)
-        else -> error("Invalid token length: $size")
+/**
+ * Writes [token] to receiver [BufferedSink].
+ *
+ * @return size of [token] written.
+ */
+private fun BufferedSink.writeToken(token: Long): Long {
+    val buffer = Buffer().apply {
+        when {
+            token.fitsInUByte() -> writeByte(token and 0xFF)
+            token.fitsInUShort() -> writeShort(token and 0xFF_FF)
+            token.fitsInUInt() -> writeInt(token and 0xFF_FF_FF_FF)
+            else -> writeLong(token)
+        }
     }
+    val size = buffer.size
+    write(buffer, size)
+    return size
 }
-
-/** Determines the smallest number of bytes needed to fit the [Long] receiver. */
-@OptIn(ExperimentalStdlibApi::class)
-private val Long.size: Int
-    get() = (Long.SIZE_BITS - countLeadingZeroBits() + 7) / Byte.SIZE_BITS
