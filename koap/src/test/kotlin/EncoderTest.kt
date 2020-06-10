@@ -1,10 +1,15 @@
-package com.juul.koap
+package com.juul.koap.test
 
+import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
+import com.juul.koap.UINT32_MAX_EXTENDED_LENGTH
+import com.juul.koap.encode
+import com.juul.koap.writeHeader
+import com.juul.koap.writeToken
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
