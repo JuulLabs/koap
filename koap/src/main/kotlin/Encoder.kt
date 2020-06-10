@@ -429,7 +429,7 @@ private fun Message.Code.toInt(): Int = when (val code = this) {
  *
  * @return size of [token] written.
  */
-private fun BufferedSink.writeToken(token: Long): Long {
+internal fun BufferedSink.writeToken(token: Long): Long {
     val buffer = Buffer().apply {
         when {
             token.fitsInUByte() -> writeByte(token and 0xFF)
