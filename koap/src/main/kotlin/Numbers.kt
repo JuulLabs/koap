@@ -26,4 +26,4 @@ internal val UINT_RANGE = 0..UINT_MAX_VALUE
 
 internal fun Long.fitsInUByte(): Boolean = toInt() in UBYTE_RANGE
 internal fun Long.fitsInUShort(): Boolean = toInt() in USHORT_RANGE
-internal fun Long.fitsInUInt(): Boolean = toInt() in UINT_RANGE
+internal fun Long.fitsInUInt(): Boolean = this in UINT_RANGE
