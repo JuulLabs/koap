@@ -1,6 +1,5 @@
 package com.juul.koap
 
-import com.juul.koap.Message.Code.Method
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
 import com.juul.koap.Message.Option.UriPath
