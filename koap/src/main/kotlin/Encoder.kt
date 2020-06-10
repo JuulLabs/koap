@@ -135,8 +135,8 @@ private fun BufferedSink.writeMessage(message: Message) {
         }
     }
 
-    write(header, header.size)
-    write(content, content.size)
+    writeAll(header)
+    writeAll(content)
 }
 
 /**
@@ -375,7 +375,7 @@ private fun BufferedSink.writeOption(option: Format, preceding: Format?) {
     // /         Option Value          /   0 or more bytes
     // \                               \
     // +-------------------------------+
-    write(optionValue, optionValue.size)
+    writeAll(optionValue)
 }
 
 /**
