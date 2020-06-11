@@ -57,7 +57,7 @@ class EncoderTest {
         )
 
         val buffer = Buffer().apply {
-            writeHeader(message, tokenSize = 0, length = UINT32_MAX_EXTENDED_LENGTH)
+            writeHeader(message, tokenLength = 0, contentLength = UINT32_MAX_EXTENDED_LENGTH)
         }
         assertEquals(
             expected = """
