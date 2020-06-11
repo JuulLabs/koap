@@ -1,5 +1,7 @@
 package com.juul.koap
 
+import okio.BufferedSource
+
 /** 4-bit unsigned integer maximum value. */
 private const val UINT4_MAX_VALUE = 15 // 2^4-1
 
@@ -27,3 +29,19 @@ internal val UINT_RANGE = 0..UINT_MAX_VALUE
 internal fun Long.fitsInUByte(): Boolean = toInt() in UBYTE_RANGE
 internal fun Long.fitsInUShort(): Boolean = toInt() in USHORT_RANGE
 internal fun Long.fitsInUInt(): Boolean = this in UINT_RANGE
+
+/**
+ * Reads number from [BufferedSource] receiver.
+ *
+ * @param length in bytes to read.
+ * @return value of number.
+ */
+internal fun BufferedSource.readNumber(length: Int): Long {
+    require(length in 1..Long.SIZE_BYTES) { "Unable to read number of length $length" }
+    var value = 0L
+    for (i in (length - 1) downTo 0) { // Read byte-by-byte in network byte-order.
+        val byte = readByte()
+        value = value or ((byte.toLong() and 0xFF) shl (i * Byte.SIZE_BITS))
+    }
+    return value
+}
