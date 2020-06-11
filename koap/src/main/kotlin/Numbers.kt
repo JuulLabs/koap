@@ -1,7 +1,7 @@
 package com.juul.koap
 
 /** 4-bit unsigned integer maximum value. */
-private val UINT4_MAX_VALUE = 15 // 2^4-1
+private const val UINT4_MAX_VALUE = 15 // 2^4-1
 
 /** 4-bit unsigned integer range. */
 internal val UINT4_RANGE = 0..UINT4_MAX_VALUE

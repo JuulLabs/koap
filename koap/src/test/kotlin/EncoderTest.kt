@@ -4,11 +4,15 @@ import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
 import com.juul.koap.Message.Option.UriPath
+import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
 import com.juul.koap.UINT32_MAX_EXTENDED_LENGTH
 import com.juul.koap.encode
+import com.juul.koap.toFormat
+import com.juul.koap.toHexString
 import com.juul.koap.writeHeader
+import com.juul.koap.writeOption
 import com.juul.koap.writeToken
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -141,6 +145,21 @@ class EncoderTest {
     }
 
     @Test
+    fun `Write UriPort Option`() {
+        val buffer = Buffer().apply {
+            writeOption(UriPort(1234).toFormat(), null)
+        }
+
+        assertEquals(
+            expected = """
+                72    # Option Delta: 7, Option Length: 2
+                04 D2 # Option Value: 1234
+            """.stripComments(),
+            actual = buffer.readByteArray().toHexString()
+        )
+    }
+
+    @Test
     fun `Write token of value 0`() {
         testWriteToken(
             token = 0,
@@ -194,8 +213,6 @@ private fun testWriteToken(
         actual = buffer.readByteArray().toHexString()
     )
 }
-
-private fun ByteArray.toHexString(): String = joinToString(" ") { String.format("%02X", it) }
 
 private fun String.stripComments() =
     splitToSequence('\n')

@@ -219,6 +219,8 @@ sealed class Message {
             object POST : Method()
             object PUT : Method()
             object DELETE : Method()
+
+            override fun toString(): String = javaClass.simpleName
         }
 
         sealed class Response : Code() {
@@ -243,6 +245,8 @@ sealed class Message {
             object ServiceUnavailable : Response()
             object GatewayTimeout : Response()
             object ProxyingNotSupported : Response()
+
+            override fun toString(): String = javaClass.simpleName
         }
 
         data class Raw(
@@ -289,6 +293,15 @@ sealed class Message {
             result = 31 * result + payload.contentHashCode()
             return result
         }
+
+        override fun toString(): String = "Message.Udp(" +
+            "type=$type, " +
+            "code=$code, " +
+            "id=$id (0x${Integer.toHexString(id).toUpperCase()}), " +
+            "token=$token, " +
+            "options=$options, " +
+            "payload=${payload.toHexString()}" +
+            ")"
     }
 
     data class Tcp(
@@ -316,5 +329,12 @@ sealed class Message {
             result = 31 * result + payload.contentHashCode()
             return result
         }
+
+        override fun toString(): String = "Message.Tcp(" +
+            "code=$code, " +
+            "token=$token, " +
+            "options=$options, " +
+            "payload=${payload.toHexString()}" +
+            ")"
     }
 }

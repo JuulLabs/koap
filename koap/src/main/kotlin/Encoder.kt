@@ -58,14 +58,6 @@ import com.juul.koap.Message.Udp.Type.Reset
 import okio.Buffer
 import okio.BufferedSink
 
-// 2-bit unsigned integer
-// Indicates the CoAP version number.
-// https://tools.ietf.org/html/rfc7252#section-3
-private const val COAP_VERSION = 1
-
-private const val PAYLOAD_MARKER = 0xFF
-internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
-
 /**
  * Encodes [Message] receiver as a [ByteArray].
  *
@@ -267,7 +259,7 @@ private fun BufferedSink.writeOptions(options: List<Option>) {
 }
 
 /** Converts predefined [Option] receiver to raw [Option.Format]. */
-private fun Option.toFormat(): Format =
+internal fun Option.toFormat(): Format =
     when (val option = this) {
         is Format -> option
         is IfMatch -> opaque(1, option.etag)
@@ -307,18 +299,19 @@ private fun Option.toFormat(): Format =
  * +-------------------------------+
  * ```
  */
-private fun BufferedSink.writeOption(option: Format, preceding: Format?) {
+internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
     val delta = option.number - (preceding?.number ?: 0)
     val optionDelta = when {
-        delta < 13 -> delta // No Option Delta (extended)
-        delta < 269 -> 13   // Reserved, indicates  8-bit unsigned integer Option Delta (extended)
-        delta < 65805 -> 14 // Reserved, indicates 16-bit unsigned integer Option Delta (extended)
+        delta in 0..12 -> delta // No Option Delta (extended)
+        delta < 269 -> 13       // Reserved, indicates  8-bit unsigned integer Option Delta (extended)
+        delta < 65805 -> 14     // Reserved, indicates 16-bit unsigned integer Option Delta (extended)
         else -> error("Invalid option delta $delta")
     }
 
     val optionValue = Buffer().apply {
         when (option) {
-            is empty -> { /* no-op */
+            is empty -> {
+                // no-op
             }
             is opaque -> write(option.value)
             is uint -> {
@@ -340,9 +333,9 @@ private fun BufferedSink.writeOption(option: Format, preceding: Format?) {
 
     val length = optionValue.size.toInt()
     val optionLength = when {
-        length < 13 -> length // No Extended Length
-        length < 269 -> 13    // Reserved, indicates  8-bit unsigned integer Option Length (extended)
-        length < 65805 -> 14  // Reserved, indicates 16-bit unsigned integer Option Length (extended)
+        length in 0..12 -> length // No Extended Length
+        length < 269 -> 13        // Reserved, indicates  8-bit unsigned integer Option Length (extended)
+        length < 65805 -> 14      // Reserved, indicates 16-bit unsigned integer Option Length (extended)
         else -> error("Invalid option length $length")
     }
 
