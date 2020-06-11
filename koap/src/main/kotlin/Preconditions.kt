@@ -15,4 +15,3 @@ internal fun ByteArray.requireLength(range: IntRange) {
 internal fun String.requireLength(range: IntRange) {
     require(length in range) { "Length of $length is not within required range of $range" }
 }
-
