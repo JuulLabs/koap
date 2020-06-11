@@ -1,5 +1,7 @@
 package com.juul.koap
 
+import java.util.Objects
+
 sealed class Message {
 
     abstract val code: Code
@@ -24,20 +26,11 @@ sealed class Message {
                 val value: ByteArray
             ) : Format() {
 
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) return true
-                    if (javaClass != other?.javaClass) return false
-                    other as opaque
-                    if (number != other.number) return false
-                    if (!value.contentEquals(other.value)) return false
-                    return true
-                }
+                override fun equals(other: Any?): Boolean =
+                    this === other ||
+                        (other is opaque && number == other.number && value.contentEquals(other.value))
 
-                override fun hashCode(): Int {
-                    var result = number
-                    result = 31 * result + value.contentHashCode()
-                    return result
-                }
+                override fun hashCode(): Int = Objects.hash(number, value.contentHashCode())
             }
 
             data class uint(
@@ -157,13 +150,8 @@ sealed class Message {
                 etag.requireLength(1..8)
             }
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) return true
-                if (javaClass != other?.javaClass) return false
-                other as ETag
-                if (!etag.contentEquals(other.etag)) return false
-                return true
-            }
+            override fun equals(other: Any?): Boolean =
+                this === other || (other is ETag && etag.contentEquals(other.etag))
 
             override fun hashCode(): Int = etag.contentHashCode()
         }
@@ -188,17 +176,10 @@ sealed class Message {
                 etag.requireLength(0..8)
             }
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) return true
-                if (javaClass != other?.javaClass) return false
-                other as IfMatch
-                if (!etag.contentEquals(other.etag)) return false
-                return true
-            }
+            override fun equals(other: Any?): Boolean =
+                this === other || (other is IfMatch && etag.contentEquals(other.etag))
 
-            override fun hashCode(): Int {
-                return etag.contentHashCode()
-            }
+            override fun hashCode(): Int = etag.contentHashCode()
         }
 
         /** RFC 7252 5.10.8.2. If-None-Match */
@@ -271,28 +252,18 @@ sealed class Message {
             Reset,
         }
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-            other as Udp
-            if (type != other.type) return false
-            if (code != other.code) return false
-            if (id != other.id) return false
-            if (token != other.token) return false
-            if (options != other.options) return false
-            if (!payload.contentEquals(other.payload)) return false
-            return true
-        }
+        override fun equals(other: Any?): Boolean =
+            this === other ||
+                (other is Udp &&
+                    type == other.type &&
+                    code == other.code &&
+                    id == other.id &&
+                    token == other.token &&
+                    options == other.options &&
+                    payload.contentEquals(other.payload))
 
-        override fun hashCode(): Int {
-            var result = type.hashCode()
-            result = 31 * result + code.hashCode()
-            result = 31 * result + id
-            result = 31 * result + (token?.hashCode() ?: 0)
-            result = 31 * result + options.hashCode()
-            result = 31 * result + payload.contentHashCode()
-            return result
-        }
+        override fun hashCode(): Int =
+            Objects.hash(type, code, id, token, options, payload.contentHashCode())
 
         override fun toString(): String = "Message.Udp(" +
             "type=$type, " +
@@ -311,24 +282,16 @@ sealed class Message {
         override val payload: ByteArray
     ) : Message() {
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-            other as Tcp
-            if (code != other.code) return false
-            if (token != other.token) return false
-            if (options != other.options) return false
-            if (!payload.contentEquals(other.payload)) return false
-            return true
-        }
+        override fun equals(other: Any?): Boolean =
+            this === other ||
+                (other is Tcp &&
+                    code == other.code &&
+                    token == other.token &&
+                    options == other.options &&
+                    payload.contentEquals(other.payload))
 
-        override fun hashCode(): Int {
-            var result = code.hashCode()
-            result = 31 * result + (token?.hashCode() ?: 0)
-            result = 31 * result + options.hashCode()
-            result = 31 * result + payload.contentHashCode()
-            return result
-        }
+        override fun hashCode(): Int =
+            Objects.hash(code, token, options, payload.contentHashCode())
 
         override fun toString(): String = "Message.Tcp(" +
             "code=$code, " +
