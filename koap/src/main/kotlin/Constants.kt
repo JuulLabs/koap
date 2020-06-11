@@ -1,8 +1,10 @@
 package com.juul.koap
 
-// 2-bit unsigned integer
-// Indicates the CoAP version number.
-// https://tools.ietf.org/html/rfc7252#section-3
+/**
+ * Indicates the CoAP version number.
+ * 2-bit unsigned integer
+ * https://tools.ietf.org/html/rfc7252#section-3
+ */
 internal const val COAP_VERSION = 1
 
 internal const val PAYLOAD_MARKER = 0xFF
