@@ -15,11 +15,11 @@ sealed class Message {
 
             abstract val number: Int
 
-            data class empty constructor(
+            data class empty(
                 override val number: Int
             ) : Format()
 
-            data class opaque constructor(
+            data class opaque(
                 override val number: Int,
                 val value: ByteArray
             ) : Format() {
@@ -40,12 +40,12 @@ sealed class Message {
                 }
             }
 
-            data class uint constructor(
+            data class uint(
                 override val number: Int,
                 val value: Long
             ) : Format()
 
-            data class string constructor(
+            data class string(
                 override val number: Int,
                 val value: String
             ) : Format()
