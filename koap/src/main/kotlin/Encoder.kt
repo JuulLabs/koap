@@ -146,7 +146,9 @@ private fun BufferedSink.writeMessage(message: Message) {
  * @param message to write the header for
  */
 internal fun BufferedSink.writeHeader(message: Udp, tokenSize: Long) {
-    checkTokenSize(tokenSize)
+    require(tokenSize in UINT4_RANGE) {
+        "Token size of $tokenSize is outside allowable range of $UINT4_RANGE"
+    }
 
     // |7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+
@@ -201,8 +203,12 @@ internal fun BufferedSink.writeHeader(
     tokenSize: Long,
     length: Long
 ) {
-    checkTokenSize(tokenSize)
-    checkContentSize(length)
+    require(tokenSize in UINT4_RANGE) {
+        "Token size of $tokenSize is outside allowable range of $UINT4_RANGE"
+    }
+    require(length <= UINT32_MAX_EXTENDED_LENGTH) {
+        "Content length of $length exceeds maximum allowable of $UINT32_MAX_EXTENDED_LENGTH"
+    }
 
     val len = when {
         length < 13 -> length // No Extended Length
