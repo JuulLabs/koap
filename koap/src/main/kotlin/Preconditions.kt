@@ -1,23 +1,19 @@
 package com.juul.koap
 
-internal fun Long.requireUShort(): Long {
+internal fun Long.requireUShort() {
     require(fitsInUShort()) { "$this is outside allowable range of $USHORT_RANGE" }
-    return this
 }
 
-internal fun Long.requireUInt(): Long {
+internal fun Long.requireUInt() {
     require(fitsInUInt()) { "$this is outside allowable range of $UINT_RANGE" }
-    return this
 }
 
-internal fun ByteArray.requireLength(range: IntRange): ByteArray {
+internal fun ByteArray.requireLength(range: IntRange) {
     require(size in range) { "Length of $size is not within required range of $range" }
-    return this
 }
 
-internal fun String.requireLength(range: IntRange): String {
+internal fun String.requireLength(range: IntRange) {
     require(length in range) { "Length of $length is not within required range of $range" }
-    return this
 }
 
 internal fun checkTokenSize(size: Long) {
