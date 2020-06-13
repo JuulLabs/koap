@@ -10,7 +10,7 @@ internal val UINT4_RANGE = 0..UINT4_MAX_VALUE
 private const val UBYTE_MAX_VALUE = 255 // 2^8-1
 
 /** 8-bit unsigned integer (UByte) range. */
-private val UBYTE_RANGE = 0..UBYTE_MAX_VALUE
+internal val UBYTE_RANGE = 0..UBYTE_MAX_VALUE
 
 /** 16-bit unsigned integer (UShort) maximum value. */
 private const val USHORT_MAX_VALUE = 65_535 // 2^16-1
@@ -23,7 +23,3 @@ internal const val UINT_MAX_VALUE = 4_294_967_295 // 2^32-1
 
 /** 32-bit unsigned integer (UInt) range. */
 internal val UINT_RANGE = 0..UINT_MAX_VALUE
-
-internal fun Long.fitsInUByte(): Boolean = toInt() in UBYTE_RANGE
-internal fun Long.fitsInUShort(): Boolean = toInt() in USHORT_RANGE
-internal fun Long.fitsInUInt(): Boolean = this in UINT_RANGE

@@ -430,10 +430,10 @@ private fun Message.Code.toInt(): Int = when (val code = this) {
  */
 internal fun BufferedSink.writeToken(token: Long): Long {
     val buffer = Buffer().apply {
-        when {
-            token.fitsInUByte() -> writeByte(token and 0xFF)
-            token.fitsInUShort() -> writeShort(token and 0xFF_FF)
-            token.fitsInUInt() -> writeInt(token and 0xFF_FF_FF_FF)
+        when (token) {
+            in UBYTE_RANGE -> writeByte(token and 0xFF)
+            in USHORT_RANGE -> writeShort(token and 0xFF_FF)
+            in UINT_RANGE -> writeInt(token and 0xFF_FF_FF_FF)
             else -> writeLong(token)
         }
     }
