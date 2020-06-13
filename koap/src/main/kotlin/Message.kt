@@ -200,7 +200,7 @@ sealed class Message {
         /** RFC 7252 5.10.7. Location-Path and Location-Query */
         data class LocationQuery(val uri: String) : Option() {
             init {
-                require (uri.length in LOCATION_QUERY_LENGTH_RANGE) {
+                require(uri.length in LOCATION_QUERY_LENGTH_RANGE) {
                     "Location-Query length of ${uri.length} is outside allowable range of $LOCATION_QUERY_LENGTH_RANGE"
                 }
             }
@@ -226,7 +226,7 @@ sealed class Message {
         /** RFC 7252 5.10.9. Size1 Option */
         data class Size1(val bytes: Long) : Option() {
             init {
-                require (bytes in SIZE1_RANGE) {
+                require(bytes in SIZE1_RANGE) {
                     "Size1 of $bytes is outside allowable range of $SIZE1_RANGE"
                 }
             }
