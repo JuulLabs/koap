@@ -16,4 +16,5 @@ dependencies {
     implementation deps.okio
     testImplementation deps.kotlin.junit
     testImplementation deps.mockk
+    testImplementation deps.equalsverifier
 }
