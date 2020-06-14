@@ -7,17 +7,20 @@ import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
+import com.juul.koap.UBYTE_MAX_VALUE
 import com.juul.koap.UINT32_MAX_EXTENDED_LENGTH
+import com.juul.koap.UINT_MAX_VALUE
+import com.juul.koap.USHORT_MAX_VALUE
 import com.juul.koap.encode
 import com.juul.koap.toFormat
 import com.juul.koap.toHexString
 import com.juul.koap.writeHeader
 import com.juul.koap.writeOption
 import com.juul.koap.writeToken
+import okio.Buffer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import okio.Buffer
 
 class EncoderTest {
 
@@ -169,29 +172,56 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write UByte token of value 255`() {
+    fun `Write token of value 255`() {
         testWriteToken(
-            token = 255,
+            token = UBYTE_MAX_VALUE.toLong(),
             expectedSize = 1,
             expectedHex = "FF"
         )
     }
 
     @Test
-    fun `Write UShort token of value 65,535`() {
+    fun `Write token of value 65,535`() {
         testWriteToken(
-            token = 65_535,
+            token = USHORT_MAX_VALUE.toLong(),
             expectedSize = 2,
             expectedHex = "FF FF"
         )
     }
 
     @Test
-    fun `Write UInt token of value 4,294,967,295`() {
+    fun `Write token of value 4,294,967,295`() {
         testWriteToken(
-            token = 4_294_967_295,
+            token = UINT_MAX_VALUE,
             expectedSize = 4,
             expectedHex = "FF FF FF FF"
+        )
+    }
+
+    @Test
+    fun `Write token of value 9,223,372,036,854,775,807`() {
+        testWriteToken(
+            token = Long.MAX_VALUE,
+            expectedSize = 8,
+            expectedHex = "7F FF FF FF FF FF FF FF"
+        )
+    }
+
+    @Test
+    fun `Write token of value -1`() {
+        testWriteToken(
+            token = -1,
+            expectedSize = 8,
+            expectedHex = "FF FF FF FF FF FF FF FF"
+        )
+    }
+
+    @Test
+    fun `Write token of value -9,223,372,036,854,775,806`() {
+        testWriteToken(
+            token = Long.MIN_VALUE,
+            expectedSize = 8,
+            expectedHex = "80 00 00 00 00 00 00 00"
         )
     }
 }
