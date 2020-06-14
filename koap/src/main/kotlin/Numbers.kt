@@ -29,13 +29,13 @@ internal val UINT_RANGE = 0..UINT_MAX_VALUE
 /**
  * Reads number from [BufferedSource] receiver.
  *
- * @param length in bytes to read.
- * @return value of number.
+ * @param bytes to read from [BufferedSource] to build number
+ * @return value of number
  */
-internal fun BufferedSource.readNumber(length: Int): Long {
-    require(length in 1..Long.SIZE_BYTES) { "Unable to read number of length $length" }
+internal fun BufferedSource.readNumberOfLength(bytes: Int): Long {
+    require(bytes in 1..Long.SIZE_BYTES) { "Unable to read number of length $bytes bytes" }
     var value = 0L
-    for (i in (length - 1) downTo 0) { // Read byte-by-byte in network byte-order.
+    for (i in (bytes - 1) downTo 0) { // Read byte-by-byte in network byte-order.
         val byte = readByte()
         value = value or ((byte.toLong() and 0xFF) shl (i * Byte.SIZE_BITS))
     }

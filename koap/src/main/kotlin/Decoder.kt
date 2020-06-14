@@ -107,7 +107,7 @@ fun ByteArray.decodeUdp(): Message.Udp {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // |          Message ID           |
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val id = buffer.readNumber(2)
+    val id = buffer.readNumberOfLength(bytes = 2)
 
     // Content
 
@@ -115,7 +115,7 @@ fun ByteArray.decodeUdp(): Message.Udp {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val token = if (tkl != 0) buffer.readNumber(tkl) else null
+    val token = if (tkl != 0) buffer.readNumberOfLength(bytes = tkl) else null
 
     // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -199,7 +199,7 @@ fun ByteArray.decodeTcp(): Message.Tcp {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val token = if (tkl != 0) content.readNumber(tkl) else null
+    val token = if (tkl != 0) content.readNumberOfLength(bytes = tkl) else null
 
     // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -292,17 +292,17 @@ private fun BufferedSource.readOption(preceding: Format?): Option? {
         3 -> UriHost(readUtf8(length.toLong()))
         4 -> ETag(readByteArray(length.toLong()))
         5 -> IfNoneMatch
-        7 -> UriPort(readNumber(length))
+        7 -> UriPort(readNumberOfLength(length))
         8 -> LocationPath(readUtf8(length.toLong()))
         11 -> UriPath(readUtf8(length.toLong()))
-        12 -> ContentFormat(readNumber(length))
-        14 -> MaxAge(readNumber(length))
+        12 -> ContentFormat(readNumberOfLength(length))
+        14 -> MaxAge(readNumberOfLength(length))
         15 -> UriQuery(readUtf8(length.toLong()))
-        17 -> Accept(readNumber(length))
+        17 -> Accept(readNumberOfLength(length))
         20 -> LocationQuery(readUtf8(length.toLong()))
         35 -> ProxyUri(readUtf8(length.toLong()))
         39 -> ProxyScheme(readUtf8(length.toLong()))
-        60 -> Size1(readNumber(length))
+        60 -> Size1(readNumberOfLength(length))
         else -> error("Unsupported option number $number")
     }
 }
