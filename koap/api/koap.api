@@ -1,0 +1,402 @@
+public final class com/juul/koap/DecoderKt {
+	public static final fun decodeTcp ([B)Lcom/juul/koap/Message$Tcp;
+	public static final fun decodeUdp ([B)Lcom/juul/koap/Message$Udp;
+}
+
+public final class com/juul/koap/EncoderKt {
+	public static final fun encode (Lcom/juul/koap/Message;)[B
+}
+
+public abstract class com/juul/koap/Message {
+	public abstract fun getCode ()Lcom/juul/koap/Message$Code;
+	public abstract fun getOptions ()Ljava/util/List;
+	public abstract fun getPayload ()[B
+	public abstract fun getToken ()Ljava/lang/Long;
+}
+
+public abstract class com/juul/koap/Message$Code {
+}
+
+public abstract class com/juul/koap/Message$Code$Method : com/juul/koap/Message$Code {
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Code$Method$DELETE : com/juul/koap/Message$Code$Method {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Method$DELETE;
+}
+
+public final class com/juul/koap/Message$Code$Method$GET : com/juul/koap/Message$Code$Method {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Method$GET;
+}
+
+public final class com/juul/koap/Message$Code$Method$POST : com/juul/koap/Message$Code$Method {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Method$POST;
+}
+
+public final class com/juul/koap/Message$Code$Method$PUT : com/juul/koap/Message$Code$Method {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Method$PUT;
+}
+
+public final class com/juul/koap/Message$Code$Raw : com/juul/koap/Message$Code {
+	public fun <init> (II)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun copy (II)Lcom/juul/koap/Message$Code$Raw;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Code$Raw;IIILjava/lang/Object;)Lcom/juul/koap/Message$Code$Raw;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClass ()I
+	public final fun getDetail ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/juul/koap/Message$Code$Response : com/juul/koap/Message$Code {
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Code$Response$BadGateway : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$BadGateway;
+}
+
+public final class com/juul/koap/Message$Code$Response$BadOption : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$BadOption;
+}
+
+public final class com/juul/koap/Message$Code$Response$BadRequest : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$BadRequest;
+}
+
+public final class com/juul/koap/Message$Code$Response$Changed : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$Changed;
+}
+
+public final class com/juul/koap/Message$Code$Response$Content : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$Content;
+}
+
+public final class com/juul/koap/Message$Code$Response$Created : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$Created;
+}
+
+public final class com/juul/koap/Message$Code$Response$Deleted : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$Deleted;
+}
+
+public final class com/juul/koap/Message$Code$Response$Forbidden : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$Forbidden;
+}
+
+public final class com/juul/koap/Message$Code$Response$GatewayTimeout : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$GatewayTimeout;
+}
+
+public final class com/juul/koap/Message$Code$Response$InternalServerError : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$InternalServerError;
+}
+
+public final class com/juul/koap/Message$Code$Response$MethodNotAllowed : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$MethodNotAllowed;
+}
+
+public final class com/juul/koap/Message$Code$Response$NotAcceptable : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$NotAcceptable;
+}
+
+public final class com/juul/koap/Message$Code$Response$NotFound : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$NotFound;
+}
+
+public final class com/juul/koap/Message$Code$Response$NotImplemented : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$NotImplemented;
+}
+
+public final class com/juul/koap/Message$Code$Response$PreconditionFailed : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$PreconditionFailed;
+}
+
+public final class com/juul/koap/Message$Code$Response$ProxyingNotSupported : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$ProxyingNotSupported;
+}
+
+public final class com/juul/koap/Message$Code$Response$RequestEntityTooLarge : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$RequestEntityTooLarge;
+}
+
+public final class com/juul/koap/Message$Code$Response$ServiceUnavailable : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$ServiceUnavailable;
+}
+
+public final class com/juul/koap/Message$Code$Response$Unauthorized : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$Unauthorized;
+}
+
+public final class com/juul/koap/Message$Code$Response$UnsupportedContentFormat : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$UnsupportedContentFormat;
+}
+
+public final class com/juul/koap/Message$Code$Response$Valid : com/juul/koap/Message$Code$Response {
+	public static final field INSTANCE Lcom/juul/koap/Message$Code$Response$Valid;
+}
+
+public abstract class com/juul/koap/Message$Option {
+}
+
+public final class com/juul/koap/Message$Option$Accept : com/juul/koap/Message$Option {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/juul/koap/Message$Option$Accept;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Accept;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Accept;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFormat ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$ContentFormat : com/juul/koap/Message$Option {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/juul/koap/Message$Option$ContentFormat;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ContentFormat;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$ContentFormat;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFormat ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$ETag : com/juul/koap/Message$Option {
+	public fun <init> ([B)V
+	public final fun component1 ()[B
+	public final fun copy ([B)Lcom/juul/koap/Message$Option$ETag;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ETag;[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$ETag;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEtag ()[B
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/juul/koap/Message$Option$Format : com/juul/koap/Message$Option {
+	public abstract fun getNumber ()I
+}
+
+public final class com/juul/koap/Message$Option$Format$empty : com/juul/koap/Message$Option$Format {
+	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lcom/juul/koap/Message$Option$Format$empty;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Format$empty;IILjava/lang/Object;)Lcom/juul/koap/Message$Option$Format$empty;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getNumber ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Format$opaque : com/juul/koap/Message$Option$Format {
+	public fun <init> (I[B)V
+	public final fun component1 ()I
+	public final fun component2 ()[B
+	public final fun copy (I[B)Lcom/juul/koap/Message$Option$Format$opaque;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Format$opaque;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$Format$opaque;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getNumber ()I
+	public final fun getValue ()[B
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Format$string : com/juul/koap/Message$Option$Format {
+	public fun <init> (ILjava/lang/String;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (ILjava/lang/String;)Lcom/juul/koap/Message$Option$Format$string;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Format$string;ILjava/lang/String;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$Format$string;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getNumber ()I
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Format$uint : com/juul/koap/Message$Option$Format {
+	public fun <init> (IJ)V
+	public final fun component1 ()I
+	public final fun component2 ()J
+	public final fun copy (IJ)Lcom/juul/koap/Message$Option$Format$uint;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Format$uint;IJILjava/lang/Object;)Lcom/juul/koap/Message$Option$Format$uint;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getNumber ()I
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$IfMatch : com/juul/koap/Message$Option {
+	public fun <init> ([B)V
+	public final fun component1 ()[B
+	public final fun copy ([B)Lcom/juul/koap/Message$Option$IfMatch;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$IfMatch;[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$IfMatch;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEtag ()[B
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$IfNoneMatch : com/juul/koap/Message$Option {
+	public static final field INSTANCE Lcom/juul/koap/Message$Option$IfNoneMatch;
+}
+
+public final class com/juul/koap/Message$Option$LocationPath : com/juul/koap/Message$Option {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/juul/koap/Message$Option$LocationPath;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$LocationPath;Ljava/lang/String;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$LocationPath;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$LocationQuery : com/juul/koap/Message$Option {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/juul/koap/Message$Option$LocationQuery;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$LocationQuery;Ljava/lang/String;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$LocationQuery;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$MaxAge : com/juul/koap/Message$Option {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/juul/koap/Message$Option$MaxAge;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$MaxAge;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$MaxAge;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeconds ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$ProxyScheme : com/juul/koap/Message$Option {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/juul/koap/Message$Option$ProxyScheme;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ProxyScheme;Ljava/lang/String;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$ProxyScheme;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$ProxyUri : com/juul/koap/Message$Option {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/juul/koap/Message$Option$ProxyUri;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ProxyUri;Ljava/lang/String;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$ProxyUri;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Size1 : com/juul/koap/Message$Option {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/juul/koap/Message$Option$Size1;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Size1;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Size1;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBytes ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$UriHost : com/juul/koap/Message$Option {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/juul/koap/Message$Option$UriHost;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$UriHost;Ljava/lang/String;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$UriHost;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$UriPath : com/juul/koap/Message$Option {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/juul/koap/Message$Option$UriPath;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$UriPath;Ljava/lang/String;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$UriPath;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$UriPort : com/juul/koap/Message$Option {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/juul/koap/Message$Option$UriPort;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$UriPort;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$UriPort;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPort ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$UriQuery : com/juul/koap/Message$Option {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/juul/koap/Message$Option$UriQuery;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$UriQuery;Ljava/lang/String;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$UriQuery;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Tcp : com/juul/koap/Message {
+	public fun <init> (Lcom/juul/koap/Message$Code;Ljava/lang/Long;Ljava/util/List;[B)V
+	public final fun component1 ()Lcom/juul/koap/Message$Code;
+	public final fun component2 ()Ljava/lang/Long;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()[B
+	public final fun copy (Lcom/juul/koap/Message$Code;Ljava/lang/Long;Ljava/util/List;[B)Lcom/juul/koap/Message$Tcp;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Tcp;Lcom/juul/koap/Message$Code;Ljava/lang/Long;Ljava/util/List;[BILjava/lang/Object;)Lcom/juul/koap/Message$Tcp;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCode ()Lcom/juul/koap/Message$Code;
+	public fun getOptions ()Ljava/util/List;
+	public fun getPayload ()[B
+	public fun getToken ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Udp : com/juul/koap/Message {
+	public fun <init> (Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;Ljava/util/List;[B)V
+	public final fun component1 ()Lcom/juul/koap/Message$Udp$Type;
+	public final fun component2 ()Lcom/juul/koap/Message$Code;
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()[B
+	public final fun copy (Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;Ljava/util/List;[B)Lcom/juul/koap/Message$Udp;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Udp;Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;Ljava/util/List;[BILjava/lang/Object;)Lcom/juul/koap/Message$Udp;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCode ()Lcom/juul/koap/Message$Code;
+	public final fun getId ()I
+	public fun getOptions ()Ljava/util/List;
+	public fun getPayload ()[B
+	public fun getToken ()Ljava/lang/Long;
+	public final fun getType ()Lcom/juul/koap/Message$Udp$Type;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Udp$Type : java/lang/Enum {
+	public static final field Acknowledgement Lcom/juul/koap/Message$Udp$Type;
+	public static final field Confirmable Lcom/juul/koap/Message$Udp$Type;
+	public static final field NonConfirmable Lcom/juul/koap/Message$Udp$Type;
+	public static final field Reset Lcom/juul/koap/Message$Udp$Type;
+	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Message$Udp$Type;
+	public static fun values ()[Lcom/juul/koap/Message$Udp$Type;
+}
+
