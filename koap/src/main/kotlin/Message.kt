@@ -187,7 +187,7 @@ sealed class Message {
         data class MaxAge(val seconds: Long) : Option() {
             init {
                 require(seconds in MAX_AGE_RANGE) { // ~136.1 years
-                    "Max-Age of $seconds seconds is outside of allowable range or $MAX_AGE_RANGE"
+                    "Max-Age of $seconds seconds is outside of allowable range of $MAX_AGE_RANGE"
                 }
             }
         }
