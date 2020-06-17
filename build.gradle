@@ -30,3 +30,16 @@ subprojects {
         }
     }
 }
+
+// Prevent publishing if `version` property is not set (e.g. via `-Pversion` command line argument).
+gradle.taskGraph.whenReady { taskGraph ->
+    taskGraph.getAllTasks().findAll { task ->
+        task.name.startsWith('publish')
+    }.forEach { task ->
+        task.doFirst {
+            if (!project.hasProperty("version") || project.findProperty("version") == "unspecified") {
+                throw new GradleException("Unable to publish without version property")
+            }
+        }
+    }
+}
