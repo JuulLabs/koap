@@ -82,4 +82,4 @@ _Replace_ `$version` _with the desired version (can be found on the [GitHub Pack
 
 [RFC 7252]: https://tools.ietf.org/html/rfc7252
 [RFC 8323]: https://tools.ietf.org/html/rfc8323
-[GitHub Packages page]: TODO
+[GitHub Packages page]: https://github.com/JuulLabs/android-github-packages/packages/273980
