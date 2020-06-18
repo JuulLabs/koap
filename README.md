@@ -4,7 +4,7 @@
 
 Kotlin CoAP encoder/decoder that supports CoAP UDP ([RFC 7252]) and CoAP TCP ([RFC 8323]).
 
-## API
+## Usage
 
 ### Encoding
 
