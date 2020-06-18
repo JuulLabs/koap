@@ -15,9 +15,14 @@ public abstract class com/juul/koap/Message {
 }
 
 public abstract class com/juul/koap/Message$Code {
+	public abstract fun getClass ()I
+	public abstract fun getDetail ()I
 }
 
 public abstract class com/juul/koap/Message$Code$Method : com/juul/koap/Message$Code {
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getClass ()I
+	public fun getDetail ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -44,13 +49,16 @@ public final class com/juul/koap/Message$Code$Raw : com/juul/koap/Message$Code {
 	public final fun copy (II)Lcom/juul/koap/Message$Code$Raw;
 	public static synthetic fun copy$default (Lcom/juul/koap/Message$Code$Raw;IIILjava/lang/Object;)Lcom/juul/koap/Message$Code$Raw;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getClass ()I
-	public final fun getDetail ()I
+	public fun getClass ()I
+	public fun getDetail ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public abstract class com/juul/koap/Message$Code$Response : com/juul/koap/Message$Code {
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getClass ()I
+	public fun getDetail ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -398,5 +406,9 @@ public final class com/juul/koap/Message$Udp$Type : java/lang/Enum {
 	public static final field Reset Lcom/juul/koap/Message$Udp$Type;
 	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Message$Udp$Type;
 	public static fun values ()[Lcom/juul/koap/Message$Udp$Type;
+}
+
+public final class com/juul/koap/MessageKt {
+	public static final fun isSuccess (Lcom/juul/koap/Message$Code$Response;)Z
 }
 
