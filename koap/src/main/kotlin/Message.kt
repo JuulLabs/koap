@@ -1,8 +1,11 @@
 package com.juul.koap
 
+import com.juul.koap.Registration.Deregister
+import com.juul.koap.Registration.Register
 import java.util.Objects
 
 /* RFC 7252 5.10. Table 4: Options
+ * RFC 7641 2. The Observe Option (No. 6)
  *
  * +-----+----------------+--------+--------+
  * | No. | Name           | Format | Length |
@@ -11,6 +14,7 @@ import java.util.Objects
  * |   3 | Uri-Host       | string | 1-255  |
  * |   4 | ETag           | opaque | 1-8    |
  * |   5 | If-None-Match  | empty  | 0      |
+ * |   6 | Observe        | uint   | 0-3    |
  * |   7 | Uri-Port       | uint   | 0-2    |
  * |   8 | Location-Path  | string | 0-255  |
  * |  11 | Uri-Path       | string | 0-255  |
@@ -38,6 +42,21 @@ private val LOCATION_QUERY_LENGTH_RANGE = 0..255
 private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
+private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
+
+/**
+ * Per [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2):
+ *
+ * > When included in a GET request, the Observe Option extends the GET method so it does not only
+ * > retrieve a current representation of the target resource, but also requests the server to add
+ * > or remove an entry in the list of observers of the resource depending on the option value. The
+ * > list entry consists of the client endpoint and the token specified by the client in the
+ * > request.  Possible values are:
+ *
+ * - `0` (register) adds the entry to the list, if not present;
+ * - `1` (deregister) removes the entry from the list, if present.
+ */
+enum class Registration { Register, Deregister }
 
 sealed class Message {
 
@@ -246,6 +265,28 @@ sealed class Message {
             init {
                 require(bytes in SIZE1_RANGE) {
                     "Size1 of $bytes is outside allowable range of $SIZE1_RANGE"
+                }
+            }
+        }
+
+        /** [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2) */
+        data class Observe(val value: Long) : Option() {
+
+            /**
+             * Constructs an [Observe] to be included in a GET request.
+             *
+             * @see Registration
+             */
+            constructor(action: Registration) : this(
+                when (action) {
+                    Register -> 0L
+                    Deregister -> 1L
+                }
+            )
+
+            init {
+                require(value in OBSERVE_RANGE) {
+                    "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
                 }
             }
         }
