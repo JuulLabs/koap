@@ -409,6 +409,7 @@ public final class com/juul/koap/Message$Udp$Type : java/lang/Enum {
 }
 
 public final class com/juul/koap/MessageKt {
+	public static final fun isError (Lcom/juul/koap/Message$Code$Response;)Z
 	public static final fun isSuccess (Lcom/juul/koap/Message$Code$Response;)Z
 }
 
