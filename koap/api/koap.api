@@ -276,6 +276,18 @@ public final class com/juul/koap/Message$Option$MaxAge : com/juul/koap/Message$O
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/juul/koap/Message$Option$Observe : com/juul/koap/Message$Option {
+	public fun <init> (J)V
+	public fun <init> (Lcom/juul/koap/Registration;)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/juul/koap/Message$Option$Observe;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Observe;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Observe;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/juul/koap/Message$Option$ProxyScheme : com/juul/koap/Message$Option {
 	public fun <init> (Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -398,5 +410,12 @@ public final class com/juul/koap/Message$Udp$Type : java/lang/Enum {
 	public static final field Reset Lcom/juul/koap/Message$Udp$Type;
 	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Message$Udp$Type;
 	public static fun values ()[Lcom/juul/koap/Message$Udp$Type;
+}
+
+public final class com/juul/koap/Registration : java/lang/Enum {
+	public static final field Deregister Lcom/juul/koap/Registration;
+	public static final field Register Lcom/juul/koap/Registration;
+	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Registration;
+	public static fun values ()[Lcom/juul/koap/Registration;
 }
 
