@@ -380,3 +380,4 @@ sealed class Message {
 }
 
 val Message.Code.Response.isSuccess: Boolean get() = `class` == 2
+val Message.Code.Response.isError: Boolean get() = `class` == 4 || `class` == 5
