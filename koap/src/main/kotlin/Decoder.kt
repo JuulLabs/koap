@@ -256,7 +256,7 @@ private fun BufferedSource.readOptions(): List<Option> {
  *
  * @return [Option] or `null` if [PAYLOAD_MARKER] was hit.
  */
-private fun BufferedSource.readOption(preceding: Format?): Option? {
+internal fun BufferedSource.readOption(preceding: Format?): Option? {
     //   0   1   2   3   4   5   6   7
     // +---------------+---------------+
     // |  Option Delta | Option Length |   1 byte
