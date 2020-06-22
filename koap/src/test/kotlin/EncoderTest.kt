@@ -32,8 +32,8 @@ class EncoderTest {
         val message = Message.Udp(
             type = Confirmable,
             code = GET,
-            id = 0xC4_09,
-            token = 0x74_65_73_74,
+            id = 0xFEED,
+            token = 0xCAFE,
             options = listOf(
                 UriPath("example")
             ),
@@ -42,10 +42,10 @@ class EncoderTest {
 
         assertEquals(
             expected = """
-                44                   # Version 1, Type 0 (Confirmable), Token length: 4
+                42                   # Version 1, Type 0 (Confirmable), Token length: 2
                 01                   # Code: 0.01 (GET)
-                C4 09                # Message ID
-                74 65 73 74          # Token
+                FE ED                # Message ID
+                CA FE                # Token
                 B7                   # Delta option: 11 (Uri-Path), Delta length: 7
                 65 78 61 6D 70 6C 65 # "example"
             """.stripComments(),
