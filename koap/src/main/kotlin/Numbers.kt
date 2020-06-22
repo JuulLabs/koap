@@ -33,7 +33,7 @@ internal val UINT_RANGE = 0..UINT_MAX_VALUE
  * @return value of number
  */
 internal fun BufferedSource.readNumberOfLength(bytes: Int): Long {
-    require(bytes in 1..Long.SIZE_BYTES) { "Unable to read number of length $bytes bytes" }
+    require(bytes in 0..Long.SIZE_BYTES) { "Unable to read number of length $bytes bytes" }
     var value = 0L
     for (i in (bytes - 1) downTo 0) { // Read byte-by-byte in network byte-order.
         val byte = readByte()

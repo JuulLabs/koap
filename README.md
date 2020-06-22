@@ -2,7 +2,10 @@
 
 # KoAP
 
-Kotlin CoAP encoder/decoder that supports CoAP UDP ([RFC 7252]) and CoAP TCP ([RFC 8323]).
+Kotlin CoAP encoder/decoder that provides basic support for:
+- CoAP UDP ([RFC 7252])
+- CoAP TCP ([RFC 8323])
+- CoAP Observe ([RFC 7641])
 
 ## Usage
 
@@ -172,5 +175,6 @@ _Replace_ `$version` _with the desired version (can be found on the [GitHub Pack
 
 [RFC 7252]: https://tools.ietf.org/html/rfc7252
 [RFC 8323]: https://tools.ietf.org/html/rfc8323
+[RFC 7641]: https://tools.ietf.org/html/rfc7641
 [GitHub Packages page]: https://github.com/JuulLabs/android-github-packages/packages/273980
 [Figure 7: Message Format]: https://tools.ietf.org/html/rfc7252#section-3

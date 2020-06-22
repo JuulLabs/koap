@@ -3,10 +3,13 @@ package com.juul.koap.test
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
+import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
+import com.juul.koap.Registration.Deregister
+import com.juul.koap.Registration.Register
 import com.juul.koap.UBYTE_MAX_VALUE
 import com.juul.koap.UINT32_MAX_EXTENDED_LENGTH
 import com.juul.koap.UINT_MAX_VALUE
@@ -224,6 +227,56 @@ class EncoderTest {
             expectedHex = "80 00 00 00 00 00 00 00"
         )
     }
+
+    @Test
+    fun `Write Observe Option with value of Register`() {
+        testWriteOption(
+            option = Observe(Register),
+            expected = """
+                60 # Option Delta: 6, Option Length: 0 (Option Value of 0 is implied; Register)
+            """
+        )
+    }
+
+    @Test
+    fun `Write Observe Option with value of Deregister`() {
+        testWriteOption(
+            option = Observe(Deregister),
+            expected = """
+                61 # Option Delta: 6, Option Length: 1
+                01 # Option Value: 1 (Deregister)
+            """
+        )
+    }
+
+    @Test
+    fun `Write Observe Option with value of 255`() {
+        testWriteOption(
+            option = Observe(255),
+            expected = """
+                61 # Option Delta: 6, Option Length: 1
+                FF # Option Value: 255
+            """
+        )
+    }
+
+    @Test
+    fun `Write Observe Option with value of 16,777,215`() {
+        testWriteOption(
+            option = Observe(16_777_215),
+            expected = """
+                63       # Option Delta: 6, Option Length: 3
+                FF FF FF # Option Value: 16,777,215
+            """
+        )
+    }
+
+    @Test
+    fun `Observe Option with value outside of allowable range throws IllegalArgumentException`() {
+        assertFailsWith<IllegalArgumentException> {
+            Observe(16_777_216)
+        }
+    }
 }
 
 private fun testWriteToken(
@@ -240,6 +293,20 @@ private fun testWriteToken(
 
     assertEquals(
         expected = expectedHex,
+        actual = buffer.readByteArray().toHexString()
+    )
+}
+
+private fun testWriteOption(
+    option: Message.Option,
+    expected: String
+) {
+    val buffer = Buffer().apply {
+        writeOption(option.toFormat(), preceding = null)
+    }
+
+    assertEquals(
+        expected = expected.stripComments(),
         actual = buffer.readByteArray().toHexString()
     )
 }

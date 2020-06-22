@@ -36,6 +36,7 @@ import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.LocationPath
 import com.juul.koap.Message.Option.LocationQuery
 import com.juul.koap.Message.Option.MaxAge
+import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
 import com.juul.koap.Message.Option.Size1
@@ -255,7 +256,7 @@ private fun BufferedSource.readOptions(): List<Option> {
  *
  * @return [Option] or `null` if [PAYLOAD_MARKER] was hit.
  */
-private fun BufferedSource.readOption(preceding: Format?): Option? {
+internal fun BufferedSource.readOption(preceding: Format?): Option? {
     //   0   1   2   3   4   5   6   7
     // +---------------+---------------+
     // |  Option Delta | Option Length |   1 byte
@@ -292,6 +293,7 @@ private fun BufferedSource.readOption(preceding: Format?): Option? {
         3 -> UriHost(readUtf8(length.toLong()))
         4 -> ETag(readByteArray(length.toLong()))
         5 -> IfNoneMatch
+        6 -> Observe(readNumberOfLength(length))
         7 -> UriPort(readNumberOfLength(length))
         8 -> LocationPath(readUtf8(length.toLong()))
         11 -> UriPath(readUtf8(length.toLong()))

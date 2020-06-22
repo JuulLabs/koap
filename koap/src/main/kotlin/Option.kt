@@ -14,6 +14,7 @@ import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.LocationPath
 import com.juul.koap.Message.Option.LocationQuery
 import com.juul.koap.Message.Option.MaxAge
+import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
 import com.juul.koap.Message.Option.Size1
@@ -30,6 +31,7 @@ internal fun Option.toFormat(): Format =
         is UriHost -> string(3, option.uri)
         is ETag -> opaque(4, option.etag)
         is IfNoneMatch -> empty(5)
+        is Observe -> uint(6, option.value)
         is UriPort -> uint(7, option.port)
         is LocationPath -> string(8, option.uri)
         is UriPath -> string(11, option.uri)
