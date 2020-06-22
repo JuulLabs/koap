@@ -1,33 +1,5 @@
 package com.juul.koap
 
-import com.juul.koap.Message.Code.Method
-import com.juul.koap.Message.Code.Method.DELETE
-import com.juul.koap.Message.Code.Method.GET
-import com.juul.koap.Message.Code.Method.POST
-import com.juul.koap.Message.Code.Method.PUT
-import com.juul.koap.Message.Code.Raw
-import com.juul.koap.Message.Code.Response
-import com.juul.koap.Message.Code.Response.BadGateway
-import com.juul.koap.Message.Code.Response.BadOption
-import com.juul.koap.Message.Code.Response.BadRequest
-import com.juul.koap.Message.Code.Response.Changed
-import com.juul.koap.Message.Code.Response.Content
-import com.juul.koap.Message.Code.Response.Created
-import com.juul.koap.Message.Code.Response.Deleted
-import com.juul.koap.Message.Code.Response.Forbidden
-import com.juul.koap.Message.Code.Response.GatewayTimeout
-import com.juul.koap.Message.Code.Response.InternalServerError
-import com.juul.koap.Message.Code.Response.MethodNotAllowed
-import com.juul.koap.Message.Code.Response.NotAcceptable
-import com.juul.koap.Message.Code.Response.NotFound
-import com.juul.koap.Message.Code.Response.NotImplemented
-import com.juul.koap.Message.Code.Response.PreconditionFailed
-import com.juul.koap.Message.Code.Response.ProxyingNotSupported
-import com.juul.koap.Message.Code.Response.RequestEntityTooLarge
-import com.juul.koap.Message.Code.Response.ServiceUnavailable
-import com.juul.koap.Message.Code.Response.Unauthorized
-import com.juul.koap.Message.Code.Response.UnsupportedContentFormat
-import com.juul.koap.Message.Code.Response.Valid
 import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Format
 import com.juul.koap.Message.Option.Format.empty
@@ -350,42 +322,7 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
  * > (least significant bits), documented as "c.dd" where "c" is a digit from 0 to 7 for the 3-bit
  * > subfield and "dd" are two digits from 00 to 31 for the 5-bit subfield.
  */
-private fun Message.Code.toInt(): Int = when (val code = this) {
-    // RFC 7252: 12.1.1. Method Codes
-    is Method -> when (code) {
-        GET -> 1    // 0.01
-        POST -> 2   // 0.02
-        PUT -> 3    // 0.03
-        DELETE -> 4 // 0.04
-    }
-
-    // RFC 7252: 12.1.2. Response Codes
-    is Response -> when (code) {
-        Created -> 65                   // (2 shl 5) or  1  =>  2.01
-        Deleted -> 66                   // (2 shl 5) or  2  =>  2.02
-        Valid -> 67                     // (2 shl 5) or  3  =>  2.03
-        Changed -> 68                   // (2 shl 5) or  4  =>  2.04
-        Content -> 69                   // (2 shl 5) or  5  =>  2.05
-        BadRequest -> 128               //  4 shl 5         =>  4.00
-        Unauthorized -> 129             // (4 shl 5) or  1  =>  4.01
-        BadOption -> 130                // (4 shl 5) or  2  =>  4.02
-        Forbidden -> 131                // (4 shl 5) or  3  =>  4.03
-        NotFound -> 132                 // (4 shl 5) or  4  =>  4.04
-        MethodNotAllowed -> 133         // (4 shl 5) or  5  =>  4.05
-        NotAcceptable -> 134            // (4 shl 5) or  6  =>  4.06
-        PreconditionFailed -> 140       // (4 shl 5) or 12  =>  4.12
-        RequestEntityTooLarge -> 141    // (4 shl 5) or 13  =>  4.13
-        UnsupportedContentFormat -> 143 // (4 shl 5) or 15  =>  4.15
-        InternalServerError -> 160      //  5 shl 5         =>  5.00
-        NotImplemented -> 161           // (5 shl 5) or  1  =>  5.01
-        BadGateway -> 162               // (5 shl 5) or  2  =>  5.02
-        ServiceUnavailable -> 163       // (5 shl 5) or  3  =>  5.03
-        GatewayTimeout -> 164           // (5 shl 5) or  4  =>  5.04
-        ProxyingNotSupported -> 165     // (5 shl 5) or  5  =>  5.05
-    }
-
-    is Raw -> (code.`class` shl 5) or code.detail
-}
+private fun Message.Code.toInt(): Int = (`class` shl 5) or detail
 
 /**
  * Writes [token] to receiver [BufferedSink].
