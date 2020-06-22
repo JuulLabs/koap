@@ -292,46 +292,64 @@ sealed class Message {
         }
     }
 
+    /**
+     * Per "RFC 7252 3. Message Format", **Code** is an:
+     *
+     * > 8-bit unsigned integer, split into a 3-bit class (most significant bits) and a 5-bit detail
+     * > (least significant bits), documented as "c.dd" where "c" is a digit from 0 to 7 for the 3-bit
+     * > subfield and "dd" are two digits from 00 to 31 for the 5-bit subfield.
+     */
     sealed class Code {
 
-        sealed class Method : Code() {
-            object GET : Method()
-            object POST : Method()
-            object PUT : Method()
-            object DELETE : Method()
+        abstract val `class`: Int
+        abstract val detail: Int
+
+        /** RFC 7252: 12.1.1. Method Codes */
+        sealed class Method(
+            override val `class`: Int,
+            override val detail: Int
+        ) : Code() {
+            object GET : Method(`class` = 0, detail = 1)    // 0.01
+            object POST : Method(`class` = 0, detail = 2)   // 0.02
+            object PUT : Method(`class` = 0, detail = 3)    // 0.03
+            object DELETE : Method(`class` = 0, detail = 4) // 0.04
 
             override fun toString(): String = javaClass.simpleName
         }
 
-        sealed class Response : Code() {
-            object Created : Response()
-            object Deleted : Response()
-            object Valid : Response()
-            object Changed : Response()
-            object Content : Response()
-            object BadRequest : Response()
-            object Unauthorized : Response()
-            object BadOption : Response()
-            object Forbidden : Response()
-            object NotFound : Response()
-            object MethodNotAllowed : Response()
-            object NotAcceptable : Response()
-            object PreconditionFailed : Response()
-            object RequestEntityTooLarge : Response()
-            object UnsupportedContentFormat : Response()
-            object InternalServerError : Response()
-            object NotImplemented : Response()
-            object BadGateway : Response()
-            object ServiceUnavailable : Response()
-            object GatewayTimeout : Response()
-            object ProxyingNotSupported : Response()
+        /** RFC 7252: 12.1.2. Response Codes */
+        sealed class Response(
+            override val `class`: Int,
+            override val detail: Int
+        ) : Code() {
+            object Created : Response(`class` = 2, detail = 1)                   // 2.01
+            object Deleted : Response(`class` = 2, detail = 2)                   // 2.02
+            object Valid : Response(`class` = 2, detail = 3)                     // 2.03
+            object Changed : Response(`class` = 2, detail = 4)                   // 2.04
+            object Content : Response(`class` = 2, detail = 5)                   // 2.05
+            object BadRequest : Response(`class` = 4, detail = 0)                // 4.00
+            object Unauthorized : Response(`class` = 4, detail = 1)              // 4.01
+            object BadOption : Response(`class` = 4, detail = 2)                 // 4.02
+            object Forbidden : Response(`class` = 4, detail = 3)                 // 4.03
+            object NotFound : Response(`class` = 4, detail = 4)                  // 4.04
+            object MethodNotAllowed : Response(`class` = 4, detail = 5)          // 4.05
+            object NotAcceptable : Response(`class` = 4, detail = 6)             // 4.06
+            object PreconditionFailed : Response(`class` = 4, detail = 12)       // 4.12
+            object RequestEntityTooLarge : Response(`class` = 4, detail = 13)    // 4.13
+            object UnsupportedContentFormat : Response(`class` = 4, detail = 15) // 4.15
+            object InternalServerError : Response(`class` = 5, detail = 0)       // 5.00
+            object NotImplemented : Response(`class` = 5, detail = 1)            // 5.01
+            object BadGateway : Response(`class` = 5, detail = 2)                // 5.02
+            object ServiceUnavailable : Response(`class` = 5, detail = 3)        // 5.03
+            object GatewayTimeout : Response(`class` = 5, detail = 4)            // 5.04
+            object ProxyingNotSupported : Response(`class` = 5, detail = 5)      // 5.05
 
             override fun toString(): String = javaClass.simpleName
         }
 
         data class Raw(
-            val `class`: Int,
-            val detail: Int
+            override val `class`: Int,
+            override val detail: Int
         ) : Code()
     }
 
@@ -400,3 +418,6 @@ sealed class Message {
             ")"
     }
 }
+
+val Message.Code.Response.isSuccess: Boolean get() = `class` == 2
+val Message.Code.Response.isError: Boolean get() = `class` == 4 || `class` == 5
