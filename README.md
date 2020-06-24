@@ -153,25 +153,17 @@ Message.Udp(
 
 ## Gradle
 
-Artifacts are hosted on GitHub packages, which can be configured as follows:
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.juul.koap/koap/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.juul.koap/koap)
 
 ```groovy
 repositories {
-    maven {
-        url = "https://maven.pkg.github.com/juullabs/android-github-packages"
-        credentials {
-            username = findProperty('github.packages.username')
-            password = findProperty('github.packages.password')
-        }
-    }
+    jcenter() // or mavenCentral()
 }
 
 dependencies {
     implementation 'com.juul.koap:koap:$version'
 }
 ```
-
-_Replace_ `$version` _with the desired version (can be found on the [GitHub Packages page])._
 
 # License
 
@@ -195,5 +187,4 @@ limitations under the License.
 [RFC 7252]: https://tools.ietf.org/html/rfc7252
 [RFC 8323]: https://tools.ietf.org/html/rfc8323
 [RFC 7641]: https://tools.ietf.org/html/rfc7641
-[GitHub Packages page]: https://github.com/JuulLabs/android-github-packages/packages/273980
 [Figure 7: Message Format]: https://tools.ietf.org/html/rfc7252#section-3
