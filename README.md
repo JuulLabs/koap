@@ -1,5 +1,5 @@
-[![Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![codecov](https://codecov.io/gh/JuulLabs/koap/branch/master/graph/badge.svg?token=EM9VA765J7)](https://codecov.io/gh/JuulLabs/koap)
+[![Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 # KoAP
 
