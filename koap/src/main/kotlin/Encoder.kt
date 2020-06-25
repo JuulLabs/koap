@@ -55,8 +55,6 @@ fun Message.encode(): ByteArray = Buffer().apply { writeMessage(this@encode) }.r
 
 private fun BufferedSink.writeMessage(message: Message) {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |   Token (if any, TKL bytes) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // |   Options (if any) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // |1 1 1 1 1 1 1 1|    Payload (if any) ...
@@ -64,7 +62,6 @@ private fun BufferedSink.writeMessage(message: Message) {
 
     // Content is encoded first, as the encoded content length is needed for `Len` (in TCP header).
     val content = Buffer()
-    val tokenLength = message.token?.let { content.writeToken(it) } ?: 0 // Write Token (if present).
     content.apply {
         writeOptions(message.options)
         if (message.payload.isNotEmpty()) {
@@ -73,14 +70,21 @@ private fun BufferedSink.writeMessage(message: Message) {
         }
     }
 
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
     val header = Buffer().apply {
         when (message) {
-            is Udp -> writeHeader(message, tokenLength)
-            is Tcp -> writeHeader(message, tokenLength, content.size)
+            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            // |Ver| T |  TKL  |      Code     |          Message ID           |
+            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            // |   Token (if any, TKL bytes) ...
+            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            is Udp -> writeHeader(message)
+
+            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            // |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
+            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            // |      Code     | Token (if any, TKL bytes) ...
+            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            is Tcp -> writeHeader(message, content.size)
         }
     }
 
@@ -98,11 +102,18 @@ private fun BufferedSink.writeMessage(message: Message) {
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * |Ver| T |  TKL  |      Code     |          Message ID           |
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |   Token (if any, TKL bytes) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  *
  * @param message to write the header for
  */
-internal fun BufferedSink.writeHeader(message: Udp, tokenLength: Long) {
+internal fun BufferedSink.writeHeader(message: Udp) {
+    // Token is encoded first, as it's length is needed for TKL.
+    val token = message.token?.let {
+        Buffer().apply { writeToken(it) }
+    }
+    val tokenLength = token?.size ?: 0
     require(tokenLength in UINT4_RANGE) {
         "Token length of $tokenLength is outside allowable range of $UINT4_RANGE"
     }
@@ -127,6 +138,13 @@ internal fun BufferedSink.writeHeader(message: Udp, tokenLength: Long) {
     // |          Message ID           |
     // |-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     writeShort(message.id)
+
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    // |   Token (if any, TKL bytes) ...
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    if (token != null) {
+        writeAll(token)
+    }
 }
 
 // Type (T): 2-bit unsigned integer
@@ -157,14 +175,19 @@ private fun Udp.Type.toInt(): Int = when (this) {
  */
 internal fun BufferedSink.writeHeader(
     message: Tcp,
-    tokenLength: Long,
     contentLength: Long
 ) {
-    require(tokenLength in UINT4_RANGE) {
-        "Token length of $tokenLength is outside allowable range of $UINT4_RANGE"
-    }
     require(contentLength <= UINT32_MAX_EXTENDED_LENGTH) {
         "Content length of $contentLength exceeds maximum allowable of $UINT32_MAX_EXTENDED_LENGTH"
+    }
+
+    // Token is encoded first, as it's length is needed for TKL.
+    val token = message.token?.let {
+        Buffer().apply { writeToken(it) }
+    }
+    val tokenLength = token?.size ?: 0
+    require(tokenLength in UINT4_RANGE) {
+        "Token length of $tokenLength is outside allowable range of $UINT4_RANGE"
     }
 
     val len = when {
@@ -207,6 +230,13 @@ internal fun BufferedSink.writeHeader(
     // |      Code     |
     // +-+-+-+-+-+-+-+-+
     writeByte(message.code.toInt())
+
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    // | Token (if any, TKL bytes) ...
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    if (token != null) {
+        writeAll(token)
+    }
 }
 
 private fun BufferedSink.writeByte(byte: Long) = writeByte(byte.toInt())
@@ -329,16 +359,11 @@ private fun Message.Code.toInt(): Int = (`class` shl 5) or detail
  *
  * @return length of [token] written.
  */
-internal fun BufferedSink.writeToken(token: Long): Long {
-    val buffer = Buffer().apply {
-        when (token) {
-            in UBYTE_RANGE -> writeByte(token and 0xFF)
-            in USHORT_RANGE -> writeShort(token and 0xFF_FF)
-            in UINT_RANGE -> writeInt(token and 0xFF_FF_FF_FF)
-            else -> writeLong(token)
-        }
+internal fun BufferedSink.writeToken(token: Long) {
+    when (token) {
+        in UBYTE_RANGE -> writeByte(token and 0xFF)
+        in USHORT_RANGE -> writeShort(token and 0xFF_FF)
+        in UINT_RANGE -> writeInt(token and 0xFF_FF_FF_FF)
+        else -> writeLong(token)
     }
-    val size = buffer.size
-    write(buffer, size)
-    return size
 }
