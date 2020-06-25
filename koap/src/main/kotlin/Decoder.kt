@@ -191,16 +191,16 @@ fun ByteArray.decodeTcp(): Message.Tcp {
     // +-+-+-+-+-+-+-+-+
     val code = buffer.readByte()
 
-    // Content
-
-    val content = Buffer()
-    content.write(buffer, length)
-
     // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val token = if (tkl != 0) content.readNumberOfLength(bytes = tkl) else null
+    val token = if (tkl != 0) buffer.readNumberOfLength(bytes = tkl) else null
+
+    // Content
+
+    val content = Buffer()
+    content.write(buffer, length)
 
     // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

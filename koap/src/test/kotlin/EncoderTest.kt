@@ -63,7 +63,7 @@ class EncoderTest {
         )
 
         val buffer = Buffer().apply {
-            writeHeader(message, tokenLength = 0, contentLength = UINT32_MAX_EXTENDED_LENGTH)
+            writeHeader(message, contentLength = UINT32_MAX_EXTENDED_LENGTH)
         }
         assertEquals(
             expected = """
@@ -72,6 +72,43 @@ class EncoderTest {
                 01          # Code: 1 (GET)
             """.stripComments(),
             actual = buffer.readByteArray().toHexString()
+        )
+    }
+
+    @Test
+    fun `Empty TCP message`() {
+        val message = Message.Tcp(
+            code = GET,
+            token = null,
+            options = emptyList(),
+            payload = byteArrayOf()
+        )
+
+        assertEquals(
+            expected = """
+                00 # Len: 0, Token length: 0
+                01 # Code: 1 (GET)
+            """.stripComments(),
+            actual = message.encode().toHexString()
+        )
+    }
+
+    @Test
+    fun `TCP message with token value of 1`() {
+        val message = Message.Tcp(
+            code = GET,
+            token = 1,
+            options = emptyList(),
+            payload = byteArrayOf()
+        )
+
+        assertEquals(
+            expected = """
+                01 # Len: 0, Token length: 1
+                01 # Code: 1 (GET)
+                01 # Token: 1
+            """.stripComments(),
+            actual = message.encode().toHexString()
         )
     }
 
@@ -284,11 +321,11 @@ private fun testWriteToken(
     expectedSize: Long,
     expectedHex: String
 ) {
-    val buffer = Buffer()
+    val buffer = Buffer().apply { writeToken(token) }
 
     assertEquals(
         expected = expectedSize,
-        actual = buffer.writeToken(token)
+        actual = buffer.size
     )
 
     assertEquals(
