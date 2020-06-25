@@ -166,8 +166,8 @@ private fun Udp.Type.toInt(): Int = when (this) {
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |      Code     |
- * +-+-+-+-+-+-+-+-+
+ * |      Code     | Token (if any, TKL bytes) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  *
  * @param message to write the header for
