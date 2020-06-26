@@ -153,7 +153,7 @@ Message.Udp(
 
 ## Gradle
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.juul.koap/koap/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.juul.koap/koap)
+[![Maven Central](https://img.shields.io/maven-central/v/com.juul.koap/koap)](https://search.maven.org/artifact/com.juul.koap/koap)
 
 ```groovy
 repositories {
