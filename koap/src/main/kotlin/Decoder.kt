@@ -206,13 +206,13 @@ fun ByteArray.decodeTcp(): Message.Tcp {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // |  Options (if any) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val options = if (!content.exhausted()) content.readOptions() else emptyList()
+    val options = content.readOptions()
 
     // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // |    Payload (if any) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val payload = if (!content.exhausted()) content.readByteArray() else byteArrayOf()
+    val payload = content.readByteArray()
 
     return Message.Tcp(
         code = code.toCode(),
@@ -254,10 +254,11 @@ private fun BufferedSource.readOptions(): List<Option> {
  * +-------------------------------+
  * ```
  *
- * @return [Option] or `null` if [PAYLOAD_MARKER] was hit or EOF was reached.
+ * @return [Option] or `null` if [PAYLOAD_MARKER] was hit or [BufferedSource] receiver is exhausted.
  */
 internal fun BufferedSource.readOption(preceding: Format?): Option? {
-    if (!request(1)) return null
+    if (exhausted()) return null
+
     //   0   1   2   3   4   5   6   7
     // +---------------+---------------+
     // |  Option Delta | Option Length |   1 byte

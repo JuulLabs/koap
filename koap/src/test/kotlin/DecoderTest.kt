@@ -60,7 +60,7 @@ class DecoderTest {
     }
 
     @Test
-    fun `Decode Tcp GET with no Options and no Payload`() {
+    fun `Decode Tcp GET without Options nor Payload`() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
@@ -75,7 +75,7 @@ class DecoderTest {
     }
 
     @Test
-    fun `Decode Tcp GET with Payload no Options`() {
+    fun `Decode Tcp GET without Options, but with Payload`() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
@@ -90,7 +90,7 @@ class DecoderTest {
     }
 
     @Test
-    fun `Decode Tcp GET with Options no Payload`() {
+    fun `Decode Tcp GET with Options, but without Payload`() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
