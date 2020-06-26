@@ -60,6 +60,55 @@ class DecoderTest {
     }
 
     @Test
+    fun `Decode Tcp GET with no Options and no Payload`() {
+        val message = Message.Tcp(
+            code = GET,
+            token = 1,
+            options = emptyList(),
+            payload = byteArrayOf()
+        )
+
+        assertEquals(
+            expected = message,
+            actual = message.encode().decode()
+        )
+    }
+
+    @Test
+    fun `Decode Tcp GET with Payload no Options`() {
+        val message = Message.Tcp(
+            code = GET,
+            token = 1,
+            options = emptyList(),
+            payload = "Hello TCP!".toByteArray()
+        )
+
+        assertEquals(
+            expected = message,
+            actual = message.encode().decode()
+        )
+    }
+
+    @Test
+    fun `Decode Tcp GET with Options no Payload`() {
+        val message = Message.Tcp(
+            code = GET,
+            token = 1,
+            options = listOf(
+                UriHost("http://localhost"),
+                UriPort(1234),
+                UriPath("/test")
+            ),
+            payload = byteArrayOf()
+        )
+
+        assertEquals(
+            expected = message,
+            actual = message.encode().decode()
+        )
+    }
+
+    @Test
     fun `Decode Observe Option with value of 16,777,215`() {
         testReadOption(
             encoded = """
