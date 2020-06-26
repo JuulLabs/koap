@@ -3,18 +3,18 @@ package com.juul.koap.test
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Option.Observe
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Confirmable
-import com.juul.koap.Registration.Deregister
-import com.juul.koap.Registration.Register
 import com.juul.koap.decode
 import com.juul.koap.encode
 import com.juul.koap.readOption
+import com.juul.koap.reader
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import okio.Buffer
 import okio.ByteString.Companion.decodeHex
 
 class DecoderTest {
@@ -145,9 +145,12 @@ private fun testReadOption(
     encoded: String,
     expected: Message.Option
 ) {
-    val option = Buffer().apply {
-        write(encoded.stripComments().decodeHex())
-    }.readOption(preceding = null)
+    val option = encoded
+        .stripComments()
+        .decodeHex()
+        .toByteArray()
+        .reader()
+        .readOption(preceding = null)
 
     assertEquals(
         expected = expected,

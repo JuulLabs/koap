@@ -1,7 +1,7 @@
 package com.juul.koap
 
-import com.juul.koap.Registration.Deregister
-import com.juul.koap.Registration.Register
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
 import java.util.Objects
 
 /* RFC 7252 5.10. Table 4: Options
@@ -43,20 +43,6 @@ private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
-
-/**
- * Per [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2):
- *
- * > When included in a GET request, the Observe Option extends the GET method so it does not only
- * > retrieve a current representation of the target resource, but also requests the server to add
- * > or remove an entry in the list of observers of the resource depending on the option value. The
- * > list entry consists of the client endpoint and the token specified by the client in the
- * > request.  Possible values are:
- *
- * - `0` (register) adds the entry to the list, if not present;
- * - `1` (deregister) removes the entry from the list, if present.
- */
-enum class Registration { Register, Deregister }
 
 sealed class Message {
 
@@ -273,6 +259,20 @@ sealed class Message {
         data class Observe(val value: Long) : Option() {
 
             /**
+             * Per [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2):
+             *
+             * > When included in a GET request, the Observe Option extends the GET method so it
+             * > does not only retrieve a current representation of the target resource, but also
+             * > requests the server to add or remove an entry in the list of observers of the
+             * > resource depending on the option value. The list entry consists of the client
+             * > endpoint and the token specified by the client in the request. Possible values are:
+             *
+             * - `0` (register) adds the entry to the list, if not present;
+             * - `1` (deregister) removes the entry from the list, if present.
+             */
+            enum class Registration { Register, Deregister }
+
+            /**
              * Constructs an [Observe] to be included in a GET request.
              *
              * @see Registration
@@ -296,8 +296,8 @@ sealed class Message {
      * Per "RFC 7252 3. Message Format", **Code** is an:
      *
      * > 8-bit unsigned integer, split into a 3-bit class (most significant bits) and a 5-bit detail
-     * > (least significant bits), documented as "c.dd" where "c" is a digit from 0 to 7 for the 3-bit
-     * > subfield and "dd" are two digits from 00 to 31 for the 5-bit subfield.
+     * > (least significant bits), documented as "c.dd" where "c" is a digit from 0 to 7 for the
+     * > 3-bit subfield and "dd" are two digits from 00 to 31 for the 5-bit subfield.
      */
     sealed class Code {
 
@@ -305,7 +305,7 @@ sealed class Message {
         abstract val detail: Int
 
         /** RFC 7252: 12.1.1. Method Codes */
-        sealed class Method(
+        sealed class Method constructor(
             override val `class`: Int,
             override val detail: Int
         ) : Code() {
@@ -348,15 +348,21 @@ sealed class Message {
         }
 
         data class Raw(
+            /** Allowable range is `0..7`. */
             override val `class`: Int,
+
+            /** Allowable range is `0..31`. */
             override val detail: Int
         ) : Code()
     }
 
     data class Udp(
         val type: Type,
-        override val code: Code, // 8-bit unsigned integer
-        val id: Int, // Message ID: 16-bit unsigned integer
+        override val code: Code,
+
+        /** Allowable range is `0..65,535`. */
+        val id: Int,
+
         override val token: Long?,
         override val options: List<Option>,
         override val payload: ByteArray

@@ -4,12 +4,12 @@ import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
 import com.juul.koap.Message.Option.Observe
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
-import com.juul.koap.Registration.Deregister
-import com.juul.koap.Registration.Register
 import com.juul.koap.UBYTE_MAX_VALUE
 import com.juul.koap.UINT32_MAX_EXTENDED_LENGTH
 import com.juul.koap.UINT_MAX_VALUE

@@ -1,6 +1,5 @@
 package com.juul.koap
 
-import com.juul.koap.Message.Code
 import com.juul.koap.Message.Code.Method.DELETE
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Method.POST
@@ -48,11 +47,28 @@ import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
 import com.juul.koap.Message.Udp.Type.NonConfirmable
 import com.juul.koap.Message.Udp.Type.Reset
-import okio.Buffer
 import okio.BufferedSource
 
 /**
  * Decodes [ByteArray] receiver to a [Message].
+ *
+ * To use CoAP UDP (RFC 7252) decoding:
+ *
+ * ```
+ * import com.juul.koap.Message.Udp
+ *
+ * val data = byteArrayOf(...)
+ * val message = data.decode<Udp>()
+ * ```
+ *
+ * To use CoAP TCP (RFC 8323) decoding:
+ *
+ * ```
+ * import com.juul.koap.Message.Tcp
+ *
+ * val data = byteArrayOf(...)
+ * val message = data.decode<Tcp>()
+ * ```
  *
  * @see decodeUdp
  * @see decodeTcp
@@ -65,13 +81,49 @@ inline fun <reified T : Message> ByteArray.decode(): T =
     } as T
 
 /**
+ * Decodes [ByteArray] receiver to a [Message], using the specified [Header] for reference.
+ *
+ * Reading will begin after the [Header] (specified by [Header.size]).
+ */
+fun ByteArray.decode(
+    header: Header
+): Message = withReader(offset = header.size) {
+    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    // |  Options (if any) ...
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    val options = readOptions()
+
+    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    // |    Payload (if any) ...
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    val payload = readByteArray()
+
+    when (header) {
+        is Header.Udp -> Message.Udp(
+            header.type,
+            header.code,
+            header.messageId,
+            header.token,
+            options,
+            payload
+        )
+        is Header.Tcp -> Message.Tcp(
+            header.code,
+            header.token,
+            options,
+            payload
+        )
+    }
+}
+
+/**
  * Decodes [ByteArray] receiver to a [Message.Udp].
  *
  * [Figure 7: Message Format](https://tools.ietf.org/html/rfc7252#section-3) used for [Message.Udp]:
  *
  * ```
- *  0                   1                   2                   3
- *  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * |Ver| T |  TKL  |      Code     |          Message ID           |
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -83,72 +135,15 @@ inline fun <reified T : Message> ByteArray.decode(): T =
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
-fun ByteArray.decodeUdp(): Message.Udp {
-    val buffer = Buffer().write(this)
-
-    // Header
-
-    // |7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+
-    // |Ver| T |  TKL  |
-    // +-+-+-+-+-+-+-+-+
-    val byte = buffer.readByte().toInt()
-    val ver = (byte shr 6) and 0b11
-    check(ver == 1) { "Unsupported version: $ver" }
-    val t = (byte shr 4) and 0b11
-    val tkl = byte and 0b1111
-
-    // |7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+
-    // |      Code     |
-    // +-+-+-+-+-+-+-+-+
-    val code = buffer.readByte()
-
-    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |          Message ID           |
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val id = buffer.readNumberOfLength(bytes = 2)
-
-    // Content
-
-    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // | Token (if any, TKL bytes) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val token = if (tkl != 0) buffer.readNumberOfLength(bytes = tkl) else null
-
-    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |  Options (if any) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val options = buffer.readOptions()
-
-    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |    Payload (if any) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val payload = buffer.readByteArray()
-
-    return Message.Udp(
-        type = t.toType(),
-        code = code.toCode(),
-        id = id.toInt(),
-        token = token,
-        options = options,
-        payload = payload
-    )
-}
+fun ByteArray.decodeUdp(): Message.Udp = decode(decodeUdpHeader()) as Message.Udp
 
 /**
- * Decodes [ByteArray] receiver to a [Message.Tcp].
+ * Decodes [ByteArray] receiver to a TCP [Message].
  *
  * [Figure 4: CoAP Frame for Reliable Transports](https://tools.ietf.org/html/rfc8323#section-3.2)
- * used for [Message.Tcp]:
+ * used for TCP [Message]:
  *
  * ```
- *  0                   1                   2                   3
- *  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -160,16 +155,75 @@ fun ByteArray.decodeUdp(): Message.Udp {
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
-fun ByteArray.decodeTcp(): Message.Tcp {
-    val buffer = Buffer().write(this)
+fun ByteArray.decodeTcp(): Message.Tcp = decode(decodeTcpHeader()) as Message.Tcp
 
-    // Header
+/**
+ * Decodes only the CoAP UDP (RFC 7252) header of the [ByteArray] receiver.
+ *
+ * ```
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |Ver| T |  TKL  |      Code     |          Message ID           |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |   Token (if any, TKL bytes) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * ```
+ */
+fun ByteArray.decodeUdpHeader(): Header.Udp = withReader {
+    // |7 6 5 4 3 2 1 0|
+    // +-+-+-+-+-+-+-+-+
+    // |Ver| T |  TKL  |
+    // +-+-+-+-+-+-+-+-+
+    val byte = readUByte()
+    val ver = (byte shr 6) and 0b11
+    check(ver == 1) { "Unsupported version: $ver" }
+    val t = (byte shr 4) and 0b11
+    val tkl = byte and 0b1111
 
+    // |7 6 5 4 3 2 1 0|
+    // +-+-+-+-+-+-+-+-+
+    // |      Code     |
+    // +-+-+-+-+-+-+-+-+
+    val code = readUByte()
+
+    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    // |          Message ID           |
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    val id = readUShort()
+
+    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    // | Token (if any, TKL bytes) ...
+    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    val token = if (tkl != 0) readNumberOfLength(tkl) else null
+
+    Header.Udp(
+        size = index,
+        version = ver,
+        type = t.toType(),
+        token = token,
+        code = code.toCode(),
+        messageId = id
+    )
+}
+
+/**
+ * Decodes only the CoAP TCP (RFC 8323) header of the [ByteArray] receiver.
+ *
+ * ```
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |      Code     | Token (if any, TKL bytes) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * ```
+ */
+fun ByteArray.decodeTcpHeader(): Header.Tcp = withReader {
     // |7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+
     // |  Len  |  TKL  |
     // +-+-+-+-+-+-+-+-+
-    val byte = buffer.readByte().toInt()
+    val byte = readUByte()
     val len = (byte shr 4) and 0b1111
     val tkl = byte and 0b1111
 
@@ -178,10 +232,10 @@ fun ByteArray.decodeTcp(): Message.Tcp {
     // | Extended Length (if any, as chosen by Len) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     val length = when (len) {
-        in 0..12 -> len.toLong()                                    // No Extended Length
-        13 -> (buffer.readByte().toLong() and 0xFF) + 13            //  8-bit unsigned integer
-        14 -> (buffer.readShort().toLong() and 0xFF_FF) + 269       // 16-bit unsigned integer
-        15 -> (buffer.readInt().toLong() and 0xFF_FF_FF_FF) + 65805 // 32-bit unsigned integer
+        in 0..12 -> len.toLong()            // No Extended Length
+        13 -> (readUByte() + 13).toLong()   //  8-bit unsigned integer
+        14 -> (readUShort() + 269).toLong() // 16-bit unsigned integer
+        15 -> readUInt() + 65805            // 32-bit unsigned integer
         else -> error("Invalid length $len")
     }
 
@@ -189,40 +243,23 @@ fun ByteArray.decodeTcp(): Message.Tcp {
     // +-+-+-+-+-+-+-+-+
     // |      Code     |
     // +-+-+-+-+-+-+-+-+
-    val code = buffer.readByte()
+    val code = readUByte()
 
     // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val token = if (tkl != 0) buffer.readNumberOfLength(bytes = tkl) else null
+    val token = if (tkl != 0) readNumberOfLength(bytes = tkl) else null
 
-    // Content
-
-    val content = Buffer()
-    content.write(buffer, length)
-
-    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |  Options (if any) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val options = content.readOptions()
-
-    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |    Payload (if any) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val payload = content.readByteArray()
-
-    return Message.Tcp(
+    Header.Tcp(
+        size = index,
+        length = length,
         code = code.toCode(),
-        token = token,
-        options = options,
-        payload = payload
+        token = token
     )
 }
 
-private fun BufferedSource.readOptions(): List<Option> {
+private fun ByteArrayReader.readOptions(): List<Option> {
     val options = mutableListOf<Option>()
     var option: Option? = null
     do {
@@ -238,7 +275,6 @@ private fun BufferedSource.readOptions(): List<Option> {
  * 3.1. Option Format (Figure 8: Option Format)
  *
  * ```
- *   0   1   2   3   4   5   6   7
  * +---------------+---------------+
  * |  Option Delta | Option Length |   1 byte
  * +---------------+---------------+
@@ -256,14 +292,14 @@ private fun BufferedSource.readOptions(): List<Option> {
  *
  * @return [Option] or `null` if [PAYLOAD_MARKER] was hit or [BufferedSource] receiver is exhausted.
  */
-internal fun BufferedSource.readOption(preceding: Format?): Option? {
+internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
     if (exhausted()) return null
 
-    //   0   1   2   3   4   5   6   7
     // +---------------+---------------+
     // |  Option Delta | Option Length |   1 byte
     // +---------------+---------------+
-    val byte = readByte().toInt() and 0xFF
+    val byte = readUByte()
+    println("Read option at ${index - 1}: ${byteArrayOf(byte.toByte()).toHexString()}")
     if (byte == PAYLOAD_MARKER) return null
     val optionDelta = (byte shr 4) and 0b1111
     val optionLength = byte and 0b1111
@@ -273,9 +309,9 @@ internal fun BufferedSource.readOption(preceding: Format?): Option? {
     // \          (extended)           \
     // +-------------------------------+
     val delta = when (optionDelta) {
-        in 0..12 -> optionDelta                       // No Extended Delta
-        13 -> (readByte().toInt() and 0xFF) + 13      //  8-bit unsigned integer
-        14 -> (readShort().toInt() and 0xFF_FF) + 269 // 16-bit unsigned integer
+        in 0..12 -> optionDelta  // No Extended Delta
+        13 -> readUByte() + 13   //  8-bit unsigned integer
+        14 -> readUShort() + 269 // 16-bit unsigned integer
         else -> error("Invalid option delta $optionDelta")
     }
 
@@ -284,31 +320,31 @@ internal fun BufferedSource.readOption(preceding: Format?): Option? {
     // \          (extended)           \
     // +-------------------------------+
     val length = when (optionLength) {
-        in 0..12 -> optionLength                      // No Extended Length
-        13 -> (readByte().toInt() and 0xFF) + 13      //  8-bit unsigned integer
-        14 -> (readShort().toInt() and 0xFF_FF) + 269 // 16-bit unsigned integer
+        in 0..12 -> optionLength // No Extended Length
+        13 -> readUByte() + 13   //  8-bit unsigned integer
+        14 -> readUShort() + 269 // 16-bit unsigned integer
         else -> error("Invalid option length $optionLength")
     }
 
     return when (val number = (preceding?.number ?: 0) + delta) {
-        1 -> IfMatch(readByteArray(length.toLong()))
-        3 -> UriHost(readUtf8(length.toLong()))
-        4 -> ETag(readByteArray(length.toLong()))
+        1 -> IfMatch(readByteArray(length))
+        3 -> UriHost(readUtf8(length))
+        4 -> ETag(readByteArray(length))
         5 -> IfNoneMatch
         6 -> Observe(readNumberOfLength(length))
         7 -> UriPort(readNumberOfLength(length))
-        8 -> LocationPath(readUtf8(length.toLong()))
-        11 -> UriPath(readUtf8(length.toLong()))
+        8 -> LocationPath(readUtf8(length))
+        11 -> UriPath(readUtf8(length))
         12 -> ContentFormat(readNumberOfLength(length))
         14 -> MaxAge(readNumberOfLength(length))
-        15 -> UriQuery(readUtf8(length.toLong()))
+        15 -> UriQuery(readUtf8(length))
         17 -> Accept(readNumberOfLength(length))
-        20 -> LocationQuery(readUtf8(length.toLong()))
-        35 -> ProxyUri(readUtf8(length.toLong()))
-        39 -> ProxyScheme(readUtf8(length.toLong()))
+        20 -> LocationQuery(readUtf8(length))
+        35 -> ProxyUri(readUtf8(length))
+        39 -> ProxyScheme(readUtf8(length))
         60 -> Size1(readNumberOfLength(length))
         else -> error("Unsupported option number $number")
-    }
+    }.also { println("option: $it") }
 }
 
 // Type (T): 2-bit unsigned integer
@@ -321,7 +357,7 @@ private fun Int.toType(): Message.Udp.Type = when (this) {
     else -> error("Unknown message type: $this")
 }
 
-private fun Byte.toCode(): Code = when (val code = toInt()) {
+private fun Int.toCode(): Message.Code = when (this) {
     1 -> GET    // 0.01
     2 -> POST   // 0.02
     3 -> PUT    // 0.03
@@ -351,8 +387,25 @@ private fun Byte.toCode(): Code = when (val code = toInt()) {
     165 -> ProxyingNotSupported     // 5.05
 
     else -> {
-        val `class` = (code shr 5) and 0b111
-        val detail = code and 0b11111
-        Code.Raw(`class`, detail)
+        val `class` = (this shr 5) and 0b111
+        val detail = this and 0b11111
+        Message.Code.Raw(`class`, detail)
     }
+}
+
+/**
+ * Reads specified number of [bytes] from [ByteArrayReader] receiver to acquire a number.
+ *
+ * @param bytes (count) to read from [ByteArrayReader] to build number
+ * @return value of number
+ */
+internal fun ByteArrayReader.readNumberOfLength(
+    bytes: Int
+): Long = when (bytes) {
+    0 -> 0L
+    1 -> readUByte().toLong()
+    2 -> readUShort().toLong()
+    3 -> readUInt24().toLong()
+    4 -> readUInt()
+    else -> throw IllegalArgumentException("Unsupported number length of $bytes bytes")
 }

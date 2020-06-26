@@ -60,6 +60,22 @@ val encoded: ByteArray // Encoded message that adheres to RFC 8323.
 val message = encoded.decode<Tcp>()
 ```
 
+#### Header
+
+If it's desirable to examine the header prior to decoding the entire encoded CoAP message, then
+`ByteArray.decodeUdpHeader` or `ByteArray.decodeTcpHeader` extension functions are available. The
+remaining encoded CoAP message can then be decoded by passing the header to the `ByteArray.decode`
+extension function, for example:
+
+```kotlin
+val encoded: ByteArray // Encoded message that adheres to RFC 7252.
+val header = encoded.decodeUdpHeader()
+
+// Examine header and determine that we should parse the message:
+
+val message = encoded.decode(header)
+```
+
 ## Examples
 
 ### Encoding
@@ -68,8 +84,8 @@ val message = encoded.decode<Tcp>()
 val message = Message.Udp(
     type = Confirmable,
     code = GET,
-    id = 0xFE_ED,
-    token = 0xCA_FE,
+    id = 0xFEED,
+    token = 0xCAFE,
     options = listOf(
         UriPath("example")
     ),
