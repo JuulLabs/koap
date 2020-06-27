@@ -201,9 +201,9 @@ fun ByteArray.decodeUdpHeader(): Header.Udp = withReader {
         size = index,
         version = ver,
         type = t.toType(),
-        token = token,
         code = code.toCode(),
-        messageId = id
+        messageId = id,
+        token = token
     )
 }
 
