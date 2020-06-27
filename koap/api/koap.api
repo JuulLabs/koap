@@ -1,10 +1,55 @@
 public final class com/juul/koap/DecoderKt {
+	public static final fun decode ([BLcom/juul/koap/Header;)Lcom/juul/koap/Message;
 	public static final fun decodeTcp ([B)Lcom/juul/koap/Message$Tcp;
+	public static final fun decodeTcpHeader ([B)Lcom/juul/koap/Header$Tcp;
 	public static final fun decodeUdp ([B)Lcom/juul/koap/Message$Udp;
+	public static final fun decodeUdpHeader ([B)Lcom/juul/koap/Header$Udp;
 }
 
 public final class com/juul/koap/EncoderKt {
 	public static final fun encode (Lcom/juul/koap/Message;)[B
+}
+
+public abstract class com/juul/koap/Header {
+	public abstract fun getCode ()Lcom/juul/koap/Message$Code;
+	public abstract fun getSize ()I
+	public abstract fun getToken ()Ljava/lang/Long;
+}
+
+public final class com/juul/koap/Header$Tcp : com/juul/koap/Header {
+	public final fun component1 ()I
+	public final fun component2 ()J
+	public final fun component3 ()Lcom/juul/koap/Message$Code;
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun copy (IJLcom/juul/koap/Message$Code;Ljava/lang/Long;)Lcom/juul/koap/Header$Tcp;
+	public static synthetic fun copy$default (Lcom/juul/koap/Header$Tcp;IJLcom/juul/koap/Message$Code;Ljava/lang/Long;ILjava/lang/Object;)Lcom/juul/koap/Header$Tcp;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCode ()Lcom/juul/koap/Message$Code;
+	public final fun getLength ()J
+	public fun getSize ()I
+	public fun getToken ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Header$Udp : com/juul/koap/Header {
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()Lcom/juul/koap/Message$Udp$Type;
+	public final fun component4 ()Lcom/juul/koap/Message$Code;
+	public final fun component5 ()I
+	public final fun component6 ()Ljava/lang/Long;
+	public final fun copy (IILcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;)Lcom/juul/koap/Header$Udp;
+	public static synthetic fun copy$default (Lcom/juul/koap/Header$Udp;IILcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;ILjava/lang/Object;)Lcom/juul/koap/Header$Udp;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCode ()Lcom/juul/koap/Message$Code;
+	public final fun getMessageId ()I
+	public fun getSize ()I
+	public fun getToken ()Ljava/lang/Long;
+	public final fun getType ()Lcom/juul/koap/Message$Udp$Type;
+	public final fun getVersion ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract class com/juul/koap/Message {
@@ -286,7 +331,7 @@ public final class com/juul/koap/Message$Option$MaxAge : com/juul/koap/Message$O
 
 public final class com/juul/koap/Message$Option$Observe : com/juul/koap/Message$Option {
 	public fun <init> (J)V
-	public fun <init> (Lcom/juul/koap/Registration;)V
+	public fun <init> (Lcom/juul/koap/Message$Option$Observe$Registration;)V
 	public final fun component1 ()J
 	public final fun copy (J)Lcom/juul/koap/Message$Option$Observe;
 	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Observe;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Observe;
@@ -294,6 +339,13 @@ public final class com/juul/koap/Message$Option$Observe : com/juul/koap/Message$
 	public final fun getValue ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Observe$Registration : java/lang/Enum {
+	public static final field Deregister Lcom/juul/koap/Message$Option$Observe$Registration;
+	public static final field Register Lcom/juul/koap/Message$Option$Observe$Registration;
+	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Message$Option$Observe$Registration;
+	public static fun values ()[Lcom/juul/koap/Message$Option$Observe$Registration;
 }
 
 public final class com/juul/koap/Message$Option$ProxyScheme : com/juul/koap/Message$Option {
@@ -423,12 +475,5 @@ public final class com/juul/koap/Message$Udp$Type : java/lang/Enum {
 public final class com/juul/koap/MessageKt {
 	public static final fun isError (Lcom/juul/koap/Message$Code$Response;)Z
 	public static final fun isSuccess (Lcom/juul/koap/Message$Code$Response;)Z
-}
-
-public final class com/juul/koap/Registration : java/lang/Enum {
-	public static final field Deregister Lcom/juul/koap/Registration;
-	public static final field Register Lcom/juul/koap/Registration;
-	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Registration;
-	public static fun values ()[Lcom/juul/koap/Registration;
 }
 
