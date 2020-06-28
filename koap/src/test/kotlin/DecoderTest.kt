@@ -139,6 +139,22 @@ class DecoderTest {
             expected = Observe(Deregister)
         )
     }
+
+    @Test
+    fun `Decoding TCP message does not read beyond length specified in header`() {
+        val message = Message.Tcp(
+            code = GET,
+            token = null,
+            options = emptyList(),
+            payload = byteArrayOf(0x01, 0x02, 0x03)
+        )
+        val extraData = byteArrayOf(0x0A, 0x0B, 0x0C)
+
+        assertEquals(
+            expected = message,
+            actual = (message.encode() + extraData).decode()
+        )
+    }
 }
 
 private fun testReadOption(

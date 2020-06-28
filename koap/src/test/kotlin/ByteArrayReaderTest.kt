@@ -13,7 +13,7 @@ class ByteArrayReaderTest {
     fun `readUShort with value of 1, at an offset`() {
         //    offset  0  1
         //           __ __
-        val bytes = "00 00 01 00".toByteArray()
+        val bytes = "00 00 01 00".parseByteArray()
         //              ^^ ^^
         //         byte  0  1
 
@@ -32,7 +32,7 @@ class ByteArrayReaderTest {
     fun `readUShort with value that won't fit in signed short, at an offset`() {
         //    offset  0  1
         //           __ __
-        val bytes = "00 FF 00 00".toByteArray()
+        val bytes = "00 FF 00 00".parseByteArray()
         //              ^^ ^^
         //         byte  0  1
 
@@ -46,7 +46,7 @@ class ByteArrayReaderTest {
     fun `readNumberOfLength with value that won't fit in signed short, at an offset`() {
         //    offset  0  1
         //           __ __
-        val bytes = "00 FF 00 00".toByteArray()
+        val bytes = "00 FF 00 00".parseByteArray()
         //              ^^ ^^
         //         byte  0  1
 
@@ -60,7 +60,7 @@ class ByteArrayReaderTest {
     fun `readLong reads Long MAX_VALUE at an offset`() {
         //    offset  0  1  2
         //           __ __ __
-        val bytes = "00 00 7F FF FF FF FF FF FF FF 00 00 00 00".toByteArray()
+        val bytes = "00 00 7F FF FF FF FF FF FF FF 00 00 00 00".parseByteArray()
         //                 ^^ ^^ ^^ ^^ ^^ ^^ ^^ ^^
         //            byte  0  1  2  3  4  5  6  7
 
@@ -72,7 +72,7 @@ class ByteArrayReaderTest {
 
     @Test
     fun `exhausted returns false until at end of ByteArray`() {
-        val reader = "01 02 03 04 05".toByteArray().reader()
+        val reader = "01 02 03 04 05".parseByteArray().reader()
         //            ^^ ^^ ^^ ^^ ^^
         //       byte  0  1  2  3  4
 
@@ -86,7 +86,7 @@ class ByteArrayReaderTest {
     }
 }
 
-private fun String.toByteArray() =
+private fun String.parseByteArray() =
     replace(" ", "")
         .chunked(2)
         .map { it.toUpperCase().toInt(16).toByte() }
