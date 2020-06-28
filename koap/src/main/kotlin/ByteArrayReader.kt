@@ -1,55 +1,84 @@
 package com.juul.koap
 
 internal inline fun <T> ByteArray.withReader(
-    offset: Int = 0,
+    startIndex: Int = 0,
+    endIndex: Int = size,
     action: ByteArrayReader.() -> T
-): T = action.invoke(ByteArrayReader(this, offset))
+): T = action.invoke(ByteArrayReader(this, startIndex, endIndex))
 
 internal fun ByteArray.reader(
-    offset: Int = 0
-): ByteArrayReader = ByteArrayReader(this, offset)
+    startIndex: Int = 0,
+    endIndex: Int = size
+): ByteArrayReader = ByteArrayReader(this, startIndex, endIndex)
 
-/** All numbers are read in network byte-order (Big endian). */
+/**
+ * All numbers are read in network byte-order (Big endian).
+ *
+ * @param startIndex the start of the range (inclusive), must be in `0..bytes.size`
+ * @param endIndex the end of the range (exclusive), must be in `startIndex..bytes.size`
+ */
 internal class ByteArrayReader(
     private val bytes: ByteArray,
-    offset: Int = 0
+    startIndex: Int = 0,
+    private val endIndex: Int = bytes.size
 ) {
 
-    var index = offset
+    var index = startIndex
+    fun exhausted(): Boolean = index >= endIndex
 
-    fun exhausted(): Boolean = index >= bytes.size
+    private fun checkIndex() {
+        check(index < endIndex) { "Cannot read at index $index, >= endIndex of $endIndex" }
+    }
 
     /** Reads 1-byte to acquire an 8-bit unsigned int. */
-    fun readUByte(): Int = bytes[index++].toInt() and 0xFF
+    fun readUByte(): Int {
+        checkIndex()
+        return bytes[index++].toInt() and 0xFF
+    }
 
     /** Reads 2-bytes in [ByteArray] receiver to acquire a 16-bit unsigned int. */
-    fun readUShort(): Int = ((bytes[index++].toInt() and 0xFF) shl 8) or readUByte()
+    fun readUShort(): Int {
+        checkIndex()
+        return ((bytes[index++].toInt() and 0xFF) shl 8) or readUByte()
+    }
 
     /** Reads 3-bytes in [ByteArray] receiver to acquire a 24-bit unsigned int. */
-    fun readUInt24(): Int = ((bytes[index++].toInt() and 0xFF) shl 16) or readUShort()
+    fun readUInt24(): Int {
+        checkIndex()
+        return ((bytes[index++].toInt() and 0xFF) shl 16) or readUShort()
+    }
 
     /** Reads 4-bytes in [ByteArray] receiver to acquire a 32-bit unsigned int. */
-    fun readUInt(): Long = ((bytes[index++].toLong() and 0xFF) shl 24) or readUInt24().toLong()
+    fun readUInt(): Long {
+        checkIndex()
+        return ((bytes[index++].toLong() and 0xFF) shl 24) or readUInt24().toLong()
+    }
 
     /** Reads 8-bytes in [ByteArray] receiver to acquire a 64-bit signed int. */
-    fun readLong(): Long =
-        ((bytes[index++].toLong() and 0xFF) shl 56) or
+    fun readLong(): Long {
+        checkIndex()
+        return ((bytes[index++].toLong() and 0xFF) shl 56) or
             ((bytes[index++].toLong() and 0xFF) shl 48) or
             ((bytes[index++].toLong() and 0xFF) shl 40) or
             ((bytes[index++].toLong() and 0xFF) shl 32) or
             readUInt()
+    }
 
     fun readByteArray(): ByteArray {
-        val copy = bytes.copyOfRange(index, bytes.size)
-        index = bytes.size
+        val copy = bytes.copyOfRange(index, endIndex)
+        index = endIndex
         return copy
     }
 
     fun readByteArray(length: Int): ByteArray {
+        check(index + length <= endIndex) {
+            "Cannot read byte range $index..${index + length} as it spans beyond endIndex of $endIndex"
+        }
         val copy = bytes.copyOfRange(index, index + length)
         index += length
         return copy
     }
 
-    fun readUtf8(length: Int): String = readByteArray(length).toString(Charsets.UTF_8)
+    fun readUtf8(length: Int): String =
+        readByteArray(length).toString(Charsets.UTF_8)
 }

@@ -391,8 +391,8 @@ sealed class Message {
         override fun toString(): String = "Message.Udp(" +
             "type=$type, " +
             "code=$code, " +
-            "id=$id (0x${Integer.toHexString(id).toUpperCase()}), " +
-            "token=$token, " +
+            "id=${id.debugString(Short.SIZE_BYTES)}, " +
+            "token=${token.debugString()}, " +
             "options=$options, " +
             "payload=${payload.toHexString()}" +
             ")"
@@ -418,7 +418,7 @@ sealed class Message {
 
         override fun toString(): String = "Message.Tcp(" +
             "code=$code, " +
-            "token=$token, " +
+            "token=${token.debugString()}, " +
             "options=$options, " +
             "payload=${payload.toHexString()}" +
             ")"

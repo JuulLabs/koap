@@ -19,7 +19,7 @@ class ByteArrayReaderTest {
 
         assertEquals(
             expected = 1, // 00 01
-            actual = bytes.reader(offset = 1).readUShort()
+            actual = bytes.reader(startIndex = 1).readUShort()
         )
     }
 
@@ -38,7 +38,7 @@ class ByteArrayReaderTest {
 
         assertEquals(
             expected = 65_280, // FF 00
-            actual = bytes.reader(offset = 1).readUShort()
+            actual = bytes.reader(startIndex = 1).readUShort()
         )
     }
 
@@ -52,7 +52,7 @@ class ByteArrayReaderTest {
 
         assertEquals(
             expected = 65_280, // FF 00
-            actual = bytes.reader(offset = 1).readNumberOfLength(bytes = 2)
+            actual = bytes.reader(startIndex = 1).readNumberOfLength(bytes = 2)
         )
     }
 
@@ -66,7 +66,7 @@ class ByteArrayReaderTest {
 
         assertEquals(
             expected = Long.MAX_VALUE,
-            actual = bytes.reader(offset = 2).readLong()
+            actual = bytes.reader(startIndex = 2).readLong()
         )
     }
 

@@ -97,7 +97,10 @@ inline fun <reified T : Message> ByteArray.decode(): T =
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
-fun ByteArray.decodeUdp(): Message.Udp = decode(decodeUdpHeader(), skipHeader = true)
+fun ByteArray.decodeUdp(): Message.Udp {
+    val header = decodeUdpHeader()
+    return decode(header, offset = header.size)
+}
 
 /**
  * Decodes [ByteArray] receiver to a TCP [Message].
@@ -117,56 +120,69 @@ fun ByteArray.decodeUdp(): Message.Udp = decode(decodeUdpHeader(), skipHeader = 
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
-fun ByteArray.decodeTcp(): Message.Tcp = decode(decodeTcpHeader(), skipHeader = true)
+fun ByteArray.decodeTcp(): Message.Tcp {
+    val header = decodeTcpHeader()
+    return decode(header, offset = header.size)
+}
 
 /**
- * Decodes [ByteArray] receiver to a [Message.Udp], using the specified [Header.Udp] for reference.
+ * Assembles a [Message.Udp] by decoding CoAP message content (Options + Payload) from the
+ * [ByteArray] receiver and combining with provided [header].
  *
- * When [skipHeader] is `false` (default), [ByteArray] receiver will be processed starting at index
- * `0` reading encoded message content (Options and Payload). When `true`, processing of [ByteArray]
- * receiver will start at index [Header.size] (as specified in [header] parameter).
+ * If [ByteArray] receiver contains the CoAP message header, then specify an offset to begin
+ * decoding after header, for example:
+ *
+ * ```
+ * val header = encoded.decodeUdpHeader()
+ * val message = encoded.decode(header, offset = header.size)
+ * ```
  */
 fun ByteArray.decode(
     header: Header.Udp,
-    skipHeader: Boolean = false
-) = decodeContent(header, skipHeader) as Message.Udp
+    offset: Int = 0
+): Message.Udp = decodeContent(header, offset) as Message.Udp
 
 /**
- * Decodes [ByteArray] receiver to a [Message.Tcp], using the specified [Header.Tcp] for reference.
+ * Assembles a [Message.Tcp] by decoding CoAP message content (Options + Payload) from the
+ * [ByteArray] receiver and combining with provided [header].
  *
- * When [skipHeader] is `false` (default), [ByteArray] receiver will be processed starting at index
- * `0` reading encoded message content (Options and Payload). When `true`, processing of [ByteArray]
- * receiver will start at index [Header.size] (as specified in [header] parameter).
+ * If [ByteArray] receiver contains the CoAP message header, then specify an offset to begin
+ * decoding after header, for example:
+ *
+ * ```
+ * val header = encoded.decodeTcpHeader()
+ * val message = encoded.decode(header, offset = header.size)
+ * ```
  */
 fun ByteArray.decode(
     header: Header.Tcp,
-    skipHeader: Boolean = false
-) = decodeContent(header, skipHeader) as Message.Tcp
+    offset: Int = 0
+): Message.Tcp = decodeContent(header, offset) as Message.Tcp
 
 /**
- * Decodes [ByteArray] receiver to a [Message], using the specified [Header] for reference.
- *
- * The [ByteArray] receiver must only contain Options and Payload (header data must not be present).
+ * Decodes message content (Options + Payload) from [ByteArray] receiver and combines with provided
+ * [header] to build a [Message].
  */
 private fun ByteArray.decodeContent(
     header: Header,
-    skipHeader: Boolean
-): Message = withReader(offset = if (skipHeader) header.size else 0) {
-    // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |  Options (if any) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val options = readOptions()
+    offset: Int
+): Message {
+    val endIndex = if (header is Header.Tcp) offset + header.length.toInt() else size
+    return withReader(offset, endIndex) {
+        // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
+        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        // |  Options (if any) ...
+        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        val options = readOptions()
 
-    when (header) {
-        is Header.Udp -> {
-            // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            // |    Payload (if any) ...
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            val payload = readByteArray()
+        // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
+        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        // |    Payload (if any) ...
+        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        val payload = readByteArray()
 
-            Message.Udp(
+        when (header) {
+            is Header.Udp -> Message.Udp(
                 header.type,
                 header.code,
                 header.messageId,
@@ -174,15 +190,7 @@ private fun ByteArray.decodeContent(
                 options,
                 payload
             )
-        }
-        is Header.Tcp -> {
-            // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            // |    Payload (if any) ...
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            val payload = readByteArray(header.size + header.length.toInt() - index)
-
-            Message.Tcp(
+            is Header.Tcp -> Message.Tcp(
                 header.code,
                 header.token,
                 options,
@@ -378,7 +386,7 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         39 -> ProxyScheme(readUtf8(length))
         60 -> Size1(readNumberOfLength(length))
         else -> error("Unsupported option number $number")
-    }.also { println("option: $it") }
+    }
 }
 
 // Type (T): 2-bit unsigned integer

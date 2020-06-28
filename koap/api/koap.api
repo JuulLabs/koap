@@ -1,8 +1,8 @@
 public final class com/juul/koap/DecoderKt {
-	public static final fun decode ([BLcom/juul/koap/Header$Tcp;Z)Lcom/juul/koap/Message$Tcp;
-	public static final fun decode ([BLcom/juul/koap/Header$Udp;Z)Lcom/juul/koap/Message$Udp;
-	public static synthetic fun decode$default ([BLcom/juul/koap/Header$Tcp;ZILjava/lang/Object;)Lcom/juul/koap/Message$Tcp;
-	public static synthetic fun decode$default ([BLcom/juul/koap/Header$Udp;ZILjava/lang/Object;)Lcom/juul/koap/Message$Udp;
+	public static final fun decode ([BLcom/juul/koap/Header$Tcp;I)Lcom/juul/koap/Message$Tcp;
+	public static final fun decode ([BLcom/juul/koap/Header$Udp;I)Lcom/juul/koap/Message$Udp;
+	public static synthetic fun decode$default ([BLcom/juul/koap/Header$Tcp;IILjava/lang/Object;)Lcom/juul/koap/Message$Tcp;
+	public static synthetic fun decode$default ([BLcom/juul/koap/Header$Udp;IILjava/lang/Object;)Lcom/juul/koap/Message$Udp;
 	public static final fun decodeTcp ([B)Lcom/juul/koap/Message$Tcp;
 	public static final fun decodeTcpHeader ([B)Lcom/juul/koap/Header$Tcp;
 	public static final fun decodeUdp ([B)Lcom/juul/koap/Message$Udp;

@@ -34,7 +34,7 @@ sealed class Header {
         val version: Int,
         val type: Type,
         override val code: Code,
-        val messageId: Int, // Message ID: 16-bit unsigned integer
+        val messageId: Int, // 16-bit unsigned integer
         override val token: Long?
     ) : Header() {
 
@@ -43,8 +43,8 @@ sealed class Header {
             "version=$version, " +
             "type=$type, " +
             "code=$code, " +
-            "messageId=$messageId (0x${Integer.toHexString(messageId).toUpperCase()}), " +
-            "token=$token" +
+            "messageId=${messageId.debugString(Short.SIZE_BYTES)}, " +
+            "token=${token.debugString()}" +
             ")"
     }
 
@@ -52,9 +52,17 @@ sealed class Header {
         override val size: Int,
 
         /** Length (in bytes) of message content (Options + Payload). */
-        val length: Long,
+        val length: Long, // 32-bit unsigned integer
 
         override val code: Code,
         override val token: Long?
-    ) : Header()
+    ) : Header() {
+
+        override fun toString(): String = "Header.Tcp(" +
+            "size=$size, " +
+            "length=$length, " +
+            "code=$code, " +
+            "token=${token.debugString()}" +
+            ")"
+    }
 }
