@@ -93,10 +93,8 @@ private fun BufferedSink.writeMessage(message: Message) {
  */
 internal fun BufferedSink.writeHeader(message: Udp) {
     // Token is encoded first, as it's length is needed for TKL.
-    val token = message.token?.let {
-        Buffer().apply { writeToken(it) }
-    }
-    val tokenLength = token?.size ?: 0
+    val token = Buffer().apply { writeToken(message.token) }
+    val tokenLength = token.size
     require(tokenLength in UINT4_RANGE) {
         "Token length of $tokenLength is outside allowable range of $UINT4_RANGE"
     }
@@ -125,9 +123,7 @@ internal fun BufferedSink.writeHeader(message: Udp) {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // |   Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    if (token != null) {
-        writeAll(token)
-    }
+    writeAll(token)
 }
 
 /**
@@ -154,10 +150,8 @@ internal fun BufferedSink.writeHeader(
     }
 
     // Token is encoded first, as it's length is needed for TKL.
-    val token = message.token?.let {
-        Buffer().apply { writeToken(it) }
-    }
-    val tokenLength = token?.size ?: 0
+    val token = Buffer().apply { writeToken(message.token) }
+    val tokenLength = token.size
     require(tokenLength in UINT4_RANGE) {
         "Token length of $tokenLength is outside allowable range of $UINT4_RANGE"
     }
@@ -206,9 +200,7 @@ internal fun BufferedSink.writeHeader(
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    if (token != null) {
-        writeAll(token)
-    }
+    writeAll(token)
 }
 
 private fun BufferedSink.writeOptions(options: List<Option>) {
@@ -317,6 +309,7 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
  * @return length of [token] written.
  */
 internal fun BufferedSink.writeToken(token: Long) {
+    if (token == 0L) return
     when (token) {
         in UBYTE_RANGE -> writeByte(token and 0xFF)
         in USHORT_RANGE -> writeShort(token and 0xFF_FF)

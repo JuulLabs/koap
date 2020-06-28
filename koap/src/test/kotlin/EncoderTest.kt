@@ -57,7 +57,7 @@ class EncoderTest {
     fun `TCP message header with max size content length`() {
         val message = Message.Tcp(
             code = GET,
-            token = null,
+            token = 0,
             options = emptyList(),
             payload = byteArrayOf()
         )
@@ -79,7 +79,7 @@ class EncoderTest {
     fun `Empty TCP message`() {
         val message = Message.Tcp(
             code = GET,
-            token = null,
+            token = 0,
             options = emptyList(),
             payload = byteArrayOf()
         )
@@ -143,7 +143,7 @@ class EncoderTest {
                 UriPath("temperature")
             ),
             payload = byteArrayOf(),
-            token = null
+            token = 0
         )
         assertEquals(
             expected = """
@@ -173,7 +173,7 @@ class EncoderTest {
             id = 0x7d34,
             options = emptyList(),
             payload = "22.3 C".toByteArray(),
-            token = null
+            token = 0
         )
         assertEquals(
             expected = """
@@ -206,8 +206,8 @@ class EncoderTest {
     fun `Write token of value 0`() {
         testWriteToken(
             token = 0,
-            expectedSize = 1,
-            expectedHex = "00"
+            expectedSize = 0,
+            expectedHex = ""
         )
     }
 

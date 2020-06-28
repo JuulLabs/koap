@@ -144,7 +144,7 @@ class DecoderTest {
     fun `Decoding TCP message does not read beyond length specified in header`() {
         val message = Message.Tcp(
             code = GET,
-            token = null,
+            token = 0,
             options = emptyList(),
             payload = byteArrayOf(0x01, 0x02, 0x03)
         )

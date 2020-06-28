@@ -238,7 +238,7 @@ fun ByteArray.decodeUdpHeader(): Header.Udp = withReader {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val token = if (tkl != 0) readNumberOfLength(tkl) else null
+    val token = readNumberOfLength(tkl)
 
     Header.Udp(
         size = index,
@@ -292,7 +292,7 @@ fun ByteArray.decodeTcpHeader(): Header.Tcp = withReader {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val token = if (tkl != 0) readNumberOfLength(bytes = tkl) else null
+    val token = readNumberOfLength(bytes = tkl)
 
     Header.Tcp(
         size = index,

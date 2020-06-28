@@ -16,21 +16,21 @@ public final class com/juul/koap/EncoderKt {
 public abstract class com/juul/koap/Header {
 	public abstract fun getCode ()Lcom/juul/koap/Message$Code;
 	public abstract fun getSize ()I
-	public abstract fun getToken ()Ljava/lang/Long;
+	public abstract fun getToken ()J
 }
 
 public final class com/juul/koap/Header$Tcp : com/juul/koap/Header {
 	public final fun component1 ()I
 	public final fun component2 ()J
 	public final fun component3 ()Lcom/juul/koap/Message$Code;
-	public final fun component4 ()Ljava/lang/Long;
-	public final fun copy (IJLcom/juul/koap/Message$Code;Ljava/lang/Long;)Lcom/juul/koap/Header$Tcp;
-	public static synthetic fun copy$default (Lcom/juul/koap/Header$Tcp;IJLcom/juul/koap/Message$Code;Ljava/lang/Long;ILjava/lang/Object;)Lcom/juul/koap/Header$Tcp;
+	public final fun component4 ()J
+	public final fun copy (IJLcom/juul/koap/Message$Code;J)Lcom/juul/koap/Header$Tcp;
+	public static synthetic fun copy$default (Lcom/juul/koap/Header$Tcp;IJLcom/juul/koap/Message$Code;JILjava/lang/Object;)Lcom/juul/koap/Header$Tcp;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCode ()Lcom/juul/koap/Message$Code;
 	public final fun getLength ()J
 	public fun getSize ()I
-	public fun getToken ()Ljava/lang/Long;
+	public fun getToken ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -41,14 +41,14 @@ public final class com/juul/koap/Header$Udp : com/juul/koap/Header {
 	public final fun component3 ()Lcom/juul/koap/Message$Udp$Type;
 	public final fun component4 ()Lcom/juul/koap/Message$Code;
 	public final fun component5 ()I
-	public final fun component6 ()Ljava/lang/Long;
-	public final fun copy (IILcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;)Lcom/juul/koap/Header$Udp;
-	public static synthetic fun copy$default (Lcom/juul/koap/Header$Udp;IILcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;ILjava/lang/Object;)Lcom/juul/koap/Header$Udp;
+	public final fun component6 ()J
+	public final fun copy (IILcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;IJ)Lcom/juul/koap/Header$Udp;
+	public static synthetic fun copy$default (Lcom/juul/koap/Header$Udp;IILcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;IJILjava/lang/Object;)Lcom/juul/koap/Header$Udp;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCode ()Lcom/juul/koap/Message$Code;
 	public final fun getMessageId ()I
 	public fun getSize ()I
-	public fun getToken ()Ljava/lang/Long;
+	public fun getToken ()J
 	public final fun getType ()Lcom/juul/koap/Message$Udp$Type;
 	public final fun getVersion ()I
 	public fun hashCode ()I
@@ -59,7 +59,7 @@ public abstract class com/juul/koap/Message {
 	public abstract fun getCode ()Lcom/juul/koap/Message$Code;
 	public abstract fun getOptions ()Ljava/util/List;
 	public abstract fun getPayload ()[B
-	public abstract fun getToken ()Ljava/lang/Long;
+	public abstract fun getToken ()J
 }
 
 public abstract class com/juul/koap/Message$Code {
@@ -429,38 +429,38 @@ public final class com/juul/koap/Message$Option$UriQuery : com/juul/koap/Message
 }
 
 public final class com/juul/koap/Message$Tcp : com/juul/koap/Message {
-	public fun <init> (Lcom/juul/koap/Message$Code;Ljava/lang/Long;Ljava/util/List;[B)V
+	public fun <init> (Lcom/juul/koap/Message$Code;JLjava/util/List;[B)V
 	public final fun component1 ()Lcom/juul/koap/Message$Code;
-	public final fun component2 ()Ljava/lang/Long;
+	public final fun component2 ()J
 	public final fun component3 ()Ljava/util/List;
 	public final fun component4 ()[B
-	public final fun copy (Lcom/juul/koap/Message$Code;Ljava/lang/Long;Ljava/util/List;[B)Lcom/juul/koap/Message$Tcp;
-	public static synthetic fun copy$default (Lcom/juul/koap/Message$Tcp;Lcom/juul/koap/Message$Code;Ljava/lang/Long;Ljava/util/List;[BILjava/lang/Object;)Lcom/juul/koap/Message$Tcp;
+	public final fun copy (Lcom/juul/koap/Message$Code;JLjava/util/List;[B)Lcom/juul/koap/Message$Tcp;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Tcp;Lcom/juul/koap/Message$Code;JLjava/util/List;[BILjava/lang/Object;)Lcom/juul/koap/Message$Tcp;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCode ()Lcom/juul/koap/Message$Code;
 	public fun getOptions ()Ljava/util/List;
 	public fun getPayload ()[B
-	public fun getToken ()Ljava/lang/Long;
+	public fun getToken ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/juul/koap/Message$Udp : com/juul/koap/Message {
-	public fun <init> (Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;Ljava/util/List;[B)V
+	public fun <init> (Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;IJLjava/util/List;[B)V
 	public final fun component1 ()Lcom/juul/koap/Message$Udp$Type;
 	public final fun component2 ()Lcom/juul/koap/Message$Code;
 	public final fun component3 ()I
-	public final fun component4 ()Ljava/lang/Long;
+	public final fun component4 ()J
 	public final fun component5 ()Ljava/util/List;
 	public final fun component6 ()[B
-	public final fun copy (Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;Ljava/util/List;[B)Lcom/juul/koap/Message$Udp;
-	public static synthetic fun copy$default (Lcom/juul/koap/Message$Udp;Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;ILjava/lang/Long;Ljava/util/List;[BILjava/lang/Object;)Lcom/juul/koap/Message$Udp;
+	public final fun copy (Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;IJLjava/util/List;[B)Lcom/juul/koap/Message$Udp;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Udp;Lcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;IJLjava/util/List;[BILjava/lang/Object;)Lcom/juul/koap/Message$Udp;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCode ()Lcom/juul/koap/Message$Code;
 	public final fun getId ()I
 	public fun getOptions ()Ljava/util/List;
 	public fun getPayload ()[B
-	public fun getToken ()Ljava/lang/Long;
+	public fun getToken ()J
 	public final fun getType ()Lcom/juul/koap/Message$Udp$Type;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;

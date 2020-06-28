@@ -59,12 +59,14 @@ sealed class Message {
      * | Range                          | Bytes |
      * |--------------------------------|-------|
      * |         -2^63 .. -1            | 8     |
-     * |             0 .. 255           | 1     |
+     * |             1 .. 255           | 1     |
      * |           256 .. 65,635        | 2     |
      * |        65,536 .. 4,294,967,295 | 4     |
      * | 4,294,967,296 .. 2^63-1        | 8     |
+     *
+     * _A token of value `0` will occupy `0` bytes._
      */
-    abstract val token: Long?
+    abstract val token: Long
 
     abstract val options: List<Option>
     abstract val payload: ByteArray
@@ -363,7 +365,7 @@ sealed class Message {
         /** Allowable range is `0..65,535`. */
         val id: Int,
 
-        override val token: Long?,
+        override val token: Long,
         override val options: List<Option>,
         override val payload: ByteArray
     ) : Message() {
@@ -392,7 +394,7 @@ sealed class Message {
             "type=$type, " +
             "code=$code, " +
             "id=${id.debugString(Short.SIZE_BYTES)}, " +
-            "token=${token.debugString()}, " +
+            "token=${token.debugTokenString()}, " +
             "options=$options, " +
             "payload=${payload.toHexString()}" +
             ")"
@@ -400,7 +402,7 @@ sealed class Message {
 
     data class Tcp(
         override val code: Code,
-        override val token: Long?,
+        override val token: Long,
         override val options: List<Option>,
         override val payload: ByteArray
     ) : Message() {
@@ -418,7 +420,7 @@ sealed class Message {
 
         override fun toString(): String = "Message.Tcp(" +
             "code=$code, " +
-            "token=${token.debugString()}, " +
+            "token=${token.debugTokenString()}, " +
             "options=$options, " +
             "payload=${payload.toHexString()}" +
             ")"

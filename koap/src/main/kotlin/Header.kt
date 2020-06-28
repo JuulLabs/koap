@@ -22,12 +22,14 @@ sealed class Header {
      * | Range                          | Bytes |
      * |--------------------------------|-------|
      * |         -2^63 .. -1            | 8     |
-     * |             0 .. 255           | 1     |
+     * |             1 .. 255           | 1     |
      * |           256 .. 65,635        | 2     |
      * |        65,536 .. 4,294,967,295 | 4     |
      * | 4,294,967,296 .. 2^63-1        | 8     |
+     *
+     * _A token of value `0` will occupy `0` bytes._
      */
-    abstract val token: Long?
+    abstract val token: Long
 
     data class Udp internal constructor(
         override val size: Int,
@@ -35,7 +37,7 @@ sealed class Header {
         val type: Type,
         override val code: Code,
         val messageId: Int, // 16-bit unsigned integer
-        override val token: Long?
+        override val token: Long
     ) : Header() {
 
         override fun toString(): String = "Header.Udp(" +
@@ -44,7 +46,7 @@ sealed class Header {
             "type=$type, " +
             "code=$code, " +
             "messageId=${messageId.debugString(Short.SIZE_BYTES)}, " +
-            "token=${token.debugString()}" +
+            "token=${token.debugTokenString()}" +
             ")"
     }
 
@@ -55,14 +57,14 @@ sealed class Header {
         val length: Long, // 32-bit unsigned integer
 
         override val code: Code,
-        override val token: Long?
+        override val token: Long
     ) : Header() {
 
         override fun toString(): String = "Header.Tcp(" +
             "size=$size, " +
             "length=$length, " +
             "code=$code, " +
-            "token=${token.debugString()}" +
+            "token=${token.debugTokenString()}" +
             ")"
     }
 }
