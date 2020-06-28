@@ -81,11 +81,64 @@ inline fun <reified T : Message> ByteArray.decode(): T =
     } as T
 
 /**
+ * Decodes [ByteArray] receiver to a [Message.Udp].
+ *
+ * [Figure 7: Message Format](https://tools.ietf.org/html/rfc7252#section-3) used for [Message.Udp]:
+ *
+ * ```
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |Ver| T |  TKL  |      Code     |          Message ID           |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |   Token (if any, TKL bytes) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |   Options (if any) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |1 1 1 1 1 1 1 1|    Payload (if any) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * ```
+ */
+fun ByteArray.decodeUdp(): Message.Udp = decode(decodeUdpHeader())
+
+/**
+ * Decodes [ByteArray] receiver to a TCP [Message].
+ *
+ * [Figure 4: CoAP Frame for Reliable Transports](https://tools.ietf.org/html/rfc8323#section-3.2)
+ * used for TCP [Message]:
+ *
+ * ```
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |      Code     | Token (if any, TKL bytes) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |  Options (if any) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |1 1 1 1 1 1 1 1|    Payload (if any) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * ```
+ */
+fun ByteArray.decodeTcp(): Message.Tcp = decode(decodeTcpHeader())
+
+/**
+ * Decodes [ByteArray] receiver to a [Message.Udp], using the specified [Header.Udp] for reference.
+ *
+ * Reading will begin after the [Header] (specified by [Header.size]).
+ */
+fun ByteArray.decode(header: Header.Udp) = decodeWithHeader(header) as Message.Udp
+
+/**
+ * Decodes [ByteArray] receiver to a [Message.Tcp], using the specified [Header.Tcp] for reference.
+ *
+ * Reading will begin after the [Header] (specified by [Header.size]).
+ */
+fun ByteArray.decode(header: Header.Tcp) = decodeWithHeader(header) as Message.Tcp
+
+/**
  * Decodes [ByteArray] receiver to a [Message], using the specified [Header] for reference.
  *
  * Reading will begin after the [Header] (specified by [Header.size]).
  */
-fun ByteArray.decode(
+private fun ByteArray.decodeWithHeader(
     header: Header
 ): Message = withReader(offset = header.size) {
     // |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
@@ -117,45 +170,6 @@ fun ByteArray.decode(
         )
     }
 }
-
-/**
- * Decodes [ByteArray] receiver to a [Message.Udp].
- *
- * [Figure 7: Message Format](https://tools.ietf.org/html/rfc7252#section-3) used for [Message.Udp]:
- *
- * ```
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |Ver| T |  TKL  |      Code     |          Message ID           |
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |   Token (if any, TKL bytes) ...
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |   Options (if any) ...
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |1 1 1 1 1 1 1 1|    Payload (if any) ...
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * ```
- */
-fun ByteArray.decodeUdp(): Message.Udp = decode(decodeUdpHeader()) as Message.Udp
-
-/**
- * Decodes [ByteArray] receiver to a TCP [Message].
- *
- * [Figure 4: CoAP Frame for Reliable Transports](https://tools.ietf.org/html/rfc8323#section-3.2)
- * used for TCP [Message]:
- *
- * ```
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |      Code     | Token (if any, TKL bytes) ...
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |  Options (if any) ...
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |1 1 1 1 1 1 1 1|    Payload (if any) ...
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * ```
- */
-fun ByteArray.decodeTcp(): Message.Tcp = decode(decodeTcpHeader()) as Message.Tcp
 
 /**
  * Decodes only the CoAP UDP (RFC 7252) header of the [ByteArray] receiver.
