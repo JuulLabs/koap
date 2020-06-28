@@ -307,7 +307,7 @@ sealed class Message {
         abstract val detail: Int
 
         /** RFC 7252: 12.1.1. Method Codes */
-        sealed class Method constructor(
+        sealed class Method(
             override val `class`: Int,
             override val detail: Int
         ) : Code() {
