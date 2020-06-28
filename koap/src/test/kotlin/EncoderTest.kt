@@ -76,6 +76,27 @@ class EncoderTest {
     }
 
     @Test
+    fun `TCP message with 25 byte payload`() {
+        val message = Message.Tcp(
+            code = Content,
+            token = 0,
+            options = emptyList(),
+            payload = (1..25).map { it.toByte() }.toByteArray()
+        )
+
+        assertEquals(
+            expected = """
+                D0 # Len: 13 (Length defined in Extended Length), Token length: 0
+                0D # Extended Length: 13 + 13 = 26
+                45 # Code: Content
+                FF # Payload marker
+                01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 # Payload
+            """.stripComments(),
+            actual = message.encode().toHexString()
+        )
+    }
+
+    @Test
     fun `Empty TCP message`() {
         val message = Message.Tcp(
             code = GET,
