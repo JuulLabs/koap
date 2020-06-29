@@ -40,25 +40,25 @@ internal class ByteArrayReader(
         return bytes[index++].toInt() and 0xFF
     }
 
-    /** Reads 2-bytes in [ByteArray] receiver to acquire a 16-bit unsigned int. */
+    /** Reads 2-bytes to acquire a 16-bit unsigned int. */
     fun readUShort(): Int {
         checkIndex()
         return ((bytes[index++].toInt() and 0xFF) shl 8) or readUByte()
     }
 
-    /** Reads 3-bytes in [ByteArray] receiver to acquire a 24-bit unsigned int. */
+    /** Reads 3-bytes to acquire a 24-bit unsigned int. */
     fun readUInt24(): Int {
         checkIndex()
         return ((bytes[index++].toInt() and 0xFF) shl 16) or readUShort()
     }
 
-    /** Reads 4-bytes in [ByteArray] receiver to acquire a 32-bit unsigned int. */
+    /** Reads 4-bytes to acquire a 32-bit unsigned int. */
     fun readUInt(): Long {
         checkIndex()
         return ((bytes[index++].toLong() and 0xFF) shl 24) or readUInt24().toLong()
     }
 
-    /** Reads 8-bytes in [ByteArray] receiver to acquire a 64-bit signed int. */
+    /** Reads 8-bytes to acquire a 64-bit signed int. */
     fun readLong(): Long {
         checkIndex()
         return ((bytes[index++].toLong() and 0xFF) shl 56) or
@@ -68,6 +68,7 @@ internal class ByteArrayReader(
             readUInt()
     }
 
+    /** Reads bytes from [index] (inclusive) to [endIndex] (exclusive). */
     fun readByteArray(): ByteArray {
         val copy = bytes.copyOfRange(index, endIndex)
         index = endIndex
