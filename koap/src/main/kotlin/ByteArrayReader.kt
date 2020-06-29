@@ -27,7 +27,11 @@ internal class ByteArrayReader(
     fun exhausted(): Boolean = index >= endIndex
 
     private fun checkIndex() {
-        check(index < endIndex) { "Cannot read at index $index, >= endIndex of $endIndex" }
+        if (index >= endIndex) {
+            throw IndexOutOfBoundsException(
+                "Cannot read when index is at or beyond endIndex (index=$index, endIndex=$endIndex)"
+            )
+        }
     }
 
     /** Reads 1-byte to acquire an 8-bit unsigned int. */
