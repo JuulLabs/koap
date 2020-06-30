@@ -11,6 +11,7 @@ public final class com/juul/koap/DecoderKt {
 
 public final class com/juul/koap/EncoderKt {
 	public static final fun encode (Lcom/juul/koap/Message;)[B
+	public static final fun encodeHeader (Lcom/juul/koap/Message$Udp;)[B
 }
 
 public abstract class com/juul/koap/Header {

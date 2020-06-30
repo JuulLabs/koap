@@ -55,6 +55,21 @@ internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
  */
 fun Message.encode(): ByteArray = Buffer().apply { writeMessage(this@encode) }.readByteArray()
 
+/**
+ * Encodes only the header portion of
+ * [Figure 7: Message Format](https://tools.ietf.org/html/rfc7252#section-3):
+ *
+ * ```
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |Ver| T |  TKL  |      Code     |          Message ID           |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |   Token (if any, TKL bytes) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * ```
+ */
+fun Message.Udp.encodeHeader(): ByteArray =
+    Buffer().apply { writeHeader(this@encodeHeader) }.readByteArray()
+
 private fun BufferedSink.writeMessage(message: Message) {
     // Content is encoded first, as the encoded content length is needed for `Len` (in TCP header).
     val content = Buffer()
