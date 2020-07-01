@@ -169,7 +169,7 @@ fun ByteArray.decode(
  * ```
  * val header = encoded.decodeTcpHeader()
  * val content = encoded.copyRange(header.size, encoded.size)
- * val message = encoded.decode(content, offset = 0)
+ * val message = content.decode(content, offset = 0)
  * ```
  */
 fun ByteArray.decode(
@@ -310,7 +310,7 @@ fun ByteArray.decodeTcpHeader(): Header.Tcp = withReader {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    val token = readNumberOfLength(bytes = tkl)
+    val token = readNumberOfLength(tkl)
 
     Header.Tcp(
         size = index,
@@ -456,6 +456,15 @@ private fun Int.toCode(): Message.Code = when (this) {
 /**
  * Reads specified number of [bytes] from [ByteArrayReader] receiver to acquire a number.
  *
+ * | Length in bytes | Read as... |
+ * |----------------:|------------|
+ * | 1               | unsigned   |
+ * | 2               | unsigned   |
+ * | 4               | unsigned   |
+ * | 8               | signed     |
+ *
+ * A length of `0` does not read from the [ByteArrayReader] and simply returns `0L`.
+ *
  * @param bytes (count) to read from [ByteArrayReader] to build number
  * @return value of number
  */
@@ -467,5 +476,6 @@ internal fun ByteArrayReader.readNumberOfLength(
     2 -> readUShort().toLong()
     3 -> readUInt24().toLong()
     4 -> readUInt()
+    8 -> readLong()
     else -> throw IllegalArgumentException("Unsupported number length of $bytes bytes")
 }
