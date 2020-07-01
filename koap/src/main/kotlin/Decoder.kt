@@ -169,7 +169,7 @@ fun ByteArray.decode(
  * ```
  * val header = encoded.decodeTcpHeader()
  * val content = encoded.copyRange(header.size, encoded.size)
- * val message = encoded.decode(content, offset = 0)
+ * val message = content.decode(content, offset = 0)
  * ```
  */
 fun ByteArray.decode(
