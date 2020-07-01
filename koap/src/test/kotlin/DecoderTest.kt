@@ -10,7 +10,6 @@ import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Confirmable
 import com.juul.koap.decode
-import com.juul.koap.decodeUdpHeader
 import com.juul.koap.encode
 import com.juul.koap.readOption
 import com.juul.koap.reader
