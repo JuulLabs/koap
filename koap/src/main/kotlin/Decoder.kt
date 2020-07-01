@@ -129,34 +129,52 @@ fun ByteArray.decodeTcp(): Message.Tcp {
  * Assembles a [Message.Udp] by decoding CoAP message content (Options + Payload) from the
  * [ByteArray] receiver and combining with provided [header].
  *
- * If [ByteArray] receiver contains the CoAP message header, then specify an offset to begin
- * decoding after header, for example:
+ * Example usage:
  *
  * ```
  * val header = encoded.decodeUdpHeader()
- * val message = encoded.decode(header, offset = header.size)
+ * val message = encoded.decode(encoded)
+ * ```
+ *
+ * Decoding of [ByteArray] will begin at [offset] (default is [Header.size], which expects the
+ * presence of header data in the [ByteArray] receiver). If [ByteArray] does not contain header
+ * (only contains Options + Payload) then specify an `offset` of `0`, for example:
+ *
+ * ```
+ * val header = encoded.decodeUdpHeader()
+ * val content = encoded.copyRange(header.size, encoded.size)
+ * val message = encoded.decode(content, offset = 0)
  * ```
  */
 fun ByteArray.decode(
     header: Header.Udp,
-    offset: Int = 0
+    offset: Int = header.size
 ): Message.Udp = decodeContent(header, offset) as Message.Udp
 
 /**
  * Assembles a [Message.Tcp] by decoding CoAP message content (Options + Payload) from the
  * [ByteArray] receiver and combining with provided [header].
  *
- * If [ByteArray] receiver contains the CoAP message header, then specify an offset to begin
- * decoding after header, for example:
+ * Example usage:
  *
  * ```
  * val header = encoded.decodeTcpHeader()
- * val message = encoded.decode(header, offset = header.size)
+ * val message = encoded.decode(encoded)
+ * ```
+ *
+ * Decoding of [ByteArray] will begin at [offset] (default is [Header.size], which expects the
+ * presence of header data in the [ByteArray] receiver). If [ByteArray] does not contain header
+ * (only contains Options + Payload) then specify an `offset` of `0`, for example:
+ *
+ * ```
+ * val header = encoded.decodeTcpHeader()
+ * val content = encoded.copyRange(header.size, encoded.size)
+ * val message = encoded.decode(content, offset = 0)
  * ```
  */
 fun ByteArray.decode(
     header: Header.Tcp,
-    offset: Int = 0
+    offset: Int = header.size
 ): Message.Tcp = decodeContent(header, offset) as Message.Tcp
 
 /**
