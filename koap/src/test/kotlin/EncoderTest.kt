@@ -4,12 +4,12 @@ import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
 import com.juul.koap.Message.Option.Observe
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
-import com.juul.koap.Registration.Deregister
-import com.juul.koap.Registration.Register
 import com.juul.koap.UBYTE_MAX_VALUE
 import com.juul.koap.UINT32_MAX_EXTENDED_LENGTH
 import com.juul.koap.UINT_MAX_VALUE
@@ -57,7 +57,7 @@ class EncoderTest {
     fun `TCP message header with max size content length`() {
         val message = Message.Tcp(
             code = GET,
-            token = null,
+            token = 0,
             options = emptyList(),
             payload = byteArrayOf()
         )
@@ -76,10 +76,31 @@ class EncoderTest {
     }
 
     @Test
+    fun `TCP message with 25 byte payload`() {
+        val message = Message.Tcp(
+            code = Content,
+            token = 0,
+            options = emptyList(),
+            payload = (1..25).map { it.toByte() }.toByteArray()
+        )
+
+        assertEquals(
+            expected = """
+                D0 # Len: 13 (Length defined in Extended Length), Token length: 0
+                0D # Extended Length: 13 + 13 = 26
+                45 # Code: Content
+                FF # Payload marker
+                01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 # Payload
+            """.stripComments(),
+            actual = message.encode().toHexString()
+        )
+    }
+
+    @Test
     fun `Empty TCP message`() {
         val message = Message.Tcp(
             code = GET,
-            token = null,
+            token = 0,
             options = emptyList(),
             payload = byteArrayOf()
         )
@@ -143,7 +164,7 @@ class EncoderTest {
                 UriPath("temperature")
             ),
             payload = byteArrayOf(),
-            token = null
+            token = 0
         )
         assertEquals(
             expected = """
@@ -173,7 +194,7 @@ class EncoderTest {
             id = 0x7d34,
             options = emptyList(),
             payload = "22.3 C".toByteArray(),
-            token = null
+            token = 0
         )
         assertEquals(
             expected = """
@@ -206,8 +227,8 @@ class EncoderTest {
     fun `Write token of value 0`() {
         testWriteToken(
             token = 0,
-            expectedSize = 1,
-            expectedHex = "00"
+            expectedSize = 0,
+            expectedHex = ""
         )
     }
 

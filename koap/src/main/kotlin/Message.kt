@@ -1,7 +1,7 @@
 package com.juul.koap
 
-import com.juul.koap.Registration.Deregister
-import com.juul.koap.Registration.Register
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
 import java.util.Objects
 
 /* RFC 7252 5.10. Table 4: Options
@@ -44,20 +44,6 @@ private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
 
-/**
- * Per [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2):
- *
- * > When included in a GET request, the Observe Option extends the GET method so it does not only
- * > retrieve a current representation of the target resource, but also requests the server to add
- * > or remove an entry in the list of observers of the resource depending on the option value. The
- * > list entry consists of the client endpoint and the token specified by the client in the
- * > request.  Possible values are:
- *
- * - `0` (register) adds the entry to the list, if not present;
- * - `1` (deregister) removes the entry from the list, if present.
- */
-enum class Registration { Register, Deregister }
-
 sealed class Message {
 
     abstract val code: Code
@@ -73,12 +59,14 @@ sealed class Message {
      * | Range                          | Bytes |
      * |--------------------------------|-------|
      * |         -2^63 .. -1            | 8     |
-     * |             0 .. 255           | 1     |
+     * |             1 .. 255           | 1     |
      * |           256 .. 65,635        | 2     |
      * |        65,536 .. 4,294,967,295 | 4     |
      * | 4,294,967,296 .. 2^63-1        | 8     |
+     *
+     * _A token of value `0` will occupy `0` bytes._
      */
-    abstract val token: Long?
+    abstract val token: Long
 
     abstract val options: List<Option>
     abstract val payload: ByteArray
@@ -273,6 +261,20 @@ sealed class Message {
         data class Observe(val value: Long) : Option() {
 
             /**
+             * Per [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2):
+             *
+             * > When included in a GET request, the Observe Option extends the GET method so it
+             * > does not only retrieve a current representation of the target resource, but also
+             * > requests the server to add or remove an entry in the list of observers of the
+             * > resource depending on the option value. The list entry consists of the client
+             * > endpoint and the token specified by the client in the request. Possible values are:
+             *
+             * - `0` (register) adds the entry to the list, if not present;
+             * - `1` (deregister) removes the entry from the list, if present.
+             */
+            enum class Registration { Register, Deregister }
+
+            /**
              * Constructs an [Observe] to be included in a GET request.
              *
              * @see Registration
@@ -296,8 +298,8 @@ sealed class Message {
      * Per "RFC 7252 3. Message Format", **Code** is an:
      *
      * > 8-bit unsigned integer, split into a 3-bit class (most significant bits) and a 5-bit detail
-     * > (least significant bits), documented as "c.dd" where "c" is a digit from 0 to 7 for the 3-bit
-     * > subfield and "dd" are two digits from 00 to 31 for the 5-bit subfield.
+     * > (least significant bits), documented as "c.dd" where "c" is a digit from 0 to 7 for the
+     * > 3-bit subfield and "dd" are two digits from 00 to 31 for the 5-bit subfield.
      */
     sealed class Code {
 
@@ -348,16 +350,22 @@ sealed class Message {
         }
 
         data class Raw(
+            /** Allowable range is `0..7`. */
             override val `class`: Int,
+
+            /** Allowable range is `0..31`. */
             override val detail: Int
         ) : Code()
     }
 
     data class Udp(
         val type: Type,
-        override val code: Code, // 8-bit unsigned integer
-        val id: Int, // Message ID: 16-bit unsigned integer
-        override val token: Long?,
+        override val code: Code,
+
+        /** Allowable range is `0..65,535`. */
+        val id: Int,
+
+        override val token: Long,
         override val options: List<Option>,
         override val payload: ByteArray
     ) : Message() {
@@ -385,8 +393,8 @@ sealed class Message {
         override fun toString(): String = "Message.Udp(" +
             "type=$type, " +
             "code=$code, " +
-            "id=$id (0x${Integer.toHexString(id).toUpperCase()}), " +
-            "token=$token, " +
+            "id=${id.debugString(Short.SIZE_BYTES)}, " +
+            "token=${token.debugTokenString()}, " +
             "options=$options, " +
             "payload=${payload.toHexString()}" +
             ")"
@@ -394,7 +402,7 @@ sealed class Message {
 
     data class Tcp(
         override val code: Code,
-        override val token: Long?,
+        override val token: Long,
         override val options: List<Option>,
         override val payload: ByteArray
     ) : Message() {
@@ -412,7 +420,7 @@ sealed class Message {
 
         override fun toString(): String = "Message.Tcp(" +
             "code=$code, " +
-            "token=$token, " +
+            "token=${token.debugTokenString()}, " +
             "options=$options, " +
             "payload=${payload.toHexString()}" +
             ")"
