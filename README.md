@@ -72,7 +72,7 @@ val encoded: ByteArray // Encoded message that adheres to RFC 7252.
 val header = encoded.decodeUdpHeader()
 
 // Examine header and determine that message should be decoded:
-val message = encoded.decode(header, offset = header.size)
+val message = encoded.decode(header)
 ```
 
 ## Examples
