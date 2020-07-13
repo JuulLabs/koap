@@ -1,28 +1,46 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.multiplatform'
     id 'org.jmailen.kotlinter'
+    id 'java'
     id 'jacoco'
-    id 'com.vanniktech.maven.publish'
+//    id 'com.vanniktech.maven.publish' // Move to "maven-publish" ?
 }
 
 apply from: rootProject.file('gradle/jacoco.gradle')
 
-kotlinter {
-    disabledRules = ["no-multi-spaces"]
-}
+kotlin {
+    jvm {
+        kotlinter {
+            disabledRules = ["no-multi-spaces"]
+        }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
+        compilations.main.kotlinOptions {
+            jvmTarget = "1.8"
+        }
 
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
+        compilations.test.kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+    js("nodeJs") {
+        browser {}
+    }
 
-dependencies {
-    api deps.kotlin.stdlib
-    implementation deps.okio
-    testImplementation deps.kotlin.junit
-    testImplementation deps.mockk
-    testImplementation deps.equalsverifier
+    sourceSets {
+
+        commonMain {
+            dependencies {
+                api deps.kotlin.stdlibcommon
+                api deps.okiomultiplatform
+            }
+        }
+
+        jvmTest {
+            dependencies {
+                implementation deps.kotlin.junit
+                implementation deps.mockk
+                implementation deps.equalsverifier
+            }
+        }
+    }
 }
