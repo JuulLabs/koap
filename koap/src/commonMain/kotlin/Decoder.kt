@@ -1,53 +1,11 @@
 package com.juul.koap
 
 import com.juul.koap.Message.Code
-import com.juul.koap.Message.Code.Method.DELETE
-import com.juul.koap.Message.Code.Method.GET
-import com.juul.koap.Message.Code.Method.POST
-import com.juul.koap.Message.Code.Method.PUT
-import com.juul.koap.Message.Code.Response.BadGateway
-import com.juul.koap.Message.Code.Response.BadOption
-import com.juul.koap.Message.Code.Response.BadRequest
-import com.juul.koap.Message.Code.Response.Changed
-import com.juul.koap.Message.Code.Response.Content
-import com.juul.koap.Message.Code.Response.Created
-import com.juul.koap.Message.Code.Response.Deleted
-import com.juul.koap.Message.Code.Response.Forbidden
-import com.juul.koap.Message.Code.Response.GatewayTimeout
-import com.juul.koap.Message.Code.Response.InternalServerError
-import com.juul.koap.Message.Code.Response.MethodNotAllowed
-import com.juul.koap.Message.Code.Response.NotAcceptable
-import com.juul.koap.Message.Code.Response.NotFound
-import com.juul.koap.Message.Code.Response.NotImplemented
-import com.juul.koap.Message.Code.Response.PreconditionFailed
-import com.juul.koap.Message.Code.Response.ProxyingNotSupported
-import com.juul.koap.Message.Code.Response.RequestEntityTooLarge
-import com.juul.koap.Message.Code.Response.ServiceUnavailable
-import com.juul.koap.Message.Code.Response.Unauthorized
-import com.juul.koap.Message.Code.Response.UnsupportedContentFormat
-import com.juul.koap.Message.Code.Response.Valid
+import com.juul.koap.Message.Code.Method.*
+import com.juul.koap.Message.Code.Response.*
 import com.juul.koap.Message.Option
-import com.juul.koap.Message.Option.Accept
-import com.juul.koap.Message.Option.ContentFormat
-import com.juul.koap.Message.Option.ETag
-import com.juul.koap.Message.Option.Format
-import com.juul.koap.Message.Option.IfMatch
-import com.juul.koap.Message.Option.IfNoneMatch
-import com.juul.koap.Message.Option.LocationPath
-import com.juul.koap.Message.Option.LocationQuery
-import com.juul.koap.Message.Option.MaxAge
-import com.juul.koap.Message.Option.Observe
-import com.juul.koap.Message.Option.ProxyScheme
-import com.juul.koap.Message.Option.ProxyUri
-import com.juul.koap.Message.Option.Size1
-import com.juul.koap.Message.Option.UriHost
-import com.juul.koap.Message.Option.UriPath
-import com.juul.koap.Message.Option.UriPort
-import com.juul.koap.Message.Option.UriQuery
-import com.juul.koap.Message.Udp.Type.Acknowledgement
-import com.juul.koap.Message.Udp.Type.Confirmable
-import com.juul.koap.Message.Udp.Type.NonConfirmable
-import com.juul.koap.Message.Udp.Type.Reset
+import com.juul.koap.Message.Option.*
+import com.juul.koap.Message.Udp.Type.*
 import okio.Buffer
 import okio.BufferedSource
 
@@ -61,7 +19,7 @@ inline fun <reified T : Message> ByteArray.decode(): T =
     when (T::class) {
         Message.Tcp::class -> decodeTcp()
         Message.Udp::class -> decodeUdp()
-        else -> error("Unsupported class: ${T::class.java}")
+        else -> error("Unsupported class: ${T::class}")
     } as T
 
 /**

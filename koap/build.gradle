@@ -1,18 +1,22 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform'
-    id 'org.jmailen.kotlinter'
+    id 'org.jetbrains.kotlin.multiplatform' version '1.3.72'
+//    id 'org.jmailen.kotlinter'
     id 'java'
-    id 'jacoco'
+//    id 'jacoco'
 //    id 'com.vanniktech.maven.publish' // Move to "maven-publish" ?
 }
 
-apply from: rootProject.file('gradle/jacoco.gradle')
+repositories {
+    jcenter()
+}
+
+//apply from: rootProject.file('gradle/jacoco.gradle')
 
 kotlin {
     jvm {
-        kotlinter {
-            disabledRules = ["no-multi-spaces"]
-        }
+//        kotlinter {
+//            disabledRules = ["no-multi-spaces"]
+//        }
 
         compilations.main.kotlinOptions {
             jvmTarget = "1.8"
@@ -22,7 +26,7 @@ kotlin {
             jvmTarget = "1.8"
         }
     }
-    js("nodeJs") {
+    js() {
         browser {}
     }
 
@@ -35,12 +39,32 @@ kotlin {
             }
         }
 
-        jvmTest {
+        jvmMain {
             dependencies {
-                implementation deps.kotlin.junit
-                implementation deps.mockk
-                implementation deps.equalsverifier
+                dependsOn commonMain
+                implementation deps.kotlin.stdlibjdk8
             }
         }
+
+        jsMain {
+            dependencies {
+                dependsOn commonMain
+                implementation deps.js.stdlibjs
+            }
+        }
+
+//        nodeJsMain {
+//            dependencies {
+//                dependsOn jsMain
+//            }
+//        }
+
+//        jvmTest {
+//            dependencies {
+//                implementation deps.kotlin.junit
+//                implementation deps.mockk
+//                implementation deps.equalsverifier
+//            }
+//        }
     }
 }

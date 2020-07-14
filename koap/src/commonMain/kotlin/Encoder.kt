@@ -1,17 +1,9 @@
 package com.juul.koap
 
-import com.juul.koap.Message.Option
+import com.juul.koap.Message.*
 import com.juul.koap.Message.Option.Format
-import com.juul.koap.Message.Option.Format.empty
-import com.juul.koap.Message.Option.Format.opaque
-import com.juul.koap.Message.Option.Format.string
-import com.juul.koap.Message.Option.Format.uint
-import com.juul.koap.Message.Tcp
-import com.juul.koap.Message.Udp
-import com.juul.koap.Message.Udp.Type.Acknowledgement
-import com.juul.koap.Message.Udp.Type.Confirmable
-import com.juul.koap.Message.Udp.Type.NonConfirmable
-import com.juul.koap.Message.Udp.Type.Reset
+import com.juul.koap.Message.Option.Format.*
+import com.juul.koap.Message.Udp.Type.*
 import okio.Buffer
 import okio.BufferedSink
 

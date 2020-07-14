@@ -2,7 +2,7 @@ package com.juul.koap
 
 import com.juul.koap.Registration.Deregister
 import com.juul.koap.Registration.Register
-import java.util.Objects
+import multiplatform.ObjectHasherFactory
 
 /* RFC 7252 5.10. Table 4: Options
  * RFC 7641 2. The Observe Option (No. 6)
@@ -104,7 +104,11 @@ sealed class Message {
                     this === other ||
                         (other is opaque && number == other.number && value.contentEquals(other.value))
 
-                override fun hashCode(): Int = Objects.hash(number, value.contentHashCode())
+                override fun hashCode(): Int {
+
+//                    return Objects.hash(number, value.contentHashCode())
+                    return ObjectHasherFactory.createObjectHasher().hash(number, value.contentHashCode())
+                }
             }
 
             data class uint(
@@ -314,7 +318,7 @@ sealed class Message {
             object PUT : Method(`class` = 0, detail = 3)    // 0.03
             object DELETE : Method(`class` = 0, detail = 4) // 0.04
 
-            override fun toString(): String = javaClass.simpleName
+            override fun toString(): String = this::class.simpleName!!
         }
 
         /** RFC 7252: 12.1.2. Response Codes */
@@ -344,7 +348,7 @@ sealed class Message {
             object GatewayTimeout : Response(`class` = 5, detail = 4)            // 5.04
             object ProxyingNotSupported : Response(`class` = 5, detail = 5)      // 5.05
 
-            override fun toString(): String = javaClass.simpleName
+            override fun toString(): String = this::class.simpleName!!
         }
 
         data class Raw(
@@ -380,16 +384,16 @@ sealed class Message {
                     payload.contentEquals(other.payload))
 
         override fun hashCode(): Int =
-            Objects.hash(type, code, id, token, options, payload.contentHashCode())
+                ObjectHasherFactory.createObjectHasher().hash(type, code, id, token!!, options, payload.contentHashCode())
 
         override fun toString(): String = "Message.Udp(" +
-            "type=$type, " +
-            "code=$code, " +
-            "id=$id (0x${Integer.toHexString(id).toUpperCase()}), " +
-            "token=$token, " +
-            "options=$options, " +
-            "payload=${payload.toHexString()}" +
-            ")"
+                "type=$type, " +
+                "code=$code, " +
+                "id=$id (0x${id.toUInt().toString(16).toUpperCase()}), " +
+                "token=$token, " +
+                "options=$options, " +
+                "payload=${payload.toHexString()}" +
+                ")"
     }
 
     data class Tcp(
@@ -408,7 +412,7 @@ sealed class Message {
                     payload.contentEquals(other.payload))
 
         override fun hashCode(): Int =
-            Objects.hash(code, token, options, payload.contentHashCode())
+                ObjectHasherFactory.createObjectHasher().hash(code, token!!, options, payload.contentHashCode())
 
         override fun toString(): String = "Message.Tcp(" +
             "code=$code, " +
