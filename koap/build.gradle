@@ -41,7 +41,6 @@ kotlin {
 
         jvmMain {
             dependencies {
-                dependsOn commonMain
                 implementation deps.kotlin.stdlibjdk8
             }
         }
@@ -50,6 +49,8 @@ kotlin {
             dependencies {
                 dependsOn commonMain
                 implementation deps.js.stdlibjs
+                implementation npm("object-hash", "2.0.3")
+//                implementation npm('is-sorted')
             }
         }
 

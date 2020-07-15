@@ -1,4 +1,4 @@
-package multiplatform
+package com.juul.koap.multiplatform
 
 expect object StringFormatterFactory {
     fun createMyStringFormatterFactory(): StringFormatter

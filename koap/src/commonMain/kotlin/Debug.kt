@@ -1,6 +1,6 @@
 package com.juul.koap
 
-import multiplatform.StringFormatterFactory
+import com.juul.koap.multiplatform.StringFormatterFactory
 
 internal fun ByteArray.toHexString(): String {
     return joinToString(" ") {

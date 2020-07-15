@@ -1,4 +1,4 @@
-package multiplatform
+package com.juul.koap.multiplatform
 
 actual object StringFormatterFactory {
     actual fun createMyStringFormatterFactory(): StringFormatter = JsStringFormatter
@@ -6,6 +6,7 @@ actual object StringFormatterFactory {
 
 object JsStringFormatter: StringFormatter {
     override fun format(format: String, vararg args: Any?): String {
-        TODO( "Javascript String.format() equivalent")
+//        TODO( "Javascript String.format() equivalent")
+        return args?.contentToString()
     }
 }

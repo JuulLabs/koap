@@ -1,4 +1,4 @@
-package multiplatform
+package com.juul.koap.multiplatform
 
 import java.util.*
 
@@ -7,5 +7,6 @@ actual object ObjectHasherFactory {
 }
 
 object JvmObjectHasher: ObjectHasher {
-    override fun hash(vararg values: Any): Int = Objects.hash(values)
+    override fun hash(vararg values: Any): String = Objects.hash(values).toString()
+//    override fun hash(vararg values: Any): Int = Objects.hash(values)
 }

@@ -1,4 +1,4 @@
-package multiplatform
+package com.juul.koap.multiplatform
 
 actual object StringFormatterFactory {
     actual fun createMyStringFormatterFactory(): StringFormatter = JvmStringFormatter

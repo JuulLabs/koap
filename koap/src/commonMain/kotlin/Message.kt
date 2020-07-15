@@ -2,7 +2,7 @@ package com.juul.koap
 
 import com.juul.koap.Registration.Deregister
 import com.juul.koap.Registration.Register
-import multiplatform.ObjectHasherFactory
+import com.juul.koap.multiplatform.ObjectHasherFactory
 
 /* RFC 7252 5.10. Table 4: Options
  * RFC 7641 2. The Observe Option (No. 6)
@@ -107,7 +107,7 @@ sealed class Message {
                 override fun hashCode(): Int {
 
 //                    return Objects.hash(number, value.contentHashCode())
-                    return ObjectHasherFactory.createObjectHasher().hash(number, value.contentHashCode())
+                    return ObjectHasherFactory.createObjectHasher().hash(number, value.contentHashCode()).toInt()
                 }
             }
 
@@ -384,7 +384,7 @@ sealed class Message {
                     payload.contentEquals(other.payload))
 
         override fun hashCode(): Int =
-                ObjectHasherFactory.createObjectHasher().hash(type, code, id, token!!, options, payload.contentHashCode())
+                ObjectHasherFactory.createObjectHasher().hash(type, code, id, token!!, options, payload.contentHashCode()).toInt()
 
         override fun toString(): String = "Message.Udp(" +
                 "type=$type, " +
@@ -412,7 +412,7 @@ sealed class Message {
                     payload.contentEquals(other.payload))
 
         override fun hashCode(): Int =
-                ObjectHasherFactory.createObjectHasher().hash(code, token!!, options, payload.contentHashCode())
+                ObjectHasherFactory.createObjectHasher().hash(code, token!!, options, payload.contentHashCode()).toInt()
 
         override fun toString(): String = "Message.Tcp(" +
             "code=$code, " +
