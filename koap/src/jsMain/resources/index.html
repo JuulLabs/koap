@@ -1,12 +1,88 @@
 <!doctype html>
+<!-- val message = Message.Udp(
+    type = Confirmable,
+    code = GET,
+    id = 0xFEED,
+    token = 0xCAFE,
+    options = listOf(
+        UriPath("example")
+    ),
+    payload = byteArrayOf()
+) -->
 <html lang="en">
 <head>
+    <style>
+		table, th {
+			text-align: left;
+		}
+	</style>
     <meta charset="UTF-8">
     <title>Hello, Kotlin/JS!</title>
     <h1>Hello, Kotlin/JS!</h1>
 </head>
 <body>
-    <p id="body_text">This is the body</p>
+<form>
+    <table>
+        <tbody> </tbody>
+        <tr>
+            <th><label for="msgtype">Message</label></th>
+            <td>
+                <select name="msgtype" id="msgtype">
+                    <option value="udp">UDP</option>
+                    <option value="tcp">TCP</option>
+                </select>
+            </td>
+            <td rowspan="6">
+                <textarea rows="10" id="decodetextarea"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <th ><label for="type">Type</label></th>
+            <td>
+                <select name="type" id="type">
+                    <option value="confirmable">Confirmable</option>
+                    <option value="nonconfirmable">NonConfirmable</option>
+                    <option value="acknowledgement">Acknowledgement</option>
+                    <option value="reset">Reset</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th ><label for="idinput">Id</label></th>
+            <td>
+                <input type="text" name="idinput" id="idinput">
+            </td>
+        </tr>
+        <tr>
+            <th ><label for="token">Token</label></th>
+            <td>
+                <input type="text" name="token" id="token">
+            </td>
+        </tr>
+        <tr>
+            <th ><label>Options</label></th>
+            <td>
+                ????
+            </td>
+        </tr>
+        <tr>
+            <th ><label for="payload">Payload</label></th>
+            <td>
+                <input type="text" name="payload" id="payload">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="button" id="encodebutton">Encode --></button>
+            </td>
+            <td></td>
+            <td>
+                <button type="button" id="decodebutton"><-- Decode</button>
+            </td>
+        </tr>
+    </table>
+</form>
 </body>
-<script src="koap.js"></script>
+ <script src="koap.js"></script>
 </html>
+

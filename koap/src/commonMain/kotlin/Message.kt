@@ -105,8 +105,6 @@ sealed class Message {
                         (other is opaque && number == other.number && value.contentEquals(other.value))
 
                 override fun hashCode(): Int {
-
-//                    return Objects.hash(number, value.contentHashCode())
                     return ObjectHasherFactory.createObjectHasher().hash(number, value.contentHashCode()).toInt()
                 }
             }

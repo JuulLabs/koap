@@ -6,11 +6,11 @@ buildscript {
     }
 }
 
-//plugins {
-//    id 'org.jmailen.kotlinter' version '2.2.0' apply false
-//    id 'com.vanniktech.maven.publish' version '0.11.1' apply false ??
-//    id 'binary-compatibility-validator' version '0.2.3'
-//}
+plugins {
+    id 'org.jmailen.kotlinter' version '2.2.0' apply false
+//    id 'com.vanniktech.maven.publish' version '0.11.1' apply false    // TODO: move to maven-publish?
+//    id 'binary-compatibility-validator' version '0.2.3'   // TODO: Causes gradle sync issue
+}
 
 subprojects {
     repositories {
@@ -18,14 +18,14 @@ subprojects {
     }
 }
 
-//subprojects {
-//    tasks.withType(Test) {
-//        testLogging {
-//            events "started", "passed", "skipped", "failed", "standardOut", "standardError"
-//            exceptionFormat "full"
-//            showExceptions true
-//            showStackTraces true
-//            showCauses true
-//        }
-//    }
-//}
+subprojects {
+    tasks.withType(Test) {
+        testLogging {
+            events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+            exceptionFormat "full"
+            showExceptions true
+            showStackTraces true
+            showCauses true
+        }
+    }
+}
