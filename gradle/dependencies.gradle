@@ -2,10 +2,12 @@ ext.deps = [
     kotlin: [
         stdlibcommon: "org.jetbrains.kotlin:kotlin-stdlib-common",
         stdlibjdk8: "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
-        junit: "org.jetbrains.kotlin:kotlin-test-junit"
+        junit: "org.jetbrains.kotlin:kotlin-test-junit",
+        kotlinxhtmlcommon: "org.jetbrains.kotlinx:kotlinx-html-common:0.7.1"
     ],
     js: [
-        stdlibjs: "org.jetbrains.kotlin:kotlin-stdlib-js"
+        stdlibjs: "org.jetbrains.kotlin:kotlin-stdlib-js",
+        kotlinxhtmljs: "org.jetbrains.kotlinx:kotlinx-html-js:0.7.1"
     ],
     okiomultiplatform: "com.squareup.okio:okio-multiplatform:2.6.0",
     mockk: "io.mockk:mockk:1.10.0",
