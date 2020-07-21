@@ -7,6 +7,8 @@ import com.juul.koap.Message.Udp.Type.*
 import okio.Buffer
 import okio.BufferedSink
 
+internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
+
 /**
  * Encodes [Message] receiver as a [ByteArray].
  *
@@ -45,13 +47,22 @@ import okio.BufferedSink
  */
 fun Message.encode(): ByteArray = Buffer().apply { writeMessage(this@encode) }.readByteArray()
 
-private fun BufferedSink.writeMessage(message: Message) {
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |   Options (if any) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    // |1 1 1 1 1 1 1 1|    Payload (if any) ...
-    // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+/**
+ * Encodes only the header portion of
+ * [Figure 7: Message Format](https://tools.ietf.org/html/rfc7252#section-3):
+ *
+ * ```
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |Ver| T |  TKL  |      Code     |          Message ID           |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * |   Token (if any, TKL bytes) ...
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * ```
+ */
+fun Message.Udp.encodeHeader(): ByteArray =
+    Buffer().apply { writeHeader(this@encodeHeader) }.readByteArray()
 
+private fun BufferedSink.writeMessage(message: Message) {
     // Content is encoded first, as the encoded content length is needed for `Len` (in TCP header).
     val content = Buffer()
     content.apply {
@@ -64,18 +75,7 @@ private fun BufferedSink.writeMessage(message: Message) {
 
     val header = Buffer().apply {
         when (message) {
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            // |Ver| T |  TKL  |      Code     |          Message ID           |
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            // |   Token (if any, TKL bytes) ...
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
             is Udp -> writeHeader(message)
-
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            // |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            // |      Code     | Token (if any, TKL bytes) ...
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
             is Tcp -> writeHeader(message, content.size)
         }
     }
@@ -89,8 +89,6 @@ private fun BufferedSink.writeMessage(message: Message) {
  * [Figure 7: Message Format](https://tools.ietf.org/html/rfc7252#section-3):
  *
  * ```
- *  0                   1                   2                   3
- *  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * |Ver| T |  TKL  |      Code     |          Message ID           |
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -102,10 +100,8 @@ private fun BufferedSink.writeMessage(message: Message) {
  */
 internal fun BufferedSink.writeHeader(message: Udp) {
     // Token is encoded first, as it's length is needed for TKL.
-    val token = message.token?.let {
-        Buffer().apply { writeToken(it) }
-    }
-    val tokenLength = token?.size ?: 0
+    val token = Buffer().apply { writeToken(message.token) }
+    val tokenLength = token.size
     require(tokenLength in UINT4_RANGE) {
         "Token length of $tokenLength is outside allowable range of $UINT4_RANGE"
     }
@@ -134,18 +130,7 @@ internal fun BufferedSink.writeHeader(message: Udp) {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // |   Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    if (token != null) {
-        writeAll(token)
-    }
-}
-
-// Type (T): 2-bit unsigned integer
-// https://tools.ietf.org/html/rfc7252#section-3
-private fun Udp.Type.toInt(): Int = when (this) {
-    Confirmable -> 0
-    NonConfirmable -> 1
-    Acknowledgement -> 2
-    Reset -> 3
+    writeAll(token)
 }
 
 /**
@@ -153,8 +138,6 @@ private fun Udp.Type.toInt(): Int = when (this) {
  * [Figure 4: CoAP Frame for Reliable Transports](https://tools.ietf.org/html/rfc8323#section-3.2):
  *
  * ```
- *  0                   1                   2                   3
- *  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * |  Len  |  TKL  | Extended Length (if any, as chosen by Len) ...
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -174,10 +157,8 @@ internal fun BufferedSink.writeHeader(
     }
 
     // Token is encoded first, as it's length is needed for TKL.
-    val token = message.token?.let {
-        Buffer().apply { writeToken(it) }
-    }
-    val tokenLength = token?.size ?: 0
+    val token = Buffer().apply { writeToken(message.token) }
+    val tokenLength = token.size
     require(tokenLength in UINT4_RANGE) {
         "Token length of $tokenLength is outside allowable range of $UINT4_RANGE"
     }
@@ -226,14 +207,8 @@ internal fun BufferedSink.writeHeader(
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    if (token != null) {
-        writeAll(token)
-    }
+    writeAll(token)
 }
-
-private fun BufferedSink.writeByte(byte: Long) = writeByte(byte.toInt())
-private fun BufferedSink.writeShort(short: Long) = writeShort(short.toInt())
-private fun BufferedSink.writeInt(int: Long) = writeInt(int.toInt())
 
 private fun BufferedSink.writeOptions(options: List<Option>) {
     val sorted = options.map(Option::toFormat).sortedBy(Format::number)
@@ -336,6 +311,34 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
 }
 
 /**
+ * Writes [token] to receiver [BufferedSink].
+ *
+ * @return length of [token] written.
+ */
+internal fun BufferedSink.writeToken(token: Long) {
+    if (token == 0L) return
+    when (token) {
+        in UBYTE_RANGE -> writeByte(token and 0xFF)
+        in USHORT_RANGE -> writeShort(token and 0xFF_FF)
+        in UINT_RANGE -> writeInt(token and 0xFF_FF_FF_FF)
+        else -> writeLong(token)
+    }
+}
+
+private fun BufferedSink.writeByte(byte: Long) = writeByte(byte.toInt())
+private fun BufferedSink.writeShort(short: Long) = writeShort(short.toInt())
+private fun BufferedSink.writeInt(int: Long) = writeInt(int.toInt())
+
+// Type (T): 2-bit unsigned integer
+// https://tools.ietf.org/html/rfc7252#section-3
+private fun Udp.Type.toInt(): Int = when (this) {
+    Confirmable -> 0
+    NonConfirmable -> 1
+    Acknowledgement -> 2
+    Reset -> 3
+}
+
+/**
  * Returns the 8-bit unsigned integer representation of [Message.Code] receiver.
  *
  * Per "RFC 7252 3. Message Format", **Code** is an:
@@ -345,17 +348,3 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
  * > subfield and "dd" are two digits from 00 to 31 for the 5-bit subfield.
  */
 private fun Message.Code.toInt(): Int = (`class` shl 5) or detail
-
-/**
- * Writes [token] to receiver [BufferedSink].
- *
- * @return length of [token] written.
- */
-internal fun BufferedSink.writeToken(token: Long) {
-    when (token) {
-        in UBYTE_RANGE -> writeByte(token and 0xFF)
-        in USHORT_RANGE -> writeShort(token and 0xFF_FF)
-        in UINT_RANGE -> writeInt(token and 0xFF_FF_FF_FF)
-        else -> writeLong(token)
-    }
-}

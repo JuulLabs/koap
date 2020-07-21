@@ -319,6 +319,7 @@ private fun onRadioSelectionChanged(
     codeTypeDiv: HTMLDivElement,
     codesMap: Map<String, List<Message.Code>>
 ) {
+    // TODO look at cast to ChildNode, lint warning
     codeTypeDiv.childNodes.asList().mapNotNull { it as? ChildNode }.forEach {
         it.remove()
     }
