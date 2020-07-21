@@ -1,19 +1,31 @@
 <!doctype html>
-<!-- val message = Message.Udp(
-    type = Confirmable,
-    code = GET,
-    id = 0xFEED,
-    token = 0xCAFE,
-    options = listOf(
-        UriPath("example")
-    ),
-    payload = byteArrayOf()
-) -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+		table, th, td {
+			text-align: left;
+			border: 1px solid black;
+		}
+        th, td {
+            padding: 5px;
+        }
+        .column {
+            flex: 50%;
+        }
+        .row {
+            display: flex;
+        }
+	</style>
 </head>
 <body>
+    <div class="row">
+        <div class="column" id="leftcol"></div>
+        <div class="column" id="rightcol"></div>
+    </div>
 </body>
 <script src="koap.js"></script>
 </html>

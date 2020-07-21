@@ -1,20 +1,32 @@
-
 import com.juul.koap.Message
-import com.juul.koap.encode
-import com.juul.koap.toHexString
-import kotlinx.html.*
+import kotlinx.html.InputType
+import kotlinx.html.br
+import kotlinx.html.button
+import kotlinx.html.div
 import kotlinx.html.dom.append
 import kotlinx.html.dom.create
+import kotlinx.html.id
+import kotlinx.html.input
 import kotlinx.html.js.table
 import kotlinx.html.js.tr
-import okio.internal.commonAsUtf8ToByteArray
+import kotlinx.html.label
+import kotlinx.html.option
+import kotlinx.html.select
+import kotlinx.html.td
+import kotlinx.html.textArea
+import kotlinx.html.th
+import org.w3c.dom.ChildNode
 import org.w3c.dom.Document
+import org.w3c.dom.HTMLButtonElement
+import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLSelectElement
 import org.w3c.dom.HTMLTableElement
-import org.w3c.dom.events.Event
+import org.w3c.dom.HTMLTextAreaElement
+import org.w3c.dom.NodeList
+import org.w3c.dom.asList
 import org.w3c.dom.get
 import kotlin.browser.document
-import kotlin.browser.window
 
 /*
 Message.Tcp(
@@ -38,21 +50,33 @@ Message.Udp(
 Stuff to address
     - Formatting of encoded message to hex
     - error handling
-    - is DOMElements object really that useful?
-    - Build controls dynamically from values from messages (allowing to to be more extensible)
     - is commonAsUtf8ToByteArray() okay to use?
  */
 
-class DOMElements(document: Document) {
-    val messageType: dynamic = document.getElementById("msgtype")            // select
-    val type: dynamic = document.getElementById("type")                      // select
-    val idInput: dynamic = document.getElementById("idinput")                // input
-    val token: dynamic = document.getElementById("token")                    // input
+class DOMElements(private val document: Document) {
+    val messageType: HTMLSelectElement
+        get() = document.getElementById("msgtype") as HTMLSelectElement             // select
+    val udpMessageType: HTMLSelectElement
+        get() = document.getElementById("udpmsgtype") as HTMLSelectElement             // select
+    val codeRadioGroup: NodeList
+        get() = document.getElementsByName("radiocode")
+    val codeRaw: HTMLInputElement
+        get() = document.getElementById("codetyperaw") as HTMLInputElement
+    val codeSelect: HTMLSelectElement
+        get() = document.getElementById("codetypeselect") as HTMLSelectElement
+    val idInput: HTMLInputElement
+        get() = document.getElementById("msgid") as HTMLInputElement                    // input
+    val token: HTMLInputElement
+        get() = document.getElementById("token") as HTMLInputElement                // input
     val options: dynamic = null      // not sure how to handle this just yet
-    val payload: dynamic = document.getElementById("payload")                // input
-    val encodeButton: dynamic = document.getElementById("encodebutton")      // button
-    val decodeButton: dynamic = document.getElementById("decodebutton")      // button
-    val decodeTextarea: dynamic = document.getElementById("decodetextarea")  // textarea
+    val payload: HTMLInputElement
+        get() = document.getElementById("payload") as HTMLInputElement                  // input
+    val encodeButton: HTMLButtonElement
+        get() = document.getElementById("encodebutton") as HTMLButtonElement      // button
+    val decodeButton: HTMLButtonElement
+        get() = document.getElementById("decodebutton") as HTMLButtonElement      // button
+    val decodeTextArea: HTMLTextAreaElement
+        get() = document.getElementById("decodetextarea") as HTMLTextAreaElement  // textarea
 }
 
 enum class MessageTypes {
@@ -67,7 +91,8 @@ enum class MessageTypes {
  */
 @ExperimentalStdlibApi
 val codesMap = buildMap<String, List<Message.Code>> {
-    put(Message.Code.Response::class.simpleName!!, listOf<Message.Code>(
+    put(
+        Message.Code.Response::class.simpleName!!, listOf<Message.Code>(
             Message.Code.Response.Created,
             Message.Code.Response.Deleted,
             Message.Code.Response.Valid,
@@ -89,75 +114,173 @@ val codesMap = buildMap<String, List<Message.Code>> {
             Message.Code.Response.ServiceUnavailable,
             Message.Code.Response.GatewayTimeout,
             Message.Code.Response.ProxyingNotSupported
-    ))
+        )
+    )
     put(Message.Code.Raw::class.simpleName!!, emptyList())
-    put(Message.Code.Method::class.simpleName!!, listOf(
+    put(
+        Message.Code.Method::class.simpleName!!, listOf(
             Message.Code.Method.GET,
             Message.Code.Method.DELETE,
             Message.Code.Method.POST,
             Message.Code.Method.PUT
-    ))
+        )
+    )
 }
 
 @ExperimentalStdlibApi
 fun main() {
-    val inputTable = document.create.table { id = "inputtable" }
-    // TODO:ahobbs change up this api to be a little easier to use
-    createMessageSelector(inputTable, MessageTypes.values().asList())
-    createAndAppendCodeRadioGroup(document, inputTable, codesMap)
+    val leftCol: HTMLDivElement = document.getElementById("leftcol") as HTMLDivElement
+    val rightCol: HTMLDivElement = document.getElementById("rightcol") as HTMLDivElement
 
-//    val domElements = DOMElements(document)
-//    domElements.messageType.addEventListener("change") {
-//        when(domElements.messageType.selectedIndex) {
-//            0 -> setupUdpFields(domElements)
-//            1 -> setupTcpFields(domElements)
-//        }
-//    }
-//
-//    domElements.encodeButton.addEventListener("click") { event ->
-//        handleEncode(domElements, event as Event)
-//    }
+    // Left column setup
+    val inputTable = document.create.table { id = "inputtable" }
+    leftCol.append(inputTable)
+    val domElements = DOMElements(document)
+    inputTable.appendSelector(
+        "msgtype",
+        "Message",
+        MessageTypes.values().map { it.name.capitalize() })
+        .appendSelector(
+            "udpmsgtype",
+            "UDP Type",
+            Message.Udp.Type.values().map { it.name.capitalize() })
+        .appendCodeRadioGroup(document, codesMap)
+        .appendInput("msgid", "ID")
+        .appendInput("token")
+        .appendInput("options")
+        .appendInput("payload")
+        .appendButton("encodebutton", "Encode -->")
+
+    with(domElements.messageType) {
+        addEventListener("change", {
+            when (value.toLowerCase()) {
+                MessageTypes.UDP.name.toLowerCase() -> setupUdpFields(domElements)
+                MessageTypes.TCP.name.toLowerCase() -> setupTcpFields(domElements)
+            }
+        })
+    }
+
+    // right column setup
+    rightCol.append {
+        textArea {
+            id = "decodedtext"
+        }
+        br {}
+        button {
+            id = "decodebutton"
+            name = "decodebutton"
+            +"<-- Decode"
+        }
+    }
+
+    domElements.encodeButton.addEventListener("click", {
+        handleEncode(domElements)
+    })
 }
 
-private fun createMessageSelector(table: HTMLTableElement, messageTypes: List<MessageTypes>) {
-    table.append.tr {
+private fun handleEncode(domElements: DOMElements) {
+    when (domElements.messageType.value) {
+        MessageTypes.UDP.name -> {
+
+            // UDP Type Message.UDP.Type
+            // Code     Message.Code
+            // ID       hex
+            // Token    hex
+            // options  emptyList(),
+            // payload  string
+        }
+        MessageTypes.TCP.name -> {
+            // Code     Message.Code
+            // Token    hex
+            // options  emptyList(),
+            // payload  string
+        }
+    }
+}
+
+private fun HTMLTableElement.appendButton(
+    idText: String,
+    displayText: String = idText.capitalize()
+): HTMLTableElement {
+    append {
+        tr {
+            td {
+                colSpan = "2"
+                button {
+                    id = idText
+                    name = idText
+                    +displayText
+                }
+            }
+        }
+    }
+    return this
+}
+
+private fun HTMLTableElement.appendInput(
+    idText: String,
+    displayText: String = idText.capitalize()
+): HTMLTableElement {
+    append {
+        tr {
+            th {
+                +displayText
+            }
+            td {
+                input {
+                    id = idText
+                    type = InputType.text
+                }
+            }
+        }
+    }
+    return this
+}
+
+private fun HTMLTableElement.appendSelector(
+    idText: String,
+    displayText: String = idText.capitalize(),
+    selectorValues: List<String>
+): HTMLTableElement {
+    append.tr {
         th {
-            +"Message"
+            +displayText
         }
         td {
             select {
-                name = "msgtype"
-                id = "msgtype"
-                messageTypes.forEach { msgType ->
+                id = idText
+                name = idText
+                selectorValues.forEachIndexed { index, displayValue ->
                     option {
-                        value = msgType.name.toLowerCase()
-                        +msgType.name
+                        selected = index == 0
+                        value = displayValue
+                        +displayValue
                     }
                 }
             }
         }
     }
-
+    return this
 }
 
-private fun createAndAppendCodeRadioGroup(document: Document,
-                                          table: HTMLTableElement,
-                                          codesMap: Map<String, List<Message.Code>>) {
-    document.body!!.append(table.apply {
-        append.tr {
+private fun HTMLTableElement.appendCodeRadioGroup(
+    document: Document,
+    codesMap: Map<String, List<Message.Code>>
+): HTMLTableElement {
+    append {
+        tr {
             th {
                 colSpan = "2"
                 +"Select a code"
             }
         }
-
-        append.tr {
+        tr {
             td {
                 colSpan = "2"
                 codesMap.keys.forEach { key ->
                     input {
-                        id = key.toLowerCase()
-                        value = key.toLowerCase()
+                        id = key
+                        value = key
                         type = InputType.radio
                         name = "radiocode"
                     }
@@ -166,88 +289,73 @@ private fun createAndAppendCodeRadioGroup(document: Document,
                     }
                 }
             }
-
-            append.tr {
+        }
+        tr {
+            td {
+                colSpan = "2"
+                div {
+                    id = "codetypediv"
+                }
             }
         }
-    })
+    }
 
     // setup radio button change listeners
     val codeRadGroup = document.getElementsByName("radiocode")
+    val codeTypeDiv = document.getElementById("codetypediv") as HTMLDivElement
     var i = 0
     while (i < codeRadGroup.length) {
         val input = codeRadGroup[i++] as HTMLInputElement
         input.addEventListener("change", {
-            onRadioSelectionChanged(it, input)
+            onRadioSelectionChanged(input, codeTypeDiv, codesMap)
         })
     }
+
+    return this
 }
 
-private fun onRadioSelectionChanged(event: Event, radGroup: HTMLInputElement) {
+private fun onRadioSelectionChanged(
+    radGroup: HTMLInputElement,
+    codeTypeDiv: HTMLDivElement,
+    codesMap: Map<String, List<Message.Code>>
+) {
+    codeTypeDiv.childNodes.asList().mapNotNull { it as? ChildNode }.forEach {
+        it.remove()
+    }
+
     when (radGroup.value) {
-        Message.Code.Response::class.simpleName!!.toLowerCase() -> {
-
+        Message.Code.Raw::class.simpleName -> {
+            codeTypeDiv.append {
+                input {
+                    id = "codetyperaw"
+                    type = InputType.text
+                }
+            }
         }
-        Message.Code.Method::class.simpleName!!.toLowerCase() -> {
-
-        }
-        Message.Code.Raw::class.simpleName!!.toLowerCase() -> {
-
+        else -> {
+            codeTypeDiv.append {
+                select {
+                    id = "codetypeselect"
+                    codesMap[radGroup.value]?.forEach { code ->
+                        option {
+                            value = code::class.simpleName!!
+                            +code::class.simpleName!!
+                        }
+                    }
+                }
+            }
         }
     }
-    window.alert(radGroup.value)
-}
-
-private fun handleEncode(domElements: DOMElements,
-                         event: Event) {
-    console.log("handleEncode: ${domElements.messageType.selectedIndex}")
-
-    // TODO use real values for messages
-    val message = when (domElements.messageType.selectedIndex) {
-        0 -> buildMessageUdp(Message.Udp.Type.Confirmable, Message.Code.Method.GET, 0xFEED, 0xCAFE, listOf(Message.Option.UriPath("example")), "First message".commonAsUtf8ToByteArray())
-        1 -> buildMessageTcp(Message.Code.Method.GET, 1, emptyList(), "Hello TCP!".commonAsUtf8ToByteArray())
-        else -> null
-    }
-
-    console.log("with message $message")
-    domElements.decodeTextarea.value = message?.encode()?.toHexString() ?: "Did not build a message"
 }
 
 private fun setupTcpFields(elements: DOMElements) {
-    elements.type.disabled = true
+    console.log("setupTcpFieldds")
+    elements.udpMessageType.disabled = true
     elements.idInput.disabled = true
 }
 
 private fun setupUdpFields(elements: DOMElements) {
-    elements.type.disabled = false
+    console.log("setupUdpFields")
+    elements.udpMessageType.disabled = false
     elements.idInput.disabled = false
 }
-
-private fun buildMessageUdp(type: Message.Udp.Type,
-                            code: Message.Code.Method,
-                            id: Int,
-                            token: Long,
-                            options: List<Message.Option> = emptyList(),
-                            payload: ByteArray): Message {
-    return Message.Udp(
-        type = type,
-        code = code,
-        id = id,
-        token = token,
-        options = options,
-        payload = payload
-    )
-}
-
-private fun buildMessageTcp(code: Message.Code.Method,
-                            token: Long,
-                            options: List<Message.Option> = emptyList(),
-                            payload: ByteArray): Message {
-    return Message.Tcp(
-        code = code,
-        token = token,
-        options = options,
-        payload = payload
-    )
-}
-

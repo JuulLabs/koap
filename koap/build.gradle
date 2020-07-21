@@ -3,7 +3,7 @@ plugins {
     id 'org.jmailen.kotlinter'
     id 'java'
     id 'jacoco'
-//    id 'com.vanniktech.maven.publish' // Move to "maven-publish" ?
+//    id 'com.vanniktech.maven.publish' // TODO Move to "maven-publish" ?
 }
 
 repositories {
