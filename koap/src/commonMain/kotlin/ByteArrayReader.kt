@@ -84,6 +84,8 @@ internal class ByteArrayReader(
         return copy
     }
 
+    //TODO look into Charset.UTF_8. Kotlin Any.toString() method does not take a charset
     fun readUtf8(length: Int): String =
-        readByteArray(length).toString(Charset.UTF_8)
+        readByteArray(length).toString()
+//        readByteArray(length).toString(Charset.UTF_8)
 }
