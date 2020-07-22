@@ -41,15 +41,8 @@ kotlin {
             }
         }
 
-        jvmMain {
-            dependencies {
-                implementation deps.kotlin.stdlibjdk8
-            }
-        }
-
         jsMain {
             dependencies {
-                implementation deps.js.stdlibjs
                 implementation npm("object-hash", "2.0.3") // used for JS Object.hash()
                 implementation deps.js.kotlinxhtmljs
             }
