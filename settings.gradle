@@ -15,3 +15,5 @@ pluginManagement {
 }
 
 include ':koap'
+include 'sample'
+

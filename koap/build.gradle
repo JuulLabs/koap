@@ -37,14 +37,12 @@ kotlin {
             dependencies {
                 api deps.kotlin.stdlibcommon
                 api deps.okiomultiplatform
-                implementation deps.kotlin.kotlinxhtmlcommon
             }
         }
 
         jsMain {
             dependencies {
                 implementation npm("object-hash", "2.0.3") // used for JS Object.hash()
-                implementation deps.js.kotlinxhtmljs
             }
         }
 

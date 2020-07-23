@@ -19,14 +19,107 @@
         .row {
             display: flex;
         }
-	</style>
+
+    </style>
 </head>
 <body>
-    <div class="row">
-        <div class="column" id="leftcol"></div>
-        <div class="column" id="rightcol"></div>
+<div class="row">
+    <div class="column" id="leftcol">
+        <table id="inputtable">
+            <tr>
+                <th>Message</th>
+                <td><select id="msgtype" name="msgtype">
+                    <option selected="selected" value="UDP">UDP</option>
+                    <option value="TCP">TCP</option>
+                </select></td>
+            </tr>
+            <tr>
+                <th>UDP Type</th>
+                <td><select id="udpmsgtype" name="udpmsgtype">
+                    <option selected="selected" value="Confirmable">Confirmable</option>
+                    <option value="NonConfirmable">NonConfirmable</option>
+                    <option value="Acknowledgement">Acknowledgement</option>
+                    <option value="Reset">Reset</option>
+                </select></td>
+            </tr>
+            <tr>
+                <th colspan="2">Select a code</th>
+            </tr>
+            <tr>
+                <td colspan="2"><input id="Response" value="Response" type="radio" name="radiocode"><label>Response</label><input
+                        id="Raw" value="Raw" type="radio" name="radiocode"><label>Raw</label><input
+                        id="Method" value="Method" type="radio"
+                        name="radiocode"><label>Method</label></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="coderesponsediv">
+                        <select id="codetyperesponseselect">
+                            <option value="created">Created</option>
+                            <option value="deleted">Deleted</option>
+                            <option value="valid">Valid</option>
+                            <option value="changed">Changed</option>
+                            <option value="content">Content</option>
+                            <option value="badrequest">BadRequest</option>
+                            <option value="unauthorized">Unauthorized</option>
+                            <option value="badoption">BadOption</option>
+                            <option value="forbidden">Forbidden</option>
+                            <option value="notfound">NotFound</option>
+                            <option value="methodnotallowed">MethodNotAllowed</option>
+                            <option value="notacceptable">NotAcceptable</option>
+                            <option value="preconditionfailed">PreconditionFailed</option>
+                            <option value="requestentitytoolarge">RequestEntityTooLarge</option>
+                            <option value="unsupportedcontentformat">UnsupportedContentFormat</option>
+                            <option value="internalservererror">InternalServerError</option>
+                            <option value="notimplemented">NotImplemented</option>
+                            <option value="badgateway">BadGateway</option>
+                            <option value="serviceunavailable">ServiceUnavailable</option>
+                            <option value="gatewaytimeout">GatewayTimeout</option>
+                            <option value="proxyingnotsupported">ProxyingNotSupported</option>
+                        </select>
+                    </div>
+                    <div id="codemethoddiv">
+                        <select id="codetypemethodselect" >
+                            <option value="get">GET</option>
+                            <option value="delete">DELETE</option>
+                            <option value="post">POST</option>
+                            <option value="put">PUT</option>
+                        </select>
+                    </div>
+                    <div id="coderawdiv">
+                        <input type="text" id="codetyperaw">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <td><input id="msgid" type="text"></td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td><input id="token" type="text"></td>
+            </tr>
+            <tr>
+                <th>Options</th>
+                <td><input id="options" type="text"></td>
+            </tr>
+            <tr>
+                <th>Payload</th>
+                <td><input id="payload" type="text"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="encodebutton" name="encodebutton">Encode --&gt;</button>
+                </td>
+            </tr>
+        </table>
     </div>
-</body>
-<script src="koap.js"></script>
-</html>
+    <div class="column" id="rightcol"><textarea id="decodedtext"></textarea><br>
+        <button id="decodebutton" name="decodebutton">&lt;-- Decode</button>
+    </div>
+</div>
 
+<script src="koap.js"></script>
+
+</body>
+</html>
