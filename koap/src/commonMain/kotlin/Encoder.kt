@@ -1,14 +1,22 @@
 package com.juul.koap
 
-import com.juul.koap.Message.*
+import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Format
-import com.juul.koap.Message.Option.Format.*
-import com.juul.koap.Message.Udp.Type.*
+import com.juul.koap.Message.Option.Format.empty
+import com.juul.koap.Message.Option.Format.opaque
+import com.juul.koap.Message.Option.Format.string
+import com.juul.koap.Message.Option.Format.uint
+import com.juul.koap.Message.Tcp
+import com.juul.koap.Message.Udp
+import com.juul.koap.Message.Udp.Type.Acknowledgement
+import com.juul.koap.Message.Udp.Type.Confirmable
+import com.juul.koap.Message.Udp.Type.NonConfirmable
+import com.juul.koap.Message.Udp.Type.Reset
 import okio.Buffer
 import okio.BufferedSink
+import kotlin.js.JsName
 
 internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
-
 /**
  * Encodes [Message] receiver as a [ByteArray].
  *
@@ -45,6 +53,7 @@ internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
+@JsName("encode")
 fun Message.encode(): ByteArray = Buffer().apply { writeMessage(this@encode) }.readByteArray()
 
 /**
@@ -211,7 +220,22 @@ internal fun BufferedSink.writeHeader(
 }
 
 private fun BufferedSink.writeOptions(options: List<Option>) {
-    val sorted = options.map(Option::toFormat).sortedBy(Format::number)
+
+    // caused error _Collections.kt?f709:1429 Uncaught TypeError: options.iterator is not a function
+    // when call to .map, replaced with while loop below
+
+//    val sorted = options.map(Option::toFormat).sortedBy(Format::number)
+//    for (i in sorted.indices) {
+//        val preceding = if (i == 0) null else sorted[i - 1]
+//        buffer.writeOption(sorted[i], preceding)
+//    }
+    var sorted = mutableListOf<Format>()
+    var j = 0
+    while (j < options.size) {
+        sorted.add(options[j++].toFormat())
+    }
+    sorted = sorted.sortedBy { it.number }.toMutableList()
+
     for (i in sorted.indices) {
         val preceding = if (i == 0) null else sorted[i - 1]
         buffer.writeOption(sorted[i], preceding)
@@ -315,13 +339,16 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
  *
  * @return length of [token] written.
  */
-internal fun BufferedSink.writeToken(token: Long) {
-    if (token == 0L) return
-    when (token) {
-        in UBYTE_RANGE -> writeByte(token and 0xFF)
-        in USHORT_RANGE -> writeShort(token and 0xFF_FF)
-        in UINT_RANGE -> writeInt(token and 0xFF_FF_FF_FF)
-        else -> writeLong(token)
+internal fun BufferedSink.writeToken(token: Number) {
+    // https://discuss.kotlinlang.org/t/js-external-class-not-converting-javascript-number-to-kotlin-long/9298/2
+    val convertedToken = token.toLong()
+    if (convertedToken == 0L) return
+
+    when (convertedToken) {
+        in UBYTE_RANGE -> writeByte(convertedToken and 0xFF)
+        in USHORT_RANGE -> writeShort(convertedToken and 0xFF_FF)
+        in UINT_RANGE -> writeInt(convertedToken and 0xFF_FF_FF_FF)
+        else -> writeLong(convertedToken)
     }
 }
 

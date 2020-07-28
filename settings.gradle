@@ -15,5 +15,6 @@ pluginManagement {
 }
 
 include ':koap'
-include 'sample'
 
+// TODO: enable for maven-publish
+//enableFeaturePreview('GRADLE_METADATA')

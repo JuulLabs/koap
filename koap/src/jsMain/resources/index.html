@@ -46,10 +46,10 @@
                 <th colspan="2">Select a code</th>
             </tr>
             <tr>
-                <td colspan="2"><input id="Response" value="Response" type="radio" name="radiocode"><label>Response</label><input
-                        id="Raw" value="Raw" type="radio" name="radiocode"><label>Raw</label><input
-                        id="Method" value="Method" type="radio"
-                        name="radiocode"><label>Method</label></td>
+                <td colspan="2">
+                    <input id="Response" value="Response" type="radio" name="radiocode" onchange="onRadioSelectionChanged(this)"><label>Response</label>
+                    <input id="Raw" value="Raw" type="radio" name="radiocode" onchange="onRadioSelectionChanged(this)"><label>Raw</label>
+                    <input id="Method" value="Method" type="radio" name="radiocode" onchange="onRadioSelectionChanged(this)"><label>Method</label></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -109,7 +109,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button id="encodebutton" name="encodebutton">Encode --&gt;</button>
+                    <button id="encodebutton" name="encodebutton" onclick="onEncodeClick()">Encode --&gt;</button>
                 </td>
             </tr>
         </table>
@@ -118,8 +118,76 @@
         <button id="decodebutton" name="decodebutton">&lt;-- Decode</button>
     </div>
 </div>
-
 <script src="koap.js"></script>
+<script>
+    var rawDiv = document.getElementById("coderawdiv")
+    var methodDiv = document.getElementById("codemethoddiv")
+    var responseDiv = document.getElementById("coderesponsediv")
 
+    rawDiv.style.display = "none"
+    methodDiv.style.display = "none"
+    rawDiv.style.display = "none"
+
+    document.getElementById("msgtype").addEventListener("change", function(evt) {
+        console.log(this.value);
+        if (this.value == "UDP") {
+            setupUdpFields();
+        } else if (this.value == "TCP") {
+            setupTcpFields();
+        }
+    });
+
+    function onEncodeClick() {
+        var msg = new koap.com.juul.koap.Message.Udp(
+            koap.com.juul.koap.Message.Udp.Type.Confirmable,
+            koap.com.juul.koap.Message.Code.Method.GET,
+            0xFEED,
+            0xCAFE,
+            [],
+            "test"
+        );
+
+        document.getElementById("decodedtext").value = koap.com.juul.koap.encode(msg)
+    }
+
+    function onRadioSelectionChanged(radInput) {
+        var rawDiv = document.getElementById("coderawdiv")
+        var methodDiv = document.getElementById("codemethoddiv")
+        var responseDiv = document.getElementById("coderesponsediv")
+
+        if (radInput.value == "Response") {
+            showDiv(responseDiv);
+            hideDiv(methodDiv);
+            hideDiv(rawDiv);
+        } else if (radInput.value == "Raw") {
+            hideDiv(responseDiv);
+            hideDiv(methodDiv);
+            showDiv(rawDiv);
+        } else if (radInput.value == "Method") {
+            hideDiv(responseDiv);
+            showDiv(methodDiv);
+            hideDiv(rawDiv);
+        }
+    }
+
+    function showDiv(divToShow) {
+        divToShow.style.display = "block"
+        divToShow.style.visibility = "visible"
+    }
+
+    function hideDiv(divToHide) {
+        divToHide.style.display = "none"
+    }
+
+    function setupTcpFields() {
+        document.getElementById("udpmsgtype").disabled = true;
+        document.getElementById("msgid").disabled = true;
+    }
+
+    function setupUdpFields() {
+        document.getElementById("udpmsgtype").disabled = false;
+        document.getElementById("msgid").disabled = false;
+    }
+</script>
 </body>
 </html>

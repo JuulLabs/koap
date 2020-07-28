@@ -3,16 +3,25 @@ plugins {
     id 'org.jmailen.kotlinter'
     id 'java'
     id 'jacoco'
+    id 'org.jetbrains.kotlin.plugin.serialization' version "1.3.72"
 //    id 'com.vanniktech.maven.publish' // TODO Move to "maven-publish" ?
 }
 
 repositories {
+//    mavenLocal()
     jcenter()
 }
 
 apply from: rootProject.file('gradle/jacoco.gradle')
 
+// TODO: look at maven-publish configuration
+//apply plugin: 'maven-publish'
+//
+//group 'com.juul.koap'
+//version '1.0.0'
+
 kotlin {
+    // targets
     jvm {
         kotlinter {
             disabledRules = ["no-multi-spaces"]
@@ -27,12 +36,11 @@ kotlin {
         }
     }
 
-    js() {
-        browser {}
+    js {
+        browser()
     }
 
     sourceSets {
-
         commonMain {
             dependencies {
                 api deps.kotlin.stdlibcommon
@@ -42,6 +50,7 @@ kotlin {
 
         jsMain {
             dependencies {
+//                api deps.kotlin.stdlib.js
                 implementation npm("object-hash", "2.0.3") // used for JS Object.hash()
             }
         }
