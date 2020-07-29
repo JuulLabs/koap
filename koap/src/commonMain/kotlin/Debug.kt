@@ -1,10 +1,8 @@
 package com.juul.koap
 
-import com.juul.koap.multiplatform.StringFormatterFactory
-
 internal fun ByteArray.toHexString(): String {
     return joinToString(" ") {
-        StringFormatterFactory.createMyStringFormatterFactory().format("%02X", it)
+        formatString("%02X", it)
     }
 }
 
@@ -15,7 +13,7 @@ private fun Long.toHexList(
     byteCount: Int = Long.SIZE_BYTES
 ): List<String> = ((byteCount - 1) downTo 0).map { i ->
     val byte = ((this shr (i * Byte.SIZE_BITS)) and 0xFF).toByte()
-    StringFormatterFactory.createMyStringFormatterFactory().format("%02X", byte)
+    formatString("%02X", byte)
 }
 
 internal fun Long.toHexString(
@@ -31,3 +29,5 @@ internal fun Long.debugTokenString(): String {
     val hex = toHexList(Long.SIZE_BYTES).dropWhile { it == "00" }.joinToString(" ")
     return "$this ($hex)"
 }
+
+expect fun formatString(format: String, vararg args: Any?): String
