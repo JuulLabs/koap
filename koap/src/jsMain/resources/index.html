@@ -107,7 +107,29 @@
             </tr>
             <tr>
                 <th>Options</th>
-                <td><input id="options" type="text"></td>
+                <td>
+                    <select id="optionsselect">
+                        <option value="format">Format</option>
+                        <option value="ifmatch">IfMatch</option>
+                        <option value="urihost">UriHost</option>
+                        <option value="etag">ETag</option>
+                        <option value="ifnonematch">IfNoneMatch</option>
+                        <option value="observe">Observe</option>
+                        <option value="uriport">UriPort</option>
+                        <option value="locationpath">LocationPath</option>
+                        <option value="uripath">UriPath</option>
+                        <option value="contentformat">ContentFormat</option>
+                        <option value="maxage">MaxAge</option>
+                        <option value="uriquery">UriQuery</option>
+                        <option value="accept">Accept</option>
+                        <option value="locationquery">LocationQuery</option>
+                        <option value="proxyUuri">ProxyUri</option>
+                        <option value="proxyscheme">ProxyScheme</option>
+                        <option value="size1">Size1</option>
+                    </select>
+                    <input type="text" id="optioninput">
+                </td>
+<!--                <td><input id="options" type="text"></td>-->
             </tr>
             <tr>
                 <th>Payload</th>
@@ -136,6 +158,8 @@
     var messageIdInput = document.getElementById("msgid");
     var tokenInput = document.getElementById("token");
     var payloadInput = document.getElementById("payload");
+    var optionSelect = document.getElementById("optionsselect");
+    var optionInput = document.getElementById("optioninput");
     var encodeButton = document.getElementById("encodebutton");
     var decodeButton = document.getElementById("decodebutton");
     var decodeTextArea = document.getElementById("decodedtext");
@@ -196,23 +220,26 @@
     function onEncodeClick() {
 
         let codeTypeValue = getCodeTypeForSelection(codeTypeRadioNodeList, codeResponseMap, codeMethodMap);
+        let options = new Array(getOptionForSelection());
+        console.log("got options: " + options);
 
         if (messageTypeSelect.value == "UDP") {
-            let msg = new koap.com.juul.koap.Message.Udp(
+            var msg = new koap.com.juul.koap.Message.Udp(
                 udpTypeMap[udpMessageTypeSelect.value],
                 codeTypeValue,
                 parseInt(messageIdInput.value),
                 parseInt(tokenInput.value),
-                [],
+                options,
                 strToInt8(payloadInput.value)
             );
+            console.log("message: " + msg.options);
             decodeTextArea.value = "";
             decodeTextArea.value = koap.com.juul.koap.encode(msg);
         } else if (messageTypeSelect.value == "TCP") {
             let msg = new koap.com.juul.koap.Message.Tcp(
                 codeTypeValue,
                 parseInt(tokenInput.value),
-                [],
+                options,
                 strToInt8(payloadInput.value)
             );
             decodeTextArea.value = "";
@@ -232,6 +259,51 @@
 
     function int8ToStr(int8Array) {
 <!--        TODO implement for decode-->
+    }
+
+<!--    TODO can this use reflection?-->
+    function getOptionForSelection() {
+        console.log("switching on: " + optionSelect.value);
+        switch(optionSelect.value) {
+            case "format":
+                    break;
+            case "ifmatch":
+                return new koap.com.juul.koap.Message.Option.IfMatch(strToInt8(optionInput.value));
+                    break;
+            case "UriHost":
+                    break;
+            case "ETag":
+                    break;
+            case "IfNoneMatch":
+                    break;
+            case "Observe":
+                    break;
+            case "UriPort":
+                    break;
+            case "LocationPath":
+                    break;
+            case "uripath":
+                return new koap.com.juul.koap.Message.Option.UriPath(optionInput.value);
+                    break;
+            case "ContentFormat":
+                    break;
+            case "MaxAge":
+                    break;
+            case "UriQuery":
+                    break;
+            case "Accept":
+                    break;
+            case "LocationQuery":
+                    break;
+            case "ProxyUri":
+                    break;
+            case "ProxyScheme":
+                    break;
+            case "Size1":
+                    break;
+            default:
+                return null;
+        }
     }
 
     function getCodeTypeForSelection(radioNodeList, responseMap, methodMap) {
