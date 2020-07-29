@@ -19,6 +19,9 @@
         .row {
             display: flex;
         }
+        .vertinput, .vertlabel {
+            display:block;
+        }
 
     </style>
 </head>
@@ -87,7 +90,10 @@
                         </select>
                     </div>
                     <div id="coderawdiv">
-                        <input type="text" id="codetyperaw">
+                        <label for="coderawclass" class="vertlabel">Raw class range 0..7</label>
+                        <input type="number" min="0" max="7" id="coderawclass" class="vertinput">
+                        <label for="coderawclass" class="vertlabel">Raw detail range 0..31</label>
+                        <input type="number" min="0" max="31" id="coderawdetail" class="vertinput">
                     </div>
                 </td>
             </tr>
@@ -125,7 +131,8 @@
     var codeTypeRadioNodeList = document.getElementsByName("radiocode");
     var codeTypeResponseSelect = document.getElementById("codetyperesponseselect");
     var codeTypeMethodSelect = document.getElementById("codetypemethodselect");
-    var codeTypeRawInput = document.getElementById("codetyperaw");
+    var codeRawClassInput = document.getElementById("coderawclass");
+    var codeRawDetailInput = document.getElementById("coderawdetail");
     var messageIdInput = document.getElementById("msgid");
     var tokenInput = document.getElementById("token");
     var payloadInput = document.getElementById("payload");
@@ -233,7 +240,7 @@
             if (radioNodeList[i].value == "Response" && radioNodeList[i].checked) {
                 return responseMap[codeTypeResponseSelect.value];
             } else if (radioNodeList[i].value == "Raw" && radioNodeList[i].checked) {
-                return codeTypeRawInput.value;
+                return new koap.com.juul.koap.Message.Code.Raw(parseInt(codeRawClassInput.value), parseInt(codeRawDetailInput.value));
             } else if (radioNodeList[i].value == "Method" && radioNodeList[i].checked) {
                 return methodMap[codeTypeMethodSelect.value];
             }
