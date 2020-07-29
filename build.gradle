@@ -4,17 +4,13 @@ buildscript {
     repositories {
         jcenter()
     }
-
-    dependencies {
-        // Kept receiving error org.jetbrains.kotlin.cli.common.arguments.K2MetadataCompilerArguments.setFriendPaths([Ljava/lang/String;)V
-        classpath 'org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.72'
-    }
 }
 
 plugins {
     id 'org.jmailen.kotlinter' version '2.2.0' apply false
-//    id 'com.vanniktech.maven.publish' version '0.11.1' apply false    // TODO: move to maven-publish?
-//    id 'binary-compatibility-validator' version '0.2.3'   // TODO: Causes gradle sync issue
+    id 'org.jetbrains.kotlin.multiplatform' version '1.3.72' apply false
+    id 'com.vanniktech.maven.publish' version '0.11.1' apply false
+    id 'binary-compatibility-validator' version '0.2.3'
 }
 
 subprojects {

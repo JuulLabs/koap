@@ -109,7 +109,6 @@
                 <th>Options</th>
                 <td>
                     <select id="optionsselect">
-                        <option value="format">Format</option>
                         <option value="ifmatch">IfMatch</option>
                         <option value="urihost">UriHost</option>
                         <option value="etag">ETag</option>
@@ -123,7 +122,7 @@
                         <option value="uriquery">UriQuery</option>
                         <option value="accept">Accept</option>
                         <option value="locationquery">LocationQuery</option>
-                        <option value="proxyUuri">ProxyUri</option>
+                        <option value="proxyuri">ProxyUri</option>
                         <option value="proxyscheme">ProxyScheme</option>
                         <option value="size1">Size1</option>
                     </select>
@@ -265,42 +264,54 @@
     function getOptionForSelection() {
         console.log("switching on: " + optionSelect.value);
         switch(optionSelect.value) {
-            case "format":
-                    break;
             case "ifmatch":
                 return new koap.com.juul.koap.Message.Option.IfMatch(strToInt8(optionInput.value));
-                    break;
-            case "UriHost":
-                    break;
-            case "ETag":
-                    break;
-            case "IfNoneMatch":
-                    break;
-            case "Observe":
-                    break;
-            case "UriPort":
-                    break;
-            case "LocationPath":
-                    break;
+                break;
+            case "urihost":
+                return new koap.com.juul.koap.Message.Option.UriHost(optionInput.value);
+                break;
+            case "etag":
+                return new koap.com.juul.koap.Message.Option.ETag(strToInt8(optionInput.value));
+                break;
+            case "ifnonematch":
+                return koap.com.juul.koap.Message.Option.IfNoneMatch;
+                break;
+            case "observe":
+                return new koap.com.juul.koap.Message.Option.Observe(parseInt(optionInput.value));
+                break;
+            case "uriport":
+                return new koap.com.juul.koap.Message.Option.UriPort(parseInt(optionInput.value));
+                break;
+            case "locationpath":
+                return new koap.com.juul.koap.Message.Option.LocationPath(optionInput.value);
+                break;
             case "uripath":
                 return new koap.com.juul.koap.Message.Option.UriPath(optionInput.value);
-                    break;
-            case "ContentFormat":
-                    break;
-            case "MaxAge":
-                    break;
-            case "UriQuery":
-                    break;
-            case "Accept":
-                    break;
-            case "LocationQuery":
-                    break;
-            case "ProxyUri":
-                    break;
-            case "ProxyScheme":
-                    break;
-            case "Size1":
-                    break;
+                break;
+            case "contentformat":
+                return new koap.com.juul.koap.Message.Option.ContentFormat(parseInt(optionInput.value));
+                break;
+            case "maxage":
+                return new koap.com.juul.koap.Message.Option.MaxAge(parseInt(optionInput.value));
+                break;
+            case "uriquery":
+                return new koap.com.juul.koap.Message.Option.UriQuery(optionInput.value);
+                break;
+            case "accept":
+                return new koap.com.juul.koap.Message.Option.Accept(parseInt(optionInput.value));
+                break;
+            case "locationquery":
+                return new koap.com.juul.koap.Message.Option.LocationQuery(optionInput.value);
+                break;
+            case "proxyuri":
+                return new koap.com.juul.koap.Message.Option.ProxyUri(optionInput.value);
+                break;
+            case "proxyscheme":
+                return new koap.com.juul.koap.Message.Option.ProxyScheme(optionInput.value);
+                break;
+            case "size1":
+                return new koap.com.juul.koap.Message.Option.Size1(parseInt(optionInput.value));
+                break;
             default:
                 return null;
         }

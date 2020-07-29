@@ -1,9 +1,9 @@
 ext.deps = [
     kotlin: [
-        stdlibcommon: "org.jetbrains.kotlin:kotlin-stdlib-common",
+        stdlib: "org.jetbrains.kotlin:kotlin-stdlib-common",
         junit: "org.jetbrains.kotlin:kotlin-test-junit",
     ],
-    okiomultiplatform: "com.squareup.okio:okio-multiplatform:2.6.0",
+    okio: "com.squareup.okio:okio-multiplatform:2.6.0",
     mockk: "io.mockk:mockk:1.10.0",
     equalsverifier: "nl.jqno.equalsverifier:equalsverifier:3.4",
 ]

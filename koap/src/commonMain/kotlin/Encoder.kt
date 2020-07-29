@@ -219,28 +219,9 @@ internal fun BufferedSink.writeHeader(
     writeAll(token)
 }
 
-private fun BufferedSink.writeOptions(options: List<Option>) {
-
-    // caused error _Collections.kt?f709:1429 Uncaught TypeError: options.iterator is not a function
-    // when call to .map, replaced with while loop below
-
-//    val sorted = options.map(Option::toFormat).sortedBy(Format::number)
-//    for (i in sorted.indices) {
-//        val preceding = if (i == 0) null else sorted[i - 1]
-//        buffer.writeOption(sorted[i], preceding)
-//    }
-    var sorted = mutableListOf<Format>()
-    var j = 0
-    while (j < options.size) {
-        sorted.add(options[j++].toFormat())
-    }
-    sorted = sorted.sortedBy { it.number }.toMutableList()
-
-    for (i in sorted.indices) {
-        val preceding = if (i == 0) null else sorted[i - 1]
-        buffer.writeOption(sorted[i], preceding)
-    }
-}
+// caused error _Collections.kt?f709:1429 Uncaught TypeError: options.iterator is not a function
+// when call to .map, with platform specific implementations
+expect fun BufferedSink.writeOptions(options: List<Option>)
 
 /**
  * 3.1. Option Format (Figure 8: Option Format)
@@ -282,7 +263,7 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
 
                 // 4 is max length shown for a `uint` in RFC 7252 Table 4: Options
                 (4 downTo 0).forEach { i -> // 4 downTo 0 used to write `uint` in network byte-order
-                    val byte = (option.value shr (i * Byte.SIZE_BITS)).toInt() and 0xff
+                    val byte = (option.value.toLong() shr (i * Byte.SIZE_BITS)).toInt() and 0xff
 
                     // Per RFC 7252 3.2, begin writing at first non-zero byte.
                     if (byte != 0) write = true
