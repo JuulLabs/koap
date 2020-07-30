@@ -2,7 +2,6 @@ package com.juul.koap
 
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
-import com.juul.koap.multiplatform.ObjectHasherFactory
 
 /* RFC 7252 5.10. Table 4: Options
  * RFC 7641 2. The Observe Option (No. 6)
@@ -94,7 +93,7 @@ sealed class Message {
 
                 // TODO: clean up object creation
                 override fun hashCode(): Int {
-                    return ObjectHasherFactory.createObjectHasher().hash(number, value.contentHashCode()).toInt()
+                    return createHash(number, value.contentHashCode()).toInt()
                 }
             }
 
@@ -392,7 +391,7 @@ sealed class Message {
 
         // TODO: clean up object creation
         override fun hashCode(): Int =
-                ObjectHasherFactory.createObjectHasher().hash(type, code, id, token, options, payload.contentHashCode()).toInt()
+                createHash(type, code, id, token, options, payload.contentHashCode()).toInt()
 
         override fun toString(): String = "Message.Udp(" +
             "type=$type, " +
@@ -421,7 +420,7 @@ sealed class Message {
 
         // TODO: clean up object creation
         override fun hashCode(): Int =
-                ObjectHasherFactory.createObjectHasher().hash(code, token, options, payload.contentHashCode()).toInt()
+                createHash(code, token, options, payload.contentHashCode()).toInt()
 
         override fun toString(): String = "Message.Tcp(" +
             "code=$code, " +
