@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+		table, th, td {
+			text-align: left;
+			border: 1px solid black;
+		}
+        th, td {
+            padding: 5px;
+        }
+        .column {
+            flex: 50%;
+        }
+        .row {
+            display: flex;
+        }
+
+    </style>
+</head>
+<body>
+<div class="row">
+    <div class="column" id="leftcol">
+        <table id="inputtable">
+            <tr>
+                <th>Message</th>
+                <td><select id="msgtype" name="msgtype">
+                    <option selected="selected" value="UDP">UDP</option>
+                    <option value="TCP">TCP</option>
+                </select></td>
+            </tr>
+            <tr>
+                <th>UDP Type</th>
+                <td><select id="udpmsgtype" name="udpmsgtype">
+                    <option selected="selected" value="Confirmable">Confirmable</option>
+                    <option value="NonConfirmable">NonConfirmable</option>
+                    <option value="Acknowledgement">Acknowledgement</option>
+                    <option value="Reset">Reset</option>
+                </select></td>
+            </tr>
+            <tr>
+                <th colspan="2">Select a code</th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input id="Response" value="Response" type="radio" name="radiocode" onchange="onRadioSelectionChanged(this)"><label>Response</label>
+                    <input id="Raw" value="Raw" type="radio" name="radiocode" onchange="onRadioSelectionChanged(this)"><label>Raw</label>
+                    <input id="Method" value="Method" type="radio" name="radiocode" onchange="onRadioSelectionChanged(this)"><label>Method</label></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="coderesponsediv">
+                        <select id="codetyperesponseselect">
+                            <option value="created">Created</option>
+                            <option value="deleted">Deleted</option>
+                            <option value="valid">Valid</option>
+                            <option value="changed">Changed</option>
+                            <option value="content">Content</option>
+                            <option value="badrequest">BadRequest</option>
+                            <option value="unauthorized">Unauthorized</option>
+                            <option value="badoption">BadOption</option>
+                            <option value="forbidden">Forbidden</option>
+                            <option value="notfound">NotFound</option>
+                            <option value="methodnotallowed">MethodNotAllowed</option>
+                            <option value="notacceptable">NotAcceptable</option>
+                            <option value="preconditionfailed">PreconditionFailed</option>
+                            <option value="requestentitytoolarge">RequestEntityTooLarge</option>
+                            <option value="unsupportedcontentformat">UnsupportedContentFormat</option>
+                            <option value="internalservererror">InternalServerError</option>
+                            <option value="notimplemented">NotImplemented</option>
+                            <option value="badgateway">BadGateway</option>
+                            <option value="serviceunavailable">ServiceUnavailable</option>
+                            <option value="gatewaytimeout">GatewayTimeout</option>
+                            <option value="proxyingnotsupported">ProxyingNotSupported</option>
+                        </select>
+                    </div>
+                    <div id="codemethoddiv">
+                        <select id="codetypemethodselect" >
+                            <option value="get">GET</option>
+                            <option value="delete">DELETE</option>
+                            <option value="post">POST</option>
+                            <option value="put">PUT</option>
+                        </select>
+                    </div>
+                    <div id="coderawdiv">
+                        <input type="text" id="codetyperaw">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <td><input id="msgid" type="text"></td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td><input id="token" type="text"></td>
+            </tr>
+            <tr>
+                <th>Options</th>
+                <td><input id="options" type="text"></td>
+            </tr>
+            <tr>
+                <th>Payload</th>
+                <td><input id="payload" type="text"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="encodebutton" name="encodebutton">Encode --&gt;</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="column" id="rightcol"><textarea id="decodedtext"></textarea><br>
+        <button id="decodebutton" name="decodebutton">&lt;-- Decode</button>
+    </div>
+</div>
+<script src="koap.js"></script>
+<script>
+    document.getElementById("coderesponsediv").style.display = "none"
+    document.getElementById("codemethoddiv").style.display = "none"
+    document.getElementById("coderawdiv").style.display = "none"
+
+    document.getElementById("msgtype").addEventListener("change", function(evt) {
+        console.log(this.value);
+        if (this.value == "UDP") {
+            setupUdpFields();
+        } else if (this.value == "TCP") {
+            setupTcpFields();
+        }
+    });
+
+    var msg = koap.com.juul.koap.Message.Code.Method.GET
+    alert(msg)
+
+    function onRadioSelectionChanged(radInput) {
+        var rawDiv = document.getElementById("coderawdiv")
+        var methodDiv = document.getElementById("codemethoddiv")
+        var responseDiv = document.getElementById("coderesponsediv")
+
+        if (radInput.value == "Response") {
+            showDiv(responseDiv);
+            hideDiv(methodDiv);
+            hideDiv(rawDiv);
+        } else if (radInput.value == "Raw") {
+            hideDiv(responseDiv);
+            hideDiv(methodDiv);
+            showDiv(rawDiv);
+        } else if (radInput.value == "Method") {
+            hideDiv(responseDiv);
+            showDiv(methodDiv);
+            hideDiv(rawDiv);
+        }
+    }
+
+    function showDiv(divToShow) {
+        divToShow.style.display = "block"
+        divToShow.style.visibility = "visible"
+    }
+
+    function hideDiv(divToHide) {
+        divToHide.style.display = "none"
+    }
+
+    function setupTcpFields() {
+        document.getElementById("udpmsgtype").disabled = true;
+        document.getElementById("msgid").disabled = true;
+    }
+
+    function setupUdpFields() {
+        document.getElementById("udpmsgtype").disabled = false;
+        document.getElementById("msgid").disabled = false;
+    }
+</script>
+</body>
+</html>

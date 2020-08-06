@@ -30,7 +30,11 @@ kotlin {
     }
 
     js {
-        browser()
+        browser {
+//            webpackTask {
+//                output.libraryTarget = org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackOutput.Target.COMMONJS
+//            }
+        }
     }
 
     sourceSets {

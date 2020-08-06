@@ -9,12 +9,14 @@ internal fun ByteArray.toHexString(): String {
 internal fun Int.toHexString(byteCount: Int = Int.SIZE_BYTES): String =
     toLong().toHexString(byteCount)
 
-private fun Long.toHexList(
-    byteCount: Int = Long.SIZE_BYTES
-): List<String> = ((byteCount - 1) downTo 0).map { i ->
-    val byte = ((this shr (i * Byte.SIZE_BITS)) and 0xFF).toByte()
-    formatString("%02X", byte)
-}
+// TODO:ahobbs Uncaught TypeError: $receiver.shiftRight is not a function Line 15 from JS
+// needs expect function
+//private fun Long.toHexList(
+//    byteCount: Int = Long.SIZE_BYTES
+//): List<String> = ((byteCount - 1) downTo 0).map { i ->
+//    val byte = ((this shr (i * Byte.SIZE_BITS)) and 0xFF).toByte()
+//    formatString("%02X", byte)
+//}
 
 internal fun Long.toHexString(
     byteCount: Int = Long.SIZE_BYTES
@@ -31,3 +33,4 @@ internal fun Long.debugTokenString(): String {
 }
 
 expect fun formatString(format: String, vararg args: Any?): String
+expect fun Long.toHexList(byteCount: Int = Long.SIZE_BYTES): List<String>
