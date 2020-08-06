@@ -7,7 +7,7 @@ import com.juul.koap.Message.Option.IfMatch
 import kotlin.test.Test
 import nl.jqno.equalsverifier.EqualsVerifier
 
-class MessageTest {
+class JvmMessageTest {
 
     @Test
     fun `Verify equals of opaque`() {

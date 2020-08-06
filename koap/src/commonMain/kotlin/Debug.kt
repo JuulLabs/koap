@@ -1,6 +1,16 @@
 package com.juul.koap
 
-internal fun ByteArray.toHexString(): String = joinToString(" ") { String.format("%02X", it) }
+private val hexArray = charArrayOf(
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+)
+
+private fun Byte.toHexString(): String {
+    val left = hexArray[(0xF0 and this.toInt()) shr 4]
+    val right = hexArray[0x0F and this.toInt()]
+    return "$left$right"
+}
+
+internal fun ByteArray.toHexString(): String = joinToString(" ") { it.toHexString() }
 
 internal fun Int.toHexString(byteCount: Int = Int.SIZE_BYTES): String =
     toLong().toHexString(byteCount)
@@ -9,7 +19,7 @@ private fun Long.toHexList(
     byteCount: Int = Long.SIZE_BYTES
 ): List<String> = ((byteCount - 1) downTo 0).map { i ->
     val byte = ((this shr (i * Byte.SIZE_BITS)) and 0xFF).toByte()
-    String.format("%02X", byte)
+    byte.toHexString()
 }
 
 internal fun Long.toHexString(
