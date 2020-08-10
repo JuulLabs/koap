@@ -3,6 +3,11 @@ ext.deps = [
         stdlib: "org.jetbrains.kotlin:kotlin-stdlib-common",
         junit: "org.jetbrains.kotlin:kotlin-test-junit",
     ],
+    serialization: [
+        common: "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.20.0",
+        jvm: "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0",
+        js: "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.20.0",
+    ],
     okio: "com.squareup.okio:okio-multiplatform:2.6.0",
     mockk: "io.mockk:mockk:1.10.0",
     equalsverifier: "nl.jqno.equalsverifier:equalsverifier:3.4",

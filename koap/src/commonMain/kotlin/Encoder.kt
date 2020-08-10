@@ -221,7 +221,14 @@ internal fun BufferedSink.writeHeader(
 
 // caused error _Collections.kt?f709:1429 Uncaught TypeError: options.iterator is not a function
 // when call to .map, with platform specific implementations
-expect fun BufferedSink.writeOptions(options: List<Option>)
+//expect fun BufferedSink.writeOptions(options: List<Option>)
+fun BufferedSink.writeOptions(options: List<Option>) {
+    val sorted = options.map(Option::toFormat).sortedBy(Message.Option.Format::number)
+    for (i in sorted.indices) {
+        val preceding = if (i == 0) null else sorted[i - 1]
+        buffer.writeOption(sorted[i], preceding)
+    }
+}
 
 /**
  * 3.1. Option Format (Figure 8: Option Format)

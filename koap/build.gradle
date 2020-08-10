@@ -1,53 +1,51 @@
 plugins {
     id 'org.jetbrains.kotlin.multiplatform'
     id 'org.jmailen.kotlinter'
-    id 'java' // Needed by JaCoCo when using `org.jetbrains.kotlin.multiplatform`
-    id 'jacoco'
 }
 
 repositories {
     jcenter()
 }
 
-apply from: rootProject.file('gradle/jacoco.gradle')
-
 kotlin {
     // targets
     jvm {
+        apply plugin: 'java' // Needed by JaCoCo when using `org.jetbrains.kotlin.multiplatform`
+        apply plugin: 'jacoco'
         apply plugin: 'com.vanniktech.maven.publish'
 
         kotlinter {
             disabledRules = ["no-multi-spaces"]
         }
 
-        compilations.main.kotlinOptions {
-            jvmTarget = "1.8"
-        }
-
-        compilations.test.kotlinOptions {
-            jvmTarget = "1.8"
-        }
+        compilations.main.kotlinOptions.jvmTarget = "1.8"
+        compilations.test.kotlinOptions.jvmTarget = "1.8"
     }
 
     js {
-        browser {
-//            webpackTask {
-//                output.libraryTarget = org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackOutput.Target.COMMONJS
-//            }
-        }
+        apply plugin: 'kotlinx-serialization'
+        browser ()
     }
 
     sourceSets {
         commonMain {
             dependencies {
                 api deps.kotlin.stdlib
-                api deps.okio
+                implementation deps.okio
+                implementation deps.serialization.common
+            }
+        }
+
+        jvmMain {
+            dependencies {
+                implementation deps.serialization.jvm
             }
         }
 
         jsMain {
             dependencies {
                 implementation npm("object-hash", "2.0.3") // used for JS Object.hash()
+                implementation deps.serialization.js
             }
         }
 
