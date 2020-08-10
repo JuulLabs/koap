@@ -22,14 +22,14 @@ fun encodeFromJson(json: String): String = try {
 
 @ExperimentalStdlibApi
 @JsName("decodeToUdp")
-fun decodeToUdp(encodedHex: String) {
+fun decodeToUdp(encodedHex: String): String {
     val input = encodedHex.replace(" ", "")
-    parseHexBinary(input).decodeUdp().toJson()
+    return parseHexBinary(input).decodeUdp().toJson()
 }
 
 @ExperimentalStdlibApi
 @JsName("decodeToTcp")
-fun decodeToTcp(encodedHex: String) {
+fun decodeToTcp(encodedHex: String): String {
     val input = encodedHex.replace(" ", "")
-    parseHexBinary(input).decodeTcp().toJson()
+    return parseHexBinary(input).decodeTcp().toJson()
 }

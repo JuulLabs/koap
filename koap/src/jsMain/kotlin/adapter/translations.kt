@@ -3,8 +3,6 @@ package com.juul.koap.adapter
 import com.juul.koap.Message
 import kotlinx.serialization.json.Json
 
-// TODO: better name for this class/file
-
 private val json = Json {
     prettyPrint = true
     classDiscriminator = "#type"

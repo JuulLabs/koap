@@ -93,7 +93,7 @@
                     <div id="coderawdiv">
                         <label for="coderawclass" class="vertlabel">Raw class range 0..7</label>
                         <input type="number" min="0" max="7" id="coderawclass" class="vertinput">
-                        <label for="coderawclass" class="vertlabel">Raw detail range 0..31</label>
+                        <label for="coderawdetail" class="vertlabel">Raw detail range 0..31</label>
                         <input type="number" min="0" max="31" id="coderawdetail" class="vertinput">
                     </div>
                 </td>
@@ -139,8 +139,8 @@
                     <button id="encodebutton" name="encodebutton" onclick="onEncodeClick()">Encode</button>
                 </td>
                 <td>
-                    <button id="decodeudpbutton" name="decodeudpbutton">DecodeUdp</button>
-                    <button id="decodetcpbutton" name="decodetcpbutton">DecodeTcp</button>
+                    <button id="decodeudpbutton" name="decodeudpbutton" onclick="onDecodeUdpClick()">DecodeUdp</button>
+                    <button id="decodetcpbutton" name="decodetcpbutton" onclick="onDecodeTcpClick()">DecodeTcp</button>
                 </td>
             </tr>
         </table>
@@ -184,11 +184,11 @@
 
         messageObj.messageType = messageTypeSelect.value;
         messageObj.code = getCodeTypeForSelection(codeTypeRadioNodeList);
-        messageObj.type = udpMessageTypeSelect.value;
+        messageObj.token = parseInt(tokenInput.value);
 
         if (messageTypeSelect.value == "UDP") {
             messageObj.id = parseInt(messageIdInput.value);
-            messageObj.token = parseInt(tokenInput.value);
+            messageObj.type = udpMessageTypeSelect.value;
         }
 
         messageObj.options = [{
@@ -201,6 +201,65 @@
         console.log(stringify);
         decodeTextArea.value = "";
         decodeTextArea.value = koap.com.juul.koap.multiplatform.encodeFromJson(stringify);
+    }
+
+    function onDecodeTcpClick() {
+        let jsonDecode = koap.com.juul.koap.multiplatform.decodeToTcp(decodeTextArea.value);
+        updateUiFromJson(jsonDecode);
+        console.log(jsonDecode);
+    }
+
+    function onDecodeUdpClick() {
+        let jsonDecode = koap.com.juul.koap.multiplatform.decodeToUdp(decodeTextArea.value);
+        updateUiFromJson(jsonDecode);
+        console.log(jsonDecode);
+    }
+
+    function updateUiFromJson(jsonDecode) {
+        let jsonObj = JSON.parse(jsonDecode);
+        messageTypeSelect.value = jsonObj.messageType;
+
+        setSelectionForCodeType(jsonObj);
+
+        tokenInput.value = parseInt(jsonObj.token);
+        optionSelect.value = jsonObj.options[0].type;
+        optionInput.value = jsonObj.options[0].value;
+        payloadInput.value = jsonObj.payload;
+
+        if (jsonObj.messageType == "UDP") {
+            messageIdInput.value = parseInt(jsonObj.id);
+            udpMessageTypeSelect.value = jsonObj.type;
+            setupUdpFields(udpMessageTypeSelect, messageIdInput);
+        } else if (jsonObj.messageType == "TCP") {
+            setupTcpFields(udpMessageTypeSelect, messageIdInput);
+        }
+    }
+
+    function setSelectionForCodeType(jsonObj) {
+        let codeType = jsonObj.code["#type"];
+        if (codeType == "Raw") {
+            document.getElementById("Raw").click();
+            codeRawClassInput.value = parseInt(jsonObj.code["class"]);
+            codeRawDetailInput.value = parseInt(jsonObj.code["detail"]);
+        } else {
+            let selectOptions = codeTypeMethodSelect.options;
+            for (let i = 0; i < selectOptions.length; i++) {
+                if (codeType == selectOptions[i].value) {
+                    document.getElementById("Method").click();
+                    codeTypeMethodSelect.value = codeType;
+                    break;
+                }
+            }
+
+            selectOptions = codeTypeResponseSelect.selectedOptions;
+            for (let i = 0; i < selectOptions.length; i++) {
+                if (codeType == selectOptions[i].value) {
+                    document.getElementById("Response").click();
+                    codeTypeResponseSelect.value = codeType;
+                    break;
+                }
+            }
+        }
     }
 
     function getCodeTypeForSelection(radioNodeList) {
