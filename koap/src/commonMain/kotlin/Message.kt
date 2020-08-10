@@ -92,7 +92,9 @@ sealed class Message {
                         (other is opaque && number == other.number && value.contentEquals(other.value))
 
                 override fun hashCode(): Int {
-                    return createHash(number, value.contentHashCode()).toInt()
+                    var result = number
+                    result = 31 * result + value.contentHashCode()
+                    return result
                 }
             }
 
@@ -388,8 +390,15 @@ sealed class Message {
                     options == other.options &&
                     payload.contentEquals(other.payload))
 
-        override fun hashCode(): Int =
-                createHash(type, code, id, token, options, payload.contentHashCode()).toInt()
+        override fun hashCode(): Int {
+            var result = type.hashCode()
+            result = 31 * result + code.hashCode()
+            result = 31 * result + id
+            result = 31 * result + token.hashCode()
+            result = 31 * result + options.hashCode()
+            result = 31 * result + payload.contentHashCode()
+            return result
+        }
 
         override fun toString(): String = "Message.Udp(" +
             "type=$type, " +
@@ -416,8 +425,14 @@ sealed class Message {
                     options == other.options &&
                     payload.contentEquals(other.payload))
 
-        override fun hashCode(): Int =
-                createHash(code, token, options, payload.contentHashCode()).toInt()
+        override fun hashCode(): Int {
+            createHash(code, token, options, payload.contentHashCode()).toInt()
+            var result = code.hashCode()
+            result = 31 * result + token.hashCode()
+            result = 31 * result + options.hashCode()
+            result = 31 * result + payload.contentHashCode()
+            return result
+        }
 
         override fun toString(): String = "Message.Tcp(" +
             "code=$code, " +

@@ -1,12 +1,7 @@
-package com.juul.koap.multiplatform
+package com.juul.koap
 
 import com.juul.koap.adapter.toJson
 import com.juul.koap.adapter.toMessage
-import com.juul.koap.decodeTcp
-import com.juul.koap.decodeUdp
-import com.juul.koap.encode
-import com.juul.koap.parseHexBinary
-import com.juul.koap.toHexString
 
 @JsModule("object-hash")
 @JsNonModule

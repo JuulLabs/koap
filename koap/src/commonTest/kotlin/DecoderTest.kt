@@ -13,13 +13,15 @@ import com.juul.koap.decode
 import com.juul.koap.encode
 import com.juul.koap.readOption
 import com.juul.koap.reader
+import okio.ByteString.Companion.decodeHex
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import okio.ByteString.Companion.decodeHex
 
+@ExperimentalStdlibApi
 class DecoderTest {
 
     @Test
+    @JsName("decodeUdpGetWithOptions")
     fun `Decode Udp GET with Options`() {
         val message = Message.Udp(
             type = Confirmable,
@@ -31,7 +33,7 @@ class DecoderTest {
                 UriPort(1234),
                 UriPath("/test")
             ),
-            payload = "Hello UDP!".toByteArray()
+            payload = "Hello UDP!".encodeToByteArray()
         )
 
         assertEquals(
@@ -41,6 +43,7 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("decodeTcpGetWithOptions")
     fun `Decode Tcp GET with Options`() {
         val message = Message.Tcp(
             code = GET,
@@ -50,7 +53,7 @@ class DecoderTest {
                 UriPort(1234),
                 UriPath("/test")
             ),
-            payload = "Hello TCP!".toByteArray()
+            payload = "Hello TCP!".encodeToByteArray()
         )
 
         assertEquals(
@@ -60,6 +63,7 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("decodeTcpGetWithoutOptionsNorPayload")
     fun `Decode Tcp GET without Options nor Payload`() {
         val message = Message.Tcp(
             code = GET,
@@ -75,12 +79,13 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("decodeTcpGetWithoutOptionsButWithPayload")
     fun `Decode Tcp GET without Options, but with Payload`() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
             options = emptyList(),
-            payload = "Hello TCP!".toByteArray()
+            payload = "Hello TCP!".encodeToByteArray()
         )
 
         assertEquals(
@@ -90,6 +95,7 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("decodeTcpGetWithOptionsButWithoutPayload")
     fun `Decode Tcp GET with Options, but without Payload`() {
         val message = Message.Tcp(
             code = GET,
@@ -109,6 +115,7 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("decodeObserveOptionsWithValueOf16777215")
     fun `Decode Observe Option with value of 16,777,215`() {
         testReadOption(
             encoded = """
@@ -120,6 +127,7 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("decodeObserveOptionWithValueOfRegister")
     fun `Decode Observe Option with value of Register`() {
         testReadOption(
             encoded = """
@@ -130,6 +138,7 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("decodeObserveOptionWithValueOfDeregister")
     fun `Decode Observe Option with value of Deregister`() {
         testReadOption(
             encoded = """
@@ -141,6 +150,7 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("decodingTcpMessageDoesNotReadBeyondLengthSpecifiedInHeader")
     fun `Decoding Tcp message does not read beyond length specified in header`() {
         val message = Message.Tcp(
             code = GET,
@@ -157,12 +167,13 @@ class DecoderTest {
     }
 
     @Test
+    @JsName("canDecodeTokenOfLength8")
     fun `Can decode token of length 8`() {
         val message = Message.Tcp(
             code = GET,
             token = Long.MAX_VALUE,
             options = emptyList(),
-            payload = "Hello TCP!".toByteArray()
+            payload = "Hello TCP!".encodeToByteArray()
         )
 
         assertEquals(

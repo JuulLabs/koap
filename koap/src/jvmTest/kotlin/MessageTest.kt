@@ -1,11 +1,10 @@
-package com.juul.koap.test
 
 import com.juul.koap.Message
 import com.juul.koap.Message.Option.ETag
 import com.juul.koap.Message.Option.Format.opaque
 import com.juul.koap.Message.Option.IfMatch
-import kotlin.test.Test
 import nl.jqno.equalsverifier.EqualsVerifier
+import kotlin.test.Test
 
 class MessageTest {
 
