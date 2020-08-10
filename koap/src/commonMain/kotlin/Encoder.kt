@@ -219,9 +219,6 @@ internal fun BufferedSink.writeHeader(
     writeAll(token)
 }
 
-// caused error _Collections.kt?f709:1429 Uncaught TypeError: options.iterator is not a function
-// when call to .map, with platform specific implementations
-//expect fun BufferedSink.writeOptions(options: List<Option>)
 fun BufferedSink.writeOptions(options: List<Option>) {
     val sorted = options.map(Option::toFormat).sortedBy(Message.Option.Format::number)
     for (i in sorted.indices) {

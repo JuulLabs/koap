@@ -59,7 +59,6 @@ kotlin {
 
         jsMain {
             dependencies {
-                implementation npm("object-hash", "2.0.3") // used for JS Object.hash()
                 implementation deps.serialization.js
             }
         }

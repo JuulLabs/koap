@@ -426,7 +426,6 @@ sealed class Message {
                     payload.contentEquals(other.payload))
 
         override fun hashCode(): Int {
-            createHash(code, token, options, payload.contentHashCode()).toInt()
             var result = code.hashCode()
             result = 31 * result + token.hashCode()
             result = 31 * result + options.hashCode()
