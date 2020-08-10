@@ -1,22 +1,19 @@
 package com.juul.koap
 
-internal fun ByteArray.toHexString(): String {
-    return joinToString(" ") {
-        formatString("%02X", it)
-    }
-}
+
+internal expect fun Byte.toHexString(): String
+
+internal fun ByteArray.toHexString(): String = joinToString(" ") { it.toHexString() }
 
 internal fun Int.toHexString(byteCount: Int = Int.SIZE_BYTES): String =
     toLong().toHexString(byteCount)
 
-// TODO:ahobbs Uncaught TypeError: $receiver.shiftRight is not a function Line 15 from JS
-// needs expect function
-//private fun Long.toHexList(
-//    byteCount: Int = Long.SIZE_BYTES
-//): List<String> = ((byteCount - 1) downTo 0).map { i ->
-//    val byte = ((this shr (i * Byte.SIZE_BITS)) and 0xFF).toByte()
-//    formatString("%02X", byte)
-//}
+private fun Long.toHexList(
+    byteCount: Int = Long.SIZE_BYTES
+): List<String> = ((byteCount - 1) downTo 0).map { i ->
+    val byte = ((this shr (i * Byte.SIZE_BITS)) and 0xFF).toByte()
+    byte.toHexString()
+}
 
 internal fun Long.toHexString(
     byteCount: Int = Long.SIZE_BYTES
@@ -31,6 +28,3 @@ internal fun Long.debugTokenString(): String {
     val hex = toHexList(Long.SIZE_BYTES).dropWhile { it == "00" }.joinToString(" ")
     return "$this ($hex)"
 }
-
-expect fun formatString(format: String, vararg args: Any?): String
-expect fun Long.toHexList(byteCount: Int = Long.SIZE_BYTES): List<String>

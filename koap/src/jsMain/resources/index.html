@@ -5,6 +5,7 @@
     <style>
         table {
             border-collapse: collapse;
+            width: 80%;
         }
 		table, th, td {
 			text-align: left;
@@ -13,21 +14,18 @@
         th, td {
             padding: 5px;
         }
-        .column {
-            flex: 50%;
-        }
-        .row {
-            display: flex;
-        }
         .vertinput, .vertlabel {
             display:block;
+        }
+        textarea {
+            width: 100%;
+            min-height:300px;
         }
 
     </style>
 </head>
 <body>
 <div class="row">
-    <div class="column" id="leftcol">
         <table id="inputtable">
             <tr>
                 <th>Message</th>
@@ -35,14 +33,17 @@
                     <option selected="selected" value="UDP">UDP</option>
                     <option value="TCP">TCP</option>
                 </select></td>
+                <td rowspan="9">
+                    <textarea id="decodedtext" placeholder="42 01 F3 85 CA FE B7 ..."></textarea>
+                </td>
             </tr>
             <tr>
                 <th>UDP Type</th>
                 <td><select id="udpmsgtype" name="udpmsgtype">
-                    <option selected="selected" value="confirmable">Confirmable</option>
-                    <option value="nonconfirmable">NonConfirmable</option>
-                    <option value="acknowledgement">Acknowledgement</option>
-                    <option value="reset">Reset</option>
+                    <option selected="selected" value="Confirmable">Confirmable</option>
+                    <option value="NonConfirmable">NonConfirmable</option>
+                    <option value="Acknowledgement">Acknowledgement</option>
+                    <option value="Reset">Reset</option>
                 </select></td>
             </tr>
             <tr>
@@ -58,35 +59,35 @@
                 <td colspan="2">
                     <div id="coderesponsediv">
                         <select id="codetyperesponseselect">
-                            <option value="created">Created</option>
-                            <option value="deleted">Deleted</option>
-                            <option value="valid">Valid</option>
-                            <option value="changed">Changed</option>
-                            <option value="content">Content</option>
-                            <option value="badrequest">BadRequest</option>
-                            <option value="unauthorized">Unauthorized</option>
-                            <option value="badoption">BadOption</option>
-                            <option value="forbidden">Forbidden</option>
-                            <option value="notfound">NotFound</option>
-                            <option value="methodnotallowed">MethodNotAllowed</option>
-                            <option value="notacceptable">NotAcceptable</option>
-                            <option value="preconditionfailed">PreconditionFailed</option>
-                            <option value="requestentitytoolarge">RequestEntityTooLarge</option>
-                            <option value="unsupportedcontentformat">UnsupportedContentFormat</option>
-                            <option value="internalservererror">InternalServerError</option>
-                            <option value="notimplemented">NotImplemented</option>
-                            <option value="badgateway">BadGateway</option>
-                            <option value="serviceunavailable">ServiceUnavailable</option>
-                            <option value="gatewaytimeout">GatewayTimeout</option>
-                            <option value="proxyingnotsupported">ProxyingNotSupported</option>
+                            <option value="Created">Created</option>
+                            <option value="Deleted">Deleted</option>
+                            <option value="Valid">Valid</option>
+                            <option value="Changed">Changed</option>
+                            <option value="Content">Content</option>
+                            <option value="BadRequest">BadRequest</option>
+                            <option value="Unauthorized">Unauthorized</option>
+                            <option value="BadOption">BadOption</option>
+                            <option value="Forbidden">Forbidden</option>
+                            <option value="NotFound">NotFound</option>
+                            <option value="MethodNotAllowed">MethodNotAllowed</option>
+                            <option value="NotAcceptable">NotAcceptable</option>
+                            <option value="PreconditionFailed">PreconditionFailed</option>
+                            <option value="RequestEntityTooLarge">RequestEntityTooLarge</option>
+                            <option value="UnsupportedContentFormat">UnsupportedContentFormat</option>
+                            <option value="InternalServerError">InternalServerError</option>
+                            <option value="NotImplemented">NotImplemented</option>
+                            <option value="BadGateway">BadGateway</option>
+                            <option value="ServiceUnavailable">ServiceUnavailable</option>
+                            <option value="GatewayTimeout">GatewayTimeout</option>
+                            <option value="ProxyingNotSupported">ProxyingNotSupported</option>
                         </select>
                     </div>
                     <div id="codemethoddiv">
                         <select id="codetypemethodselect" >
-                            <option value="get">GET</option>
-                            <option value="delete">DELETE</option>
-                            <option value="post">POST</option>
-                            <option value="put">PUT</option>
+                            <option value="GET">GET</option>
+                            <option value="DELETE">DELETE</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
                         </select>
                     </div>
                     <div id="coderawdiv">
@@ -109,26 +110,25 @@
                 <th>Options</th>
                 <td>
                     <select id="optionsselect">
-                        <option value="ifmatch">IfMatch</option>
-                        <option value="urihost">UriHost</option>
-                        <option value="etag">ETag</option>
-                        <option value="ifnonematch">IfNoneMatch</option>
-                        <option value="observe">Observe</option>
-                        <option value="uriport">UriPort</option>
-                        <option value="locationpath">LocationPath</option>
-                        <option value="uripath">UriPath</option>
-                        <option value="contentformat">ContentFormat</option>
-                        <option value="maxage">MaxAge</option>
-                        <option value="uriquery">UriQuery</option>
-                        <option value="accept">Accept</option>
-                        <option value="locationquery">LocationQuery</option>
-                        <option value="proxyuri">ProxyUri</option>
-                        <option value="proxyscheme">ProxyScheme</option>
-                        <option value="size1">Size1</option>
+                        <option value="IfMatch">IfMatch</option>
+                        <option value="UriHost">UriHost</option>
+                        <option value="ETag">ETag</option>
+                        <option value="IfNoneMatch">IfNoneMatch</option>
+                        <option value="Observe">Observe</option>
+                        <option value="UriPort">UriPort</option>
+                        <option value="LocationPath">LocationPath</option>
+                        <option value="UriPath">UriPath</option>
+                        <option value="ContentFormat">ContentFormat</option>
+                        <option value="MaxAge">MaxAge</option>
+                        <option value="UriQuery">UriQuery</option>
+                        <option value="Accept">Accept</option>
+                        <option value="LocationQuery">LocationQuery</option>
+                        <option value="ProxyUri">ProxyUri</option>
+                        <option value="ProxyScheme">ProxyScheme</option>
+                        <option value="Size1">Size1</option>
                     </select>
                     <input type="text" id="optioninput">
                 </td>
-<!--                <td><input id="options" type="text"></td>-->
             </tr>
             <tr>
                 <th>Payload</th>
@@ -136,17 +136,18 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button id="encodebutton" name="encodebutton" onclick="onEncodeClick()">Encode --&gt;</button>
+                    <button id="encodebutton" name="encodebutton" onclick="onEncodeClick()">Encode</button>
+                </td>
+                <td>
+                    <button id="decodeudpbutton" name="decodeudpbutton">DecodeUdp</button>
+                    <button id="decodetcpbutton" name="decodetcpbutton">DecodeTcp</button>
                 </td>
             </tr>
         </table>
-    </div>
-    <div class="column" id="rightcol"><textarea id="decodedtext"></textarea><br>
-        <button id="decodebutton" name="decodebutton">&lt;-- Decode</button>
-    </div>
 </div>
 <script src="koap.js"></script>
 <script>
+
     var messageTypeSelect = document.getElementById("msgtype");
     var udpMessageTypeSelect = document.getElementById("udpmsgtype");
     var codeTypeRadioNodeList = document.getElementsByName("radiocode");
@@ -166,44 +167,6 @@
     var methodDiv = document.getElementById("codemethoddiv");
     var responseDiv = document.getElementById("coderesponsediv");
 
-    var codeResponseMap = {
-            "created": koap.com.juul.koap.Message.Code.Response.Created,
-            "deleted": koap.com.juul.koap.Message.Code.Response.Deleted,
-            "valid": koap.com.juul.koap.Message.Code.Response.Valid,
-            "changed": koap.com.juul.koap.Message.Code.Response.Changed,
-            "content": koap.com.juul.koap.Message.Code.Response.Content,
-            "badrequest": koap.com.juul.koap.Message.Code.Response.BadRequest,
-            "unauthorized": koap.com.juul.koap.Message.Code.Response.Unauthorized,
-            "badoption": koap.com.juul.koap.Message.Code.Response.BadOption,
-            "forbidden": koap.com.juul.koap.Message.Code.Response.Forbidden,
-            "notfound": koap.com.juul.koap.Message.Code.Response.NotFound,
-            "methodnotallowed": koap.com.juul.koap.Message.Code.Response.MethodNotAllowed,
-            "notacceptable": koap.com.juul.koap.Message.Code.Response.NotAcceptable,
-            "preconditionfailed": koap.com.juul.koap.Message.Code.Response.PreconditionFailed,
-            "requestentitytoolarge": koap.com.juul.koap.Message.Code.Response.RequestEntityTooLarge,
-            "unsupportedcontentformat": koap.com.juul.koap.Message.Code.Response.UnsupportedContentFormat,
-            "internalservererror": koap.com.juul.koap.Message.Code.Response.InternalServerError,
-            "notimplemented": koap.com.juul.koap.Message.Code.Response.NotImplemented,
-            "badgateway": koap.com.juul.koap.Message.Code.Response.BadGateway,
-            "serviceunavailable": koap.com.juul.koap.Message.Code.Response.ServiceUnavailable,
-            "gatewaytimeout": koap.com.juul.koap.Message.Code.Response.GatewayTimeout,
-            "proxyingnotsupported": koap.com.juul.koap.Message.Code.Response.ProxyingNotSupported
-        };
-
-    var codeMethodMap = {
-        "get": koap.com.juul.koap.Message.Code.Method.GET,
-        "delete": koap.com.juul.koap.Message.Code.Method.DELETE,
-        "post": koap.com.juul.koap.Message.Code.Method.POST,
-        "put": koap.com.juul.koap.Message.Code.Method.PUT
-    }
-
-    var udpTypeMap = {
-        "confirmable": koap.com.juul.koap.Message.Udp.Type.Confirmable,
-        "nonconfirmable": koap.com.juul.koap.Message.Udp.Type.NonConfirmable,
-        "acknowledgement": koap.com.juul.koap.Message.Udp.Type.Acknowledgement,
-        "reset": koap.com.juul.koap.Message.Udp.Type.Reset
-    };
-
     hideDiv(rawDiv);
     hideDiv(responseDiv);
 
@@ -217,115 +180,46 @@
     });
 
     function onEncodeClick() {
+        let messageObj = new Object();
 
-        let codeTypeValue = getCodeTypeForSelection(codeTypeRadioNodeList, codeResponseMap, codeMethodMap);
-        let options = new Array(getOptionForSelection());
-        console.log("got options: " + options);
+        messageObj.messageType = messageTypeSelect.value;
+        messageObj.code = getCodeTypeForSelection(codeTypeRadioNodeList);
+        messageObj.type = udpMessageTypeSelect.value;
 
         if (messageTypeSelect.value == "UDP") {
-            var msg = new koap.com.juul.koap.Message.Udp(
-                udpTypeMap[udpMessageTypeSelect.value],
-                codeTypeValue,
-                parseInt(messageIdInput.value),
-                parseInt(tokenInput.value),
-                options,
-                strToInt8(payloadInput.value)
-            );
-            console.log("message: " + msg);
-            decodeTextArea.value = "";
-            decodeTextArea.value = koap.com.juul.koap.encode(msg);
-        } else if (messageTypeSelect.value == "TCP") {
-            let msg = new koap.com.juul.koap.Message.Tcp(
-                codeTypeValue,
-                parseInt(tokenInput.value),
-                options,
-                strToInt8(payloadInput.value)
-            );
-            decodeTextArea.value = "";
-            decodeTextArea.value = koap.com.juul.koap.encode(msg);
-        } else {
-            alert("Message type selection unknown");
+            messageObj.id = parseInt(messageIdInput.value);
+            messageObj.token = parseInt(tokenInput.value);
         }
+
+        messageObj.options = [{
+            type: optionSelect.value,
+            value: optionInput.value
+        }];
+        messageObj.payload = payloadInput.value;
+
+        let stringify = JSON.stringify(messageObj);
+        console.log(stringify);
+        decodeTextArea.value = "";
+        decodeTextArea.value = koap.com.juul.koap.multiplatform.encodeFromJson(stringify);
     }
 
-    function strToInt8(str) {
-        let int8 = new Int8Array(str.length);
-        for (let i = 0; i < str.length; i++) {
-            int8[i] = str.charCodeAt(i);
-        }
-        return int8;
-    }
-
-    function int8ToStr(int8Array) {
-<!--        TODO implement for decode-->
-    }
-
-<!--    TODO can this use reflection?-->
-    function getOptionForSelection() {
-        console.log("switching on: " + optionSelect.value);
-        switch(optionSelect.value) {
-            case "ifmatch":
-                return new koap.com.juul.koap.Message.Option.IfMatch(strToInt8(optionInput.value));
-                break;
-            case "urihost":
-                return new koap.com.juul.koap.Message.Option.UriHost(optionInput.value);
-                break;
-            case "etag":
-                return new koap.com.juul.koap.Message.Option.ETag(strToInt8(optionInput.value));
-                break;
-            case "ifnonematch":
-                return koap.com.juul.koap.Message.Option.IfNoneMatch;
-                break;
-            case "observe":
-                return new koap.com.juul.koap.Message.Option.Observe(parseInt(optionInput.value));
-                break;
-            case "uriport":
-                return new koap.com.juul.koap.Message.Option.UriPort(parseInt(optionInput.value));
-                break;
-            case "locationpath":
-                return new koap.com.juul.koap.Message.Option.LocationPath(optionInput.value);
-                break;
-            case "uripath":
-                return new koap.com.juul.koap.Message.Option.UriPath(optionInput.value);
-                break;
-            case "contentformat":
-                return new koap.com.juul.koap.Message.Option.ContentFormat(parseInt(optionInput.value));
-                break;
-            case "maxage":
-                return new koap.com.juul.koap.Message.Option.MaxAge(parseInt(optionInput.value));
-                break;
-            case "uriquery":
-                return new koap.com.juul.koap.Message.Option.UriQuery(optionInput.value);
-                break;
-            case "accept":
-                return new koap.com.juul.koap.Message.Option.Accept(parseInt(optionInput.value));
-                break;
-            case "locationquery":
-                return new koap.com.juul.koap.Message.Option.LocationQuery(optionInput.value);
-                break;
-            case "proxyuri":
-                return new koap.com.juul.koap.Message.Option.ProxyUri(optionInput.value);
-                break;
-            case "proxyscheme":
-                return new koap.com.juul.koap.Message.Option.ProxyScheme(optionInput.value);
-                break;
-            case "size1":
-                return new koap.com.juul.koap.Message.Option.Size1(parseInt(optionInput.value));
-                break;
-            default:
-                return null;
-        }
-    }
-
-    function getCodeTypeForSelection(radioNodeList, responseMap, methodMap) {
+    function getCodeTypeForSelection(radioNodeList) {
         for (let i = 0; i < radioNodeList.length; i++) {
             console.log("value: " + radioNodeList[i].value);
             if (radioNodeList[i].value == "Response" && radioNodeList[i].checked) {
-                return responseMap[codeTypeResponseSelect.value];
+                return {
+                    "#type": codeTypeResponseSelect.value
+                };
             } else if (radioNodeList[i].value == "Raw" && radioNodeList[i].checked) {
-                return new koap.com.juul.koap.Message.Code.Raw(parseInt(codeRawClassInput.value), parseInt(codeRawDetailInput.value));
+                return {
+                    "#type": "Raw",
+                    "class": parseInt(codeRawClassInput.value),
+                    "detail": parseInt(codeRawDetailInput.value)
+                };
             } else if (radioNodeList[i].value == "Method" && radioNodeList[i].checked) {
-                return methodMap[codeTypeMethodSelect.value];
+                return {
+                    "#type": codeTypeMethodSelect.value
+                };
             }
         }
     }

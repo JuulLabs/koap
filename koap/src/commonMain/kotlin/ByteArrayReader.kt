@@ -1,5 +1,7 @@
 package com.juul.koap
 
+import okio.ByteString.Companion.toByteString
+
 internal inline fun <T> ByteArray.withReader(
     startIndex: Int = 0,
     endIndex: Int = size,
@@ -31,6 +33,12 @@ internal class ByteArrayReader(
             throw IndexOutOfBoundsException(
                 "Cannot read when index is at or beyond endIndex (index=$index, endIndex=$endIndex)"
             )
+        }
+    }
+
+    private fun checkLength(length: Int) {
+        check(index + length <= endIndex) {
+            "Cannot read byte range $index..${index + length} as it spans beyond endIndex of $endIndex"
         }
     }
 
@@ -76,16 +84,16 @@ internal class ByteArrayReader(
     }
 
     fun readByteArray(length: Int): ByteArray {
-        check(index + length <= endIndex) {
-            "Cannot read byte range $index..${index + length} as it spans beyond endIndex of $endIndex"
-        }
+        checkLength(length)
         val copy = bytes.copyOfRange(index, index + length)
         index += length
         return copy
     }
 
-    //TODO look into Charset.UTF_8. Kotlin Any.toString() method does not take a charset
-    fun readUtf8(length: Int): String =
-        readByteArray(length).toString()
-//        readByteArray(length).toString(Charset.UTF_8)
+    fun readUtf8(length: Int): String {
+        checkLength(length)
+        val utf8 = bytes.toByteString(index, length).utf8()
+        index += length
+        return utf8
+    }
 }

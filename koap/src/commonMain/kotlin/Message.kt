@@ -91,7 +91,6 @@ sealed class Message {
                     this === other ||
                         (other is opaque && number == other.number && value.contentEquals(other.value))
 
-                // TODO: clean up object creation
                 override fun hashCode(): Int {
                     return createHash(number, value.contentHashCode()).toInt()
                 }
@@ -389,7 +388,6 @@ sealed class Message {
                     options == other.options &&
                     payload.contentEquals(other.payload))
 
-        // TODO: clean up object creation
         override fun hashCode(): Int =
                 createHash(type, code, id, token, options, payload.contentHashCode()).toInt()
 
@@ -418,7 +416,6 @@ sealed class Message {
                     options == other.options &&
                     payload.contentEquals(other.payload))
 
-        // TODO: clean up object creation
         override fun hashCode(): Int =
                 createHash(code, token, options, payload.contentHashCode()).toInt()
 
