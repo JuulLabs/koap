@@ -14,7 +14,6 @@ import com.juul.koap.Message.Udp.Type.NonConfirmable
 import com.juul.koap.Message.Udp.Type.Reset
 import okio.Buffer
 import okio.BufferedSink
-import kotlin.js.JsName
 
 internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
 /**
@@ -53,7 +52,6 @@ internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
-@JsName("encode")
 fun Message.encode(): ByteArray = Buffer().apply { writeMessage(this@encode) }.readByteArray()
 
 /**
