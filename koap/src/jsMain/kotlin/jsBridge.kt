@@ -3,10 +3,6 @@ package com.juul.koap
 import com.juul.koap.adapter.toJson
 import com.juul.koap.adapter.toMessage
 
-@JsModule("object-hash")
-@JsNonModule
-external fun <T> hash(value: T): String
-
 @ExperimentalStdlibApi
 @JsName("encodeFromJson")
 fun encodeFromJson(json: String): String = try {
