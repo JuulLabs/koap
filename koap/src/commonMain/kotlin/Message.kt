@@ -100,7 +100,7 @@ sealed class Message {
 
             data class uint(
                 override val number: Int,
-                val value: Number
+                val value: Long
             ) : Format()
 
             data class string(
@@ -119,9 +119,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */
-        data class UriPort(val port: Number) : Option() {
+        data class UriPort(val port: Long) : Option() {
             init {
-                require(port.toLong() in URI_PORT_RANGE) {
+                require(port in URI_PORT_RANGE) {
                     "Uri-Port value of $port is outside allowable range of $URI_PORT_RANGE"
                 }
             }
@@ -176,27 +176,27 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.3. Content-Format */
-        data class ContentFormat(val format: Number) : Option() {
+        data class ContentFormat(val format: Long) : Option() {
             init {
-                require(format.toLong() in CONTENT_FORMAT_RANGE) {
+                require(format in CONTENT_FORMAT_RANGE) {
                     "Content-Format of $format is outside allowable range of $CONTENT_FORMAT_RANGE"
                 }
             }
         }
 
         /** RFC 7252 5.10.4. Accept */
-        data class Accept(val format: Number) : Option() {
+        data class Accept(val format: Long) : Option() {
             init {
-                require(format.toLong() in ACCEPT_RANGE) {
+                require(format in ACCEPT_RANGE) {
                     "Accept format of $format is outside allowable range of $ACCEPT_RANGE"
                 }
             }
         }
 
         /** RFC 7252 5.10.5. Max-Age */
-        data class MaxAge(val seconds: Number) : Option() {
+        data class MaxAge(val seconds: Long) : Option() {
             init {
-                require(seconds.toLong() in MAX_AGE_RANGE) { // ~136.1 years
+                require(seconds in MAX_AGE_RANGE) { // ~136.1 years
                     "Max-Age of $seconds seconds is outside of allowable range of $MAX_AGE_RANGE"
                 }
             }
@@ -252,16 +252,16 @@ sealed class Message {
         object IfNoneMatch : Option()
 
         /** RFC 7252 5.10.9. Size1 Option */
-        data class Size1(val bytes: Number) : Option() {
+        data class Size1(val bytes: Long) : Option() {
             init {
-                require(bytes.toLong() in SIZE1_RANGE) {
+                require(bytes in SIZE1_RANGE) {
                     "Size1 of $bytes is outside allowable range of $SIZE1_RANGE"
                 }
             }
         }
 
         /** [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2) */
-        data class Observe(val value: Number) : Option() {
+        data class Observe(val value: Long) : Option() {
 
             /**
              * Per [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2):

@@ -322,16 +322,12 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
  *
  * @return length of [token] written.
  */
-internal fun BufferedSink.writeToken(token: Number) {
-    // https://discuss.kotlinlang.org/t/js-external-class-not-converting-javascript-number-to-kotlin-long/9298/2
-    val convertedToken = token.toLong()
-    if (convertedToken == 0L) return
-
-    when (convertedToken) {
-        in UBYTE_RANGE -> writeByte(convertedToken and 0xFF)
-        in USHORT_RANGE -> writeShort(convertedToken and 0xFF_FF)
-        in UINT_RANGE -> writeInt(convertedToken and 0xFF_FF_FF_FF)
-        else -> writeLong(convertedToken)
+internal fun BufferedSink.writeToken(token: Long) {
+    when (token) {
+        in UBYTE_RANGE -> writeByte(token and 0xFF)
+        in USHORT_RANGE -> writeShort(token and 0xFF_FF)
+        in UINT_RANGE -> writeInt(token and 0xFF_FF_FF_FF)
+        else -> writeLong(token)
     }
 }
 
