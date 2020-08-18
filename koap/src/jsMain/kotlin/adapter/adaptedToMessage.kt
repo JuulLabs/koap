@@ -1,26 +1,30 @@
 package com.juul.koap.adapter
 
 import com.juul.koap.Message
+import com.juul.koap.adapter.Code as AdaptedCode
+import com.juul.koap.adapter.Message as AdaptedMessage
+import com.juul.koap.adapter.Option as AdaptedOption
+import com.juul.koap.adapter.Option.OptionType as AdaptedOptionType
 
 @ExperimentalStdlibApi
-private fun AdaptedOptions.toOptions(): Message.Option = when (type) {
-        AdaptedOptions.AdaptedOptionsType.UriHost -> Message.Option.UriHost(value)
-        AdaptedOptions.AdaptedOptionsType.UriPort -> Message.Option.UriPort(value.toLong())
-        AdaptedOptions.AdaptedOptionsType.UriPath -> Message.Option.UriPath(value)
-        AdaptedOptions.AdaptedOptionsType.UriQuery -> Message.Option.UriQuery(value)
-        AdaptedOptions.AdaptedOptionsType.ProxyUri -> Message.Option.ProxyUri(value)
-        AdaptedOptions.AdaptedOptionsType.ProxyScheme -> Message.Option.ProxyScheme(value)
-        AdaptedOptions.AdaptedOptionsType.ContentFormat -> Message.Option.ContentFormat(value.toLong())
-        AdaptedOptions.AdaptedOptionsType.Accept -> Message.Option.Accept(value.toLong())
-        AdaptedOptions.AdaptedOptionsType.MaxAge -> Message.Option.MaxAge(value.toLong())
-        AdaptedOptions.AdaptedOptionsType.ETag -> Message.Option.ETag(value.encodeToByteArray())
-        AdaptedOptions.AdaptedOptionsType.LocationPath -> Message.Option.LocationPath(value)
-        AdaptedOptions.AdaptedOptionsType.LocationQuery -> Message.Option.LocationQuery(value)
-        AdaptedOptions.AdaptedOptionsType.IfMatch -> Message.Option.IfMatch(value.encodeToByteArray())
-        AdaptedOptions.AdaptedOptionsType.IfNoneMatch -> Message.Option.IfNoneMatch
-        AdaptedOptions.AdaptedOptionsType.Size1 -> Message.Option.Size1(value.toLong())
-        AdaptedOptions.AdaptedOptionsType.Observe -> Message.Option.Observe(value.toLong())
-    }
+private fun AdaptedOption.toOptions(): Message.Option = when (type) {
+    AdaptedOptionType.UriHost -> Message.Option.UriHost(value)
+    AdaptedOptionType.UriPort -> Message.Option.UriPort(value.toLong())
+    AdaptedOptionType.UriPath -> Message.Option.UriPath(value)
+    AdaptedOptionType.UriQuery -> Message.Option.UriQuery(value)
+    AdaptedOptionType.ProxyUri -> Message.Option.ProxyUri(value)
+    AdaptedOptionType.ProxyScheme -> Message.Option.ProxyScheme(value)
+    AdaptedOptionType.ContentFormat -> Message.Option.ContentFormat(value.toLong())
+    AdaptedOptionType.Accept -> Message.Option.Accept(value.toLong())
+    AdaptedOptionType.MaxAge -> Message.Option.MaxAge(value.toLong())
+    AdaptedOptionType.ETag -> Message.Option.ETag(value.encodeToByteArray())
+    AdaptedOptionType.LocationPath -> Message.Option.LocationPath(value)
+    AdaptedOptionType.LocationQuery -> Message.Option.LocationQuery(value)
+    AdaptedOptionType.IfMatch -> Message.Option.IfMatch(value.encodeToByteArray())
+    AdaptedOptionType.IfNoneMatch -> Message.Option.IfNoneMatch
+    AdaptedOptionType.Size1 -> Message.Option.Size1(value.toLong())
+    AdaptedOptionType.Observe -> Message.Option.Observe(value.toLong())
+}
 
 private fun AdaptedCode.toCode(): Message.Code = when (this) {
     is AdaptedCode.Method.GET -> Message.Code.Method.GET

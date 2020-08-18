@@ -1,6 +1,7 @@
 package com.juul.koap.adapter
 
 import com.juul.koap.Message
+import com.juul.koap.adapter.Message as AdaptedMessage
 import kotlinx.serialization.json.Json
 
 private val json = Json {

@@ -1,6 +1,10 @@
 package com.juul.koap.adapter
 
 import com.juul.koap.Message
+import com.juul.koap.adapter.Code as AdaptedCode
+import com.juul.koap.adapter.Message as AdaptedMessage
+import com.juul.koap.adapter.Option as AdaptedOption
+import com.juul.koap.adapter.Option.OptionType as AdaptedOptionType
 
 private fun Message.Code.toAdapted(): AdaptedCode = when (this) {
     is Message.Code.Method.GET -> AdaptedCode.Method.GET
@@ -32,57 +36,57 @@ private fun Message.Code.toAdapted(): AdaptedCode = when (this) {
 }
 
 @ExperimentalStdlibApi
-private fun Message.Option.toAdapted(): AdaptedOptions = when (this) {
-    is Message.Option.UriHost -> AdaptedOptions(AdaptedOptions.AdaptedOptionsType.UriHost, uri)
-    is Message.Option.UriPort -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.UriPort,
+private fun Message.Option.toAdapted(): AdaptedOption = when (this) {
+    is Message.Option.UriHost -> AdaptedOption(AdaptedOptionType.UriHost, uri)
+    is Message.Option.UriPort -> AdaptedOption(
+        AdaptedOptionType.UriPort,
         port.toString()
     )
-    is Message.Option.UriPath -> AdaptedOptions(AdaptedOptions.AdaptedOptionsType.UriPath, uri)
-    is Message.Option.UriQuery -> AdaptedOptions(AdaptedOptions.AdaptedOptionsType.UriQuery, uri)
-    is Message.Option.ProxyUri -> AdaptedOptions(AdaptedOptions.AdaptedOptionsType.ProxyUri, uri)
-    is Message.Option.ProxyScheme -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.ProxyScheme,
+    is Message.Option.UriPath -> AdaptedOption(AdaptedOptionType.UriPath, uri)
+    is Message.Option.UriQuery -> AdaptedOption(AdaptedOptionType.UriQuery, uri)
+    is Message.Option.ProxyUri -> AdaptedOption(AdaptedOptionType.ProxyUri, uri)
+    is Message.Option.ProxyScheme -> AdaptedOption(
+        AdaptedOptionType.ProxyScheme,
         uri
     )
-    is Message.Option.ContentFormat -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.ContentFormat,
+    is Message.Option.ContentFormat -> AdaptedOption(
+        AdaptedOptionType.ContentFormat,
         format.toString()
     )
-    is Message.Option.Accept -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.Accept,
+    is Message.Option.Accept -> AdaptedOption(
+        AdaptedOptionType.Accept,
         format.toString()
     )
-    is Message.Option.MaxAge -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.MaxAge,
+    is Message.Option.MaxAge -> AdaptedOption(
+        AdaptedOptionType.MaxAge,
         seconds.toString()
     )
-    is Message.Option.ETag -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.ETag,
+    is Message.Option.ETag -> AdaptedOption(
+        AdaptedOptionType.ETag,
         etag.decodeToString()
     )
-    is Message.Option.LocationPath -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.LocationPath,
+    is Message.Option.LocationPath -> AdaptedOption(
+        AdaptedOptionType.LocationPath,
         uri
     )
-    is Message.Option.LocationQuery -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.LocationQuery,
+    is Message.Option.LocationQuery -> AdaptedOption(
+        AdaptedOptionType.LocationQuery,
         uri
     )
-    is Message.Option.IfMatch -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.IfMatch,
+    is Message.Option.IfMatch -> AdaptedOption(
+        AdaptedOptionType.IfMatch,
         etag.decodeToString()
     )
-    is Message.Option.IfNoneMatch -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.IfNoneMatch,
+    is Message.Option.IfNoneMatch -> AdaptedOption(
+        AdaptedOptionType.IfNoneMatch,
         ""
     )
-    is Message.Option.Size1 -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.Size1,
+    is Message.Option.Size1 -> AdaptedOption(
+        AdaptedOptionType.Size1,
         bytes.toString()
     )
-    is Message.Option.Observe -> AdaptedOptions(
-        AdaptedOptions.AdaptedOptionsType.Observe,
+    is Message.Option.Observe -> AdaptedOption(
+        AdaptedOptionType.Observe,
         value.toString()
     )
     else -> error("error calling Message.Option.toAdapter()")

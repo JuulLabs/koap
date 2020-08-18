@@ -201,17 +201,17 @@
         let stringify = JSON.stringify(messageObj);
         console.log(stringify);
         decodeTextArea.value = "";
-        decodeTextArea.value = koap.com.juul.koap.multiplatform.encodeFromJson(stringify);
+        decodeTextArea.value = koap.com.juul.koap.encodeFromJson(stringify);
     }
 
     function onDecodeTcpClick() {
-        let jsonDecode = koap.com.juul.koap.multiplatform.decodeToTcp(decodeTextArea.value);
+        let jsonDecode = koap.com.juul.koap.decodeToTcp(decodeTextArea.value);
         updateUiFromJson(jsonDecode);
         console.log(jsonDecode);
     }
 
     function onDecodeUdpClick() {
-        let jsonDecode = koap.com.juul.koap.multiplatform.decodeToUdp(decodeTextArea.value);
+        let jsonDecode = koap.com.juul.koap.decodeToUdp(decodeTextArea.value);
         updateUiFromJson(jsonDecode);
         console.log(jsonDecode);
     }

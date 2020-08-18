@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 
 @ExperimentalStdlibApi
 @Serializable
-data class AdaptedMessage(
+data class Message (
     val messageType: MessageType,
     val type: String = "",
-    val code: AdaptedCode,
+    val code: Code,
     val id: Int = 0,
     val token: Long,
-    val options: List<AdaptedOptions> = emptyList(),
+    val options: List<Option> = emptyList(),
     val payload: String
 )
 
@@ -24,8 +24,8 @@ enum class MessageType {
 
 @Serializable
 @SerialName("code")
-sealed class AdaptedCode {
-    sealed class Method : AdaptedCode() {
+sealed class Code {
+    sealed class Method : Code() {
         @Serializable
         @SerialName("GET")
         object GET : Method()
@@ -43,7 +43,7 @@ sealed class AdaptedCode {
         object DELETE : Method()
     }
 
-    sealed class Response : AdaptedCode() {
+    sealed class Response : Code() {
         @Serializable
         @SerialName("Created")
         object Created : Response()
@@ -135,16 +135,16 @@ sealed class AdaptedCode {
     data class Raw(
         val `class`: Int,
         val detail: Int
-    ) : AdaptedCode()
+    ) : Code()
 }
 
 @Serializable
 @SerialName("options")
-data class AdaptedOptions(
-    val type: AdaptedOptionsType,
+data class Option (
+    val type: OptionType,
     val value: String = ""
 ) {
-    enum class AdaptedOptionsType {
+    enum class OptionType {
         UriHost,
         UriPort,
         UriPath,
