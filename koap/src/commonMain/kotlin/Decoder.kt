@@ -77,7 +77,7 @@ inline fun <reified T : Message> ByteArray.decode(): T =
     when (T::class) {
         Message.Tcp::class -> decodeTcp()
         Message.Udp::class -> decodeUdp()
-        else -> error("Unsupported class: ${T::class}")
+        else -> error("Unsupported class: ${T::class.simpleName}")
     } as T
 
 /**

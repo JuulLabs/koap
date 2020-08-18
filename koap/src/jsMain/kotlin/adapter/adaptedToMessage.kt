@@ -53,18 +53,18 @@ private fun AdaptedCode.toCode(): Message.Code = when (this) {
 
 @ExperimentalStdlibApi
 internal fun AdaptedMessage.toMessage(): Message = when (messageType) {
-        MessageType.TCP -> Message.Tcp(
-            code = code.toCode(),
-            token = token,
-            options = options.map { it.toOptions() },
-            payload = payload.encodeToByteArray()
-        )
-        MessageType.UDP -> Message.Udp(
-            type = Message.Udp.Type.valueOf(type),
-            code = code.toCode(),
-            id = id,
-            token = token,
-            options = options.map { it.toOptions() },
-            payload = payload.encodeToByteArray()
-        )
-    }
+    MessageType.TCP -> Message.Tcp(
+        code = code.toCode(),
+        token = token,
+        options = options.map { it.toOptions() },
+        payload = payload.encodeToByteArray()
+    )
+    MessageType.UDP -> Message.Udp(
+        type = Message.Udp.Type.valueOf(type),
+        code = code.toCode(),
+        id = id,
+        token = token,
+        options = options.map { it.toOptions() },
+        payload = payload.encodeToByteArray()
+    )
+}

@@ -3,12 +3,7 @@ plugins {
     id 'org.jmailen.kotlinter'
 }
 
-repositories {
-    jcenter()
-}
-
 kotlin {
-    // targets
     jvm {
         apply plugin: 'java' // Needed by JaCoCo when using `org.jetbrains.kotlin.multiplatform`
         apply plugin: 'jacoco'
