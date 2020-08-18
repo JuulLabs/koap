@@ -217,8 +217,8 @@ internal fun BufferedSink.writeHeader(
     writeAll(token)
 }
 
-fun BufferedSink.writeOptions(options: List<Option>) {
-    val sorted = options.map(Option::toFormat).sortedBy(Message.Option.Format::number)
+private fun BufferedSink.writeOptions(options: List<Option>) {
+    val sorted = options.map(Option::toFormat).sortedBy(Format::number)
     for (i in sorted.indices) {
         val preceding = if (i == 0) null else sorted[i - 1]
         buffer.writeOption(sorted[i], preceding)
@@ -265,7 +265,7 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
 
                 // 4 is max length shown for a `uint` in RFC 7252 Table 4: Options
                 (4 downTo 0).forEach { i -> // 4 downTo 0 used to write `uint` in network byte-order
-                    val byte = (option.value.toLong() shr (i * Byte.SIZE_BITS)).toInt() and 0xff
+                    val byte = (option.value shr (i * Byte.SIZE_BITS)).toInt() and 0xff
 
                     // Per RFC 7252 3.2, begin writing at first non-zero byte.
                     if (byte != 0) write = true
@@ -323,6 +323,7 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
  * @return length of [token] written.
  */
 internal fun BufferedSink.writeToken(token: Long) {
+    if (token == 0L) return
     when (token) {
         in UBYTE_RANGE -> writeByte(token and 0xFF)
         in USHORT_RANGE -> writeShort(token and 0xFF_FF)
