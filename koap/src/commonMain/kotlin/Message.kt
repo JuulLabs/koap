@@ -290,7 +290,7 @@ sealed class Message {
             )
 
             init {
-                require(value.toLong() in OBSERVE_RANGE) {
+                require(value in OBSERVE_RANGE) {
                     "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
                 }
             }

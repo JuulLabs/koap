@@ -338,7 +338,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeObsereOptionWithValueOf16777215")
+    @JsName("writeObserveOptionWithValueOf16777215")
     fun `Write Observe Option with value of 16,777,215`() {
         testWriteOption(
             option = Observe(16_777_215),
