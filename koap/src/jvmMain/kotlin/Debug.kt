@@ -1,3 +1,5 @@
+@file:JvmName("DebugJvm")
+
 package com.juul.koap
 
 internal actual fun Byte.toHexString(): String =
