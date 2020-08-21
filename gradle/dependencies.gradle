@@ -2,10 +2,10 @@ ext.deps = [
     kotlin: [
         stdlib: "org.jetbrains.kotlin:kotlin-stdlib-common",
         test: [
-                annotations: "org.jetbrains.kotlin:kotlin-test-annotations-common",
-                common: "org.jetbrains.kotlin:kotlin-test-common",
-                jvm: "org.jetbrains.kotlin:kotlin-test-junit",
-                js: "org.jetbrains.kotlin:kotlin-test-js",
+            annotations: "org.jetbrains.kotlin:kotlin-test-annotations-common",
+            common: "org.jetbrains.kotlin:kotlin-test-common",
+            jvm: "org.jetbrains.kotlin:kotlin-test-junit",
+            js: "org.jetbrains.kotlin:kotlin-test-js",
         ],
     ],
     serialization: [
