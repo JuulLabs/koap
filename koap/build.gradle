@@ -13,13 +13,26 @@ kotlin {
             disabledRules = ["no-multi-spaces"]
         }
 
+        jacoco {
+            toolVersion = "0.8.5"
+        }
+
+        jacocoTestReport {
+            reports {
+                csv.enabled false
+                html.enabled true
+                xml.enabled true
+            }
+            dependsOn test
+        }
+
         compilations.main.kotlinOptions.jvmTarget = "1.8"
         compilations.test.kotlinOptions.jvmTarget = "1.8"
     }
 
     js {
         apply plugin: 'kotlinx-serialization'
-        browser ()
+        browser()
     }
 
     sourceSets {
