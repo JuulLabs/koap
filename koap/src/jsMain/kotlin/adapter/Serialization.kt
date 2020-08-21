@@ -1,9 +1,11 @@
 package com.juul.koap.adapter
 
 import com.juul.koap.Message
-import com.juul.koap.adapter.Message as AdaptedMessage
+import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
+import com.juul.koap.adapter.Message as AdaptedMessage
 
+@UnstableDefault
 private val json = Json {
     prettyPrint = true
     classDiscriminator = "#type"
