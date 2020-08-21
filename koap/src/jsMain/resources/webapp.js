@@ -21,7 +21,6 @@ hideDiv(rawDiv);
 hideDiv(responseDiv);
 
 messageTypeSelect.addEventListener("change", function(evt) {
-    console.log(this.value);
     if (this.value == "UDP") {
         setupUdpFields(udpMessageTypeSelect, messageIdInput);
     } else if (this.value == "TCP") {
@@ -114,7 +113,6 @@ function setSelectionForCodeType(jsonObj) {
 
 function getCodeTypeForSelection(radioNodeList) {
     for (let i = 0; i < radioNodeList.length; i++) {
-        console.log("value: " + radioNodeList[i].value);
         if (radioNodeList[i].value == "Response" && radioNodeList[i].checked) {
             return {
                 "#type": codeTypeResponseSelect.value

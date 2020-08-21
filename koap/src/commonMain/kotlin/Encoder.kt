@@ -16,6 +16,7 @@ import okio.Buffer
 import okio.BufferedSink
 
 internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
+
 /**
  * Encodes [Message] receiver as a [ByteArray].
  *
