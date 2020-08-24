@@ -3,7 +3,6 @@ package com.juul.koap.adapter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@ExperimentalStdlibApi
 @Serializable
 data class Message (
     val messageType: MessageType,

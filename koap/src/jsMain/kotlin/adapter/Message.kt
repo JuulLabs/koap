@@ -1,15 +1,15 @@
 package com.juul.koap.adapter
 
 import com.juul.koap.Message
+import com.juul.koap.adapter.Message as AdaptedMessage
 import com.juul.koap.adapter.Code as AdaptedCode
 import com.juul.koap.adapter.Option as AdaptedOption
 import com.juul.koap.adapter.Option.OptionType as AdaptedOptionType
 
 
-@ExperimentalStdlibApi
-internal fun Message.toAdapted(): com.juul.koap.adapter.Message = when (this) {
+internal fun Message.toAdapted(): AdaptedMessage = when (this) {
     is Message.Tcp -> {
-        Message(
+        AdaptedMessage(
             messageType = MessageType.TCP,
             code = code.toAdapted(),
             token = token,
@@ -18,7 +18,7 @@ internal fun Message.toAdapted(): com.juul.koap.adapter.Message = when (this) {
         )
     }
     is Message.Udp -> {
-        Message(
+        AdaptedMessage(
             messageType = MessageType.UDP,
             code = code.toAdapted(),
             type = type.name,
@@ -30,8 +30,7 @@ internal fun Message.toAdapted(): com.juul.koap.adapter.Message = when (this) {
     }
 }
 
-@ExperimentalStdlibApi
-internal fun com.juul.koap.adapter.Message.toMessage(): Message = when (messageType) {
+internal fun AdaptedMessage.toMessage(): Message = when (messageType) {
     MessageType.TCP -> Message.Tcp(
         code = code.toCode(),
         token = token,
@@ -106,7 +105,6 @@ private fun AdaptedCode.toCode(): Message.Code = when (this) {
     is AdaptedCode.Raw -> Message.Code.Raw(`class`, detail)
 }
 
-@ExperimentalStdlibApi
 private fun Message.Option.toAdapted(): AdaptedOption = when (this) {
     is Message.Option.UriHost -> AdaptedOption(AdaptedOptionType.UriHost, uri)
     is Message.Option.UriPort -> AdaptedOption(
@@ -163,7 +161,6 @@ private fun Message.Option.toAdapted(): AdaptedOption = when (this) {
     else -> error("error calling Message.Option.toAdapter()")
 }
 
-@ExperimentalStdlibApi
 private fun AdaptedOption.toOption(): Message.Option = when (type) {
     AdaptedOptionType.UriHost -> Message.Option.UriHost(value)
     AdaptedOptionType.UriPort -> Message.Option.UriPort(value.toLong())

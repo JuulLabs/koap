@@ -54,23 +54,11 @@ kotlin {
             }
         }
 
-        jvmMain {
-            dependencies {
-                implementation deps.serialization.jvm
-            }
-        }
-
         jvmTest {
             dependencies {
                 implementation deps.kotlin.test.jvm
                 implementation deps.mockk
                 implementation deps.equalsverifier
-            }
-        }
-
-        jsMain {
-            dependencies {
-                implementation deps.serialization.js
             }
         }
 
