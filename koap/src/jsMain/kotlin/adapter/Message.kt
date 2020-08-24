@@ -8,26 +8,22 @@ import com.juul.koap.adapter.Option.OptionType as AdaptedOptionType
 
 
 internal fun Message.toAdapted(): AdaptedMessage = when (this) {
-    is Message.Tcp -> {
-        AdaptedMessage(
-            messageType = MessageType.TCP,
-            code = code.toAdapted(),
-            token = token,
-            options = options.map { it.toAdapted() },
-            payload = payload.decodeToString()
-        )
-    }
-    is Message.Udp -> {
-        AdaptedMessage(
-            messageType = MessageType.UDP,
-            code = code.toAdapted(),
-            type = type.name,
-            id = id,
-            token = token,
-            options = options.map { it.toAdapted() },
-            payload = payload.decodeToString()
-        )
-    }
+    is Message.Tcp -> AdaptedMessage(
+        messageType = MessageType.TCP,
+        code = code.toAdapted(),
+        token = token,
+        options = options.map { it.toAdapted() },
+        payload = payload.decodeToString()
+    )
+    is Message.Udp -> AdaptedMessage(
+        messageType = MessageType.UDP,
+        code = code.toAdapted(),
+        type = type.name,
+        id = id,
+        token = token,
+        options = options.map { it.toAdapted() },
+        payload = payload.decodeToString()
+    )
 }
 
 internal fun AdaptedMessage.toMessage(): Message = when (messageType) {
