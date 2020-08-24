@@ -23,7 +23,10 @@ kotlin {
                 html.enabled true
                 xml.enabled true
             }
-            dependsOn test
+
+            classDirectories.setFrom(file("${buildDir}/classes/kotlin/jvm/"))
+            sourceDirectories.setFrom(files("src/commonMain", "src/jvmMain"))
+            executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
         }
 
         compilations.main.kotlinOptions.jvmTarget = "1.8"
