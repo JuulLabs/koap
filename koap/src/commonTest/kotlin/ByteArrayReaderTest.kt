@@ -10,8 +10,7 @@ import kotlin.test.assertTrue
 class ByteArrayReaderTest {
 
     @Test
-    @JsName("readUShortWithValueOf1AtAnOffset")
-    fun `readUShort with value of 1, at an offset`() {
+    fun readushort_with_value_of_1_at_an_offset() {
         //    offset  0  1
         //           __ __
         val bytes = "00 00 01 00".parseByteArray()
@@ -30,8 +29,7 @@ class ByteArrayReaderTest {
      * Java's signed int to prevent overflow).
      */
     @Test
-    @JsName("readUShortWithValueThatWontFitInSignedShortAtAnOffset")
-    fun `readUShort with value that won't fit in signed short, at an offset`() {
+    fun readushort_with_value_that_wont_fit_in_signed_short_at_an_offset() {
         //    offset  0  1
         //           __ __
         val bytes = "00 FF 00 00".parseByteArray()
@@ -45,8 +43,7 @@ class ByteArrayReaderTest {
     }
 
     @Test
-    @JsName("readNumberOfLengthWithValueThatWontFitInSignedShortAtAnOffset")
-    fun `readNumberOfLength with value that won't fit in signed short, at an offset`() {
+    fun readnumberoflength_with_value_that_wont_fit_in_signed_short_at_an_offset() {
         //    offset  0  1
         //           __ __
         val bytes = "00 FF 00 00".parseByteArray()
@@ -60,8 +57,7 @@ class ByteArrayReaderTest {
     }
 
     @Test
-    @JsName("readLongReadsLongMaxValueAtAnOffset")
-    fun `readLong reads Long MAX_VALUE at an offset`() {
+    fun readlong_reads_long_max_value_at_an_offset() {
         //    offset  0  1  2
         //           __ __ __
         val bytes = "00 00 7F FF FF FF FF FF FF FF 00 00 00 00".parseByteArray()
@@ -75,8 +71,7 @@ class ByteArrayReaderTest {
     }
 
     @Test
-    @JsName("exhaustedReturnsFalseUntilAtEndOfByteArray")
-    fun `exhausted returns false until at end of ByteArray`() {
+    fun exhausted_returns_false_until_at_end_of_bytearray() {
         val reader = "01 02 03 04 05".parseByteArray().reader()
         //            ^^ ^^ ^^ ^^ ^^
         //       byte  0  1  2  3  4

@@ -28,8 +28,7 @@ import kotlin.test.assertFailsWith
 class EncoderTest {
 
     @Test
-    @JsName("udpMessageGetWithoutPayload")
-    fun `UDP message GET without Payload`() {
+    fun udp_message_get_without_payload() {
         val message = Message.Udp(
             type = Confirmable,
             code = GET,
@@ -55,8 +54,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("tcpMessageHeaderWithMaxSizeContentLength")
-    fun `TCP message header with max size content length`() {
+    fun tcp_message_header_with_max_size_content_length() {
         val message = Message.Tcp(
             code = GET,
             token = 0,
@@ -78,8 +76,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("tcpMessageWith25BytePayload")
-    fun `TCP message with 25 byte payload`() {
+    fun tcp_message_with_25_byte_payload() {
         val message = Message.Tcp(
             code = Content,
             token = 0,
@@ -100,8 +97,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("emptyTcpMessage")
-    fun `Empty TCP message`() {
+    fun empty_tcp_message() {
         val message = Message.Tcp(
             code = GET,
             token = 0,
@@ -119,8 +115,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("tcpMessageWithTokenValueOf1")
-    fun `TCP message with token value of 1`() {
+    fun tcp_message_with_token_value_of_1() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
@@ -139,8 +134,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("tooLongOfUriPathThrowsIllegalArgumentException")
-    fun `Too long of UriPath throws IllegalArgumentException`() {
+    fun too_long_of_uripath_throws_illegalargumentexception() {
         val path = "*".repeat(256) // 255 is maximum allowable UriPath length
         assertFailsWith<IllegalArgumentException> {
             UriPath(path)
@@ -150,9 +144,7 @@ class EncoderTest {
     // RFC 7252 Appendix A. Examples
     // Figure 16: Confirmable Request; Piggybacked Response
     @Test
-    @ExperimentalStdlibApi
-    @JsName("getWithPiggybackedResponse")
-    fun `GET with piggybacked response`() {
+    fun get_with_piggybacked_response() {
         //   Header: GET (T=CON, Code=0.01, MID=0x7d34)
         // Uri-Path: "temperature"
         //
@@ -217,8 +209,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeUriPortOption")
-    fun `Write UriPort Option`() {
+    fun write_uriport_option() {
         val buffer = Buffer().apply {
             writeOption(UriPort(1234).toFormat(), null)
         }
@@ -233,8 +224,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeTokenOfValue0")
-    fun `Write token of value 0`() {
+    fun write_token_of_value_0() {
         testWriteToken(
             token = 0,
             expectedSize = 0,
@@ -243,8 +233,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeTokenOfValue255")
-    fun `Write token of value 255`() {
+    fun write_token_of_value_255() {
         testWriteToken(
             token = UBYTE_MAX_VALUE.toLong(),
             expectedSize = 1,
@@ -253,8 +242,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeTokenOfValue65535")
-    fun `Write token of value 65,535`() {
+    fun write_token_of_value_65_535() {
         testWriteToken(
             token = USHORT_MAX_VALUE.toLong(),
             expectedSize = 2,
@@ -263,8 +251,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeTokenOfValue4294967295")
-    fun `Write token of value 4,294,967,295`() {
+    fun write_token_of_value_4_294_967_295() {
         testWriteToken(
             token = UINT_MAX_VALUE,
             expectedSize = 4,
@@ -273,8 +260,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeTokenOfValue9223372036854775807")
-    fun `Write token of value 9,223,372,036,854,775,807`() {
+    fun write_token_of_value_9_223_372_036_854_775_807() {
         testWriteToken(
             token = Long.MAX_VALUE,
             expectedSize = 8,
@@ -283,8 +269,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeTokenOfValueNegative1")
-    fun `Write token of value -1`() {
+    fun write_token_of_value_negative_1() {
         testWriteToken(
             token = -1,
             expectedSize = 8,
@@ -293,8 +278,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeTokenOfValueNegative9223372036854775806")
-    fun `Write token of value -9,223,372,036,854,775,806`() {
+    fun write_token_of_value_negative_9_223_372_036_854_775_806() {
         testWriteToken(
             token = Long.MIN_VALUE,
             expectedSize = 8,
@@ -303,8 +287,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeObserveOptionWithValueOfRegister")
-    fun `Write Observe Option with value of Register`() {
+    fun write_observe_option_with_value_of_register() {
         testWriteOption(
             option = Observe(Register),
             expected = """
@@ -314,8 +297,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeObserveOptionWithValueOfDeregister")
-    fun `Write Observe Option with value of Deregister`() {
+    fun write_observe_option_with_value_of_deregister() {
         testWriteOption(
             option = Observe(Deregister),
             expected = """
@@ -326,8 +308,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeObserveOptionWithValueOf255")
-    fun `Write Observe Option with value of 255`() {
+    fun write_observe_option_with_value_of_255() {
         testWriteOption(
             option = Observe(255),
             expected = """
@@ -338,8 +319,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("writeObserveOptionWithValueOf16777215")
-    fun `Write Observe Option with value of 16,777,215`() {
+    fun write_observe_option_with_value_of_16_777_215() {
         testWriteOption(
             option = Observe(16_777_215),
             expected = """
@@ -350,8 +330,7 @@ class EncoderTest {
     }
 
     @Test
-    @JsName("observeOptionWithValueOutsideOfAllowableRangeThrowsIllegalArgumentException")
-    fun `Observe Option with value outside of allowable range throws IllegalArgumentException`() {
+    fun observe_option_with_value_outside_of_allowable_range_throws_illegalargumentexception() {
         assertFailsWith<IllegalArgumentException> {
             Observe(16_777_216)
         }

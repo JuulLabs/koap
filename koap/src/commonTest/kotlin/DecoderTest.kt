@@ -21,8 +21,7 @@ import kotlin.test.assertEquals
 class DecoderTest {
 
     @Test
-    @JsName("decodeUdpGetWithOptions")
-    fun `Decode Udp GET with Options`() {
+    fun decode_udp_get_with_options() {
         val message = Message.Udp(
             type = Confirmable,
             code = GET,
@@ -43,8 +42,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("decodeTcpGetWithOptions")
-    fun `Decode Tcp GET with Options`() {
+    fun decode_tcp_get_with_options() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
@@ -63,8 +61,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("decodeTcpGetWithoutOptionsNorPayload")
-    fun `Decode Tcp GET without Options nor Payload`() {
+    fun decode_tcp_get_without_options_nor_payload() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
@@ -79,8 +76,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("decodeTcpGetWithoutOptionsButWithPayload")
-    fun `Decode Tcp GET without Options, but with Payload`() {
+    fun decode_tcp_get_without_options_but_with_payload() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
@@ -95,8 +91,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("decodeTcpGetWithOptionsButWithoutPayload")
-    fun `Decode Tcp GET with Options, but without Payload`() {
+    fun decode_tcp_get_with_options_but_without_payload() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
@@ -115,8 +110,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("decodeObserveOptionsWithValueOf16777215")
-    fun `Decode Observe Option with value of 16,777,215`() {
+    fun decode_observe_option_with_value_of_16_777_215() {
         testReadOption(
             encoded = """
                 63       # Option Delta: 6, Option Length: 3
@@ -127,8 +121,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("decodeObserveOptionWithValueOfRegister")
-    fun `Decode Observe Option with value of Register`() {
+    fun decode_observe_option_with_value_of_register() {
         testReadOption(
             encoded = """
                 60 # Option Delta: 6, Option Length: 0 (Option Value of 0 is implied; Register)
@@ -138,8 +131,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("decodeObserveOptionWithValueOfDeregister")
-    fun `Decode Observe Option with value of Deregister`() {
+    fun decode_observe_option_with_value_of_deregister() {
         testReadOption(
             encoded = """
                 61 # Option Delta: 6, Option Length: 1
@@ -150,8 +142,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("decodingTcpMessageDoesNotReadBeyondLengthSpecifiedInHeader")
-    fun `Decoding Tcp message does not read beyond length specified in header`() {
+    fun decoding_tcp_message_does_not_read_beyond_length_specified_in_header() {
         val message = Message.Tcp(
             code = GET,
             token = 0,
@@ -167,8 +158,7 @@ class DecoderTest {
     }
 
     @Test
-    @JsName("canDecodeTokenOfLength8")
-    fun `Can decode token of length 8`() {
+    fun can_decode_token_of_length_8() {
         val message = Message.Tcp(
             code = GET,
             token = Long.MAX_VALUE,

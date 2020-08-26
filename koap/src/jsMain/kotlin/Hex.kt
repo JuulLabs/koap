@@ -1,5 +1,6 @@
 package com.juul.koap
 
+// Borrowed from HexConverter.kt in the kotlinx.serialization library
 internal fun parseHexBinary(hex: String): ByteArray {
     val len = hex.length
     require(len % 2 == 0) { "Hex binary string must be even length" }
@@ -18,6 +19,7 @@ internal fun parseHexBinary(hex: String): ByteArray {
     return bytes
 }
 
+// Borrowed from HexConverter.kt in the kotlinx.serialization library
 private fun hexToInt(character: Char): Int = when (character) {
     in '0'..'9' -> character - '0'
     in 'A'..'F' -> character - 'A' + 10
