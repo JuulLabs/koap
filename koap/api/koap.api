@@ -200,6 +200,7 @@ public abstract class com/juul/koap/Message$Option {
 
 public final class com/juul/koap/Message$Option$Accept : com/juul/koap/Message$Option {
 	public fun <init> (J)V
+	public fun <init> (Lcom/juul/koap/Message$Option$ContentFormat;)V
 	public final fun component1 ()J
 	public final fun copy (J)Lcom/juul/koap/Message$Option$Accept;
 	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Accept;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Accept;
