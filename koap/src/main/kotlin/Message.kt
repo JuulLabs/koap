@@ -196,6 +196,9 @@ sealed class Message {
 
         /** RFC 7252 5.10.4. Accept */
         data class Accept(val format: Long) : Option() {
+
+            constructor(format: ContentFormat) : this(format.format)
+
             init {
                 require(format in ACCEPT_RANGE) {
                     "Accept format of $format is outside allowable range of $ACCEPT_RANGE"
