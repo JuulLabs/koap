@@ -179,10 +179,26 @@ sealed class Message {
                     "Content-Format of $format is outside allowable range of $CONTENT_FORMAT_RANGE"
                 }
             }
+
+            /** RFC 7252 12.3. CoAP Content-Formats Registry */
+            companion object {
+                val PlainText = ContentFormat(0)    // text/plain; charset=utf-8
+                val LinkFormat = ContentFormat(40)  // application/link-format
+                val XML = ContentFormat(41)         // application/xml
+                val OctetStream = ContentFormat(42) // application/octet-stream
+                val EXI = ContentFormat(47)         // application/exi
+                val JSON = ContentFormat(50)        // application/json
+
+                /** RFC 7049 7.4. CoAP Content-Format */
+                val CBOR = ContentFormat(60)        // application/cbor
+            }
         }
 
         /** RFC 7252 5.10.4. Accept */
         data class Accept(val format: Long) : Option() {
+
+            constructor(format: ContentFormat) : this(format.format)
+
             init {
                 require(format in ACCEPT_RANGE) {
                     "Accept format of $format is outside allowable range of $ACCEPT_RANGE"

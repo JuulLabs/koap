@@ -200,6 +200,7 @@ public abstract class com/juul/koap/Message$Option {
 
 public final class com/juul/koap/Message$Option$Accept : com/juul/koap/Message$Option {
 	public fun <init> (J)V
+	public fun <init> (Lcom/juul/koap/Message$Option$ContentFormat;)V
 	public final fun component1 ()J
 	public final fun copy (J)Lcom/juul/koap/Message$Option$Accept;
 	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Accept;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Accept;
@@ -210,6 +211,7 @@ public final class com/juul/koap/Message$Option$Accept : com/juul/koap/Message$O
 }
 
 public final class com/juul/koap/Message$Option$ContentFormat : com/juul/koap/Message$Option {
+	public static final field Companion Lcom/juul/koap/Message$Option$ContentFormat$Companion;
 	public fun <init> (J)V
 	public final fun component1 ()J
 	public final fun copy (J)Lcom/juul/koap/Message$Option$ContentFormat;
@@ -218,6 +220,16 @@ public final class com/juul/koap/Message$Option$ContentFormat : com/juul/koap/Me
 	public final fun getFormat ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$ContentFormat$Companion {
+	public final fun getCBOR ()Lcom/juul/koap/Message$Option$ContentFormat;
+	public final fun getEXI ()Lcom/juul/koap/Message$Option$ContentFormat;
+	public final fun getJSON ()Lcom/juul/koap/Message$Option$ContentFormat;
+	public final fun getLinkFormat ()Lcom/juul/koap/Message$Option$ContentFormat;
+	public final fun getOctetStream ()Lcom/juul/koap/Message$Option$ContentFormat;
+	public final fun getPlainText ()Lcom/juul/koap/Message$Option$ContentFormat;
+	public final fun getXML ()Lcom/juul/koap/Message$Option$ContentFormat;
 }
 
 public final class com/juul/koap/Message$Option$ETag : com/juul/koap/Message$Option {
