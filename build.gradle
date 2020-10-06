@@ -1,6 +1,10 @@
 buildscript {
     apply from: rootProject.file('gradle/dependencies.gradle')
 
+    ext {
+        kotlinVersion = '1.4.10'
+    }
+
     repositories {
         jcenter()
     }
@@ -8,10 +12,12 @@ buildscript {
 
 plugins {
     id 'org.jmailen.kotlinter' version '2.2.0' apply false
-    id 'org.jetbrains.kotlin.multiplatform' version '1.4.0' apply false
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.0' apply false
+    id 'org.jetbrains.kotlin.multiplatform' version "$kotlinVersion" apply false
+    id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlinVersion" apply false
     id 'com.vanniktech.maven.publish' version '0.11.1' apply false
     id 'binary-compatibility-validator' version '0.2.3'
+    id 'org.jetbrains.kotlin.js' version "$kotlinVersion" apply false
+    id 'com.moowork.node' version '1.3.1' apply false
 }
 
 subprojects {

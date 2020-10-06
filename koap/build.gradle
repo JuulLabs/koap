@@ -37,7 +37,15 @@ kotlin {
 
     js {
         apply plugin: 'kotlinx-serialization'
-        browser()
+        apply from: rootProject.file('gradle/npm.gradle')
+
+        browser {
+            // distribution {
+            //     directory = file("$projectDir/mydist/")
+            // }
+        }
+
+        binaries.executable()
     }
 
     sourceSets {

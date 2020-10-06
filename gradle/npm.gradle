@@ -1,0 +1,59 @@
+/*
+ * Copyright 2016-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
+ */
+
+apply plugin: 'com.moowork.node'
+
+def prop(name, defVal) {
+    def value = project.properties[name]
+    if (value == null) return defVal
+    return value
+}
+
+def distTag(version) {
+    def i = version.indexOf('-')
+    if (i > 0) return version.substring(i + 1)
+    return "latest"
+}
+
+def npmTemplateDir = file("$projectDir/npm")
+def npmDeployDir = file("$buildDir/npm")
+
+def authToken = prop("kotlin.npmjs.auth.token", "")
+def dryRun = prop("dryRun", "false")
+
+def jsLegacy = kotlin.targets.hasProperty("jsLegacy")
+        ? kotlin.targets.jsLegacy
+        : kotlin.targets.js
+
+// Note: publish transformed files using dependency on sourceSets.main.output
+task preparePublishNpm(type: Copy) {
+    from(npmTemplateDir) {
+        // Postpone expansion of package.json until we configure version property in build.gradle
+        def copySpec = it
+        afterEvaluate {
+            copySpec.expand(project.properties + [kotlinDependency: "\"kotlin\": \"$kotlinVersion\""])
+        }
+    }
+    // we must publish output that is transformed by atomicfu
+    from(jsLegacy.compilations.main.output.allOutputs)
+    into npmDeployDir
+}
+
+task publishNpm(type: NpmTask, dependsOn: [preparePublishNpm]) {
+    workingDir = npmDeployDir
+  
+    doFirst {
+        def npmDeployTag = distTag(version)
+        def deployArgs = ['publish',
+                          "--@juullabs:registry=https://npm.pkg.github.com/",
+                          "--//npm.pkg.github.com/:_authToken=$authToken",
+                          "--tag=$npmDeployTag"]
+        if (dryRun == "true") {
+            println("$npmDeployDir \$ npm arguments: $deployArgs")
+            args = ['pack']
+        } else {
+            args = deployArgs
+        }
+    }
+}
