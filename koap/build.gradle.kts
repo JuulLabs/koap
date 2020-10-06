@@ -26,7 +26,16 @@ tasks.withType<JacocoReport> {
 
 kotlin {
     jvm()
-    js().browser()
+    js {
+        id("com.moowork.node")
+        apply(from("${rootDir}/gradle/npm.gradle"))
+        browser {
+            distribution {
+                directory = file("${buildDir}/npmdist/")
+            }
+        }
+        binaries.executable()
+    }
 
     sourceSets {
         val commonMain by getting {

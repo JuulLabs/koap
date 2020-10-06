@@ -1,0 +1,24 @@
+{
+    "name": "@juullabs/koap",
+    "version" : "$npmPublishVersion",
+    "description" : "Kotlin CoAP encoder/decoder",
+    "main" : "koap.js",
+    "author": "Juullabs",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/JuulLabs/koap",
+    "bugs": {
+      "url": "https://github.com/JuulLabs/koap/issues"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/JuulLabs/koap.git"
+    },
+    "keywords": [
+      "Kotlin",
+      "CoAP",
+      "JavaScript"
+    ],
+    "peerDependencies": {
+        "kotlin": "^$kotlinVersion"
+    }
+  }

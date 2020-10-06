@@ -1,0 +1,92 @@
+/*
+ * Copyright 2016-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
+ */
+
+// The webpack tasks are configured to output build artifacts to $projectDir/npmdist
+// (configured in build.gradle via js.browser.distribution.directory)
+// This task uses $projectDir/npm/package.json as a template to build the final 
+// $projectDir/npmdist/package.json which can then be published.
+//
+// Test with:
+// ./gradlew clean
+// ./gradlew jsBrowserDevelopmentWebpack
+// ./gradlew publishNpm -P dryRun=true -P npmPublishVersion=0.0.3-test5
+// Publish:
+// ./gradlew clean
+// ./gradlew jsBrowserProductionWebpack
+// ./gradlew publishNpm -P kotlin.npmjs.auth.token=<token>
+
+
+apply plugin: 'com.moowork.node'
+
+def prop(name, defVal) {
+    def value = project.properties[name]
+    if (value == null) return defVal
+    return value
+}
+
+def distTag(version) {
+    def i = version.indexOf('-')
+    if (i > 0) return version.substring(i + 1)
+    return "latest"
+}
+
+def getLatestGitTag() {
+    def proc = "gradle/gitLatestTag.sh".execute()
+    def outputStream = new StringBuffer()
+    proc.waitForProcessOutput(outputStream, System.err)
+    return outputStream.toString()
+}
+
+def npmTemplateDir = file("$projectDir/npm")
+def npmDeployDir = file("$buildDir/npmdist")
+
+def authToken = prop("kotlin.npmjs.auth.token", "")
+def dryRun = prop("dryRun", "true")
+def npmPublishVersion = prop("npmPublishVersion", getLatestGitTag())
+
+def jsLegacy = kotlin.targets.hasProperty("jsLegacy")
+        ? kotlin.targets.jsLegacy
+        : kotlin.targets.js
+
+// Note: publish transformed files using dependency on sourceSets.main.output
+task preparePublishNpm(type: Copy) {
+    from(npmTemplateDir) {
+        // Postpone expansion of package.json until we configure version property in build.gradle
+        include "package.json"
+        def copySpec = it
+        afterEvaluate {
+            // we are not actually using this...
+            copySpec.expand(project.properties + [kotlinDependency: "\"kotlin\": \"$kotlinVersion\""])
+        }
+    }
+    from(npmTemplateDir) {
+        exclude "package.json"
+    }
+    // we must publish output that is transformed by atomicfu
+    from(jsLegacy.compilations.main.output.allOutputs) {
+        // we really only want the webpack output
+        // TODO: typescript types files
+        include "koap.js"
+    }
+    into npmDeployDir
+}
+
+task publishNpm(type: NpmTask, dependsOn: [preparePublishNpm]) {
+    workingDir = npmDeployDir
+
+    doFirst {
+        def npmDeployTag = distTag(npmPublishVersion)
+        def deployArgs = ['notpublish',
+                          "--@juullabs:registry=https://npm.pkg.github.com/",
+                          "--//npm.pkg.github.com/:_authToken=$authToken",
+                          "--tag=$npmDeployTag", "foo: $npmPublishVersion"]
+        if (dryRun == "true") {
+            println("")
+            println("$npmDeployDir \$ npm arguments: $deployArgs")
+            args = ['pack']
+        } else {
+            args = deployArgs
+        }
+    }
+}
