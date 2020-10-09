@@ -1,10 +1,6 @@
 buildscript {
     apply from: rootProject.file('gradle/dependencies.gradle')
 
-    ext {
-        kotlinVersion = '1.4.10'
-    }
-
     repositories {
         jcenter()
     }

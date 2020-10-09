@@ -1,8 +1,8 @@
 {
     "name": "@juullabs/koap",
-    "version" : "$version",
+    "version" : "$npmPublishVersion",
     "description" : "Kotlin CoAP encoder/decoder",
-    "main" : "koap-koap.js",
+    "main" : "koap.js",
     "author": "Juullabs",
     "license": "Apache-2.0",
     "homepage": "https://github.com/JuulLabs/koap",
@@ -19,6 +19,6 @@
       "JavaScript"
     ],
     "peerDependencies": {
-      $kotlinDependency
+        "kotlin": "^$kotlinVersion"
     }
   }

@@ -1,3 +1,9 @@
+ext {
+    kotlinVersion = '1.4.10'
+    okioVersion = '2.6.0'
+    serializationVersion = '1.0.0-RC'
+}
+
 ext.deps = [
     kotlin: [
         stdlib: "org.jetbrains.kotlin:kotlin-stdlib-common",
@@ -9,9 +15,9 @@ ext.deps = [
         ],
     ],
     serialization: [
-        common: "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
+        common: "org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion"
     ],
-    okio: "com.squareup.okio:okio-multiplatform:2.6.0",
+    okio: "com.squareup.okio:okio-multiplatform:$okioVersion",
     mockk: "io.mockk:mockk:1.10.0",
     equalsverifier: "nl.jqno.equalsverifier:equalsverifier:3.4",
 ]

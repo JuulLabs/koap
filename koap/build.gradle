@@ -39,10 +39,15 @@ kotlin {
         apply plugin: 'kotlinx-serialization'
         apply from: rootProject.file('gradle/npm.gradle')
 
+        //moduleName = "koap-core"
+
         browser {
-            // distribution {
-            //     directory = file("$projectDir/mydist/")
-            // }
+            distribution {
+                directory = file("$buildDir/npmdist/")
+            }
+            webpackTask {
+                // ?
+            }
         }
 
         binaries.executable()
