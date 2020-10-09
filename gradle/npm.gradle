@@ -66,6 +66,7 @@ task preparePublishNpm(type: Copy) {
     // we must publish output that is transformed by atomicfu
     from(jsLegacy.compilations.main.output.allOutputs) {
         // we really only want the webpack output
+        // TODO: typescript types files
         include "koap.js"
     }
     into npmDeployDir
