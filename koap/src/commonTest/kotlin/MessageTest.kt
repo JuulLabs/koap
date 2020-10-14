@@ -32,39 +32,39 @@ class MessageTest {
 
     @Test
     fun methodToString() {
-        assertStringify(GET, "GET")
-        assertStringify(POST, "POST")
-        assertStringify(PUT, "PUT")
-        assertStringify(DELETE, "DELETE")
+        assertToString(GET, "GET")
+        assertToString(POST, "POST")
+        assertToString(PUT, "PUT")
+        assertToString(DELETE, "DELETE")
     }
 
     @Test
     fun responseToString() {
-        assertStringify(Created, "Created")
-        assertStringify(Deleted, "Deleted")
-        assertStringify(Valid, "Valid")
-        assertStringify(Changed, "Changed")
-        assertStringify(Content, "Content")
-        assertStringify(BadRequest, "BadRequest")
-        assertStringify(Unauthorized, "Unauthorized")
-        assertStringify(BadOption, "BadOption")
-        assertStringify(Forbidden, "Forbidden")
-        assertStringify(NotFound, "NotFound")
-        assertStringify(MethodNotAllowed, "MethodNotAllowed")
-        assertStringify(NotAcceptable, "NotAcceptable")
-        assertStringify(PreconditionFailed, "PreconditionFailed")
-        assertStringify(RequestEntityTooLarge, "RequestEntityTooLarge")
-        assertStringify(UnsupportedContentFormat, "UnsupportedContentFormat")
-        assertStringify(InternalServerError, "InternalServerError")
-        assertStringify(NotImplemented, "NotImplemented")
-        assertStringify(BadGateway, "BadGateway")
-        assertStringify(ServiceUnavailable, "ServiceUnavailable")
-        assertStringify(GatewayTimeout, "GatewayTimeout")
-        assertStringify(ProxyingNotSupported, "ProxyingNotSupported")
+        assertToString(Created, "Created")
+        assertToString(Deleted, "Deleted")
+        assertToString(Valid, "Valid")
+        assertToString(Changed, "Changed")
+        assertToString(Content, "Content")
+        assertToString(BadRequest, "BadRequest")
+        assertToString(Unauthorized, "Unauthorized")
+        assertToString(BadOption, "BadOption")
+        assertToString(Forbidden, "Forbidden")
+        assertToString(NotFound, "NotFound")
+        assertToString(MethodNotAllowed, "MethodNotAllowed")
+        assertToString(NotAcceptable, "NotAcceptable")
+        assertToString(PreconditionFailed, "PreconditionFailed")
+        assertToString(RequestEntityTooLarge, "RequestEntityTooLarge")
+        assertToString(UnsupportedContentFormat, "UnsupportedContentFormat")
+        assertToString(InternalServerError, "InternalServerError")
+        assertToString(NotImplemented, "NotImplemented")
+        assertToString(BadGateway, "BadGateway")
+        assertToString(ServiceUnavailable, "ServiceUnavailable")
+        assertToString(GatewayTimeout, "GatewayTimeout")
+        assertToString(ProxyingNotSupported, "ProxyingNotSupported")
     }
 }
 
-private fun assertStringify(obj: Any, expected: String) {
+private fun assertToString(obj: Any, expected: String) {
     assertEquals(
         actual = obj.toString(),
         expected = expected
