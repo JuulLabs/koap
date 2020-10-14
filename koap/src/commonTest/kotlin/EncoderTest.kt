@@ -25,10 +25,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import okio.Buffer
 
+@ExperimentalStdlibApi // for `encodeToByteArray`
 class EncoderTest {
 
     @Test
-    fun `UDP message GET without Payload`() {
+    fun udpMessageGetWithoutPayload() {
         val message = Message.Udp(
             type = Confirmable,
             code = GET,
@@ -54,7 +55,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `TCP message header with max size content length`() {
+    fun tcpMessageHeaderWithMaxSizeContentLength() {
         val message = Message.Tcp(
             code = GET,
             token = 0,
@@ -76,7 +77,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `TCP message with 25 byte payload`() {
+    fun tcpMessageWith25BytePayload() {
         val message = Message.Tcp(
             code = Content,
             token = 0,
@@ -97,7 +98,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Empty TCP message`() {
+    fun emptyTcpMessage() {
         val message = Message.Tcp(
             code = GET,
             token = 0,
@@ -115,7 +116,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `TCP message with token value of 1`() {
+    fun tcpMessageWithTokenValueOf1() {
         val message = Message.Tcp(
             code = GET,
             token = 1,
@@ -134,7 +135,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Too long of UriPath throws IllegalArgumentException`() {
+    fun tooLongOfUriPathThrowsIllegalArgumentException() {
         val path = "*".repeat(256) // 255 is maximum allowable UriPath length
         assertFailsWith<IllegalArgumentException> {
             UriPath(path)
@@ -144,7 +145,7 @@ class EncoderTest {
     // RFC 7252 Appendix A. Examples
     // Figure 16: Confirmable Request; Piggybacked Response
     @Test
-    fun `GET with piggybacked response`() {
+    fun getWithPiggybackedResponse() {
         //   Header: GET (T=CON, Code=0.01, MID=0x7d34)
         // Uri-Path: "temperature"
         //
@@ -193,7 +194,7 @@ class EncoderTest {
             code = Content, // 2.05 (69)
             id = 0x7d34,
             options = emptyList(),
-            payload = "22.3 C".toByteArray(),
+            payload = "22.3 C".encodeToByteArray(),
             token = 0
         )
         assertEquals(
@@ -209,7 +210,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write UriPort Option`() {
+    fun writeUriPortOption() {
         val buffer = Buffer().apply {
             writeOption(UriPort(1234).toFormat(), null)
         }
@@ -224,7 +225,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write token of value 0`() {
+    fun writeTokenOfValue0() {
         testWriteToken(
             token = 0,
             expectedSize = 0,
@@ -233,7 +234,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write token of value 255`() {
+    fun writeTokenOfValue255() {
         testWriteToken(
             token = UBYTE_MAX_VALUE.toLong(),
             expectedSize = 1,
@@ -242,7 +243,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write token of value 65,535`() {
+    fun writeTokenOfValue65535() {
         testWriteToken(
             token = USHORT_MAX_VALUE.toLong(),
             expectedSize = 2,
@@ -251,7 +252,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write token of value 4,294,967,295`() {
+    fun writeTokenOfValue4294967295() {
         testWriteToken(
             token = UINT_MAX_VALUE,
             expectedSize = 4,
@@ -260,7 +261,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write token of value 9,223,372,036,854,775,807`() {
+    fun writeTokenOfValue9223372036854775807() {
         testWriteToken(
             token = Long.MAX_VALUE,
             expectedSize = 8,
@@ -269,7 +270,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write token of value -1`() {
+    fun writeTokenOfValueNegative1() {
         testWriteToken(
             token = -1,
             expectedSize = 8,
@@ -278,7 +279,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write token of value -9,223,372,036,854,775,806`() {
+    fun writeTokenOfValueNegative9223372036854775806() {
         testWriteToken(
             token = Long.MIN_VALUE,
             expectedSize = 8,
@@ -287,7 +288,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write Observe Option with value of Register`() {
+    fun writeObserveOptionWithValueOfRegister() {
         testWriteOption(
             option = Observe(Register),
             expected = """
@@ -297,7 +298,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write Observe Option with value of Deregister`() {
+    fun writeObserveOptionWithValueOfDeregister() {
         testWriteOption(
             option = Observe(Deregister),
             expected = """
@@ -308,7 +309,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write Observe Option with value of 255`() {
+    fun writeObserveOptionWithValueOf255() {
         testWriteOption(
             option = Observe(255),
             expected = """
@@ -319,7 +320,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Write Observe Option with value of 16,777,215`() {
+    fun writeObserveOptionWithValueOf16777215() {
         testWriteOption(
             option = Observe(16_777_215),
             expected = """
@@ -330,7 +331,7 @@ class EncoderTest {
     }
 
     @Test
-    fun `Observe Option with value outside of allowable range throws IllegalArgumentException`() {
+    fun observeOptionWithValueOutsideOfAllowableRangeThrowsIllegalArgumentException() {
         assertFailsWith<IllegalArgumentException> {
             Observe(16_777_216)
         }

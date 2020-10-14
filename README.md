@@ -1,3 +1,5 @@
+![badge][badge-js]
+![badge][badge-jvm]
 [![codecov](https://codecov.io/gh/JuulLabs/koap/branch/master/graph/badge.svg?token=EM9VA765J7)](https://codecov.io/gh/JuulLabs/koap)
 [![Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
@@ -198,6 +200,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
+
+[badge-android]: http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat
+[badge-ios]: http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat
+[badge-js]: http://img.shields.io/badge/platform-js-F8DB5D.svg?style=flat
+[badge-jvm]: http://img.shields.io/badge/platform-jvm-DB413D.svg?style=flat
+[badge-linux]: http://img.shields.io/badge/platform-linux-2D3F6C.svg?style=flat
+[badge-windows]: http://img.shields.io/badge/platform-windows-4D76CD.svg?style=flat
+[badge-mac]: http://img.shields.io/badge/platform-macos-111111.svg?style=flat
+[badge-watchos]: http://img.shields.io/badge/platform-watchos-C0C0C0.svg?style=flat
+[badge-tvos]: http://img.shields.io/badge/platform-tvos-808080.svg?style=flat
+[badge-wasm]: https://img.shields.io/badge/platform-wasm-624FE8.svg?style=flat
 
 [RFC 7252]: https://tools.ietf.org/html/rfc7252
 [RFC 8323]: https://tools.ietf.org/html/rfc8323
