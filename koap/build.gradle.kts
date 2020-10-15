@@ -4,6 +4,7 @@ plugins {
     java // Needed by JaCoCo for multiplatform projects.
     jacoco
     id("com.vanniktech.maven.publish")
+    id("com.moowork.node")
 }
 
 kotlinter {
@@ -27,14 +28,14 @@ tasks.withType<JacocoReport> {
 kotlin {
     jvm()
     js {
-        id("com.moowork.node")
-        apply(from("${rootDir}/gradle/npm.gradle"))
+        apply(from = "${rootDir}/gradle/npm.gradle")
         browser {
             distribution {
-                directory = file("${buildDir}/npmdist/")
+                file("${buildDir}/npmdist/")
             }
         }
         binaries.executable()
+        // target = "v5"
     }
 
     sourceSets {

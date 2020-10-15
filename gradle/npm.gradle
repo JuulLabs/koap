@@ -17,10 +17,9 @@
 // ./gradlew publishNpm -P kotlin.npmjs.auth.token=<token>
 
 
-apply plugin: 'com.moowork.node'
-
 def prop(name, defVal) {
     def value = project.properties[name]
+    println "$name got value '$value' with default '$defVal'"
     if (value == null) return defVal
     return value
 }
@@ -35,15 +34,18 @@ def getLatestGitTag() {
     def proc = "gradle/gitLatestTag.sh".execute()
     def outputStream = new StringBuffer()
     proc.waitForProcessOutput(outputStream, System.err)
-    return outputStream.toString()
+    return outputStream.toString().replaceAll("\\s","")
 }
-
-def npmTemplateDir = file("$projectDir/npm")
-def npmDeployDir = file("$buildDir/npmdist")
 
 def authToken = prop("kotlin.npmjs.auth.token", "")
 def dryRun = prop("dryRun", "true")
-def npmPublishVersion = prop("npmPublishVersion", getLatestGitTag())
+
+
+ext {
+    // These are referenced from the package.json template
+    kotlinVersion = "1.4.10"
+    npmPublishVersion = prop("npmPublishVersion", getLatestGitTag())
+}
 
 def jsLegacy = kotlin.targets.hasProperty("jsLegacy")
         ? kotlin.targets.jsLegacy
@@ -51,13 +53,16 @@ def jsLegacy = kotlin.targets.hasProperty("jsLegacy")
 
 // Note: publish transformed files using dependency on sourceSets.main.output
 task preparePublishNpm(type: Copy) {
+    def npmTemplateDir = file("$projectDir/npm")
+    def npmDeployDir = file("$buildDir/npmdist")
+    def kotlinVersion = "1.4.10"
     from(npmTemplateDir) {
         // Postpone expansion of package.json until we configure version property in build.gradle
         include "package.json"
         def copySpec = it
         afterEvaluate {
             // we are not actually using this...
-            copySpec.expand(project.properties + [kotlinDependency: "\"kotlin\": \"$kotlinVersion\""])
+            // copySpec.expand(project.properties + [kotlinDependency: "\"kotlin\": \"$ext.kotlinVersion\""])
         }
     }
     from(npmTemplateDir) {
@@ -73,14 +78,19 @@ task preparePublishNpm(type: Copy) {
 }
 
 task publishNpm(type: NpmTask, dependsOn: [preparePublishNpm]) {
+    group = "Publishing"
+    description = "Publish NPM Package to Github"
+
+    def npmDeployDir = file("$buildDir/npmdist")
     workingDir = npmDeployDir
 
     doFirst {
+        def npmPublishVersion = prop("npmPublishVersion", getLatestGitTag())
         def npmDeployTag = distTag(npmPublishVersion)
-        def deployArgs = ['notpublish',
+        def deployArgs = ['publish',
                           "--@juullabs:registry=https://npm.pkg.github.com/",
                           "--//npm.pkg.github.com/:_authToken=$authToken",
-                          "--tag=$npmDeployTag", "foo: $npmPublishVersion"]
+                          "--tag=$npmDeployTag"]
         if (dryRun == "true") {
             println("")
             println("$npmDeployDir \$ npm arguments: $deployArgs")
