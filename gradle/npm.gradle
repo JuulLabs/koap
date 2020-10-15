@@ -19,7 +19,6 @@
 
 def prop(name, defVal) {
     def value = project.properties[name]
-    println "$name got value '$value' with default '$defVal'"
     if (value == null) return defVal
     return value
 }
@@ -47,15 +46,19 @@ ext {
     npmPublishVersion = prop("npmPublishVersion", getLatestGitTag())
 }
 
-def jsLegacy = kotlin.targets.hasProperty("jsLegacy")
-        ? kotlin.targets.jsLegacy
-        : kotlin.targets.js
-
 // Note: publish transformed files using dependency on sourceSets.main.output
+// TODO: add dependsOn: [jsBrowserProduction/DevelopmentWebpack]
 task preparePublishNpm(type: Copy) {
     def npmTemplateDir = file("$projectDir/npm")
     def npmDeployDir = file("$buildDir/npmdist")
     def kotlinVersion = "1.4.10"
+
+    // This no longer works....?
+    // def outputs = kotlin.targets.js.compilations.main.output.allOutputs
+    // TODO: probably instead should get the value of jsBrowserProduction/DevelopmentWebpack task outputs...
+    def outputs = file("$buildDir/distributions")
+
+    // println("jsLegacy: $kotlin.targets.jsLegacy.compilations.main.output.allOutputs")
     from(npmTemplateDir) {
         // Postpone expansion of package.json until we configure version property in build.gradle
         include "package.json"
@@ -69,7 +72,7 @@ task preparePublishNpm(type: Copy) {
         exclude "package.json"
     }
     // we must publish output that is transformed by atomicfu
-    from(jsLegacy.compilations.main.output.allOutputs) {
+    from(outputs) {
         // we really only want the webpack output
         // TODO: typescript types files
         include "koap.js"
