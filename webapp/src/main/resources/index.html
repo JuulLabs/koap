@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <title>KoAP - Online CoAP decoder</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="webapp.js"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <div>
+            <span id="instructions">
+                Type or paste the hex encoded CoAP message to decode.
+                See <a href="docs/index.html">KoAP reference documentation</a> for details on supported CoAP features.
+            </span>
+        </div>
+
+        <textarea id="input" rows="8" placeholder="42 01 FE ED CA FE B5 ..."></textarea>
+
+        <div>
+            <div id="output"></div>
+        </div>
+
+        <a href="https://github.com/JuulLabs/koap">
+            <img
+                style="position: absolute; top: 0; right: 0; border: 0;"
+                src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149"
+                alt="Fork me on GitHub"
+                />
+        </a>
+
+        <script type="text/javascript">
+            var previous = "";
+            $('#input').on('change keyup paste', function() {
+                var current = $(this).val();
+                if (current == previous) return; // prevent multiple simultaneous triggers
+                previous = current;
+
+                var output = webapp.com.juul.koap.decode(current);
+                $('#output').html("<pre>" + output + "</pre>");
+            });
+        </script>
+    </body>
+</html>

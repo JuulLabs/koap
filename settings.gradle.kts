@@ -13,4 +13,7 @@ pluginManagement {
     }
 }
 
-include(":koap")
+include(
+    ":koap",
+    ":webapp"
+)

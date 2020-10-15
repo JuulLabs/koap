@@ -1,9 +1,11 @@
-name: CI
+name: Snapshot
 on:
   push:
+    branches:
+      - main
 
 jobs:
-  build:
+  snapshot:
     runs-on: ubuntu-16.04
 
     env:
@@ -15,9 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
 
       - name: Set up JDK
         uses: actions/setup-java@v1
@@ -31,16 +30,21 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
             ~/.konan
-          key: ${{ runner.os }}-build-${{ hashFiles('**/build.gradle.kts') }}
+          key: ${{ runner.os }}-snapshot-${{ hashFiles('**/build.gradle.kts') }}
           restore-keys: |
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-snapshot-
             ${{ runner.os }}-
 
       - name: Check
-        run: ./gradlew $GRADLE_ARGS check jacocoTestReport
+        run: ./gradlew $GRADLE_ARGS check
 
-      - name: Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+      - name: Snapshot
+        env:
+          SONATYPE_NEXUS_USERNAME: ${{ secrets.OSS_SONATYPE_NEXUS_USERNAME }}
+          SONATYPE_NEXUS_PASSWORD: ${{ secrets.OSS_SONATYPE_NEXUS_PASSWORD }}
+        run: >-
+          ./gradlew
+          $GRADLE_ARGS
+          --no-parallel
+          -PVERSION_NAME=main-SNAPSHOT
+          uploadArchives

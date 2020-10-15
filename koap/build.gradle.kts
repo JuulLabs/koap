@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    id("org.jetbrains.dokka")
     id("org.jmailen.kotlinter")
     java // Needed by JaCoCo for multiplatform projects.
     jacoco
