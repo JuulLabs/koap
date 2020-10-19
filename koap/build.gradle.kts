@@ -1,9 +1,13 @@
+import lt.petuska.npm.publish.dsl.NpmAccess
+import lt.petuska.npm.publish.task.NpmPackageAssembleTask
+
 plugins {
     kotlin("multiplatform")
     id("org.jmailen.kotlinter")
     java // Needed by JaCoCo for multiplatform projects.
     jacoco
     id("com.vanniktech.maven.publish")
+    id("lt.petuska.npm.publish")
 }
 
 kotlinter {
@@ -54,6 +58,56 @@ kotlin {
         val jsTest by getting {
             dependencies {
                 implementation(kotlin("test-js"))
+            }
+        }
+    }
+}
+
+// TODO: Put this in a separate file?
+fun String.runCommand(workingDir: File = file("./")): String {
+    val parts = this.split("\\s".toRegex())
+    val proc = ProcessBuilder(*parts.toTypedArray())
+            .directory(workingDir)
+            .redirectOutput(ProcessBuilder.Redirect.PIPE)
+            .redirectError(ProcessBuilder.Redirect.PIPE)
+            .start()
+    proc.waitFor(1, TimeUnit.MINUTES)
+    return proc.inputStream.bufferedReader().readText().trim()
+}
+
+tasks.withType<NpmPackageAssembleTask> {
+    // TODO: change to jsBrowserProductionWebpack for production
+    dependsOn("jsBrowserDevelopmentWebpack")
+}
+
+npmPublishing {
+    organization = "juullabs"
+    access = NpmAccess.RESTRICTED
+
+    repositories {
+        repository("github") {
+            access = NpmAccess.RESTRICTED
+            registry = uri("https://npm.pkg.github.com")
+        }
+    }
+
+    publications {
+        publication("${name}") {
+            moduleName = "${name}"
+            main = "${name}.js"
+
+            files {
+                from("${buildDir}/distributions")
+            }
+
+            dependencies {
+                npmPeer("kotlin", "*")
+            }
+
+            packageJson {
+                // TODO: set private = false when working
+                private = true
+                version = "${rootDir}/gradle/gitLatestTag.sh".runCommand()
             }
         }
     }
