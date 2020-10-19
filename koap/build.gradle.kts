@@ -77,6 +77,7 @@ fun String.runCommand(workingDir: File = file("./")): String {
 
 tasks.withType<NpmPackageAssembleTask> {
     // TODO: change to jsBrowserProductionWebpack for production
+    // Webpack outputs artifacts to ${buildDir}/distributions
     dependsOn("jsBrowserDevelopmentWebpack")
 }
 
@@ -97,6 +98,7 @@ npmPublishing {
             main = "${name}.js"
 
             files {
+                // Pick up the Webpack artifacts
                 from("${buildDir}/distributions")
             }
 
