@@ -80,6 +80,6 @@ jobs:
         run: >-
           ./gradlew
           $GRADLE_ARGS
-          publishNpm
+          publishKoapNpmPublicationToGithub
           -Pnpm.publish.dry=true
           -Pnpm.publish.authToken.koap="${{ secrets.MOBILE_GITHUB_PACKAGES_PASSWORD }}"
