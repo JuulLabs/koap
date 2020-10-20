@@ -11,4 +11,4 @@ fun Project.runCommand(command: String): String {
 }
 
 fun Project.gitLatestTag(): String =
-        runCommand("git tag | grep -E '^[0-9]' | sort -V | tail -1").trim()
+        runCommand("git describe --tags --abbrev=0").trim()
