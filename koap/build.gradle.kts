@@ -103,7 +103,10 @@ npmPublishing {
             }
 
             dependencies {
-                npmPeer("kotlin", "*")
+                // Peer dependencies: https://docs.npmjs.com/files/package.json#peerdependencies
+                // For any peer packages listed here, the consumer of this library will need to perform
+                // `npm install <pkg>` to pick up a version that matches the version pattern provided
+                npmPeer("kotlin", "^1.4")
             }
 
             packageJson {
