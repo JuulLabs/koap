@@ -100,7 +100,7 @@ npmPublishing {
             packageJson {
                 // TODO: set private = false when working
                 private = true
-                version = gitLatestTag()
+                version = gitMostRecentTag()
             }
         }
     }
