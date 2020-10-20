@@ -63,18 +63,6 @@ kotlin {
     }
 }
 
-// TODO: Put this in a separate file?
-fun String.runCommand(workingDir: File = file("./")): String {
-    val parts = this.split("\\s".toRegex())
-    val proc = ProcessBuilder(*parts.toTypedArray())
-            .directory(workingDir)
-            .redirectOutput(ProcessBuilder.Redirect.PIPE)
-            .redirectError(ProcessBuilder.Redirect.PIPE)
-            .start()
-    proc.waitFor(1, TimeUnit.MINUTES)
-    return proc.inputStream.bufferedReader().readText().trim()
-}
-
 tasks.withType<NpmPackageAssembleTask> {
     // TODO: change to jsBrowserProductionWebpack for production
     // Webpack outputs artifacts to ${buildDir}/distributions
@@ -83,11 +71,11 @@ tasks.withType<NpmPackageAssembleTask> {
 
 npmPublishing {
     organization = "juullabs"
-    access = NpmAccess.RESTRICTED
+    access = RESTRICTED
 
     repositories {
         repository("github") {
-            access = NpmAccess.RESTRICTED
+            access = RESTRICTED
             registry = uri("https://npm.pkg.github.com")
         }
     }
@@ -112,7 +100,7 @@ npmPublishing {
             packageJson {
                 // TODO: set private = false when working
                 private = true
-                version = "$rootDir/gradle/gitLatestTag.sh".runCommand()
+                version = gitLatestTag()
             }
         }
     }
