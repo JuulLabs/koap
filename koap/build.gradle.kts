@@ -1,4 +1,4 @@
-import lt.petuska.npm.publish.dsl.NpmAccess
+import lt.petuska.npm.publish.dsl.NpmAccess.RESTRICTED
 import lt.petuska.npm.publish.task.NpmPackageAssembleTask
 
 plugins {
@@ -93,13 +93,13 @@ npmPublishing {
     }
 
     publications {
-        publication("${name}") {
-            moduleName = "${name}"
-            main = "${name}.js"
+        publication("$name") {
+            moduleName = name
+            main = "$name.js"
 
             files {
                 // Pick up the Webpack artifacts
-                from("${buildDir}/distributions")
+                from("$buildDir/distributions")
             }
 
             dependencies {
@@ -109,7 +109,7 @@ npmPublishing {
             packageJson {
                 // TODO: set private = false when working
                 private = true
-                version = "${rootDir}/gradle/gitLatestTag.sh".runCommand()
+                version = "$rootDir/gradle/gitLatestTag.sh".runCommand()
             }
         }
     }
