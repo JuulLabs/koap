@@ -82,4 +82,4 @@ jobs:
           $GRADLE_ARGS
           publishKoapNpmPublicationToGithub
           -Pnpm.publish.dry=true
-          -Pnpm.publish.authToken.koap="${{ secrets.MOBILE_GITHUB_PACKAGES_PASSWORD }}"
+          -Pnpm.publish.authToken.github="${{ secrets.MOBILE_GITHUB_PACKAGES_PASSWORD }}"

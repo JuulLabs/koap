@@ -1,4 +1,3 @@
-import lt.petuska.npm.publish.dsl.NpmAccess.RESTRICTED
 import lt.petuska.npm.publish.task.NpmPackageAssembleTask
 
 plugins {
@@ -71,18 +70,15 @@ tasks.withType<NpmPackageAssembleTask> {
 
 npmPublishing {
     organization = "juullabs"
-    access = RESTRICTED
 
     repositories {
         repository("github") {
-            access = RESTRICTED
             registry = uri("https://npm.pkg.github.com")
         }
     }
 
     publications {
-        publication("$name") {
-            moduleName = name
+        publication(name) {
             main = "$name.js"
 
             files {
@@ -98,8 +94,6 @@ npmPublishing {
             }
 
             packageJson {
-                // TODO: set private = false when working
-                private = true
                 version = gitMostRecentTag()
             }
         }
