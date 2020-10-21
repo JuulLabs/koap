@@ -12,4 +12,4 @@ fun Project.runCommand(command: String): String {
 
 // Returns the most recent tag (not necessarily the highest release version tag)
 fun Project.gitMostRecentTag(): String =
-        runCommand("git describe --tags --abbrev=0").trim()
+    runCommand("git describe --tags --abbrev=0").trim()
