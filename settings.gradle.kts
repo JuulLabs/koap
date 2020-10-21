@@ -1,9 +1,6 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven {
-            url = uri("https://dl.bintray.com/mpetuska/lt.petuska")
-        }
     }
 
     resolutionStrategy {
