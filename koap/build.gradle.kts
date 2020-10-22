@@ -71,7 +71,7 @@ npmPublishing {
 
     publications {
         named("js") {
-            version = gitMostRecentTag()
+            version = project.findProperty("npm.publish.version").toString()
         }
     }
 }
