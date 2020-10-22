@@ -1,5 +1,3 @@
-import lt.petuska.npm.publish.task.NpmPackageAssembleTask
-
 plugins {
     kotlin("multiplatform")
     id("org.jmailen.kotlinter")
@@ -35,7 +33,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(kotlin("stdlib"))
-                implementation("com.squareup.okio:okio-multiplatform:2.6.0")
+                implementation("com.squareup.okio:okio-multiplatform:2.9.0")
             }
         }
 
@@ -62,12 +60,6 @@ kotlin {
     }
 }
 
-tasks.withType<NpmPackageAssembleTask> {
-    // TODO: change to jsBrowserProductionWebpack for production
-    // Webpack outputs artifacts to ${buildDir}/distributions
-    dependsOn("jsBrowserDevelopmentWebpack")
-}
-
 npmPublishing {
     organization = "juullabs"
 
@@ -78,24 +70,8 @@ npmPublishing {
     }
 
     publications {
-        publication(name) {
-            main = "$name.js"
-
-            files {
-                // Pick up the Webpack artifacts
-                from("$buildDir/distributions")
-            }
-
-            dependencies {
-                // Peer dependencies: https://docs.npmjs.com/files/package.json#peerdependencies
-                // For any peer packages listed here, the consumer of this library will need to perform
-                // `npm install <pkg>` to pick up a version that matches the version pattern provided
-                npmPeer("kotlin", "^1.4")
-            }
-
-            packageJson {
-                version = gitMostRecentTag()
-            }
+        named("js") {
+            version = gitMostRecentTag()
         }
     }
 }
