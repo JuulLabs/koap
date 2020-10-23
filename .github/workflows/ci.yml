@@ -26,10 +26,6 @@ jobs:
         -Pkotlin.incremental=false
 
     steps:
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -86,4 +82,4 @@ jobs:
           $GRADLE_ARGS
           publishJsNpmPublicationToGithub
           -Pnpm.publish.authToken.github="${{ secrets.MOBILE_GITHUB_PACKAGES_PASSWORD }}"
-          -Pnpm.publish.version="${{ steps.get_version.outputs.VERSION }}"
+          -Pnpm.publish.version="${GITHUB_REF/refs\/tags\//}"
