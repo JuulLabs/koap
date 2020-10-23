@@ -70,6 +70,7 @@ npmPublishing {
     }
 
     publications {
+        // Workaround bug in the plugin - remove when fixed
         named("js") {
             version = project.findProperty("npm.publish.version").toString()
         }
