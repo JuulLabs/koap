@@ -81,5 +81,5 @@ jobs:
           ./gradlew
           $GRADLE_ARGS
           publishJsNpmPublicationToGithub
-          -Pnpm.publish.authToken.github="${{ secrets.MOBILE_GITHUB_PACKAGES_PASSWORD }}"
+          -Pnpm.publish.repository.github.authToken="${{ secrets.MOBILE_GITHUB_PACKAGES_PASSWORD }}"
           -Pnpm.publish.version="${GITHUB_REF/refs\/tags\//}"

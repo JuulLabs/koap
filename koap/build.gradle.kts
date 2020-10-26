@@ -65,14 +65,8 @@ npmPublishing {
 
     repositories {
         repository("github") {
+            access = RESTRICTED
             registry = uri("https://npm.pkg.github.com")
-        }
-    }
-
-    publications {
-        // Workaround bug in the plugin - remove when fixed
-        named("js") {
-            version = project.findProperty("npm.publish.version").toString()
         }
     }
 }
