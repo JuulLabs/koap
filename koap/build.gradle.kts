@@ -4,6 +4,7 @@ plugins {
     java // Needed by JaCoCo for multiplatform projects.
     jacoco
     id("com.vanniktech.maven.publish")
+    id("lt.petuska.npm.publish")
 }
 
 kotlinter {
@@ -32,7 +33,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(kotlin("stdlib"))
-                implementation("com.squareup.okio:okio-multiplatform:2.6.0")
+                implementation("com.squareup.okio:okio-multiplatform:2.9.0")
             }
         }
 
@@ -55,6 +56,17 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-js"))
             }
+        }
+    }
+}
+
+npmPublishing {
+    organization = "juullabs"
+
+    repositories {
+        repository("github") {
+            access = RESTRICTED
+            registry = uri("https://npm.pkg.github.com")
         }
     }
 }
