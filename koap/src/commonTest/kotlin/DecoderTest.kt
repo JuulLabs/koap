@@ -13,9 +13,9 @@ import com.juul.koap.decode
 import com.juul.koap.encode
 import com.juul.koap.readOption
 import com.juul.koap.reader
+import okio.ByteString.Companion.decodeHex
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import okio.ByteString.Companion.decodeHex
 
 @ExperimentalStdlibApi // for `encodeToByteArray`
 class DecoderTest {

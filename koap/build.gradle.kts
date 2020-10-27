@@ -7,10 +7,6 @@ plugins {
     id("lt.petuska.npm.publish")
 }
 
-kotlinter {
-    disabledRules = arrayOf("no-multi-spaces")
-}
-
 tasks.withType<JacocoReport> {
     reports {
         csv.isEnabled = false
