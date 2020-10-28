@@ -3,6 +3,8 @@
 
 package com.juul.koap
 
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -206,7 +208,7 @@ sealed class Message {
         /** RFC 7252 5.10.4. Accept */
         data class Accept(val format: Long) : Option() {
 
-            @JsName("constructorWithContentFormat")
+            @JsName("fromContentFormat")
             constructor(format: ContentFormat) : this(format.format)
 
             init {
@@ -308,11 +310,11 @@ sealed class Message {
              *
              * @see Registration
              */
-            @JsName("constructorWithRegistration")
+            @JsName("fromRegistration")
             constructor(action: Registration) : this(
                 when (action) {
-                    Message.Option.Observe.Registration.Register -> 0L
-                    Message.Option.Observe.Registration.Deregister -> 1L
+                    Register -> 0L
+                    Deregister -> 1L
                 }
             )
 
@@ -404,7 +406,7 @@ sealed class Message {
         override val payload: ByteArray
     ) : Message() {
 
-        sealed class Type() {
+        sealed class Type {
             object Confirmable : Type()
             object NonConfirmable : Type()
             object Acknowledgement : Type()
