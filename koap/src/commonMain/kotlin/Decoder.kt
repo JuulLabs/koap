@@ -48,6 +48,8 @@ import com.juul.koap.Message.Udp.Type.Confirmable
 import com.juul.koap.Message.Udp.Type.NonConfirmable
 import com.juul.koap.Message.Udp.Type.Reset
 import okio.BufferedSource
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 /**
  * Decodes [ByteArray] receiver to a [Message].
@@ -97,6 +99,7 @@ inline fun <reified T : Message> ByteArray.decode(): T =
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
+@JsExport
 fun ByteArray.decodeUdp(): Message.Udp {
     val header = decodeUdpHeader()
     return decode(header, offset = header.size)
@@ -120,6 +123,7 @@ fun ByteArray.decodeUdp(): Message.Udp {
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
+@JsExport
 fun ByteArray.decodeTcp(): Message.Tcp {
     val header = decodeTcpHeader()
     return decode(header, offset = header.size)
@@ -146,6 +150,8 @@ fun ByteArray.decodeTcp(): Message.Tcp {
  * val message = encoded.decode(content, offset = 0)
  * ```
  */
+@JsExport
+@JsName("decodeWithUdpHeader")
 fun ByteArray.decode(
     header: Header.Udp,
     offset: Int = header.size
@@ -172,6 +178,8 @@ fun ByteArray.decode(
  * val message = content.decode(content, offset = 0)
  * ```
  */
+@JsExport
+@JsName("decodeWithTcpHeader")
 fun ByteArray.decode(
     header: Header.Tcp,
     offset: Int = header.size
@@ -229,6 +237,7 @@ private fun ByteArray.decodeContent(
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
+@JsExport
 fun ByteArray.decodeUdpHeader(): Header.Udp = withReader {
     // |7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+
@@ -279,6 +288,7 @@ fun ByteArray.decodeUdpHeader(): Header.Udp = withReader {
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * ```
  */
+@JsExport
 fun ByteArray.decodeTcpHeader(): Header.Tcp = withReader {
     // |7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+
