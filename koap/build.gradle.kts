@@ -7,10 +7,6 @@ plugins {
     id("lt.petuska.npm.publish")
 }
 
-kotlinter {
-    disabledRules = arrayOf("no-multi-spaces")
-}
-
 apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 
 kotlin {
