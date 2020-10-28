@@ -357,11 +357,15 @@ public final class com/juul/koap/Message$Option$Observe : com/juul/koap/Message$
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/juul/koap/Message$Option$Observe$Registration : java/lang/Enum {
-	public static final field Deregister Lcom/juul/koap/Message$Option$Observe$Registration;
-	public static final field Register Lcom/juul/koap/Message$Option$Observe$Registration;
-	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Message$Option$Observe$Registration;
-	public static fun values ()[Lcom/juul/koap/Message$Option$Observe$Registration;
+public abstract class com/juul/koap/Message$Option$Observe$Registration {
+}
+
+public final class com/juul/koap/Message$Option$Observe$Registration$Deregister : com/juul/koap/Message$Option$Observe$Registration {
+	public static final field INSTANCE Lcom/juul/koap/Message$Option$Observe$Registration$Deregister;
+}
+
+public final class com/juul/koap/Message$Option$Observe$Registration$Register : com/juul/koap/Message$Option$Observe$Registration {
+	public static final field INSTANCE Lcom/juul/koap/Message$Option$Observe$Registration$Register;
 }
 
 public final class com/juul/koap/Message$Option$ProxyScheme : com/juul/koap/Message$Option {
@@ -479,13 +483,23 @@ public final class com/juul/koap/Message$Udp : com/juul/koap/Message {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/juul/koap/Message$Udp$Type : java/lang/Enum {
-	public static final field Acknowledgement Lcom/juul/koap/Message$Udp$Type;
-	public static final field Confirmable Lcom/juul/koap/Message$Udp$Type;
-	public static final field NonConfirmable Lcom/juul/koap/Message$Udp$Type;
-	public static final field Reset Lcom/juul/koap/Message$Udp$Type;
-	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Message$Udp$Type;
-	public static fun values ()[Lcom/juul/koap/Message$Udp$Type;
+public abstract class com/juul/koap/Message$Udp$Type {
+}
+
+public final class com/juul/koap/Message$Udp$Type$Acknowledgement : com/juul/koap/Message$Udp$Type {
+	public static final field INSTANCE Lcom/juul/koap/Message$Udp$Type$Acknowledgement;
+}
+
+public final class com/juul/koap/Message$Udp$Type$Confirmable : com/juul/koap/Message$Udp$Type {
+	public static final field INSTANCE Lcom/juul/koap/Message$Udp$Type$Confirmable;
+}
+
+public final class com/juul/koap/Message$Udp$Type$NonConfirmable : com/juul/koap/Message$Udp$Type {
+	public static final field INSTANCE Lcom/juul/koap/Message$Udp$Type$NonConfirmable;
+}
+
+public final class com/juul/koap/Message$Udp$Type$Reset : com/juul/koap/Message$Udp$Type {
+	public static final field INSTANCE Lcom/juul/koap/Message$Udp$Type$Reset;
 }
 
 public final class com/juul/koap/MessageKt {
