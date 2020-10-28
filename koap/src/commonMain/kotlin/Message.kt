@@ -299,8 +299,8 @@ sealed class Message {
              * - `1` (deregister) removes the entry from the list, if present.
              */
             sealed class Registration {
-                object Register: Registration()
-                object Deregister: Registration()
+                object Register : Registration()
+                object Deregister : Registration()
             }
 
             /**
@@ -405,10 +405,10 @@ sealed class Message {
     ) : Message() {
 
         sealed class Type() {
-            object Confirmable: Type()
-            object NonConfirmable: Type()
-            object Acknowledgement: Type()
-            object Reset: Type()
+            object Confirmable : Type()
+            object NonConfirmable : Type()
+            object Acknowledgement : Type()
+            object Reset : Type()
         }
 
         override fun equals(other: Any?): Boolean =

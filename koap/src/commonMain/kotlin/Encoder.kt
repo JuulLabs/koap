@@ -13,10 +13,9 @@ import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
 import com.juul.koap.Message.Udp.Type.NonConfirmable
 import com.juul.koap.Message.Udp.Type.Reset
-import kotlin.js.JsExport
-import kotlin.js.JsName
 import okio.Buffer
 import okio.BufferedSink
+import kotlin.js.JsExport
 
 internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
 

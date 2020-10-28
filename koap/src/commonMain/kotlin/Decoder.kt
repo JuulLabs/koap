@@ -47,9 +47,9 @@ import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
 import com.juul.koap.Message.Udp.Type.NonConfirmable
 import com.juul.koap.Message.Udp.Type.Reset
+import okio.BufferedSource
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import okio.BufferedSource
 
 /**
  * Decodes [ByteArray] receiver to a [Message].
