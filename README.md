@@ -37,6 +37,34 @@ val message = Message.Tcp(/* ... */)
 val encoded = message.encode()
 ```
 
+#### Javascript Encoding Example
+
+Encode a `Message` as a CoAP TCP `ByteArray`:
+
+```js
+import kotlin from 'kotlin'
+import koapModule from '@juullabs/koap'
+
+const koap = koapModule.com.juul.koap
+
+let method = koap.Message.Code.Method.GET
+let token = new kotlin.Long(66)
+let emptyPayload = new Uint8Array()
+let optionsArray = [
+    new koap.Message.Option.UriPath('info'),
+    new koap.Message.Option.UriQuery('batt')
+]
+let optionsList = new kotlin.kotlin.collections.ArrayList(optionsArray)
+
+let message = new koap.Message.Tcp(
+    method,
+    token,
+    optionsList,
+    emptyPayload
+)
+let encoded = koap.encode(message)
+```
+
 ### Decoding
 
 Encoded CoAP messages (in the form of `ByteArray`s) can be decoded to `Message` objects (either
@@ -60,6 +88,20 @@ import com.juul.koap.decode
 
 val encoded: ByteArray // Encoded message that adheres to RFC 8323.
 val message = encoded.decode<Tcp>()
+```
+
+#### Javascript Decoding Example
+
+Decode a `ByteArray` as a CoAP TCP `Message`:
+
+```js
+import kotlin from 'kotlin'
+import koapModule from '@juullabs/koap'
+
+const koap = koapModule.com.juul.koap
+
+let encoded = new Uint8Array(/* ...message data... */)
+let message = koap.decodeTcp(encoded)
 ```
 
 #### Header
