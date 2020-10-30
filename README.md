@@ -90,20 +90,6 @@ val encoded: ByteArray // Encoded message that adheres to RFC 8323.
 val message = encoded.decode<Tcp>()
 ```
 
-#### Javascript Decoding Example
-
-Decode a `ByteArray` as a CoAP TCP `Message`:
-
-```js
-import kotlin from 'kotlin'
-import koapModule from '@juullabs/koap'
-
-const koap = koapModule.com.juul.koap
-
-let encoded = new Uint8Array(/* ...message data... */)
-let message = koap.decodeTcp(encoded)
-```
-
 #### Header
 
 If it's desirable to examine the header prior to decoding the entire encoded CoAP message, then
@@ -117,6 +103,20 @@ val header = encoded.decodeUdpHeader()
 
 // Examine header and determine that message should be decoded:
 val message = encoded.decode(header)
+```
+
+#### Javascript Decoding Example
+
+Decode a `ByteArray` as a CoAP TCP `Message`:
+
+```js
+import kotlin from 'kotlin'
+import koapModule from '@juullabs/koap'
+
+const koap = koapModule.com.juul.koap
+
+let encoded = new Uint8Array(/* ...message data... */)
+let message = koap.decodeTcp(encoded)
 ```
 
 ## Examples
