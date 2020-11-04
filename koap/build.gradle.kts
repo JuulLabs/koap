@@ -27,7 +27,14 @@ tasks.withType<JacocoReport> {
 
 kotlin {
     jvm()
-    js().browser()
+    js {
+        browser {
+            webpackTask {
+                output.libraryTarget = "commonjs2"
+            }
+        }
+        //binaries.executable()
+    }
 
     sourceSets {
         val commonMain by getting {
