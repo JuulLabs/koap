@@ -1,7 +1,12 @@
+// ktlint-disable indent
+// todo: Disable above rule only on effected line when https://github.com/pinterest/ktlint/issues/631 is fixed.
+
 package com.juul.koap
 
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 /* RFC 7252 5.10. Table 4: Options
  * RFC 7641 2. The Observe Option (No. 6)
@@ -43,6 +48,7 @@ private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
 
+@JsExport
 sealed class Message {
 
     abstract val code: Code
@@ -184,6 +190,7 @@ sealed class Message {
             }
 
             /** RFC 7252 12.3. CoAP Content-Formats Registry */
+            /* ktlint-disable no-multi-spaces */
             companion object {
                 val PlainText = ContentFormat(0)    // text/plain; charset=utf-8
                 val LinkFormat = ContentFormat(40)  // application/link-format
@@ -195,11 +202,13 @@ sealed class Message {
                 /** RFC 7049 7.4. CoAP Content-Format */
                 val CBOR = ContentFormat(60)        // application/cbor
             }
+            /* ktlint-enable no-multi-spaces */
         }
 
         /** RFC 7252 5.10.4. Accept */
         data class Accept(val format: Long) : Option() {
 
+            @JsName("fromContentFormat")
             constructor(format: ContentFormat) : this(format.format)
 
             init {
@@ -291,13 +300,17 @@ sealed class Message {
              * - `0` (register) adds the entry to the list, if not present;
              * - `1` (deregister) removes the entry from the list, if present.
              */
-            enum class Registration { Register, Deregister }
+            sealed class Registration {
+                object Register : Registration()
+                object Deregister : Registration()
+            }
 
             /**
              * Constructs an [Observe] to be included in a GET request.
              *
              * @see Registration
              */
+            @JsName("fromRegistration")
             constructor(action: Registration) : this(
                 when (action) {
                     Register -> 0L
@@ -330,10 +343,12 @@ sealed class Message {
             override val `class`: Int,
             override val detail: Int
         ) : Code() {
+            /* ktlint-disable no-multi-spaces */
             object GET : Method(`class` = 0, detail = 1)    // 0.01
             object POST : Method(`class` = 0, detail = 2)   // 0.02
             object PUT : Method(`class` = 0, detail = 3)    // 0.03
             object DELETE : Method(`class` = 0, detail = 4) // 0.04
+            /* ktlint-enable no-multi-spaces */
 
             override fun toString(): String = this::class.simpleName!!
         }
@@ -343,6 +358,7 @@ sealed class Message {
             override val `class`: Int,
             override val detail: Int
         ) : Code() {
+            /* ktlint-disable no-multi-spaces */
             object Created : Response(`class` = 2, detail = 1)                   // 2.01
             object Deleted : Response(`class` = 2, detail = 2)                   // 2.02
             object Valid : Response(`class` = 2, detail = 3)                     // 2.03
@@ -364,6 +380,7 @@ sealed class Message {
             object ServiceUnavailable : Response(`class` = 5, detail = 3)        // 5.03
             object GatewayTimeout : Response(`class` = 5, detail = 4)            // 5.04
             object ProxyingNotSupported : Response(`class` = 5, detail = 5)      // 5.05
+            /* ktlint-enable no-multi-spaces */
 
             override fun toString(): String = this::class.simpleName!!
         }
@@ -389,16 +406,16 @@ sealed class Message {
         override val payload: ByteArray
     ) : Message() {
 
-        enum class Type {
-            Confirmable,
-            NonConfirmable,
-            Acknowledgement,
-            Reset,
+        sealed class Type {
+            object Confirmable : Type()
+            object NonConfirmable : Type()
+            object Acknowledgement : Type()
+            object Reset : Type()
         }
 
         override fun equals(other: Any?): Boolean =
             this === other ||
-                (other is Udp &&
+                (other is Udp && // ktlint-disable indent
                     type == other.type &&
                     code == other.code &&
                     id == other.id &&

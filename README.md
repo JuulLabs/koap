@@ -1,6 +1,6 @@
 ![badge][badge-js]
 ![badge][badge-jvm]
-[![codecov](https://codecov.io/gh/JuulLabs/koap/branch/master/graph/badge.svg?token=EM9VA765J7)](https://codecov.io/gh/JuulLabs/koap)
+[![codecov](https://codecov.io/gh/JuulLabs/koap/branch/main/graph/badge.svg?token=EM9VA765J7)](https://codecov.io/gh/JuulLabs/koap)
 [![Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 # KoAP
@@ -35,6 +35,34 @@ import com.juul.koap.encode
 
 val message = Message.Tcp(/* ... */)
 val encoded = message.encode()
+```
+
+#### Javascript Encoding Example
+
+Encode a `Message` as a CoAP TCP `ByteArray`:
+
+```js
+import kotlin from 'kotlin'
+import koapModule from '@juullabs/koap'
+
+const koap = koapModule.com.juul.koap
+
+let method = koap.Message.Code.Method.GET
+let token = new kotlin.Long(66)
+let emptyPayload = new Uint8Array()
+let optionsArray = [
+    new koap.Message.Option.UriPath('info'),
+    new koap.Message.Option.UriQuery('batt')
+]
+let optionsList = new kotlin.kotlin.collections.ArrayList(optionsArray)
+
+let message = new koap.Message.Tcp(
+    method,
+    token,
+    optionsList,
+    emptyPayload
+)
+let encoded = koap.encode(message)
 ```
 
 ### Decoding
@@ -75,6 +103,20 @@ val header = encoded.decodeUdpHeader()
 
 // Examine header and determine that message should be decoded:
 val message = encoded.decode(header)
+```
+
+#### Javascript Decoding Example
+
+Decode a `ByteArray` as a CoAP TCP `Message`:
+
+```js
+import kotlin from 'kotlin'
+import koapModule from '@juullabs/koap'
+
+const koap = koapModule.com.juul.koap
+
+let encoded = new Uint8Array(/* ...message data... */)
+let message = koap.decodeTcp(encoded)
 ```
 
 ## Examples
