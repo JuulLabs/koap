@@ -52,11 +52,4 @@ npmPublishing {
             registry = uri("https://npm.pkg.github.com")
         }
     }
-
-    publications {
-        val js by getting {
-            // Workaround for bug https://github.com/npm/cli/issues/2143
-            shrinkwrapBundledDependencies = true
-        }
-    }
 }
