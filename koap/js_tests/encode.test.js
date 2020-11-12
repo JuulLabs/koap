@@ -1,7 +1,10 @@
-let koapModule = require('../build/distributions/koap')
+import koapModule from '../build/distributions/koap'
+
+//let koapModule = require('../build/distributions/koap')
 const koap = koapModule.com.juul.koap
 
-let kotlinModule = require('../build/publications/npm/js/node_modules/kotlin')
+import kotlinModule from '../build/publications/npm/js/node_modules/kotlin'
+//let kotlinModule = require('../build/publications/npm/js/node_modules/kotlin')
 const kotlin = kotlinModule
 
 test('TCP GET empty payload :: correct encoding', () => {
@@ -48,7 +51,7 @@ test('TCP POST empty payload :: correct encoding', () => {
 
   // Better to not convert? Introduces extra point of failure this way
   let hexEncoded = byteArrayToHexString(encoded)
-  console.log(hexEncoded)
+  //console.log(hexEncoded)
   
   expect(encoded).toEqual(new Int8Array([0xA1, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74]));
 });
@@ -74,7 +77,7 @@ test('TCP POST payload :: correct encoding', () => {
 
   // Better to not convert? Introduces extra point of failure this way
   let hexEncoded = byteArrayToHexString(encoded)
-  console.log(hexEncoded)
+  //console.log(hexEncoded)
   
   expect(encoded).toEqual(new Int8Array([0xD1, 0x04, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74, 0xFF, 0x42, 0x61, 0x74, 0x6D, 0x61, 0x6E]));
 });
@@ -100,11 +103,11 @@ test('UDP GET empty payload :: correct encoding', () => {
   )
 
   let encoded = koap.encode(message)
-  console.log(encoded)
+  //console.log(encoded)
 
   // Better to not convert? Introduces extra point of failure this way
   let hexEncoded = byteArrayToHexString(encoded)
-  console.log(hexEncoded)
+  //console.log(hexEncoded)
   
   expect(encoded).toEqual(new Int8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE, 0xB7, 0x65, 0x78, 0x61, 0x6D, 0x70, 0x6C, 0x65]));
 });

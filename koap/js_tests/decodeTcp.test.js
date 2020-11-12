@@ -10,7 +10,7 @@ test('TCP empty payload :: correctly decoded', () => {
 
     let decodedMessage = koap.decodeTcp(encodedMessage)
 
-    console.log(decodedMessage)
+    //console.log(decodedMessage)
 
     // Better to not convert? Introduces extra point of failure this way
     let decodedPayload = byteArrayToHexString(decodedMessage.payload)
@@ -27,7 +27,7 @@ test('TCP payload :: correctly decoded', () => {
 
     let decodedMessage = koap.decodeTcp(encodedMessage)
 
-    console.log(decodedMessage)
+    //console.log(decodedMessage)
 
     // Better to not convert? Introduces extra point of failure this way
     let decodedPayload = byteArrayToHexString(decodedMessage.payload)
