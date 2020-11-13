@@ -1,15 +1,4 @@
-//import { koapModule } from '../build/distributions/koap'
-//import koapModule from '../build/publications/npm/js/koap-koap'
-//import koap = koapModule
-//import koapModule from '/Users/justin.tiffner/Documents/koap/koap/build/publications/npm/js/koap-koap'
-//let koapModule = require('../build/publications/npm/js/node_modules/kotlin')
-
 import * as koapModule from '@juullabs/koap'
-
-//console.log(koap)
-
-//declare module '../build/publications/npm/js/koap-koap'
-
 const koap = koapModule.com.juul.koap
 
 let kotlinModule = require('../build/publications/npm/js/node_modules/kotlin')
