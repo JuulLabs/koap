@@ -11,14 +11,7 @@ apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 
 kotlin {
     jvm()
-    js {
-        browser {
-            webpackTask {
-                output.libraryTarget = "commonjs2"
-            }
-        }
-        //binaries.executable()
-    }
+    js()
 
     sourceSets {
         val commonMain by getting {

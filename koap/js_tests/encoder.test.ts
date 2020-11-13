@@ -1,4 +1,5 @@
-let koapModule = require('../build/distributions/koap')
+//let koapModule = require('../build/distributions/koap')
+import * as koapModule from '@juullabs/koap'
 const koap = koapModule.com.juul.koap
 
 let kotlinModule = require('../build/publications/npm/js/node_modules/kotlin')

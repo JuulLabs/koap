@@ -1,6 +1,7 @@
 {
     "include": [
-      "*"
+      "./*",
+      "typings.d.ts"
     ],
     "exclude": [
       "node_modules",
