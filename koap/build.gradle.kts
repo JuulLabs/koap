@@ -11,7 +11,7 @@ apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 
 kotlin {
     jvm()
-    js()
+    js().browser()
 
     sourceSets {
         val commonMain by getting {
