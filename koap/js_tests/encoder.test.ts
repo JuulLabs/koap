@@ -1,9 +1,7 @@
-//let koapModule = require('../build/distributions/koap')
 import * as koapModule from '@juullabs/koap'
 const koap = koapModule.com.juul.koap
 
-let kotlinModule = require('../build/publications/npm/js/node_modules/kotlin')
-const kotlin = kotlinModule
+import * as kotlin from '@juullabs/koap/node_modules/kotlin'
 
 test('encode :: TCP GET empty payload :: correct encoding', () => {
   
