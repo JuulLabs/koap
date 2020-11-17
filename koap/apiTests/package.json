@@ -4,9 +4,7 @@
   "description": "Tests for the js target",
   "main": "index.js",
   "scripts": {
-    "build-and-test": "sh prepare-testing.sh",
-    "test": "jest",
-    "build-dev": "webpack --mode=development"
+    "test": "jest"
   },
   "jest": {
     "preset": "ts-jest"
