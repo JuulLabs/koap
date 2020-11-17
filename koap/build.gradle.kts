@@ -61,7 +61,7 @@ tasks.register("run-js-validation-testing") {
     dependsOn("assemble")
 
     doLast {
-        var response = runCommand("../gradlew -Pnpm.publish.repository.github.authToken=fakingit -Pnpm.publish.version=0.0.3-test24 assemble && cd koap_js_tests && npm uninstall @juullabs/koap && npm install file://../build/publications/npm/js && npm run test")
+        var response = runCommand("../gradlew -Pnpm.publish.repository.github.authToken=fakingit -Pnpm.publish.version=0.0.3-test24 assemble && cd apiTests && npm uninstall @juullabs/koap && npm install file://../build/publications/npm/js && npm run test")
         println("$response")
     }
 }
