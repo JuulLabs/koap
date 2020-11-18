@@ -54,14 +54,26 @@ npmPublishing {
     }
 }
 
-tasks.register("run-js-validation-testing") {
+tasks.register("apiTestNpmInstall") {
 
-    description = "Runs the package for testing"
+    description = "Builds the JS Koap package and installs it to the test suite for use"
     group = "Verification"
-    dependsOn("assemble")
+    dependsOn("assembleJsNpmPublication")
 
     doLast {
-        var response = runCommand("../gradlew -Pnpm.publish.repository.github.authToken=fakingit -Pnpm.publish.version=0.0.3-test24 assemble && cd apiTests && npm uninstall @juullabs/koap && npm install file://../build/publications/npm/js && npm run test")
+        val response = runCommand("cd apiTests && npm install --force file://../build/publications/npm/js")
+        println("$response")
+    }
+}
+
+tasks.register("apiTest") {
+
+    description = "Runs the validation package for testing against the built out JS api"
+    group = "Verification"
+    dependsOn("apiTestNpmInstall")
+
+    doLast{
+        val response = runCommand("cd apiTests && npm run test")
         println("$response")
     }
 }

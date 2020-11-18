@@ -5,9 +5,9 @@ import * as kotlin from '@juullabs/koap/node_modules/kotlin'
 
 test('decodeTcp :: TCP payload :: correctly decoded', () => {
   
-    let encodedMessage = new Uint8Array([0xD1, 0x04, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74, 0xFF, 0x42, 0x61, 0x74, 0x6D, 0x61, 0x6E])
+    const encodedMessage = new Uint8Array([0xD1, 0x04, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74, 0xFF, 0x42, 0x61, 0x74, 0x6D, 0x61, 0x6E])
 
-    let decodedMessage = koap.decodeTcp(encodedMessage)
+    const decodedMessage = koap.decodeTcp(encodedMessage)
     
     expect(decodedMessage.code).toEqual(koap.Message.Code.Method.POST)
     expect(decodedMessage.token).toEqual(new kotlin.Long(66))
@@ -17,9 +17,9 @@ test('decodeTcp :: TCP payload :: correctly decoded', () => {
 
 test('decodeUdp :: UDP payload :: correctly decoded', () => {
   
-    let encodedMessage = new Uint8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE, 0xB5, 0x2F, 0x74, 0x65, 0x73, 0x74, 0xFF, 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x55, 0x44, 0x50, 0x21])
+    const encodedMessage = new Uint8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE, 0xB5, 0x2F, 0x74, 0x65, 0x73, 0x74, 0xFF, 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x55, 0x44, 0x50, 0x21])
 
-    let decodedMessage = koap.decodeUdp(encodedMessage)
+    const decodedMessage = koap.decodeUdp(encodedMessage)
     
     expect(decodedMessage.type).toEqual(koap.Message.Udp.Type.Confirmable)
     expect(decodedMessage.code).toEqual(koap.Message.Code.Method.GET)
@@ -31,13 +31,13 @@ test('decodeUdp :: UDP payload :: correctly decoded', () => {
 
 test('decodeWithUdpHeader :: UDP payload :: returns header correctly', () => {
 
-    let encodedMessage = new Uint8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE, 0xB5, 0x2F, 0x74, 0x65, 0x73, 0x74, 0xFF, 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x55, 0x44, 0x50, 0x21])
+    const encodedMessage = new Uint8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE, 0xB5, 0x2F, 0x74, 0x65, 0x73, 0x74, 0xFF, 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x55, 0x44, 0x50, 0x21])
 
-    let mType = koap.Message.Udp.Type.Acknowledgement
-    let method = koap.Message.Code.Method.POST
-    let token = new kotlin.Long(0xCAFE)
-    let id = 0xFEED
-    let header = new koap.Header.Udp(
+    const mType = koap.Message.Udp.Type.Acknowledgement
+    const method = koap.Message.Code.Method.POST
+    const token = new kotlin.Long(0xCAFE)
+    const id = 0xFEED
+    const header = new koap.Header.Udp(
         12,
         1,
         mType,
@@ -46,7 +46,7 @@ test('decodeWithUdpHeader :: UDP payload :: returns header correctly', () => {
         token
     )
 
-    let decodedMessage = koap.decodeWithUdpHeader(encodedMessage, header)
+    const decodedMessage = koap.decodeWithUdpHeader(encodedMessage, header)
 
     expect(decodedMessage.type).toEqual(koap.Message.Udp.Type.Acknowledgement)
     expect(decodedMessage.code).toEqual(koap.Message.Code.Method.POST)
@@ -58,19 +58,19 @@ test('decodeWithUdpHeader :: UDP payload :: returns header correctly', () => {
 
 test('decodeWithTcpHeader :: TCP payload :: returns header correctly', () => {
 
-    let encodedMessage = new Uint8Array([0xD1, 0x04, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74, 0xFF, 0x42, 0x61, 0x74, 0x6D, 0x61, 0x6E])
+    const encodedMessage = new Uint8Array([0xD1, 0x04, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74, 0xFF, 0x42, 0x61, 0x74, 0x6D, 0x61, 0x6E])
 
-    let length = new kotlin.Long(7)
-    let method = koap.Message.Code.Method.POST
-    let token = new kotlin.Long(0xCAFE)
-    let header = new koap.Header.Tcp(
+    const length = new kotlin.Long(7)
+    const method = koap.Message.Code.Method.POST
+    const token = new kotlin.Long(0xCAFE)
+    const header = new koap.Header.Tcp(
         14,
         length,
         method,
         token
     )
 
-    let decodedMessage = koap.decodeWithTcpHeader(encodedMessage, header)
+    const decodedMessage = koap.decodeWithTcpHeader(encodedMessage, header)
 
     expect(decodedMessage.code).toEqual(koap.Message.Code.Method.POST)
     expect(decodedMessage.token).toEqual(new kotlin.Long(0xCAFE))
@@ -80,9 +80,9 @@ test('decodeWithTcpHeader :: TCP payload :: returns header correctly', () => {
 
 test('decodeUdpHeader :: UDP payload :: returns header correctly', () => {
 
-    let encodedMessage = new Uint8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE, 0xB5, 0x2F, 0x74, 0x65, 0x73, 0x74, 0xFF, 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x55, 0x44, 0x50, 0x21])
+    const encodedMessage = new Uint8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE, 0xB5, 0x2F, 0x74, 0x65, 0x73, 0x74, 0xFF, 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x55, 0x44, 0x50, 0x21])
 
-    let decodedHeader = koap.decodeUdpHeader(encodedMessage)
+    const decodedHeader = koap.decodeUdpHeader(encodedMessage)
 
     expect(decodedHeader.size).toEqual(6)
     expect(decodedHeader.version).toEqual(1)
@@ -94,9 +94,9 @@ test('decodeUdpHeader :: UDP payload :: returns header correctly', () => {
 
 test('decodeTcpHeader :: TCP payload :: returns header correctly', () => {
 
-    let encodedMessage = new Uint8Array([0xD1, 0x04, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74, 0xFF, 0x42, 0x61, 0x74, 0x6D, 0x61, 0x6E])
+    const encodedMessage = new Uint8Array([0xD1, 0x04, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74, 0xFF, 0x42, 0x61, 0x74, 0x6D, 0x61, 0x6E])
 
-    let decodedHeader = koap.decodeTcpHeader(encodedMessage)
+    const decodedHeader = koap.decodeTcpHeader(encodedMessage)
 
     expect(decodedHeader.size).toEqual(4)
     expect(decodedHeader.length).toEqual(new kotlin.Long(17))

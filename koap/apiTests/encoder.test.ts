@@ -5,38 +5,38 @@ import * as kotlin from '@juullabs/koap/node_modules/kotlin'
 
 test('encode :: TCP GET empty payload :: correct encoding', () => {
   
-  let method = koap.Message.Code.Method.GET
-  let token = new kotlin.Long(66)
-  let emptyPayload = new Uint8Array()
-  let optionsArray = [
+  const method = koap.Message.Code.Method.GET
+  const token = new kotlin.Long(66)
+  const emptyPayload = new Uint8Array()
+  const optionsArray = [
     new koap.Message.Option.UriPath('info'),
     new koap.Message.Option.UriQuery('batt')
   ]
-  let optionsList = new kotlin.kotlin.collections.ArrayList(optionsArray)
+  const optionsList = new kotlin.kotlin.collections.ArrayList(optionsArray)
 
-  let message = new koap.Message.Tcp(
+  const message = new koap.Message.Tcp(
     method,
     token,
     optionsList,
     emptyPayload
   )
-  let encoded = koap.encode(message)
+  const encoded = koap.encode(message)
   
   expect(encoded).toEqual(new Int8Array([0xA1, 0x01, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74]));
 });
 
 test('encodeHeader :: UDP header :: correct encoding', () => {
 
-  let mType = koap.Message.Udp.Type.Confirmable
-  let method = koap.Message.Code.Method.GET
-  let token = new kotlin.Long(0xCAFE)
-  let id = 0xFEED
-  let emptyPayload = new Uint8Array()
-  let optionsArray = [
+  const mType = koap.Message.Udp.Type.Confirmable
+  const method = koap.Message.Code.Method.GET
+  const token = new kotlin.Long(0xCAFE)
+  const id = 0xFEED
+  const emptyPayload = new Uint8Array()
+  const optionsArray = [
     new koap.Message.Option.UriPath('example')
   ]
-  let optionsList = new kotlin.kotlin.collections.ArrayList(optionsArray)
-  let message = new koap.Message.Udp(
+  const optionsList = new kotlin.kotlin.collections.ArrayList(optionsArray)
+  const message = new koap.Message.Udp(
     mType,
     method,
     id,
@@ -45,7 +45,7 @@ test('encodeHeader :: UDP header :: correct encoding', () => {
     emptyPayload
   )
 
-  let encodedHeader = koap.encodeHeader(message)
+  const encodedHeader = koap.encodeHeader(message)
   
   expect(encodedHeader).toEqual(new Int8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE]))
 });
