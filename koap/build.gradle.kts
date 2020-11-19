@@ -77,3 +77,18 @@ tasks.register("apiTest") {
         println("$response")
     }
 }
+
+tasks.register("testLint") {
+
+    description = "Runs the linting system for testing against the built out JS api"
+    group = "Verification"
+
+    doLast {
+        val response = runCommand("cd apiTests && npm run lint")
+        println("$response")
+    }
+}
+
+tasks.named("check") {
+    dependsOn("testLint")
+}
