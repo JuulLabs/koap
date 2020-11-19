@@ -45,6 +45,7 @@ jobs:
 
       - name: Check
         run: ./gradlew $GRADLE_ARGS check jacocoTestReport
+             -Pnpm.publish.repository.github.authToken=batman
              -Pnpm.publish.version=0.0.1-test1
 
       - name: Codecov
