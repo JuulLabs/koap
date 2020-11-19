@@ -82,6 +82,7 @@ tasks.register("testLint") {
 
     description = "Runs the linting system for testing against the built out JS api"
     group = "Verification"
+    dependsOn("assembleJsNpmPublication")
 
     doLast {
         val response = runCommand("cd apiTests && npm install --also=dev && npm run lint")
