@@ -50,6 +50,44 @@ npmPublishing {
         repository("github") {
             access = RESTRICTED
             registry = uri("https://npm.pkg.github.com")
+            authToken = "notarealtoken"
+            version = "0.0.1-placeholderversion1"
         }
     }
+}
+
+task<Exec>("apiTestNpmInstall") {
+    description = "Builds the JS Koap package and installs it to the test suite for use"
+    group = "Verification"
+    dependsOn("assembleJsNpmPublication")
+    workingDir("apiTests")
+    commandLine("npm", "install", "--force", "file://../build/publications/npm/js")
+}
+
+task<Exec>("apiTest") {
+    description = "Runs the validation package for testing against the built out JS api"
+    group = "Verification"
+    dependsOn("apiTestNpmInstall")
+    workingDir("apiTests")
+    commandLine("npm", "run", "test")
+}
+
+task<Exec>("apiTestLintBuild") {
+    description = "Installs the koap api to the test package along with devDependencies"
+    group = "Verification"
+    dependsOn("assembleJsNpmPublication")
+    workingDir("apiTests")
+    commandLine("npm", "install", "--also=dev")
+}
+
+task<Exec>("apiTestLint") {
+    description = "Runs the linting system for testing against the built out JS api"
+    group = "Verification"
+    dependsOn("apiTestLintBuild")
+    workingDir("apiTests")
+    commandLine("npm", "run", "lint")
+}
+
+tasks.named("check") {
+    dependsOn("apiTestLint")
 }
