@@ -70,15 +70,22 @@ task<Exec>("apiTest") {
     commandLine("npm", "run", "test")
 }
 
-task<Exec>("testLint") {
-    description = "Runs the linting system for testing against the built out JS api"
+task<Exec>("apiTestLintBuild") {
+    description = "Installs the koap api to the test package along with devDependencies"
     group = "Verification"
     dependsOn("assembleJsNpmPublication")
     workingDir("apiTests")
     commandLine("npm", "install", "--also=dev")
+}
+
+task<Exec>("apiTestLint") {
+    description = "Runs the linting system for testing against the built out JS api"
+    group = "Verification"
+    dependsOn("apiTestLintBuild")
+    workingDir("apiTests")
     commandLine("npm", "run", "lint")
 }
 
 tasks.named("check") {
-    dependsOn("testLint")
+    dependsOn("apiTestLint")
 }
