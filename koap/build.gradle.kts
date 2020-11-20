@@ -50,6 +50,8 @@ npmPublishing {
         repository("github") {
             access = RESTRICTED
             registry = uri("https://npm.pkg.github.com")
+            authToken = "notarealtoken"
+            version = "0.0.1-placeholderversion1"
         }
     }
 }
