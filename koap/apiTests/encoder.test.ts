@@ -27,7 +27,7 @@ test('encode :: TCP GET empty payload :: correct encoding', () => {
 
 test('encodeHeader :: UDP header :: correct encoding', () => {
 
-  const mType = koap.Message.Udp.Type.Confirmable
+  const messageType = koap.Message.Udp.Type.Confirmable
   const method = koap.Message.Code.Method.GET
   const token = new kotlin.Long(0xCAFE)
   const id = 0xFEED
@@ -37,7 +37,7 @@ test('encodeHeader :: UDP header :: correct encoding', () => {
   ]
   const optionsList = new kotlin.kotlin.collections.ArrayList(optionsArray)
   const message = new koap.Message.Udp(
-    mType,
+    messageType,
     method,
     id,
     token,

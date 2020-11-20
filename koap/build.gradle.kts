@@ -54,40 +54,29 @@ npmPublishing {
     }
 }
 
-tasks.register("apiTestNpmInstall") {
-
+task<Exec>("apiTestNpmInstall") {
     description = "Builds the JS Koap package and installs it to the test suite for use"
     group = "Verification"
     dependsOn("assembleJsNpmPublication")
-
-    doLast {
-        val response = runCommand("cd apiTests && npm install --force file://../build/publications/npm/js")
-        println("$response")
-    }
+    workingDir("apiTests")
+    commandLine("npm", "install", "--force", "file://../build/publications/npm/js")
 }
 
-tasks.register("apiTest") {
-
+task<Exec>("apiTest") {
     description = "Runs the validation package for testing against the built out JS api"
     group = "Verification"
     dependsOn("apiTestNpmInstall")
-
-    doLast{
-        val response = runCommand("cd apiTests && npm run test")
-        println("$response")
-    }
+    workingDir("apiTests")
+    commandLine("npm", "run", "test")
 }
 
-tasks.register("testLint") {
-
+task<Exec>("testLint") {
     description = "Runs the linting system for testing against the built out JS api"
     group = "Verification"
     dependsOn("assembleJsNpmPublication")
-
-    doLast {
-        val response = runCommand("cd apiTests && npm install --also=dev && npm run lint")
-        println("$response")
-    }
+    workingDir("apiTests")
+    commandLine("npm", "install", "--also=dev")
+    commandLine("npm", "run", "lint")
 }
 
 tasks.named("check") {

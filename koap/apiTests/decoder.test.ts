@@ -33,14 +33,16 @@ test('decodeWithUdpHeader :: UDP payload :: returns header correctly', () => {
 
     const encodedMessage = new Uint8Array([0x42, 0x01, 0xFE, 0xED, 0xCA, 0xFE, 0xB5, 0x2F, 0x74, 0x65, 0x73, 0x74, 0xFF, 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x55, 0x44, 0x50, 0x21])
 
-    const mType = koap.Message.Udp.Type.Acknowledgement
+    const size = 12
+    const version = 1
+    const messageType = koap.Message.Udp.Type.Acknowledgement
     const method = koap.Message.Code.Method.POST
     const token = new kotlin.Long(0xCAFE)
     const id = 0xFEED
     const header = new koap.Header.Udp(
-        12,
-        1,
-        mType,
+        size,
+        version,
+        messageType,
         method,
         id,
         token
@@ -60,11 +62,12 @@ test('decodeWithTcpHeader :: TCP payload :: returns header correctly', () => {
 
     const encodedMessage = new Uint8Array([0xD1, 0x04, 0x02, 0x42, 0xB4, 0x69, 0x6E, 0x66, 0x6F, 0x44, 0x62, 0x61, 0x74, 0x74, 0xFF, 0x42, 0x61, 0x74, 0x6D, 0x61, 0x6E])
 
+    const size = 14
     const length = new kotlin.Long(7)
     const method = koap.Message.Code.Method.POST
     const token = new kotlin.Long(0xCAFE)
     const header = new koap.Header.Tcp(
-        14,
+        size,
         length,
         method,
         token

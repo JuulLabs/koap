@@ -44,6 +44,7 @@ jobs:
           key: grade-${{ hashFiles('**/build.gradle') }}
 
       - name: Check
+        # Using placeholder auth token and version for Gradle tasks that require its presence but don't use it.
         run: ./gradlew $GRADLE_ARGS check jacocoTestReport
              -Pnpm.publish.repository.github.authToken=batman
              -Pnpm.publish.version=0.0.1-test1
