@@ -56,7 +56,7 @@ npmPublishing {
     }
 }
 
-task<Exec>("apiTestNpmInstall") {
+task<Exec>("apiTestNpmInstallLocalBuild") {
     description = "Builds the JS Koap package and installs it to the test suite for use"
     group = "Verification"
     dependsOn("assembleJsNpmPublication")
@@ -64,18 +64,10 @@ task<Exec>("apiTestNpmInstall") {
     commandLine("npm", "install", "--force", "file://../build/publications/npm/js")
 }
 
-task<Exec>("apiTest") {
-    description = "Runs the validation package for testing against the built out JS api"
-    group = "Verification"
-    dependsOn("apiTestNpmInstall")
-    workingDir("apiTests")
-    commandLine("npm", "run", "test")
-}
-
-task<Exec>("apiTestLintBuild") {
+task<Exec>("apiTestNpmInstall") {
     description = "Installs the koap api to the test package along with devDependencies"
     group = "Verification"
-    dependsOn("assembleJsNpmPublication")
+    dependsOn("apiTestNpmInstallLocalBuild")
     workingDir("apiTests")
     commandLine("npm", "install", "--also=dev")
 }
@@ -83,11 +75,19 @@ task<Exec>("apiTestLintBuild") {
 task<Exec>("apiTestLint") {
     description = "Runs the linting system for testing against the built out JS api"
     group = "Verification"
-    dependsOn("apiTestLintBuild")
+    dependsOn("apiTestNpmInstall")
     workingDir("apiTests")
     commandLine("npm", "run", "lint")
 }
 
-tasks.named("check") {
+task<Exec>("apiTest") {
+    description = "Runs the validation package for testing against the built out JS api"
+    group = "Verification"
     dependsOn("apiTestLint")
+    workingDir("apiTests")
+    commandLine("npm", "run", "test")
+}
+
+tasks.named("check") {
+    dependsOn("apiTest")
 }
