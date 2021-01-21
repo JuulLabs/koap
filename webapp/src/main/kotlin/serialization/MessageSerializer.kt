@@ -9,6 +9,13 @@ package com.juul.koap.serialization
 import com.juul.koap.Message
 import com.juul.koap.Message.Code
 import com.juul.koap.Message.Option
+import com.juul.koap.Message.Option.ContentFormat.Companion.CBOR
+import com.juul.koap.Message.Option.ContentFormat.Companion.EXI
+import com.juul.koap.Message.Option.ContentFormat.Companion.JSON
+import com.juul.koap.Message.Option.ContentFormat.Companion.LinkFormat
+import com.juul.koap.Message.Option.ContentFormat.Companion.OctetStream
+import com.juul.koap.Message.Option.ContentFormat.Companion.PlainText
+import com.juul.koap.Message.Option.ContentFormat.Companion.XML
 import com.juul.koap.Message.Udp.Type
 import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
@@ -129,13 +136,23 @@ private object OptionSerializer : KSerializer<Option> {
     override fun serialize(encoder: Encoder, value: Option) {
         val serialized = when (value) {
             is Option.ContentFormat -> "Content-Format: " + when (value) {
-                Option.ContentFormat.PlainText -> "text/plain; charset=utf-8"
-                Option.ContentFormat.LinkFormat -> "application/link-format"
-                Option.ContentFormat.XML -> "application/xml"
-                Option.ContentFormat.OctetStream -> "application/octet-stream"
-                Option.ContentFormat.EXI -> "application/exi"
-                Option.ContentFormat.JSON -> "application/json"
-                Option.ContentFormat.CBOR -> "application/cbor"
+                PlainText -> "text/plain; charset=utf-8"
+                LinkFormat -> "application/link-format"
+                XML -> "application/xml"
+                OctetStream -> "application/octet-stream"
+                EXI -> "application/exi"
+                JSON -> "application/json"
+                CBOR -> "application/cbor"
+                else -> value.toString()
+            }
+            is Option.Accept -> "Accept: " + when (value) {
+                Option.Accept(0) -> "text/plain; charset=utf-8"
+                Option.Accept(40) -> "application/link-format"
+                Option.Accept(41) -> "application/xml"
+                Option.Accept(42) -> "application/octet-stream"
+                Option.Accept(47) -> "application/exi"
+                Option.Accept(50) -> "application/json"
+                Option.Accept(60) -> "application/cbor"
                 else -> value.toString()
             }
             else -> value.toString()

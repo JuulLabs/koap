@@ -1,9 +1,9 @@
 package com.juul.koap
 
+import cbor.decodeFirstSync
+import cbor.diagnose
+import com.juul.koap.Message.Option.Accept
 import com.juul.koap.Message.Option.ContentFormat
-import com.juul.koap.Message.Option.ContentFormat.Companion.CBOR
-import com.juul.koap.Message.Option.ContentFormat.Companion.JSON
-import com.juul.koap.Message.Option.ContentFormat.Companion.PlainText
 import com.juul.koap.Message.Tcp
 import com.juul.koap.Message.Udp
 import com.juul.koap.serialization.TcpMessageSerializer
@@ -14,6 +14,7 @@ import okio.ByteString.Companion.decodeHex
 
 private val json = Json {
     prettyPrint = true
+    prettyPrintIndent = "  "
 }
 
 /**
@@ -26,11 +27,11 @@ private val json = Json {
  *
  * Based on the presence of [ContentFormat] in [Message.options], the [ByteArray] payload will be decoded as follows:
  *
- * | `ContentFormat` | Decoded to...      |
- * |-----------------|--------------------|
- * | [PlainText]     | Plain text         |
- * | [JSON]          | Pretty-print JSON  |
- * | Other           | Hex representation |
+ * | `ContentFormat`      | Decoded to...      |
+ * |----------------------|--------------------|
+ * | [Encoding.PlainText] | Plain text         |
+ * | [Encoding.JSON]      | Pretty-print JSON  |
+ * | Other                | Hex representation |
  *
  * If a failure occurs while generating output, failure message is included in the final output.
  */
@@ -39,8 +40,11 @@ fun decode(hex: String?): String {
     if (hex.isNullOrEmpty()) return ""
 
     val bytes = try {
-        hex.trim().replace(" ", "").decodeHex().toByteArray()
+        val stripped = hex.replace(" ", "").replace("\n", "")
+        console.info("Decoding: $stripped")
+        stripped.decodeHex().toByteArray()
     } catch (t: Throwable) {
+        console.error(t)
         return t.message ?: "Failed to parse hex input"
     }
 
@@ -63,6 +67,7 @@ fun decode(hex: String?): String {
 private inline fun <reified T : Message> decode(bytes: ByteArray): String = try {
     parse(bytes.decode<T>())
 } catch (t: Throwable) {
+    console.error(t)
     t.message ?: "Failed to parse message"
 }
 
@@ -72,21 +77,60 @@ private fun parse(message: Message) = buildString {
             is Tcp -> json.encodeToString(TcpMessageSerializer, message)
             is Udp -> json.encodeToString(UdpMessageSerializer, message)
         }
-    }.getOrElse { cause -> cause.message ?: "Failed to encode message to JSON" }
+    }.getOrElse { cause ->
+        console.error(cause)
+        cause.message ?: "Failed to encode message to JSON"
+    }
     appendLine("<b>Message:</b>")
     appendLine(header)
     appendLine()
 
+    val encoding = message.detectEncoding()
+    when (encoding) {
+        Encoding.PlainText -> appendLine("<b>Payload:</b>")
+        Encoding.JSON -> appendLine("<b>Payload (JSON):</b>")
+        Encoding.CBOR -> appendLine("<b>Payload (CBOR):</b>")
+        else -> appendLine("<b>Payload (Binary):</b>")
+    }
+
     val payload = runCatching {
-        when (message.options.lastOrNull { it is ContentFormat }) {
-            PlainText -> "<b>Payload:</b>\n${message.payload.decodeToString()}"
-            JSON -> "<b>Payload (JSON):</b>\n${message.payload.decodeToString().prettyPrintJson()}"
-            CBOR -> "<b>Payload (CBOR):</b>\n${message.payload.hex()}"
-            else -> "<b>Payload (Binary):</b>\n${message.payload.hex()}"
+        when (encoding) {
+            Encoding.PlainText -> message.payload.decodeToString()
+            Encoding.JSON -> message.payload.decodeToString().prettyPrintJson()
+            Encoding.CBOR -> message.payload.hex(separator = "").decodeCbor().prettyPrintJson()
+            else -> message.payload.hex()
         }
-    }.getOrElse { cause -> cause.message ?: "Failed to parse payload" }
+    }.getOrElse { cause ->
+        console.error(cause)
+        val hex = message.payload.hex()
+        val description = cause.message ?: "Failed to parse payload"
+        "$hex\n$description"
+    }
     appendLine(payload)
 }
 
 private fun String.prettyPrintJson(indent: Int = 2): String =
-    kotlin.js.JSON.stringify(kotlin.js.JSON.parse(this), null, indent)
+    JSON.stringify(JSON.parse(this), null, indent)
+
+private fun String.decodeCbor(): String {
+    val options = object {
+        val encoding = "hex"
+    }
+    val decoded = decodeFirstSync(this, options)
+    diagnose(this, options).then { console.log() }
+    return JSON.stringify(decoded, null, 2)
+}
+
+enum class Encoding { PlainText, JSON, CBOR }
+
+private fun Message.detectEncoding(): Encoding? {
+    val format = (options.lastOrNull { it is ContentFormat } as? ContentFormat)?.format
+        ?: (options.lastOrNull { it is Accept } as? Accept)?.format
+
+    return when (format) {
+        0L -> Encoding.PlainText
+        50L -> Encoding.JSON
+        60L -> Encoding.CBOR
+        else -> null
+    }
+}
