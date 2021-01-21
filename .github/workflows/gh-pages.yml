@@ -1,9 +1,11 @@
-name: CI
+name: GitHub Pages
 on:
   push:
+    branches:
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-16.04
 
     env:
@@ -15,9 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
 
       - name: Set up JDK
         uses: actions/setup-java@v1
@@ -31,19 +30,17 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
             ~/.konan
-          key: ${{ runner.os }}-build-${{ hashFiles('**/build.gradle.kts') }}
+          key: ${{ runner.os }}-gh-pages-${{ hashFiles('**/build.gradle.kts') }}
           restore-keys: |
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-gh-pages-
             ${{ runner.os }}-
-
-      - name: Check
-        run: ./gradlew $GRADLE_ARGS check jacocoTestReport
 
       - name: Build webapp
         run: ./gradlew $GRADLE_ARGS assembleGitHubPages
 
-      - name: Codecov
-        uses: codecov/codecov-action@v1
+      - name: Deploy to Github Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build/gh-pages
