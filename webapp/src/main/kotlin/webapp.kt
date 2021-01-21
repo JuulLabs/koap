@@ -9,8 +9,12 @@ import com.juul.koap.Message.Udp
 import com.juul.koap.serialization.TcpMessageSerializer
 import com.juul.koap.serialization.UdpMessageSerializer
 import com.juul.koap.serialization.hex
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.await
+import kotlinx.coroutines.promise
 import kotlinx.serialization.json.Json
 import okio.ByteString.Companion.decodeHex
+import kotlin.js.Promise
 
 private val json = Json {
     prettyPrint = true
@@ -36,8 +40,8 @@ private val json = Json {
  * If a failure occurs while generating output, failure message is included in the final output.
  */
 @JsExport
-fun decode(hex: String?): String {
-    if (hex.isNullOrEmpty()) return ""
+fun decode(hex: String?): Promise<String> = GlobalScope.promise {
+    if (hex.isNullOrEmpty()) return@promise ""
 
     val bytes = try {
         val stripped = hex.replace(" ", "").replace("\n", "")
@@ -45,13 +49,13 @@ fun decode(hex: String?): String {
         stripped.decodeHex().toByteArray()
     } catch (t: Throwable) {
         console.error(t)
-        return t.message ?: "Failed to parse hex input"
+        return@promise t.message ?: "Failed to parse hex input"
     }
 
     val udp = decode<Udp>(bytes)
     val tcp = decode<Tcp>(bytes)
 
-    return if (udp == tcp) {
+    if (udp == tcp) {
         udp
     } else {
         buildString {
@@ -64,14 +68,14 @@ fun decode(hex: String?): String {
     }
 }
 
-private inline fun <reified T : Message> decode(bytes: ByteArray): String = try {
+private suspend inline fun <reified T : Message> decode(bytes: ByteArray): String = try {
     parse(bytes.decode<T>())
 } catch (t: Throwable) {
     console.error(t)
     t.message ?: "Failed to parse message"
 }
 
-private fun parse(message: Message) = buildString {
+private suspend fun parse(message: Message) = buildString {
     val header = runCatching {
         when (message) {
             is Tcp -> json.encodeToString(TcpMessageSerializer, message)
@@ -97,7 +101,7 @@ private fun parse(message: Message) = buildString {
         when (encoding) {
             Encoding.PlainText -> message.payload.decodeToString()
             Encoding.JSON -> message.payload.decodeToString().prettyPrintJson()
-            Encoding.CBOR -> message.payload.hex(separator = "").decodeCbor().prettyPrintJson()
+            Encoding.CBOR -> message.payload.hex(separator = "").decodeCbor().await()
             else -> message.payload.hex()
         }
     }.getOrElse { cause ->
@@ -112,13 +116,11 @@ private fun parse(message: Message) = buildString {
 private fun String.prettyPrintJson(indent: Int = 2): String =
     JSON.stringify(JSON.parse(this), null, indent)
 
-private fun String.decodeCbor(): String {
+private fun String.decodeCbor(): Promise<String> {
     val options = object {
         val encoding = "hex"
     }
-    val decoded = decodeFirstSync(this, options)
-    diagnose(this, options).then { console.log() }
-    return JSON.stringify(decoded, null, 2)
+    return diagnose(this, options)
 }
 
 enum class Encoding { PlainText, JSON, CBOR }

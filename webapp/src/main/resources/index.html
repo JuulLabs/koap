@@ -37,8 +37,9 @@
                 if (current == previous) return; // prevent multiple simultaneous triggers
                 previous = current;
 
-                var output = webapp.com.juul.koap.decode(current);
-                $('#output').html("<pre>" + output + "</pre>");
+                webapp.com.juul.koap.decode(current).then((output) => {
+                    $('#output').html("<pre>" + output + "</pre>");
+                });
             });
         </script>
     </body>
