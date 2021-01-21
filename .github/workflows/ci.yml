@@ -39,6 +39,9 @@ jobs:
       - name: Check
         run: ./gradlew $GRADLE_ARGS check jacocoTestReport
 
+      - name: Build webapp
+        run: ./gradlew $GRADLE_ARGS assembleGitHubPages
+
       - name: Codecov
         uses: codecov/codecov-action@v1
         with:
