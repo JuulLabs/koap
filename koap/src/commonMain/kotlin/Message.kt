@@ -338,6 +338,8 @@ sealed class Message {
         abstract val `class`: Int
         abstract val detail: Int
 
+        fun toInt(): Int = (this.`class` shl 5) or detail
+
         /** RFC 7252: 12.1.1. Method Codes */
         sealed class Method(
             override val `class`: Int,

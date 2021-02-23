@@ -62,6 +62,35 @@ class MessageTest {
         assertToString(GatewayTimeout, "GatewayTimeout")
         assertToString(ProxyingNotSupported, "ProxyingNotSupported")
     }
+
+    @Test
+    fun messageCodeToInt_validCode_correctOutputInt() {
+        assertEquals(GET.toInt(), 1)
+        assertEquals(POST.toInt(), 2)
+        assertEquals(PUT.toInt(), 3)
+        assertEquals(DELETE.toInt(), 4)
+        assertEquals(Created.toInt(), 65)
+        assertEquals(Deleted.toInt(), 66)
+        assertEquals(Valid.toInt(), 67)
+        assertEquals(Changed.toInt(), 68)
+        assertEquals(Content.toInt(), 69)
+        assertEquals(BadRequest.toInt(), 128)
+        assertEquals(Unauthorized.toInt(), 129)
+        assertEquals(BadOption.toInt(), 130)
+        assertEquals(Forbidden.toInt(), 131)
+        assertEquals(NotFound.toInt(), 132)
+        assertEquals(MethodNotAllowed.toInt(), 133)
+        assertEquals(NotAcceptable.toInt(), 134)
+        assertEquals(PreconditionFailed.toInt(), 140)
+        assertEquals(RequestEntityTooLarge.toInt(), 141)
+        assertEquals(UnsupportedContentFormat.toInt(), 143)
+        assertEquals(InternalServerError.toInt(), 160)
+        assertEquals(NotImplemented.toInt(), 161)
+        assertEquals(BadGateway.toInt(), 162)
+        assertEquals(ServiceUnavailable.toInt(), 163)
+        assertEquals(GatewayTimeout.toInt(), 164)
+        assertEquals(ProxyingNotSupported.toInt(), 165)
+    }
 }
 
 private fun assertToString(obj: Any, expected: String) {
