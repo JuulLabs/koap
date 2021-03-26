@@ -11,7 +11,7 @@ plugins {
     kotlin("js") version "1.4.31" apply false
     kotlin("plugin.serialization") version "1.4.31" apply false
     id("org.jmailen.kotlinter") version "3.2.0" apply false
-    id("com.vanniktech.maven.publish") version "0.13.0" apply false
+    id("com.vanniktech.maven.publish") version "0.14.0" apply false
     id("org.jetbrains.dokka") version "1.4.30"
     id("binary-compatibility-validator") version "0.2.3"
     id("lt.petuska.npm.publish") version "1.0.4" apply false
