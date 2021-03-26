@@ -18,7 +18,7 @@ plugins {
     id("lt.petuska.npm.publish") version "1.0.4" apply false
 }
 
-subprojects {
+allprojects {
     repositories {
         mavenCentral()
         jcenter {
