@@ -216,7 +216,7 @@ Message.Udp(
 
 ```groovy
 repositories {
-    jcenter() // or mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
