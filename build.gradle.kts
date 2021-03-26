@@ -18,13 +18,20 @@ plugins {
     id("lt.petuska.npm.publish") version "1.0.4" apply false
 }
 
-allprojects {
+subprojects {
     repositories {
         mavenCentral()
-    }
-}
+        jcenter {
+            content {
+                // https://youtrack.jetbrains.com/issue/IDEA-261387
+                includeModule("org.jetbrains.trove4j", "trove4j")
 
-subprojects {
+                // https://github.com/Kotlin/kotlinx.html/issues/173
+                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+            }
+        }
+    }
+
     tasks.withType<Test>().configureEach {
         testLogging {
             events("started", "passed", "skipped", "failed", "standardOut", "standardError")
