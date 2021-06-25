@@ -9,6 +9,10 @@ plugins {
 
 apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 kotlin {
     jvm()
     js().browser()
