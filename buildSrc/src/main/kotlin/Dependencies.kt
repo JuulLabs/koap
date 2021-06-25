@@ -16,7 +16,7 @@ fun square(
 ): String {
     val module = artifact.substringBefore("-")
     val v = version ?: when (module) {
-        "okio" -> "2.9.0"
+        "okio" -> "3.0.0-alpha.6"
         else -> error("Version must be provided for unknown Square module '$module'")
     }
     return "com.squareup.$module:$artifact:$v"

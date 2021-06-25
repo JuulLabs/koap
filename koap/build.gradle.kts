@@ -5,7 +5,6 @@ plugins {
     java // Needed by JaCoCo for multiplatform projects.
     jacoco
     id("com.vanniktech.maven.publish")
-    id("lt.petuska.npm.publish")
 }
 
 apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
@@ -28,6 +27,12 @@ kotlin {
             }
         }
 
+        val jsMain by getting {
+            dependencies {
+                implementation(npm("os-browserify", "0.3.0"))
+            }
+        }
+
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -44,31 +49,9 @@ kotlin {
     }
 }
 
-npmPublishing {
-    organization = "juullabs"
-
-    repositories {
-        repository("github") {
-            access = RESTRICTED
-            registry = uri("https://npm.pkg.github.com")
-            authToken = "notarealtoken"
-            version = "0.0.1-placeholderversion1"
-        }
-    }
-}
-
-task<Exec>("apiTestNpmInstallLocalBuild") {
-    description = "Builds the JS Koap package and installs it to the test suite for use"
-    group = "Verification"
-    dependsOn("assembleJsNpmPublication")
-    workingDir("apiTests")
-    commandLine("npm", "install", "--force", "file://../build/publications/npm/js")
-}
-
 task<Exec>("apiTestNpmInstall") {
     description = "Installs the koap api to the test package along with devDependencies"
     group = "Verification"
-    dependsOn("apiTestNpmInstallLocalBuild")
     workingDir("apiTests")
     commandLine("npm", "install", "--also=dev")
 }

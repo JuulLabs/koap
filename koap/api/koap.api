@@ -1,4 +1,51 @@
+public final class com/juul/koap/ByteArrayReader {
+	public fun <init> ([BII)V
+	public synthetic fun <init> ([BIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun exhausted ()Z
+	public final fun getIndex ()I
+	public final fun readByteArray ()[B
+	public final fun readByteArray (I)[B
+	public final fun readLong ()J
+	public final fun readUByte ()I
+	public final fun readUInt ()J
+	public final fun readUInt24 ()I
+	public final fun readUShort ()I
+	public final fun readUtf8 (I)Ljava/lang/String;
+	public final fun setIndex (I)V
+}
+
+public final class com/juul/koap/ByteArrayReaderKt {
+	public static final fun reader ([BII)Lcom/juul/koap/ByteArrayReader;
+	public static synthetic fun reader$default ([BIIILjava/lang/Object;)Lcom/juul/koap/ByteArrayReader;
+	public static final fun withReader ([BIILkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static synthetic fun withReader$default ([BIILkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/juul/koap/ConstantsKt {
+	public static final field COAP_VERSION I
+	public static final field PAYLOAD_MARKER I
+	public static final field UBYTE_MAX_VALUE I
+	public static final field UINT_MAX_VALUE J
+	public static final field USHORT_MAX_VALUE I
+	public static final fun getUBYTE_RANGE ()Lkotlin/ranges/IntRange;
+	public static final fun getUINT4_RANGE ()Lkotlin/ranges/IntRange;
+	public static final fun getUINT_RANGE ()Lkotlin/ranges/LongRange;
+	public static final fun getUSHORT_RANGE ()Lkotlin/ranges/IntRange;
+}
+
+public final class com/juul/koap/DebugKt {
+	public static final fun debugString (II)Ljava/lang/String;
+	public static synthetic fun debugString$default (IIILjava/lang/Object;)Ljava/lang/String;
+	public static final fun debugTokenString (J)Ljava/lang/String;
+	public static final fun toHexString (II)Ljava/lang/String;
+	public static final fun toHexString (JI)Ljava/lang/String;
+	public static final fun toHexString ([B)Ljava/lang/String;
+	public static synthetic fun toHexString$default (IIILjava/lang/Object;)Ljava/lang/String;
+	public static synthetic fun toHexString$default (JIILjava/lang/Object;)Ljava/lang/String;
+}
+
 public final class com/juul/koap/DecoderKt {
+	public static final synthetic fun decode ([B)Lcom/juul/koap/Message;
 	public static final fun decode ([BLcom/juul/koap/Header$Tcp;I)Lcom/juul/koap/Message$Tcp;
 	public static final fun decode ([BLcom/juul/koap/Header$Udp;I)Lcom/juul/koap/Message$Udp;
 	public static synthetic fun decode$default ([BLcom/juul/koap/Header$Tcp;IILjava/lang/Object;)Lcom/juul/koap/Message$Tcp;
@@ -7,11 +54,18 @@ public final class com/juul/koap/DecoderKt {
 	public static final fun decodeTcpHeader ([B)Lcom/juul/koap/Header$Tcp;
 	public static final fun decodeUdp ([B)Lcom/juul/koap/Message$Udp;
 	public static final fun decodeUdpHeader ([B)Lcom/juul/koap/Header$Udp;
+	public static final fun readNumberOfLength (Lcom/juul/koap/ByteArrayReader;I)J
+	public static final fun readOption (Lcom/juul/koap/ByteArrayReader;Lcom/juul/koap/Message$Option$Format;)Lcom/juul/koap/Message$Option;
 }
 
 public final class com/juul/koap/EncoderKt {
+	public static final field UINT32_MAX_EXTENDED_LENGTH J
 	public static final fun encode (Lcom/juul/koap/Message;)[B
 	public static final fun encodeHeader (Lcom/juul/koap/Message$Udp;)[B
+	public static final fun writeHeader (Lokio/BufferedSink;Lcom/juul/koap/Message$Tcp;J)V
+	public static final fun writeHeader (Lokio/BufferedSink;Lcom/juul/koap/Message$Udp;)V
+	public static final fun writeOption (Lokio/BufferedSink;Lcom/juul/koap/Message$Option$Format;Lcom/juul/koap/Message$Option$Format;)V
+	public static final fun writeToken (Lokio/BufferedSink;J)V
 }
 
 public abstract class com/juul/koap/Header {
@@ -21,6 +75,7 @@ public abstract class com/juul/koap/Header {
 }
 
 public final class com/juul/koap/Header$Tcp : com/juul/koap/Header {
+	public fun <init> (IJLcom/juul/koap/Message$Code;J)V
 	public final fun component1 ()I
 	public final fun component2 ()J
 	public final fun component3 ()Lcom/juul/koap/Message$Code;
@@ -37,6 +92,7 @@ public final class com/juul/koap/Header$Tcp : com/juul/koap/Header {
 }
 
 public final class com/juul/koap/Header$Udp : com/juul/koap/Header {
+	public fun <init> (IILcom/juul/koap/Message$Udp$Type;Lcom/juul/koap/Message$Code;IJ)V
 	public final fun component1 ()I
 	public final fun component2 ()I
 	public final fun component3 ()Lcom/juul/koap/Message$Udp$Type;
@@ -505,5 +561,9 @@ public final class com/juul/koap/Message$Udp$Type$Reset : com/juul/koap/Message$
 public final class com/juul/koap/MessageKt {
 	public static final fun isError (Lcom/juul/koap/Message$Code$Response;)Z
 	public static final fun isSuccess (Lcom/juul/koap/Message$Code$Response;)Z
+}
+
+public final class com/juul/koap/OptionKt {
+	public static final fun toFormat (Lcom/juul/koap/Message$Option;)Lcom/juul/koap/Message$Option$Format;
 }
 
