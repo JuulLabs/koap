@@ -4,8 +4,9 @@ plugins {
 }
 
 kotlin {
-    js {
+    js(LEGACY) {
         browser()
+        binaries.executable()
     }
 
     sourceSets {
