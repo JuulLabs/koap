@@ -48,30 +48,3 @@ kotlin {
         }
     }
 }
-
-task<Exec>("apiTestNpmInstall") {
-    description = "Installs the koap api to the test package along with devDependencies"
-    group = "Verification"
-    workingDir("apiTests")
-    commandLine("npm", "install", "--also=dev")
-}
-
-task<Exec>("apiTestLint") {
-    description = "Runs the linting system for testing against the built out JS api"
-    group = "Verification"
-    dependsOn("apiTestNpmInstall")
-    workingDir("apiTests")
-    commandLine("npm", "run", "lint")
-}
-
-task<Exec>("apiTest") {
-    description = "Runs the validation package for testing against the built out JS api"
-    group = "Verification"
-    dependsOn("apiTestLint")
-    workingDir("apiTests")
-    commandLine("npm", "run", "test")
-}
-
-tasks.named("check") {
-    dependsOn("apiTest")
-}
