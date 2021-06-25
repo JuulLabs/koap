@@ -12,13 +12,14 @@ plugins {
     kotlin("plugin.serialization") version "1.5.10" apply false
     id("org.jmailen.kotlinter") version "3.2.0" apply false
     id("com.vanniktech.maven.publish") version "0.14.0" apply false
-    id("org.jetbrains.dokka") version "1.4.30"
+    id("org.jetbrains.dokka") version "1.4.32"
     id("binary-compatibility-validator") version "0.2.3"
 }
 
 allprojects {
     repositories {
         mavenCentral()
+        maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
     }
 
     tasks.withType<Test>().configureEach {
