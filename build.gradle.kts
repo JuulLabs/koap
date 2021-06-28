@@ -7,28 +7,19 @@ buildscript {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.4.31" apply false
-    kotlin("js") version "1.4.31" apply false
-    kotlin("plugin.serialization") version "1.4.31" apply false
+    kotlin("multiplatform") version "1.5.10" apply false
+    kotlin("js") version "1.5.10" apply false
+    kotlin("plugin.serialization") version "1.5.10" apply false
     id("org.jmailen.kotlinter") version "3.2.0" apply false
     id("com.vanniktech.maven.publish") version "0.14.0" apply false
-    id("org.jetbrains.dokka") version "1.4.30"
-    id("binary-compatibility-validator") version "0.2.3"
-    id("lt.petuska.npm.publish") version "1.0.4" apply false
+    id("org.jetbrains.dokka") version "1.4.32"
+    id("binary-compatibility-validator") version "0.6.0"
 }
 
 allprojects {
     repositories {
         mavenCentral()
-        jcenter {
-            content {
-                // https://youtrack.jetbrains.com/issue/IDEA-261387
-                includeModule("org.jetbrains.trove4j", "trove4j")
-
-                // https://github.com/Kotlin/kotlinx.html/issues/173
-                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
-            }
-        }
+        maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
     }
 
     tasks.withType<Test>().configureEach {
