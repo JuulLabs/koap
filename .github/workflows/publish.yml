@@ -57,11 +57,3 @@ jobs:
           -Psigning.password="${{ secrets.SIGNING_PASSWORD }}"
           -Psigning.secretKeyRingFile="$HOME/secring.gpg"
           uploadArchives
-
-      - name: NPM Publish
-        run: >-
-          ./gradlew
-          $GRADLE_ARGS
-          -Pnpm.publish.repository.github.authToken="${{ secrets.MOBILE_GITHUB_PACKAGES_PASSWORD }}"
-          -Pnpm.publish.version="${GITHUB_REF/refs\/tags\//}"
-          publishJsNpmPublicationToGithub
