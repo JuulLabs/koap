@@ -1,10 +1,7 @@
-@file:JsExport
-
 package com.juul.koap
 
 import com.juul.koap.Message.Code
 import com.juul.koap.Message.Udp.Type
-import kotlin.js.JsExport
 
 sealed class Header {
 

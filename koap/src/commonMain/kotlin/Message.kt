@@ -5,8 +5,6 @@ package com.juul.koap
 
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
-import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /* RFC 7252 5.10. Table 4: Options
  * RFC 7641 2. The Observe Option (No. 6)
@@ -48,7 +46,6 @@ private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
 
-@JsExport
 sealed class Message {
 
     abstract val code: Code
@@ -208,7 +205,6 @@ sealed class Message {
         /** RFC 7252 5.10.4. Accept */
         data class Accept(val format: Long) : Option() {
 
-            @JsName("fromContentFormat")
             constructor(format: ContentFormat) : this(format.format)
 
             init {
@@ -310,7 +306,6 @@ sealed class Message {
              *
              * @see Registration
              */
-            @JsName("fromRegistration")
             constructor(action: Registration) : this(
                 when (action) {
                     Register -> 0L
