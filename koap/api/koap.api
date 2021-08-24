@@ -310,6 +310,7 @@ public final class com/juul/koap/Message$Option$IfMatch : com/juul/koap/Message$
 
 public final class com/juul/koap/Message$Option$IfNoneMatch : com/juul/koap/Message$Option {
 	public static final field INSTANCE Lcom/juul/koap/Message$Option$IfNoneMatch;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/juul/koap/Message$Option$LocationPath : com/juul/koap/Message$Option {
@@ -484,6 +485,7 @@ public final class com/juul/koap/Message$Udp : com/juul/koap/Message {
 }
 
 public abstract class com/juul/koap/Message$Udp$Type {
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/juul/koap/Message$Udp$Type$Acknowledgement : com/juul/koap/Message$Udp$Type {
