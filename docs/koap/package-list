@@ -90,6 +90,7 @@ $dokka.location:com.juul.koap/Message.Option.ETag/ETag/#kotlin.ByteArray/Pointin
 $dokka.location:com.juul.koap/Message.Option.ETag/equals/#kotlin.Any?/PointingToDeclaration/koap/com.juul.koap/-message/-option/-e-tag/equals.html
 $dokka.location:com.juul.koap/Message.Option.ETag/etag/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-e-tag/etag.html
 $dokka.location:com.juul.koap/Message.Option.ETag/hashCode/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-e-tag/hash-code.html
+$dokka.location:com.juul.koap/Message.Option.ETag/toString/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-e-tag/to-string.html
 $dokka.location:com.juul.koap/Message.Option.Format.empty///PointingToDeclaration/koap/com.juul.koap/-message/-option/-format/empty/index.html
 $dokka.location:com.juul.koap/Message.Option.Format.empty/empty/#kotlin.Int/PointingToDeclaration/koap/com.juul.koap/-message/-option/-format/empty/empty.html
 $dokka.location:com.juul.koap/Message.Option.Format.empty/number/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-format/empty/number.html
@@ -114,7 +115,9 @@ $dokka.location:com.juul.koap/Message.Option.IfMatch/IfMatch/#kotlin.ByteArray/P
 $dokka.location:com.juul.koap/Message.Option.IfMatch/equals/#kotlin.Any?/PointingToDeclaration/koap/com.juul.koap/-message/-option/-if-match/equals.html
 $dokka.location:com.juul.koap/Message.Option.IfMatch/etag/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-if-match/etag.html
 $dokka.location:com.juul.koap/Message.Option.IfMatch/hashCode/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-if-match/hash-code.html
+$dokka.location:com.juul.koap/Message.Option.IfMatch/toString/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-if-match/to-string.html
 $dokka.location:com.juul.koap/Message.Option.IfNoneMatch///PointingToDeclaration/koap/com.juul.koap/-message/-option/-if-none-match/index.html
+$dokka.location:com.juul.koap/Message.Option.IfNoneMatch/toString/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-if-none-match/to-string.html
 $dokka.location:com.juul.koap/Message.Option.LocationPath///PointingToDeclaration/koap/com.juul.koap/-message/-option/-location-path/index.html
 $dokka.location:com.juul.koap/Message.Option.LocationPath/LocationPath/#kotlin.String/PointingToDeclaration/koap/com.juul.koap/-message/-option/-location-path/-location-path.html
 $dokka.location:com.juul.koap/Message.Option.LocationPath/uri/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-location-path/uri.html
@@ -167,6 +170,7 @@ $dokka.location:com.juul.koap/Message.Udp.Type.Confirmable///PointingToDeclarati
 $dokka.location:com.juul.koap/Message.Udp.Type.NonConfirmable///PointingToDeclaration/koap/com.juul.koap/-message/-udp/-type/-non-confirmable/index.html
 $dokka.location:com.juul.koap/Message.Udp.Type.Reset///PointingToDeclaration/koap/com.juul.koap/-message/-udp/-type/-reset/index.html
 $dokka.location:com.juul.koap/Message.Udp.Type///PointingToDeclaration/koap/com.juul.koap/-message/-udp/-type/index.html
+$dokka.location:com.juul.koap/Message.Udp.Type/toString/#/PointingToDeclaration/koap/com.juul.koap/-message/-udp/-type/to-string.html
 $dokka.location:com.juul.koap/Message.Udp///PointingToDeclaration/koap/com.juul.koap/-message/-udp/index.html
 $dokka.location:com.juul.koap/Message.Udp/Udp/#com.juul.koap.Message.Udp.Type#com.juul.koap.Message.Code#kotlin.Int#kotlin.Long#kotlin.collections.List[com.juul.koap.Message.Option]#kotlin.ByteArray/PointingToDeclaration/koap/com.juul.koap/-message/-udp/-udp.html
 $dokka.location:com.juul.koap/Message.Udp/code/#/PointingToDeclaration/koap/com.juul.koap/-message/-udp/code.html
