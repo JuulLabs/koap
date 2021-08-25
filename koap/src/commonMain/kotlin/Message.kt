@@ -82,12 +82,12 @@ sealed class Message {
             abstract val number: Int
 
             data class empty(
-                override val number: Int
+                override val number: Int,
             ) : Format()
 
             data class opaque(
                 override val number: Int,
-                val value: ByteArray
+                val value: ByteArray,
             ) : Format() {
 
                 override fun equals(other: Any?): Boolean =
@@ -103,12 +103,12 @@ sealed class Message {
 
             data class uint(
                 override val number: Int,
-                val value: Long
+                val value: Long,
             ) : Format()
 
             data class string(
                 override val number: Int,
-                val value: String
+                val value: String,
             ) : Format()
         }
 
@@ -235,6 +235,8 @@ sealed class Message {
                 this === other || (other is ETag && etag.contentEquals(other.etag))
 
             override fun hashCode(): Int = etag.contentHashCode()
+
+            override fun toString(): String = "ETag(etag=${etag.toHexString()}"
         }
 
         /** RFC 7252 5.10.7. Location-Path and Location-Query */
@@ -267,10 +269,14 @@ sealed class Message {
                 this === other || (other is IfMatch && etag.contentEquals(other.etag))
 
             override fun hashCode(): Int = etag.contentHashCode()
+
+            override fun toString(): String = "IfMatch(etag=${etag.toHexString()}"
         }
 
         /** RFC 7252 5.10.8.2. If-None-Match */
-        object IfNoneMatch : Option()
+        object IfNoneMatch : Option() {
+            override fun toString(): String = "IfNoneMatch"
+        }
 
         /** RFC 7252 5.10.9. Size1 Option */
         data class Size1(val bytes: Long) : Option() {
@@ -336,7 +342,7 @@ sealed class Message {
         /** RFC 7252: 12.1.1. Method Codes */
         sealed class Method(
             override val `class`: Int,
-            override val detail: Int
+            override val detail: Int,
         ) : Code() {
             /* ktlint-disable no-multi-spaces */
             object GET : Method(`class` = 0, detail = 1)    // 0.01
@@ -345,13 +351,18 @@ sealed class Message {
             object DELETE : Method(`class` = 0, detail = 4) // 0.04
             /* ktlint-enable no-multi-spaces */
 
-            override fun toString(): String = this::class.simpleName!!
+            override fun toString(): String = when (this) {
+                GET -> "GET"
+                POST -> "POST"
+                PUT -> "PUT"
+                DELETE -> "DELETE"
+            }
         }
 
         /** RFC 7252: 12.1.2. Response Codes */
         sealed class Response(
             override val `class`: Int,
-            override val detail: Int
+            override val detail: Int,
         ) : Code() {
             /* ktlint-disable no-multi-spaces */
             object Created : Response(`class` = 2, detail = 1)                   // 2.01
@@ -377,7 +388,29 @@ sealed class Message {
             object ProxyingNotSupported : Response(`class` = 5, detail = 5)      // 5.05
             /* ktlint-enable no-multi-spaces */
 
-            override fun toString(): String = this::class.simpleName!!
+            override fun toString(): String = when (this) {
+                Created -> "Created"
+                Deleted -> "Deleted"
+                Valid -> "Valid"
+                Changed -> "Changed"
+                Content -> "Content"
+                BadRequest -> "BadRequest"
+                Unauthorized -> "Unauthorized"
+                BadOption -> "BadOption"
+                Forbidden -> "Forbidden"
+                NotFound -> "NotFound"
+                MethodNotAllowed -> "MethodNotAllowed"
+                NotAcceptable -> "NotAcceptable"
+                PreconditionFailed -> "PreconditionFailed"
+                RequestEntityTooLarge -> "RequestEntityTooLarge"
+                UnsupportedContentFormat -> "UnsupportedContentFormat"
+                InternalServerError -> "InternalServerError"
+                NotImplemented -> "NotImplemented"
+                BadGateway -> "BadGateway"
+                ServiceUnavailable -> "ServiceUnavailable"
+                GatewayTimeout -> "GatewayTimeout"
+                ProxyingNotSupported -> "ProxyingNotSupported"
+            }
         }
 
         data class Raw(
@@ -385,7 +418,7 @@ sealed class Message {
             override val `class`: Int,
 
             /** Allowable range is `0..31`. */
-            override val detail: Int
+            override val detail: Int,
         ) : Code()
     }
 
@@ -398,7 +431,7 @@ sealed class Message {
 
         override val token: Long,
         override val options: List<Option>,
-        override val payload: ByteArray
+        override val payload: ByteArray,
     ) : Message() {
 
         sealed class Type {
@@ -406,6 +439,13 @@ sealed class Message {
             object NonConfirmable : Type()
             object Acknowledgement : Type()
             object Reset : Type()
+
+            override fun toString(): String = when (this) {
+                Confirmable -> "Confirmable"
+                NonConfirmable -> "NonConfirmable"
+                Acknowledgement -> "Acknowledgement"
+                Reset -> "Reset"
+            }
         }
 
         override fun equals(other: Any?): Boolean =
@@ -442,7 +482,7 @@ sealed class Message {
         override val code: Code,
         override val token: Long,
         override val options: List<Option>,
-        override val payload: ByteArray
+        override val payload: ByteArray,
     ) : Message() {
 
         override fun equals(other: Any?): Boolean =
