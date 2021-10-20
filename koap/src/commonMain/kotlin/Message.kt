@@ -212,6 +212,20 @@ sealed class Message {
                     "Accept format of $format is outside allowable range of $ACCEPT_RANGE"
                 }
             }
+
+            override fun toString(): String {
+                val string = when (format) {
+                    0L -> "PlainText"
+                    40L -> "LinkFormat"
+                    41L -> "XML"
+                    42L -> "OctetStream"
+                    47L -> "EXI"
+                    50L -> "JSON"
+                    60L -> "CBOR"
+                    else -> format.toString()
+                }
+                return "Accept(format=$string)"
+            }
         }
 
         /** RFC 7252 5.10.5. Max-Age */
