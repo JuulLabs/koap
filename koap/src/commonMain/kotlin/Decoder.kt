@@ -133,7 +133,7 @@ fun ByteArray.decodeTcp(): Message.Tcp {
  *
  * ```
  * val header = encoded.decodeUdpHeader()
- * val message = encoded.decode(encoded)
+ * val message = encoded.decode(header)
  * ```
  *
  * Decoding of [ByteArray] will begin at [offset] (default is [Header.size], which expects the
@@ -143,7 +143,7 @@ fun ByteArray.decodeTcp(): Message.Tcp {
  * ```
  * val header = encoded.decodeUdpHeader()
  * val content = encoded.copyRange(header.size, encoded.size)
- * val message = encoded.decode(content, offset = 0)
+ * val message = content.decode(header, offset = 0)
  * ```
  */
 fun ByteArray.decode(
@@ -159,7 +159,7 @@ fun ByteArray.decode(
  *
  * ```
  * val header = encoded.decodeTcpHeader()
- * val message = encoded.decode(encoded)
+ * val message = encoded.decode(header)
  * ```
  *
  * Decoding of [ByteArray] will begin at [offset] (default is [Header.size], which expects the
@@ -169,7 +169,7 @@ fun ByteArray.decode(
  * ```
  * val header = encoded.decodeTcpHeader()
  * val content = encoded.copyRange(header.size, encoded.size)
- * val message = content.decode(content, offset = 0)
+ * val message = content.decode(header, offset = 0)
  * ```
  */
 fun ByteArray.decode(
