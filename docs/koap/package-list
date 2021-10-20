@@ -74,6 +74,7 @@ $dokka.location:com.juul.koap/Message.Option.Accept///PointingToDeclaration/koa
 $dokka.location:com.juul.koap/Message.Option.Accept/Accept/#com.juul.koap.Message.Option.ContentFormat/PointingToDeclaration/koap/com.juul.koap/-message/-option/-accept/-accept.html
 $dokka.location:com.juul.koap/Message.Option.Accept/Accept/#kotlin.Long/PointingToDeclaration/koap/com.juul.koap/-message/-option/-accept/-accept.html
 $dokka.location:com.juul.koap/Message.Option.Accept/format/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-accept/format.html
+$dokka.location:com.juul.koap/Message.Option.Accept/toString/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-accept/to-string.html
 $dokka.location:com.juul.koap/Message.Option.ContentFormat.Companion///PointingToDeclaration/koap/com.juul.koap/-message/-option/-content-format/-companion/index.html
 $dokka.location:com.juul.koap/Message.Option.ContentFormat.Companion/CBOR/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-content-format/-companion/-c-b-o-r.html
 $dokka.location:com.juul.koap/Message.Option.ContentFormat.Companion/EXI/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-content-format/-companion/-e-x-i.html
