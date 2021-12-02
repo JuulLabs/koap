@@ -28,10 +28,13 @@ jobs:
             ${{ runner.os }}-
 
       - run: ./gradlew check
-      - run: ./gradlew --no-parallel -PVERSION_NAME=main-SNAPSHOT uploadArchives
-        env:
-          SONATYPE_NEXUS_USERNAME: ${{ secrets.OSS_SONATYPE_NEXUS_USERNAME }}
-          SONATYPE_NEXUS_PASSWORD: ${{ secrets.OSS_SONATYPE_NEXUS_PASSWORD }}
+      - run: >
+          ./gradlew
+          --no-parallel
+          -PVERSION_NAME=main-SNAPSHOT
+          -PmavenCentralUsername="${{ secrets.OSS_SONATYPE_NEXUS_USERNAME }}"
+          -PmavenCentralPassword="${{ secrets.OSS_SONATYPE_NEXUS_PASSWORD }}"
+          publish
 
       - run: |
           rm -f ~/.gradle/caches/modules-2/modules-2.lock
