@@ -1,3 +1,5 @@
+enableFeaturePreview("VERSION_CATALOGS")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -15,5 +17,5 @@ pluginManagement {
 
 include(
     ":koap",
-    ":webapp"
+    ":webapp",
 )
