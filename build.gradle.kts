@@ -1,5 +1,3 @@
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-
 buildscript {
     repositories {
         mavenCentral()
@@ -7,13 +5,13 @@ buildscript {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.5.10" apply false
-    kotlin("js") version "1.5.10" apply false
-    kotlin("plugin.serialization") version "1.5.10" apply false
-    id("org.jmailen.kotlinter") version "3.2.0" apply false
-    id("com.vanniktech.maven.publish") version "0.14.0" apply false
-    id("org.jetbrains.dokka") version "1.4.32"
-    id("binary-compatibility-validator") version "0.6.0"
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.js) apply false
+    alias(libs.plugins.kotlinx.serialization) apply false
+    alias(libs.plugins.kotlinter) apply false
+    alias(libs.plugins.maven.publish) apply false
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.binary.compatibility.validator)
 }
 
 allprojects {
@@ -25,7 +23,7 @@ allprojects {
     tasks.withType<Test>().configureEach {
         testLogging {
             events("started", "passed", "skipped", "failed", "standardOut", "standardError")
-            exceptionFormat = FULL
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
             showExceptions = true
             showStackTraces = true
             showCauses = true

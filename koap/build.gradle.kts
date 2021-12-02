@@ -10,7 +10,7 @@ plugins {
 apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = libs.versions.jacoco.get()
 }
 
 kotlin {
@@ -20,7 +20,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(square("okio-multiplatform"))
+                implementation(libs.okio.multiplatform)
             }
         }
 
@@ -40,8 +40,8 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation(mockk())
-                implementation(equalsverifier())
+                implementation(libs.mockk)
+                implementation(libs.equalsverifier)
             }
         }
 
