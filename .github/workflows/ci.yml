@@ -29,6 +29,23 @@ jobs:
       - run: ./gradlew check jacocoTestReport
       - run: ./gradlew assembleGitHubPages
 
+      - run: |
+          set -o xtrace
+          if [ ! -z "${{ secrets.SIGNING_KEY }}" ]; then
+            ./gradlew \
+            --no-parallel \
+            -PVERSION_NAME="unspecified" \
+            -PsigningInMemoryKey="${{ secrets.SIGNING_KEY }}" \
+            -PsigningInMemoryKeyPassword="${{ secrets.SIGNING_PASSWORD }}" \
+            publishToMavenLocal
+          else
+            ./gradlew \
+            --no-parallel \
+            -PVERSION_NAME="unspecified-SNAPSHOT" \
+            publishToMavenLocal
+          fi
+        if: ${{ runner.os == 'macOS' && github.repository_owner == 'JuulLabs' }}
+
       - uses: codecov/codecov-action@v1
         with:
           fail_ci_if_error: true
