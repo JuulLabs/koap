@@ -86,6 +86,7 @@ $dokka.location:com.juul.koap/Message.Option.ContentFormat.Companion/XML/#/Point
 $dokka.location:com.juul.koap/Message.Option.ContentFormat///PointingToDeclaration/koap/com.juul.koap/-message/-option/-content-format/index.html
 $dokka.location:com.juul.koap/Message.Option.ContentFormat/ContentFormat/#kotlin.Long/PointingToDeclaration/koap/com.juul.koap/-message/-option/-content-format/-content-format.html
 $dokka.location:com.juul.koap/Message.Option.ContentFormat/format/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-content-format/format.html
+$dokka.location:com.juul.koap/Message.Option.ContentFormat/toString/#/PointingToDeclaration/koap/com.juul.koap/-message/-option/-content-format/to-string.html
 $dokka.location:com.juul.koap/Message.Option.ETag///PointingToDeclaration/koap/com.juul.koap/-message/-option/-e-tag/index.html
 $dokka.location:com.juul.koap/Message.Option.ETag/ETag/#kotlin.ByteArray/PointingToDeclaration/koap/com.juul.koap/-message/-option/-e-tag/-e-tag.html
 $dokka.location:com.juul.koap/Message.Option.ETag/equals/#kotlin.Any?/PointingToDeclaration/koap/com.juul.koap/-message/-option/-e-tag/equals.html
