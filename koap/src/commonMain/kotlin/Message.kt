@@ -186,6 +186,8 @@ sealed class Message {
                 }
             }
 
+            override fun toString(): String = "ContentFormat(${format.contentType})"
+
             /** RFC 7252 12.3. CoAP Content-Formats Registry */
             /* ktlint-disable no-multi-spaces */
             companion object {
@@ -213,19 +215,7 @@ sealed class Message {
                 }
             }
 
-            override fun toString(): String {
-                val string = when (format) {
-                    0L -> "PlainText"
-                    40L -> "LinkFormat"
-                    41L -> "XML"
-                    42L -> "OctetStream"
-                    47L -> "EXI"
-                    50L -> "JSON"
-                    60L -> "CBOR"
-                    else -> format.toString()
-                }
-                return "Accept(format=$string)"
-            }
+            override fun toString(): String = "Accept(${format.contentType})"
         }
 
         /** RFC 7252 5.10.5. Max-Age */
@@ -523,6 +513,18 @@ sealed class Message {
             ")"
     }
 }
+
+private val Long.contentType: String
+    get() = when (this) {
+        0L -> "PlainText"
+        40L -> "LinkFormat"
+        41L -> "XML"
+        42L -> "OctetStream"
+        47L -> "EXI"
+        50L -> "JSON"
+        60L -> "CBOR"
+        else -> toString()
+    }
 
 val Message.Code.Response.isSuccess: Boolean get() = `class` == 2
 val Message.Code.Response.isError: Boolean get() = `class` == 4 || `class` == 5
