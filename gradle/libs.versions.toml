@@ -5,8 +5,8 @@ okio = "3.0.0-alpha.6"
 
 [libraries]
 equalsverifier = { module = "nl.jqno.equalsverifier:equalsverifier", version = "3.4" }
-kotlinx-coroutines-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version = "1.4.2" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.0.1" }
+kotlinx-coroutines-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version = "1.5.2" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.3.1" }
 mockk = { module = "io.mockk:mockk", version = "1.12.1" }
 okio-js = { module = "com.squareup.okio:okio-js", version.ref = "okio" }
 okio-multiplatform = { module = "com.squareup.okio:okio-multiplatform", version.ref = "okio" }
