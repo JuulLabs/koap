@@ -2,26 +2,30 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>com.juul.koap</title>
-<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../styles/style.css" rel="Stylesheet"><link href="../../styles/logo-styles.css" rel="Stylesheet"><link href="../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../scripts/main.js" async="async"></script>  </head>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../styles/style.css" rel="Stylesheet"><link href="../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../styles/main.css" rel="Stylesheet"><link href="../../styles/prism.css" rel="Stylesheet"><link href="../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../scripts/main.js" async="async"></script><script type="text/javascript" src="../../scripts/prism.js" async="async"></script>  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../index.html">koap</a></div>
+      <div></div>
+      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
-      <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="koap::com.juul.koap////PointingToDeclaration//-438154299">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../index.html">koap</a>/<a href="index.html">com.juul.koap</a></div>
-            <div class="pull-right d-flex">
-              <div id="searchBar"></div>
-            </div>
-          </div>
+      <div id="main"><script type="text/javascript" src="../../scripts/main.js"></script>
+        <div class="main-content" id="content" pageIds="koap::com.juul.koap////PointingToDeclaration//-438154299">
+          <div class="breadcrumbs"><a href="../../index.html">koap</a>/<a href="index.html">com.juul.koap</a></div>
           <div class="cover ">
-            <h1 class="cover"><span>Package com.</span><wbr></wbr><span>juul.</span><wbr></wbr><span>koap</span></h1>
+            <h1 class="cover"><span><span>Package</span></span> <span>com.</span><wbr></wbr><span>juul.</span><wbr></wbr><span>koap</span></h1>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
@@ -30,34 +34,26 @@
               <div class="table" data-togglable="Types"><a data-name="-1475541049%2FClasslikes%2F-438154299" anchor-label="Header" id="-1475541049%2FClasslikes%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-header/index.html">Header</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1475541049%2FClasslikes%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="-header/index.html"><span><span>Header</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1475541049%2FClasslikes%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">sealed class <a href="-header/index.html">Header</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="-header/index.html">Header</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
 <a data-name="568295655%2FClasslikes%2F-438154299" anchor-label="Message" id="568295655%2FClasslikes%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-message/index.html">Message</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="568295655%2FClasslikes%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="-message/index.html"><span><span>Message</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="568295655%2FClasslikes%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">sealed class <a href="-message/index.html">Message</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="-message/index.html">Message</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -66,131 +62,91 @@
               <div class="table" data-togglable="Functions"><a data-name="-1246602175%2FFunctions%2F-438154299" anchor-label="decode" id="-1246602175%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="decode.html">decode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1246602175%2FFunctions%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="decode.html"><span><span>decode</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1246602175%2FFunctions%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">inline fun &lt;<a href="decode.html">T</a> : <a href="-message/index.html">Message</a>&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.<a href="decode.html">decode</a>(): <a href="decode.html">T</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="1199402913%2FFunctions%2F-438154299" anchor-label="decode" id="1199402913%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="1199402913%2FFunctions%2F-438154299" anchor-label="decode" id="1199402913%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Decodes <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver to a <a href="-message/index.html">Message</a>.</div></div>
-<div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.<a href="decode.html">decode</a>(header: <a href="-header/-tcp/index.html">Header.Tcp</a>, offset: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a> = header.size): <a href="-message/-tcp/index.html">Message.Tcp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="283970264%2FFunctions%2F-438154299" anchor-label="decode" id="283970264%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="283970264%2FFunctions%2F-438154299" anchor-label="decode" id="283970264%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Assembles a <a href="-message/-tcp/index.html">Message.Tcp</a> by decoding CoAP message content (Options + Payload) from the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver and combining with provided <a href="decode.html">header</a>.</div></div>
-<div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.<a href="decode.html">decode</a>(header: <a href="-header/-udp/index.html">Header.Udp</a>, offset: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a> = header.size): <a href="-message/-udp/index.html">Message.Udp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-1730931016%2FFunctions%2F-438154299" anchor-label="decode" id="-1730931016%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1730931016%2FFunctions%2F-438154299" anchor-label="decode" id="-1730931016%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Assembles a <a href="-message/-udp/index.html">Message.Udp</a> by decoding CoAP message content (Options + Payload) from the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver and combining with provided <a href="decode.html">header</a>.</div></div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="decode.html">T</a><span class="token operator"> : </span><a href="-message/index.html">Message</a><span class="token operator">&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="decode.html"><span class="token function">decode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="decode.html">T</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Decodes <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver to a <a href="-message/index.html">Message</a>.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="decode.html"><span class="token function">decode</span></a><span class="token punctuation">(</span>header<span class="token operator">: </span><a href="-header/-tcp/index.html">Header.Tcp</a><span class="token punctuation">, </span>offset<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>header.size<span class="token punctuation">)</span><span class="token operator">: </span><a href="-message/-tcp/index.html">Message.Tcp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Assembles a <a href="-message/-tcp/index.html">Message.Tcp</a> by decoding CoAP message content (Options + Payload) from the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver and combining with provided <a href="decode.html">header</a>.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="decode.html"><span class="token function">decode</span></a><span class="token punctuation">(</span>header<span class="token operator">: </span><a href="-header/-udp/index.html">Header.Udp</a><span class="token punctuation">, </span>offset<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>header.size<span class="token punctuation">)</span><span class="token operator">: </span><a href="-message/-udp/index.html">Message.Udp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Assembles a <a href="-message/-udp/index.html">Message.Udp</a> by decoding CoAP message content (Options + Payload) from the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver and combining with provided <a href="decode.html">header</a>.</p></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
 <a data-name="2003461120%2FFunctions%2F-438154299" anchor-label="decodeTcp" id="2003461120%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="decode-tcp.html">decodeTcp</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2003461120%2FFunctions%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="decode-tcp.html"><span>decode</span><wbr></wbr><span><span>Tcp</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2003461120%2FFunctions%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.<a href="decode-tcp.html">decodeTcp</a>(): <a href="-message/-tcp/index.html">Message.Tcp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="2003461120%2FFunctions%2F-438154299" anchor-label="decodeTcp" id="2003461120%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="2003461120%2FFunctions%2F-438154299" anchor-label="decodeTcp" id="2003461120%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Decodes <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver to a TCP <a href="-message/index.html">Message</a>.</div></div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="decode-tcp.html"><span class="token function">decodeTcp</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-message/-tcp/index.html">Message.Tcp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Decodes <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver to a TCP <a href="-message/index.html">Message</a>.</p></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
 <a data-name="700962995%2FFunctions%2F-438154299" anchor-label="decodeTcpHeader" id="700962995%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="decode-tcp-header.html">decodeTcpHeader</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="700962995%2FFunctions%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="decode-tcp-header.html"><span>decode</span><wbr></wbr><span>Tcp</span><wbr></wbr><span><span>Header</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="700962995%2FFunctions%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.<a href="decode-tcp-header.html">decodeTcpHeader</a>(): <a href="-header/-tcp/index.html">Header.Tcp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="700962995%2FFunctions%2F-438154299" anchor-label="decodeTcpHeader" id="700962995%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="700962995%2FFunctions%2F-438154299" anchor-label="decodeTcpHeader" id="700962995%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Decodes only the CoAP TCP (RFC 8323) header of the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver.</div></div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="decode-tcp-header.html"><span class="token function">decodeTcpHeader</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-header/-tcp/index.html">Header.Tcp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Decodes only the CoAP TCP (RFC 8323) header of the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver.</p></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
 <a data-name="530070560%2FFunctions%2F-438154299" anchor-label="decodeUdp" id="530070560%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="decode-udp.html">decodeUdp</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="530070560%2FFunctions%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="decode-udp.html"><span>decode</span><wbr></wbr><span><span>Udp</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="530070560%2FFunctions%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.<a href="decode-udp.html">decodeUdp</a>(): <a href="-message/-udp/index.html">Message.Udp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="530070560%2FFunctions%2F-438154299" anchor-label="decodeUdp" id="530070560%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="530070560%2FFunctions%2F-438154299" anchor-label="decodeUdp" id="530070560%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Decodes <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver to a <a href="-message/-udp/index.html">Message.Udp</a>.</div></div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="decode-udp.html"><span class="token function">decodeUdp</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-message/-udp/index.html">Message.Udp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Decodes <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver to a <a href="-message/-udp/index.html">Message.Udp</a>.</p></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
 <a data-name="452663507%2FFunctions%2F-438154299" anchor-label="decodeUdpHeader" id="452663507%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="decode-udp-header.html">decodeUdpHeader</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="452663507%2FFunctions%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="decode-udp-header.html"><span>decode</span><wbr></wbr><span>Udp</span><wbr></wbr><span><span>Header</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="452663507%2FFunctions%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.<a href="decode-udp-header.html">decodeUdpHeader</a>(): <a href="-header/-udp/index.html">Header.Udp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="452663507%2FFunctions%2F-438154299" anchor-label="decodeUdpHeader" id="452663507%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="452663507%2FFunctions%2F-438154299" anchor-label="decodeUdpHeader" id="452663507%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Decodes only the CoAP UDP (RFC 7252) header of the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver.</div></div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="decode-udp-header.html"><span class="token function">decodeUdpHeader</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-header/-udp/index.html">Header.Udp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Decodes only the CoAP UDP (RFC 7252) header of the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a> receiver.</p></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1551143662%2FFunctions%2F-438154299" anchor-label="encode" id="-1551143662%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="encode.html">encode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1551143662%2FFunctions%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="encode.html"><span><span>encode</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1551143662%2FFunctions%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="-message/index.html">Message</a>.<a href="encode.html">encode</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-1551143662%2FFunctions%2F-438154299" anchor-label="encode" id="-1551143662%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1551143662%2FFunctions%2F-438154299" anchor-label="encode" id="-1551143662%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Encodes <a href="-message/index.html">Message</a> receiver as a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.</div></div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-message/index.html">Message</a><span class="token punctuation">.</span><a href="encode.html"><span class="token function">encode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Encodes <a href="-message/index.html">Message</a> receiver as a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.</p></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1492835790%2FFunctions%2F-438154299" anchor-label="encodeHeader" id="-1492835790%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="encode-header.html">encodeHeader</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1492835790%2FFunctions%2F-438154299"></span>
+                    <div class=""><span class="inline-flex"><a href="encode-header.html"><span>encode</span><wbr></wbr><span><span>Header</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1492835790%2FFunctions%2F-438154299"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":koap:dokkaHtml/commonMain" data-filterable-set=":koap:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="-message/-udp/index.html">Message.Udp</a>.<a href="encode-header.html">encodeHeader</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-1492835790%2FFunctions%2F-438154299" anchor-label="encodeHeader" id="-1492835790%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1492835790%2FFunctions%2F-438154299" anchor-label="encodeHeader" id="-1492835790%2FFunctions%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a>Encodes only the header portion of <a href="https://tools.ietf.org/html/rfc7252#section-3">Figure 7: Message Format</a>:<div class="sample-container"><code class="" theme="idea"><pre>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>|Ver| T |  TKL  |      Code     |          Message ID           |<br>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>|   Token (if any, TKL bytes) ...<br>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</pre></code></div></div></div>
-</div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-message/-udp/index.html">Message.Udp</a><span class="token punctuation">.</span><a href="encode-header.html"><span class="token function">encodeHeader</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Encodes only the header portion of <a href="https://tools.ietf.org/html/rfc7252#section-3">Figure 7: Message Format</a>:</p></div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -204,7 +160,7 @@
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="1037923786%2FProperties%2F-438154299" anchor-label="isError" id="1037923786%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="-message/-code/-response/index.html">Message.Code.Response</a>.<a href="is-error.html">isError</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="1037923786%2FProperties%2F-438154299" anchor-label="isError" id="1037923786%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-message/-code/-response/index.html">Message.Code.Response</a><span class="token punctuation">.</span><a href="is-error.html">isError</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
                       </div>
                     </div>
                   </div>
@@ -217,7 +173,7 @@
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="-1628018619%2FProperties%2F-438154299" anchor-label="isSuccess" id="-1628018619%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="-message/-code/-response/index.html">Message.Code.Response</a>.<a href="is-success.html">isSuccess</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="-1628018619%2FProperties%2F-438154299" anchor-label="isSuccess" id="-1628018619%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-message/-code/-response/index.html">Message.Code.Response</a><span class="token punctuation">.</span><a href="is-success.html">isSuccess</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
                       </div>
                     </div>
                   </div>
@@ -226,7 +182,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>
