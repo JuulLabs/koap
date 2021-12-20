@@ -8,3 +8,4 @@ out/
 /captures
 .externalNativeBuild
 .cxx
+kotlin-js-store
