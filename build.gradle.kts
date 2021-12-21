@@ -31,10 +31,6 @@ allprojects {
     }
 }
 
-rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
-    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = libs.versions.node.get()
-}
-
 task<Copy>("assembleGitHubPages") {
     description = "Generates static web site for GitHub Pages."
     group = "Build"
