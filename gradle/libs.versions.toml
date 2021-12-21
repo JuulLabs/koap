@@ -16,6 +16,6 @@ binary-compatibility-validator = { id = "binary-compatibility-validator", versio
 dokka = { id = "org.jetbrains.dokka", version = "1.6.0" }
 kotlin-js = { id = "org.jetbrains.kotlin.js", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinter = { id = "org.jmailen.kotlinter", version = "3.7.0" }
+kotlinter = { id = "org.jmailen.kotlinter", version = "3.8.0" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.18.0" }
