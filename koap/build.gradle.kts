@@ -21,7 +21,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.okio.multiplatform)
+                implementation(libs.okio.core)
             }
         }
 
