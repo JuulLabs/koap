@@ -15,7 +15,7 @@ jacoco {
 
 kotlin {
     jvm()
-    js(BOTH).browser()
+    js().browser()
     macosX64()
 
     sourceSets {
