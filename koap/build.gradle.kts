@@ -32,12 +32,6 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation(npm("os-browserify", "0.3.0"))
-            }
-        }
-
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))

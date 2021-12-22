@@ -18,11 +18,14 @@ kotlin {
                 implementation(libs.okio.js)
                 implementation(npm("buffer", "6.0.3"))
                 implementation(npm("cbor", "8.1.0"))
-                implementation(npm("os-browserify", "0.3.0"))
-                implementation(npm("path-browserify", "1.0.1"))
                 implementation(npm("process", "0.11.10"))
                 implementation(npm("stream-browserify", "3.0.0"))
-                implementation(npm("util", "0.12.4"))
+            }
+        }
+
+        val test by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
             }
         }
     }
