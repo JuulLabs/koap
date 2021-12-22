@@ -1,6 +1,5 @@
 package com.juul.koap
 
-import cbor.decodeFirstSync
 import cbor.diagnose
 import com.juul.koap.Message.Option.Accept
 import com.juul.koap.Message.Option.ContentFormat
@@ -68,7 +67,7 @@ fun decode(hex: String?): Promise<String> = GlobalScope.promise {
     }
 }
 
-private suspend inline fun <reified T : Message> decode(bytes: ByteArray): String = try {
+internal suspend inline fun <reified T : Message> decode(bytes: ByteArray): String = try {
     parse(bytes.decode<T>())
 } catch (t: Throwable) {
     console.error(t)

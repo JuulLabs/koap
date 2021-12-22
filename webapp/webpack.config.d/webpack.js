@@ -8,8 +8,6 @@ config.plugins = [
 
 config.resolve.fallback = {
     "buffer": require.resolve("buffer/"),
-    "os": require.resolve("os-browserify/browser"),
     "process": require.resolve("process/browser"),
     "stream": require.resolve("stream-browserify"),
-    "util": require.resolve("util/"),
 }
