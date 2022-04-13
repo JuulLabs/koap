@@ -454,13 +454,15 @@ sealed class Message {
 
         override fun equals(other: Any?): Boolean =
             this === other ||
-                (other is Udp && // ktlint-disable indent
+                (
+                    other is Udp && // ktlint-disable indent
                     type == other.type &&
                     code == other.code &&
                     id == other.id &&
                     token == other.token &&
                     options == other.options &&
-                    payload.contentEquals(other.payload))
+                    payload.contentEquals(other.payload)
+                )
 
         override fun hashCode(): Int {
             var result = type.hashCode()
@@ -491,11 +493,13 @@ sealed class Message {
 
         override fun equals(other: Any?): Boolean =
             this === other ||
-                (other is Tcp &&
+                (
+                    other is Tcp &&
                     code == other.code &&
                     token == other.token &&
                     options == other.options &&
-                    payload.contentEquals(other.payload))
+                    payload.contentEquals(other.payload)
+                )
 
         override fun hashCode(): Int {
             var result = code.hashCode()
