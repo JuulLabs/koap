@@ -17,6 +17,7 @@ kotlin {
     jvm()
     js().browser()
     macosX64()
+    macosArm64()
 
     sourceSets {
         val commonMain by getting {
