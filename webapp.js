@@ -15,7 +15,7 @@
 		exports["webapp"] = factory();
 	else
 		root["webapp"] = factory();
-})(this, function() {
+})(this, () => {
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
