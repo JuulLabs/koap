@@ -30,14 +30,14 @@ class DecoderTest {
             options = listOf(
                 UriHost("http://localhost"),
                 UriPort(1234),
-                UriPath("/test")
+                UriPath("/test"),
             ),
-            payload = "Hello UDP!".encodeToByteArray()
+            payload = "Hello UDP!".encodeToByteArray(),
         )
 
         assertEquals(
             expected = message,
-            actual = message.encode().decode()
+            actual = message.encode().decode(),
         )
     }
 
@@ -49,14 +49,14 @@ class DecoderTest {
             options = listOf(
                 UriHost("http://localhost"),
                 UriPort(1234),
-                UriPath("/test")
+                UriPath("/test"),
             ),
-            payload = "Hello TCP!".encodeToByteArray()
+            payload = "Hello TCP!".encodeToByteArray(),
         )
 
         assertEquals(
             expected = message,
-            actual = message.encode().decode()
+            actual = message.encode().decode(),
         )
     }
 
@@ -66,12 +66,12 @@ class DecoderTest {
             code = GET,
             token = 1,
             options = emptyList(),
-            payload = byteArrayOf()
+            payload = byteArrayOf(),
         )
 
         assertEquals(
             expected = message,
-            actual = message.encode().decode()
+            actual = message.encode().decode(),
         )
     }
 
@@ -81,12 +81,12 @@ class DecoderTest {
             code = GET,
             token = 1,
             options = emptyList(),
-            payload = "Hello TCP!".encodeToByteArray()
+            payload = "Hello TCP!".encodeToByteArray(),
         )
 
         assertEquals(
             expected = message,
-            actual = message.encode().decode()
+            actual = message.encode().decode(),
         )
     }
 
@@ -98,14 +98,14 @@ class DecoderTest {
             options = listOf(
                 UriHost("http://localhost"),
                 UriPort(1234),
-                UriPath("/test")
+                UriPath("/test"),
             ),
-            payload = byteArrayOf()
+            payload = byteArrayOf(),
         )
 
         assertEquals(
             expected = message,
-            actual = message.encode().decode()
+            actual = message.encode().decode(),
         )
     }
 
@@ -116,7 +116,7 @@ class DecoderTest {
                 63       # Option Delta: 6, Option Length: 3
                 FF FF FF # Option Value: 16,777,215
             """,
-            expected = Observe(16_777_215)
+            expected = Observe(16_777_215),
         )
     }
 
@@ -126,7 +126,7 @@ class DecoderTest {
             encoded = """
                 60 # Option Delta: 6, Option Length: 0 (Option Value of 0 is implied; Register)
             """,
-            expected = Observe(Register)
+            expected = Observe(Register),
         )
     }
 
@@ -137,7 +137,7 @@ class DecoderTest {
                 61 # Option Delta: 6, Option Length: 1
                 01 # Option Value: 1 (Deregister)
             """,
-            expected = Observe(Deregister)
+            expected = Observe(Deregister),
         )
     }
 
@@ -147,13 +147,13 @@ class DecoderTest {
             code = GET,
             token = 0,
             options = emptyList(),
-            payload = byteArrayOf(0x01, 0x02, 0x03)
+            payload = byteArrayOf(0x01, 0x02, 0x03),
         )
         val extraData = byteArrayOf(0x0A, 0x0B, 0x0C)
 
         assertEquals(
             expected = message,
-            actual = (message.encode() + extraData).decode()
+            actual = (message.encode() + extraData).decode(),
         )
     }
 
@@ -163,19 +163,19 @@ class DecoderTest {
             code = GET,
             token = Long.MAX_VALUE,
             options = emptyList(),
-            payload = "Hello TCP!".encodeToByteArray()
+            payload = "Hello TCP!".encodeToByteArray(),
         )
 
         assertEquals(
             expected = message,
-            actual = message.encode().decode()
+            actual = message.encode().decode(),
         )
     }
 }
 
 private fun testReadOption(
     encoded: String,
-    expected: Message.Option
+    expected: Message.Option,
 ) {
     val option = encoded
         .stripComments()
@@ -186,7 +186,7 @@ private fun testReadOption(
 
     assertEquals(
         expected = expected,
-        actual = option
+        actual = option,
     )
 }
 

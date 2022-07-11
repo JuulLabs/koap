@@ -158,7 +158,7 @@ internal fun BufferedSink.writeHeader(message: Udp) {
  */
 internal fun BufferedSink.writeHeader(
     message: Tcp,
-    contentLength: Long
+    contentLength: Long,
 ) {
     require(contentLength <= UINT32_MAX_EXTENDED_LENGTH) {
         "Content length of $contentLength exceeds maximum allowable of $UINT32_MAX_EXTENDED_LENGTH"

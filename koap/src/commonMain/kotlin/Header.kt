@@ -37,7 +37,7 @@ sealed class Header {
         val type: Type,
         override val code: Code,
         val messageId: Int, // 16-bit unsigned integer
-        override val token: Long
+        override val token: Long,
     ) : Header() {
 
         override fun toString(): String = "Header.Udp(" +
@@ -57,7 +57,7 @@ sealed class Header {
         val length: Long, // 32-bit unsigned integer
 
         override val code: Code,
-        override val token: Long
+        override val token: Long,
     ) : Header() {
 
         override fun toString(): String = "Header.Tcp(" +
