@@ -148,7 +148,7 @@ fun ByteArray.decodeTcp(): Message.Tcp {
  */
 fun ByteArray.decode(
     header: Header.Udp,
-    offset: Int = header.size
+    offset: Int = header.size,
 ): Message.Udp = decodeContent(header, offset) as Message.Udp
 
 /**
@@ -174,7 +174,7 @@ fun ByteArray.decode(
  */
 fun ByteArray.decode(
     header: Header.Tcp,
-    offset: Int = header.size
+    offset: Int = header.size,
 ): Message.Tcp = decodeContent(header, offset) as Message.Tcp
 
 /**
@@ -183,7 +183,7 @@ fun ByteArray.decode(
  */
 private fun ByteArray.decodeContent(
     header: Header,
-    offset: Int
+    offset: Int,
 ): Message {
     val endIndex = if (header is Header.Tcp) offset + header.length.toInt() else size
     return withReader(offset, endIndex) {
@@ -206,13 +206,13 @@ private fun ByteArray.decodeContent(
                 header.messageId,
                 header.token,
                 options,
-                payload
+                payload,
             )
             is Header.Tcp -> Message.Tcp(
                 header.code,
                 header.token,
                 options,
-                payload
+                payload,
             )
         }
     }
@@ -264,7 +264,7 @@ fun ByteArray.decodeUdpHeader(): Header.Udp = withReader {
         type = t.toType(),
         code = code.toCode(),
         messageId = id,
-        token = token
+        token = token,
     )
 }
 
@@ -318,7 +318,7 @@ fun ByteArray.decodeTcpHeader(): Header.Tcp = withReader {
         size = index,
         length = length,
         code = code.toCode(),
-        token = token
+        token = token,
     )
 }
 
@@ -477,7 +477,7 @@ private fun Int.toCode(): Message.Code = when (this) {
  * @return value of number
  */
 internal fun ByteArrayReader.readNumberOfLength(
-    bytes: Int
+    bytes: Int,
 ): Long = when (bytes) {
     0 -> 0L
     1 -> readUByte().toLong()

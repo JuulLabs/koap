@@ -36,9 +36,9 @@ class EncoderTest {
             id = 0xFEED,
             token = 0xCAFE,
             options = listOf(
-                UriPath("example")
+                UriPath("example"),
             ),
-            payload = byteArrayOf()
+            payload = byteArrayOf(),
         )
 
         assertEquals(
@@ -50,7 +50,7 @@ class EncoderTest {
                 B7                   # Delta option: 11 (Uri-Path), Delta length: 7
                 65 78 61 6D 70 6C 65 # "example"
             """.stripComments(),
-            actual = message.encode().toHexString()
+            actual = message.encode().toHexString(),
         )
     }
 
@@ -60,7 +60,7 @@ class EncoderTest {
             code = GET,
             token = 0,
             options = emptyList(),
-            payload = byteArrayOf()
+            payload = byteArrayOf(),
         )
 
         val buffer = Buffer().apply {
@@ -72,7 +72,7 @@ class EncoderTest {
                 FF FF FF FF # Extended Content Length: 4,295,033,100 (max allowable)
                 01          # Code: 1 (GET)
             """.stripComments(),
-            actual = buffer.readByteArray().toHexString()
+            actual = buffer.readByteArray().toHexString(),
         )
     }
 
@@ -82,7 +82,7 @@ class EncoderTest {
             code = Content,
             token = 0,
             options = emptyList(),
-            payload = (1..25).map { it.toByte() }.toByteArray()
+            payload = (1..25).map { it.toByte() }.toByteArray(),
         )
 
         assertEquals(
@@ -93,7 +93,7 @@ class EncoderTest {
                 FF # Payload marker
                 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 # Payload
             """.stripComments(),
-            actual = message.encode().toHexString()
+            actual = message.encode().toHexString(),
         )
     }
 
@@ -103,7 +103,7 @@ class EncoderTest {
             code = GET,
             token = 0,
             options = emptyList(),
-            payload = byteArrayOf()
+            payload = byteArrayOf(),
         )
 
         assertEquals(
@@ -111,7 +111,7 @@ class EncoderTest {
                 00 # Len: 0, Token length: 0
                 01 # Code: 1 (GET)
             """.stripComments(),
-            actual = message.encode().toHexString()
+            actual = message.encode().toHexString(),
         )
     }
 
@@ -121,7 +121,7 @@ class EncoderTest {
             code = GET,
             token = 1,
             options = emptyList(),
-            payload = byteArrayOf()
+            payload = byteArrayOf(),
         )
 
         assertEquals(
@@ -130,7 +130,7 @@ class EncoderTest {
                 01 # Code: 1 (GET)
                 01 # Token: 1
             """.stripComments(),
-            actual = message.encode().toHexString()
+            actual = message.encode().toHexString(),
         )
     }
 
@@ -162,10 +162,10 @@ class EncoderTest {
             code = GET,
             id = 0x7d34,
             options = listOf(
-                UriPath("temperature")
+                UriPath("temperature"),
             ),
             payload = byteArrayOf(),
-            token = 0
+            token = 0,
         )
         assertEquals(
             expected = """
@@ -175,7 +175,7 @@ class EncoderTest {
                 BB                               # Delta option: 11 (Uri-Path), Delta length: 11
                 74 65 6D 70 65 72 61 74 75 72 65 # "temperature"
             """.stripComments(),
-            actual = request.encode().toHexString()
+            actual = request.encode().toHexString(),
         )
 
         //  Header: 2.05 Content (T=ACK, Code=2.05, MID=0x7d34)
@@ -195,7 +195,7 @@ class EncoderTest {
             id = 0x7d34,
             options = emptyList(),
             payload = "22.3 C".encodeToByteArray(),
-            token = 0
+            token = 0,
         )
         assertEquals(
             expected = """
@@ -205,7 +205,7 @@ class EncoderTest {
                 FF                # Payload marker
                 32 32 2E 33 20 43 # "22.3 C"
             """.stripComments(),
-            actual = response.encode().toHexString()
+            actual = response.encode().toHexString(),
         )
     }
 
@@ -220,7 +220,7 @@ class EncoderTest {
                 72    # Option Delta: 7, Option Length: 2
                 04 D2 # Option Value: 1234
             """.stripComments(),
-            actual = buffer.readByteArray().toHexString()
+            actual = buffer.readByteArray().toHexString(),
         )
     }
 
@@ -229,7 +229,7 @@ class EncoderTest {
         testWriteToken(
             token = 0,
             expectedSize = 0,
-            expectedHex = ""
+            expectedHex = "",
         )
     }
 
@@ -238,7 +238,7 @@ class EncoderTest {
         testWriteToken(
             token = UBYTE_MAX_VALUE.toLong(),
             expectedSize = 1,
-            expectedHex = "FF"
+            expectedHex = "FF",
         )
     }
 
@@ -247,7 +247,7 @@ class EncoderTest {
         testWriteToken(
             token = USHORT_MAX_VALUE.toLong(),
             expectedSize = 2,
-            expectedHex = "FF FF"
+            expectedHex = "FF FF",
         )
     }
 
@@ -256,7 +256,7 @@ class EncoderTest {
         testWriteToken(
             token = UINT_MAX_VALUE,
             expectedSize = 4,
-            expectedHex = "FF FF FF FF"
+            expectedHex = "FF FF FF FF",
         )
     }
 
@@ -265,7 +265,7 @@ class EncoderTest {
         testWriteToken(
             token = Long.MAX_VALUE,
             expectedSize = 8,
-            expectedHex = "7F FF FF FF FF FF FF FF"
+            expectedHex = "7F FF FF FF FF FF FF FF",
         )
     }
 
@@ -274,7 +274,7 @@ class EncoderTest {
         testWriteToken(
             token = -1,
             expectedSize = 8,
-            expectedHex = "FF FF FF FF FF FF FF FF"
+            expectedHex = "FF FF FF FF FF FF FF FF",
         )
     }
 
@@ -283,7 +283,7 @@ class EncoderTest {
         testWriteToken(
             token = Long.MIN_VALUE,
             expectedSize = 8,
-            expectedHex = "80 00 00 00 00 00 00 00"
+            expectedHex = "80 00 00 00 00 00 00 00",
         )
     }
 
@@ -293,7 +293,7 @@ class EncoderTest {
             option = Observe(Register),
             expected = """
                 60 # Option Delta: 6, Option Length: 0 (Option Value of 0 is implied; Register)
-            """
+            """,
         )
     }
 
@@ -304,7 +304,7 @@ class EncoderTest {
             expected = """
                 61 # Option Delta: 6, Option Length: 1
                 01 # Option Value: 1 (Deregister)
-            """
+            """,
         )
     }
 
@@ -315,7 +315,7 @@ class EncoderTest {
             expected = """
                 61 # Option Delta: 6, Option Length: 1
                 FF # Option Value: 255
-            """
+            """,
         )
     }
 
@@ -326,7 +326,7 @@ class EncoderTest {
             expected = """
                 63       # Option Delta: 6, Option Length: 3
                 FF FF FF # Option Value: 16,777,215
-            """
+            """,
         )
     }
 
@@ -341,24 +341,24 @@ class EncoderTest {
 private fun testWriteToken(
     token: Long,
     expectedSize: Long,
-    expectedHex: String
+    expectedHex: String,
 ) {
     val buffer = Buffer().apply { writeToken(token) }
 
     assertEquals(
         expected = expectedSize,
-        actual = buffer.size
+        actual = buffer.size,
     )
 
     assertEquals(
         expected = expectedHex,
-        actual = buffer.readByteArray().toHexString()
+        actual = buffer.readByteArray().toHexString(),
     )
 }
 
 private fun testWriteOption(
     option: Message.Option,
-    expected: String
+    expected: String,
 ) {
     val buffer = Buffer().apply {
         writeOption(option.toFormat(), preceding = null)
@@ -366,7 +366,7 @@ private fun testWriteOption(
 
     assertEquals(
         expected = expected.stripComments(),
-        actual = buffer.readByteArray().toHexString()
+        actual = buffer.readByteArray().toHexString(),
     )
 }
 
