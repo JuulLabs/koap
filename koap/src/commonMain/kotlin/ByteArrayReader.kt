@@ -5,12 +5,12 @@ import okio.ByteString.Companion.toByteString
 internal inline fun <T> ByteArray.withReader(
     startIndex: Int = 0,
     endIndex: Int = size,
-    action: ByteArrayReader.() -> T
+    action: ByteArrayReader.() -> T,
 ): T = action.invoke(ByteArrayReader(this, startIndex, endIndex))
 
 internal fun ByteArray.reader(
     startIndex: Int = 0,
-    endIndex: Int = size
+    endIndex: Int = size,
 ): ByteArrayReader = ByteArrayReader(this, startIndex, endIndex)
 
 /**
@@ -22,7 +22,7 @@ internal fun ByteArray.reader(
 internal class ByteArrayReader(
     private val bytes: ByteArray,
     startIndex: Int = 0,
-    private val endIndex: Int = bytes.size
+    private val endIndex: Int = bytes.size,
 ) {
 
     var index = startIndex
@@ -31,7 +31,7 @@ internal class ByteArrayReader(
     private fun checkIndex() {
         if (index >= endIndex) {
             throw IndexOutOfBoundsException(
-                "Cannot read when index is at or beyond endIndex (index=$index, endIndex=$endIndex)"
+                "Cannot read when index is at or beyond endIndex (index=$index, endIndex=$endIndex)",
             )
         }
     }

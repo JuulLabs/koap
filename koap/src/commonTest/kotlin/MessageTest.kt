@@ -67,6 +67,6 @@ class MessageTest {
 private fun assertToString(obj: Any, expected: String) {
     assertEquals(
         actual = obj.toString(),
-        expected = expected
+        expected = expected,
     )
 }

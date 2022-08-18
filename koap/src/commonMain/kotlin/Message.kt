@@ -320,7 +320,7 @@ sealed class Message {
                 when (action) {
                     Register -> 0L
                     Deregister -> 1L
-                }
+                },
             )
 
             init {
