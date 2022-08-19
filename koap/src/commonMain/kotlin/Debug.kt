@@ -1,7 +1,7 @@
 package com.juul.koap
 
 private val hexArray = charArrayOf(
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 )
 
 private fun Byte.toHexString(): String {
@@ -16,18 +16,18 @@ internal fun Int.toHexString(byteCount: Int = Int.SIZE_BYTES): String =
     toLong().toHexString(byteCount)
 
 private fun Long.toHexList(
-    byteCount: Int = Long.SIZE_BYTES
+    byteCount: Int = Long.SIZE_BYTES,
 ): List<String> = ((byteCount - 1) downTo 0).map { i ->
     val byte = ((this shr (i * Byte.SIZE_BITS)) and 0xFF).toByte()
     byte.toHexString()
 }
 
 internal fun Long.toHexString(
-    byteCount: Int = Long.SIZE_BYTES
+    byteCount: Int = Long.SIZE_BYTES,
 ): String = toHexList(byteCount).joinToString(" ")
 
 internal fun Int.debugString(
-    byteCount: Int = Int.SIZE_BYTES
+    byteCount: Int = Int.SIZE_BYTES,
 ): String = "$this (${this.toHexString(byteCount)})"
 
 internal fun Long.debugTokenString(): String {
