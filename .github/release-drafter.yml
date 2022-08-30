@@ -1,3 +1,5 @@
+name-template: '$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
 categories:
   - title: '🐛 Bug Fixes'
     label: 'bug'
@@ -8,7 +10,15 @@ categories:
 change-template: '- $TITLE (#$NUMBER)'
 exclude-labels:
   - 'skip-changelog'
-template: |
-  ## 🚀 Changes
-  
-  $CHANGES
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: $CHANGES
