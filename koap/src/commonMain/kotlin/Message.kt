@@ -452,6 +452,7 @@ sealed class Message {
             }
         }
 
+        // ktlint-disable indent
         override fun equals(other: Any?): Boolean =
             this === other ||
                 (
@@ -463,6 +464,7 @@ sealed class Message {
                     options == other.options &&
                     payload.contentEquals(other.payload)
                 )
+        // ktlint-enable indent
 
         override fun hashCode(): Int {
             var result = type.hashCode()
@@ -491,6 +493,7 @@ sealed class Message {
         override val payload: ByteArray,
     ) : Message() {
 
+        // ktlint-disable indent
         override fun equals(other: Any?): Boolean =
             this === other ||
                 (
@@ -500,6 +503,7 @@ sealed class Message {
                     options == other.options &&
                     payload.contentEquals(other.payload)
                 )
+        // ktlint-enable indent
 
         override fun hashCode(): Int {
             var result = code.hashCode()
