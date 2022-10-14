@@ -6,10 +6,18 @@
     <link href="../../../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../../../";</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
 <script type="text/javascript" src="../../../../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../../../../styles/style.css" rel="Stylesheet">
 <link href="../../../../../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -21,6 +29,7 @@ if(savedDarkMode === true){
 <script type="text/javascript" src="../../../../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../../../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
 <div class="navigation-wrapper" id="navigation-wrapper">
@@ -43,10 +52,10 @@ if(savedDarkMode === true){
     </div>
     <div id="main">
 <div class="main-content" id="content" pageIds="koap::com.juul.koap/Message.Code.Raw///PointingToDeclaration//-438154299">
-  <div class="breadcrumbs"><a href="../../../../../index.html">koap</a><span class="delimiter">/</span><a href="../../../index.html">com.juul.koap</a><span class="delimiter">/</span><a href="../../index.html">Message</a><span class="delimiter">/</span><a href="../index.html">Code</a><span class="delimiter">/</span><a href="index.html">Raw</a></div>
+  <div class="breadcrumbs"><a href="../../../../../index.html">koap</a><span class="delimiter">/</span><a href="../../../index.html">com.juul.koap</a><span class="delimiter">/</span><a href="../../index.html">Message</a><span class="delimiter">/</span><a href="../index.html">Code</a><span class="delimiter">/</span><span class="current">Raw</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Raw</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Raw</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>class<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>detail<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span> : <a href="../index.html">Message.Code</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Raw</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>class<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>detail<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span> : <a href="../index.html">Message.Code</a></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
@@ -62,7 +71,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-raw.html"><span class="token function">Raw</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">class<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">detail<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-raw.html"><span class="token function">Raw</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">class<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">detail<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
               </div>
             </div>
           </div>
@@ -79,7 +88,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="-1676534199%2FProperties%2F-438154299" anchor-label="class" id="-1676534199%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="class.html">class</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1676534199%2FProperties%2F-438154299" anchor-label="class" id="-1676534199%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><p class="paragraph">Allowable range is <code class="lang-kotlin">0..7</code>.</p></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="-1676534199%2FProperties%2F-438154299" anchor-label="class" id="-1676534199%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="class.html">class</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><a data-name="-1676534199%2FProperties%2F-438154299" anchor-label="class" id="-1676534199%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><p class="paragraph">Allowable range is <code class="lang-kotlin">0..7</code>.</p></div></div></div>
               </div>
             </div>
           </div>
@@ -94,7 +103,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="735865864%2FProperties%2F-438154299" anchor-label="detail" id="735865864%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="detail.html">detail</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="735865864%2FProperties%2F-438154299" anchor-label="detail" id="735865864%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><p class="paragraph">Allowable range is <code class="lang-kotlin">0..31</code>.</p></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="735865864%2FProperties%2F-438154299" anchor-label="detail" id="735865864%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="detail.html">detail</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><a data-name="735865864%2FProperties%2F-438154299" anchor-label="detail" id="735865864%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><p class="paragraph">Allowable range is <code class="lang-kotlin">0..31</code>.</p></div></div></div>
               </div>
             </div>
           </div>

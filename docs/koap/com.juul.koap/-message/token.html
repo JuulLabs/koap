@@ -6,10 +6,18 @@
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
 <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -21,6 +29,7 @@ if(savedDarkMode === true){
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
 <div class="navigation-wrapper" id="navigation-wrapper">
@@ -43,11 +52,11 @@ if(savedDarkMode === true){
     </div>
     <div id="main">
 <div class="main-content" id="content" pageIds="koap::com.juul.koap/Message/token/#/PointingToDeclaration//-438154299">
-  <div class="breadcrumbs"><a href="../../../index.html">koap</a><span class="delimiter">/</span><a href="../index.html">com.juul.koap</a><span class="delimiter">/</span><a href="index.html">Message</a><span class="delimiter">/</span><a href="token.html">token</a></div>
+  <div class="breadcrumbs"><a href="../../../index.html">koap</a><span class="delimiter">/</span><a href="../index.html">com.juul.koap</a><span class="delimiter">/</span><a href="index.html">Message</a><span class="delimiter">/</span><span class="current">token</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>token</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="token.html">token</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Per RFC 7252 2.2. Request/Response Model:</p><blockquote class="quotation"><p class="paragraph">A Token is used to match responses to requests independently from the underlying messages.</p></blockquote><p class="paragraph">A token may be 0-8 bytes, whereas <a href="token.html">token</a> is represented as a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>. The following ranges outline the number of bytes that will be occupied when encoded as CoAP.</p><table><thead><tr><th>Range</th><th>Bytes</th></tr></thead><tbody><tr><td>-2^63 .. -1</td><td>8</td></tr><tr><td>1 .. 255</td><td>1</td></tr><tr><td>256 .. 65,635</td><td>2</td></tr><tr><td>65,536 .. 4,294,967,295</td><td>4</td></tr><tr><td>4,294,967,296 .. 2^63-1</td><td>8</td></tr></tbody></table><p class="paragraph"><i>A token of value </i><code class="italic lang-kotlin"><i>0</i></code><i> will occupy </i><code class="italic lang-kotlin"><i>0</i></code><i> bytes.</i></p></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="token.html">token</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></div><p class="paragraph">Per RFC 7252 2.2. Request/Response Model:</p><blockquote class="quotation"><p class="paragraph">A Token is used to match responses to requests independently from the underlying messages.</p></blockquote><p class="paragraph">A token may be 0-8 bytes, whereas <a href="token.html">token</a> is represented as a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>. The following ranges outline the number of bytes that will be occupied when encoded as CoAP.</p><table><thead><tr><th>Range</th><th>Bytes</th></tr></thead><tbody><tr><td>-2^63 .. -1</td><td>8</td></tr><tr><td>1 .. 255</td><td>1</td></tr><tr><td>256 .. 65,635</td><td>2</td></tr><tr><td>65,536 .. 4,294,967,295</td><td>4</td></tr><tr><td>4,294,967,296 .. 2^63-1</td><td>8</td></tr></tbody></table><p class="paragraph"><i>A token of value </i><code class="italic lang-kotlin"><i>0</i></code><i> will occupy </i><code class="italic lang-kotlin"><i>0</i></code><i> bytes.</i></p></div></div>
 </div>
       <div class="footer">
         <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span

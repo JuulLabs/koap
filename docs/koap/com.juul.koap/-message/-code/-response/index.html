@@ -6,10 +6,18 @@
     <link href="../../../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../../../";</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
 <script type="text/javascript" src="../../../../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../../../../styles/style.css" rel="Stylesheet">
 <link href="../../../../../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -21,6 +29,7 @@ if(savedDarkMode === true){
 <script type="text/javascript" src="../../../../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../../../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
 <div class="navigation-wrapper" id="navigation-wrapper">
@@ -43,10 +52,10 @@ if(savedDarkMode === true){
     </div>
     <div id="main">
 <div class="main-content" id="content" pageIds="koap::com.juul.koap/Message.Code.Response///PointingToDeclaration//-438154299">
-  <div class="breadcrumbs"><a href="../../../../../index.html">koap</a><span class="delimiter">/</span><a href="../../../index.html">com.juul.koap</a><span class="delimiter">/</span><a href="../../index.html">Message</a><span class="delimiter">/</span><a href="../index.html">Code</a><span class="delimiter">/</span><a href="index.html">Response</a></div>
+  <div class="breadcrumbs"><a href="../../../../../index.html">koap</a><span class="delimiter">/</span><a href="../../../index.html">com.juul.koap</a><span class="delimiter">/</span><a href="../../index.html">Message</a><span class="delimiter">/</span><a href="../index.html">Code</a><span class="delimiter">/</span><span class="current">Response</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Response</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="index.html">Response</a> : <a href="../index.html">Message.Code</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">RFC 7252: 12.1.2. Response Codes</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="index.html">Response</a> : <a href="../index.html">Message.Code</a></div><p class="paragraph">RFC 7252: 12.1.2. Response Codes</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Extensions">Extensions</button><button class="section-tab" data-togglable="Inheritors">Inheritors</button></div>
@@ -62,7 +71,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-bad-gateway/index.html">BadGateway</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-bad-gateway/index.html">BadGateway</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -77,7 +86,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-bad-option/index.html">BadOption</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-bad-option/index.html">BadOption</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -92,7 +101,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-bad-request/index.html">BadRequest</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-bad-request/index.html">BadRequest</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -107,7 +116,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-changed/index.html">Changed</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-changed/index.html">Changed</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -122,7 +131,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-content/index.html">Content</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-content/index.html">Content</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -137,7 +146,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-created/index.html">Created</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-created/index.html">Created</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -152,7 +161,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-deleted/index.html">Deleted</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-deleted/index.html">Deleted</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -167,7 +176,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-forbidden/index.html">Forbidden</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-forbidden/index.html">Forbidden</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -182,7 +191,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-gateway-timeout/index.html">GatewayTimeout</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-gateway-timeout/index.html">GatewayTimeout</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -197,7 +206,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-internal-server-error/index.html">InternalServerError</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-internal-server-error/index.html">InternalServerError</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -212,7 +221,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-method-not-allowed/index.html">MethodNotAllowed</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-method-not-allowed/index.html">MethodNotAllowed</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -227,7 +236,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-not-acceptable/index.html">NotAcceptable</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-not-acceptable/index.html">NotAcceptable</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -242,7 +251,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-not-found/index.html">NotFound</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-not-found/index.html">NotFound</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -257,7 +266,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-not-implemented/index.html">NotImplemented</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-not-implemented/index.html">NotImplemented</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -272,7 +281,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-precondition-failed/index.html">PreconditionFailed</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-precondition-failed/index.html">PreconditionFailed</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -287,7 +296,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-proxying-not-supported/index.html">ProxyingNotSupported</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-proxying-not-supported/index.html">ProxyingNotSupported</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -302,7 +311,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-request-entity-too-large/index.html">RequestEntityTooLarge</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-request-entity-too-large/index.html">RequestEntityTooLarge</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -317,7 +326,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-service-unavailable/index.html">ServiceUnavailable</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-service-unavailable/index.html">ServiceUnavailable</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -332,7 +341,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-unauthorized/index.html">Unauthorized</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-unauthorized/index.html">Unauthorized</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -347,7 +356,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-unsupported-content-format/index.html">UnsupportedContentFormat</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-unsupported-content-format/index.html">UnsupportedContentFormat</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -362,7 +371,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-valid/index.html">Valid</a> : <a href="index.html">Message.Code.Response</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-valid/index.html">Valid</a> : <a href="index.html">Message.Code.Response</a></div></div></div>
               </div>
             </div>
           </div>
@@ -379,7 +388,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="to-string.html"><span class="token function">toString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="to-string.html"><span class="token function">toString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
               </div>
             </div>
           </div>
@@ -396,7 +405,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="-41103178%2FProperties%2F-438154299" anchor-label="class" id="-41103178%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="class.html">class</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="-41103178%2FProperties%2F-438154299" anchor-label="class" id="-41103178%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="class.html">class</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
               </div>
             </div>
           </div>
@@ -411,7 +420,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="-105380037%2FProperties%2F-438154299" anchor-label="detail" id="-105380037%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="detail.html">detail</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><a data-name="-105380037%2FProperties%2F-438154299" anchor-label="detail" id="-105380037%2FProperties%2F-438154299" data-filterable-set=":koap:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="detail.html">detail</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
               </div>
             </div>
           </div>
@@ -661,7 +670,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html">Message.Code.Response</a><span class="token punctuation">.</span><a href="../../../is-error.html">isError</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html">Message.Code.Response</a><span class="token punctuation">.</span><a href="../../../is-error.html">isError</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
               </div>
             </div>
           </div>
@@ -676,7 +685,7 @@ if(savedDarkMode === true){
                 </span></span></div>
             <div>
               <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html">Message.Code.Response</a><span class="token punctuation">.</span><a href="../../../is-success.html">isSuccess</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":koap:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html">Message.Code.Response</a><span class="token punctuation">.</span><a href="../../../is-success.html">isSuccess</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
               </div>
             </div>
           </div>
