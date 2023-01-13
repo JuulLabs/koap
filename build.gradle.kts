@@ -11,7 +11,7 @@ buildscript {
         // > As a workaround, it is possible to manually update 'kotlinx-metadata-jvm' version in your project.
         //
         // todo: Remove when binary-compatibility-validator bundles support for metadata 1.7.x.
-        classpath("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+        classpath("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.6.0")
     }
 }
 
