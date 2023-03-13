@@ -43,8 +43,6 @@ jobs:
         if: ${{ runner.os == 'macOS' && github.repository_owner == 'JuulLabs' }}
 
       - uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: true
 
       - run: |
           rm -f ~/.gradle/caches/modules-2/modules-2.lock
