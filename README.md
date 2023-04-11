@@ -214,13 +214,13 @@ Message.Udp(
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.juul.koap/koap/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.juul.koap/koap)
 
-```groovy
+```kotlin
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'com.juul.koap:koap:$version'
+    implementation("com.juul.koap:koap:$version")
 }
 ```
 
