@@ -38,7 +38,7 @@ task<Copy>("assembleGitHubPages") {
     dependsOn(":webapp:browserDevelopmentWebpack", ":koap:dokkaHtml")
 
     into("$buildDir/gh-pages")
-    from("${project(":webapp").buildDir}/developmentExecutable") {
+    from("${project(":webapp").buildDir}/dist/js/developmentExecutable") {
         include("**")
     }
 
