@@ -5,7 +5,7 @@ okio = "3.5.0"
 
 [libraries]
 equalsverifier = { module = "nl.jqno.equalsverifier:equalsverifier", version = "3.15" }
-kotlinx-coroutines-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version = "1.7.2" }
+kotlinx-coroutines-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version = "1.7.3" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.5.1" }
 okio-core = { module = "com.squareup.okio:okio", version.ref = "okio" }
 okio-js = { module = "com.squareup.okio:okio-js", version.ref = "okio" }
