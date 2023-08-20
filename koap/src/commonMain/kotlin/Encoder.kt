@@ -171,14 +171,13 @@ internal fun BufferedSink.writeHeader(
         "Token length of $tokenLength is outside allowable range of $UINT4_RANGE"
     }
 
-    /* ktlint-disable no-multi-spaces */
+    @Suppress("ktlint:standard:no-multi-spaces")
     val len = when {
         contentLength < 13 -> contentLength // No Extended Length
         contentLength < 269 -> 13           // Reserved, indicates  8-bit unsigned integer Extended Length
         contentLength < 65805 -> 14         // Reserved, indicates 16-bit unsigned integer Extended Length
         else -> 15                          // Reserved, indicates 32-bit unsigned integer Extended Length
     }.toInt()
-    /* ktlint-enable no-multi-spaces */
     val tkl = tokenLength.toInt()
 
     // |7 6 5 4 3 2 1 0|
@@ -188,7 +187,7 @@ internal fun BufferedSink.writeHeader(
     writeByte((len shl 4) or tkl)
 
     // Extended Length (if any, as chosen by Len) ...
-    /* ktlint-disable no-multi-spaces */
+    @Suppress("ktlint:standard:no-multi-spaces")
     when (len) {
         // |7 6 5 4 3 2 1 0|
         // +-+-+-+-+-+-+-+-+
@@ -208,7 +207,6 @@ internal fun BufferedSink.writeHeader(
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         15 -> writeInt(contentLength - 65805) // 32-bit unsigned integer
     }
-    /* ktlint-enable no-multi-spaces */
 
     // |7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+
@@ -250,16 +248,15 @@ private fun BufferedSink.writeOptions(options: List<Option>) {
  * +-------------------------------+
  * ```
  */
+@Suppress("ktlint:standard:no-multi-spaces")
 internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
     val delta = option.number - (preceding?.number ?: 0)
-    /* ktlint-disable no-multi-spaces */
     val optionDelta = when {
         delta in 0..12 -> delta // No Option Delta (extended)
         delta < 269 -> 13       // Reserved, indicates  8-bit unsigned integer Option Delta (extended)
         delta < 65805 -> 14     // Reserved, indicates 16-bit unsigned integer Option Delta (extended)
         else -> error("Invalid option delta $delta")
     }
-    /* ktlint-enable no-multi-spaces */
 
     val optionValue = Buffer().apply {
         when (option) {
@@ -283,8 +280,6 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
             is string -> writeUtf8(option.value)
         }
     }
-
-    /* ktlint-disable no-multi-spaces */
 
     val length = optionValue.size.toInt()
     val optionLength = when {
@@ -324,8 +319,6 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
     // \                               \
     // +-------------------------------+
     writeAll(optionValue)
-
-    /* ktlint-enable no-multi-spaces */
 }
 
 /**
