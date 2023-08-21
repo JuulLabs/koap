@@ -1,6 +1,3 @@
-// ktlint-disable indent
-// todo: Disable above rule only on effected line when https://github.com/pinterest/ktlint/issues/631 is fixed.
-
 package com.juul.koap
 
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
@@ -189,7 +186,7 @@ sealed class Message {
             override fun toString(): String = "ContentFormat(${format.contentType})"
 
             /** RFC 7252 12.3. CoAP Content-Formats Registry */
-            /* ktlint-disable no-multi-spaces */
+            @Suppress("ktlint:standard:no-multi-spaces")
             companion object {
                 val PlainText = ContentFormat(0)    // text/plain; charset=utf-8
                 val LinkFormat = ContentFormat(40)  // application/link-format
@@ -201,7 +198,6 @@ sealed class Message {
                 /** RFC 7049 7.4. CoAP Content-Format */
                 val CBOR = ContentFormat(60)        // application/cbor
             }
-            /* ktlint-enable no-multi-spaces */
         }
 
         /** RFC 7252 5.10.4. Accept */
@@ -344,16 +340,15 @@ sealed class Message {
         abstract val detail: Int
 
         /** RFC 7252: 12.1.1. Method Codes */
+        @Suppress("ktlint:standard:no-multi-spaces")
         sealed class Method(
             override val `class`: Int,
             override val detail: Int,
         ) : Code() {
-            /* ktlint-disable no-multi-spaces */
             object GET : Method(`class` = 0, detail = 1)    // 0.01
             object POST : Method(`class` = 0, detail = 2)   // 0.02
             object PUT : Method(`class` = 0, detail = 3)    // 0.03
             object DELETE : Method(`class` = 0, detail = 4) // 0.04
-            /* ktlint-enable no-multi-spaces */
 
             override fun toString(): String = when (this) {
                 GET -> "GET"
@@ -364,11 +359,11 @@ sealed class Message {
         }
 
         /** RFC 7252: 12.1.2. Response Codes */
+        @Suppress("ktlint:standard:no-multi-spaces")
         sealed class Response(
             override val `class`: Int,
             override val detail: Int,
         ) : Code() {
-            /* ktlint-disable no-multi-spaces */
             object Created : Response(`class` = 2, detail = 1)                   // 2.01
             object Deleted : Response(`class` = 2, detail = 2)                   // 2.02
             object Valid : Response(`class` = 2, detail = 3)                     // 2.03
@@ -390,7 +385,6 @@ sealed class Message {
             object ServiceUnavailable : Response(`class` = 5, detail = 3)        // 5.03
             object GatewayTimeout : Response(`class` = 5, detail = 4)            // 5.04
             object ProxyingNotSupported : Response(`class` = 5, detail = 5)      // 5.05
-            /* ktlint-enable no-multi-spaces */
 
             override fun toString(): String = when (this) {
                 Created -> "Created"
@@ -452,11 +446,11 @@ sealed class Message {
             }
         }
 
-        // ktlint-disable indent
+        @Suppress("ktlint:standard:indent")
         override fun equals(other: Any?): Boolean =
             this === other ||
                 (
-                    other is Udp && // ktlint-disable indent
+                    other is Udp &&
                     type == other.type &&
                     code == other.code &&
                     id == other.id &&
@@ -464,7 +458,6 @@ sealed class Message {
                     options == other.options &&
                     payload.contentEquals(other.payload)
                 )
-        // ktlint-enable indent
 
         override fun hashCode(): Int {
             var result = type.hashCode()
@@ -493,7 +486,7 @@ sealed class Message {
         override val payload: ByteArray,
     ) : Message() {
 
-        // ktlint-disable indent
+        @Suppress("ktlint:standard:indent")
         override fun equals(other: Any?): Boolean =
             this === other ||
                 (
@@ -503,7 +496,6 @@ sealed class Message {
                     options == other.options &&
                     payload.contentEquals(other.payload)
                 )
-        // ktlint-enable indent
 
         override fun hashCode(): Int {
             var result = code.hashCode()
