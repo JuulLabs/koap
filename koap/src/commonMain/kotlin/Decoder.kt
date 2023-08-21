@@ -292,7 +292,7 @@ fun ByteArray.decodeTcpHeader(): Header.Tcp = withReader {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Extended Length (if any, as chosen by Len) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    /* ktlint-disable no-multi-spaces */
+    @Suppress("ktlint:standard:no-multi-spaces")
     val length = when (len) {
         in 0..12 -> len.toLong()            // No Extended Length
         13 -> (readUByte() + 13).toLong()   //  8-bit unsigned integer
@@ -300,7 +300,6 @@ fun ByteArray.decodeTcpHeader(): Header.Tcp = withReader {
         15 -> readUInt() + 65805            // 32-bit unsigned integer
         else -> error("Invalid length $len")
     }
-    /* ktlint-enable no-multi-spaces */
 
     // |7 6 5 4 3 2 1 0|
     // +-+-+-+-+-+-+-+-+
@@ -370,27 +369,25 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
     // /         Option Delta          /   0-2 bytes
     // \          (extended)           \
     // +-------------------------------+
-    /* ktlint-disable no-multi-spaces */
+    @Suppress("ktlint:standard:no-multi-spaces")
     val delta = when (optionDelta) {
         in 0..12 -> optionDelta  // No Extended Delta
         13 -> readUByte() + 13   //  8-bit unsigned integer
         14 -> readUShort() + 269 // 16-bit unsigned integer
         else -> error("Invalid option delta $optionDelta")
     }
-    /* ktlint-enable no-multi-spaces */
 
     // +-------------------------------+
     // /         Option Length         /   0-2 bytes
     // \          (extended)           \
     // +-------------------------------+
-    /* ktlint-disable no-multi-spaces */
+    @Suppress("ktlint:standard:no-multi-spaces")
     val length = when (optionLength) {
         in 0..12 -> optionLength // No Extended Length
         13 -> readUByte() + 13   //  8-bit unsigned integer
         14 -> readUShort() + 269 // 16-bit unsigned integer
         else -> error("Invalid option length $optionLength")
     }
-    /* ktlint-enable no-multi-spaces */
 
     return when (val number = (preceding?.number ?: 0) + delta) {
         1 -> IfMatch(readByteArray(length))
@@ -423,7 +420,7 @@ private fun Int.toType(): Message.Udp.Type = when (this) {
     else -> error("Unknown message type: $this")
 }
 
-/* ktlint-disable no-multi-spaces */
+@Suppress("ktlint:standard:no-multi-spaces")
 private fun Int.toCode(): Message.Code = when (this) {
     1 -> GET    // 0.01
     2 -> POST   // 0.02
@@ -459,7 +456,6 @@ private fun Int.toCode(): Message.Code = when (this) {
         Message.Code.Raw(`class`, detail)
     }
 }
-/* ktlint-enable no-multi-spaces */
 
 /**
  * Reads specified number of [bytes] from [ByteArrayReader] receiver to acquire a number.
