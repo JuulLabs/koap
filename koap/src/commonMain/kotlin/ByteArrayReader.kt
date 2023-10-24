@@ -26,6 +26,7 @@ internal class ByteArrayReader(
 ) {
 
     var index = startIndex
+
     fun exhausted(): Boolean = index >= endIndex
 
     private fun checkIndex() {

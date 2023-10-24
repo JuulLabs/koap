@@ -336,6 +336,7 @@ sealed class Message {
      */
     sealed class Code {
 
+        @Suppress("ktlint:standard:property-naming") // ktlint doesn't properly handle the ticks.
         abstract val `class`: Int
         abstract val detail: Int
 

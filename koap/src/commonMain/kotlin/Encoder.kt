@@ -337,7 +337,9 @@ internal fun BufferedSink.writeToken(token: Long) {
 }
 
 private fun BufferedSink.writeByte(byte: Long) = writeByte(byte.toInt())
+
 private fun BufferedSink.writeShort(short: Long) = writeShort(short.toInt())
+
 private fun BufferedSink.writeInt(int: Long) = writeInt(int.toInt())
 
 // Type (T): 2-bit unsigned integer

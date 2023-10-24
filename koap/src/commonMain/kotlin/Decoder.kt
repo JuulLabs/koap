@@ -451,6 +451,7 @@ private fun Int.toCode(): Message.Code = when (this) {
     165 -> ProxyingNotSupported     // 5.05
 
     else -> {
+        @Suppress("ktlint:standard:property-naming") // ktlint doesn't properly handle the ticks.
         val `class` = (this shr 5) and 0b111
         val detail = this and 0b11111
         Message.Code.Raw(`class`, detail)
