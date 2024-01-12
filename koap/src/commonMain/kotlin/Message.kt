@@ -303,8 +303,8 @@ sealed class Message {
              * - `1` (deregister) removes the entry from the list, if present.
              */
             sealed class Registration {
-                object Register : Registration()
-                object Deregister : Registration()
+                data object Register : Registration()
+                data object Deregister : Registration()
             }
 
             /**
