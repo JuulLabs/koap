@@ -363,10 +363,16 @@ public abstract class com/juul/koap/Message$Option$Observe$Registration {
 
 public final class com/juul/koap/Message$Option$Observe$Registration$Deregister : com/juul/koap/Message$Option$Observe$Registration {
 	public static final field INSTANCE Lcom/juul/koap/Message$Option$Observe$Registration$Deregister;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/juul/koap/Message$Option$Observe$Registration$Register : com/juul/koap/Message$Option$Observe$Registration {
 	public static final field INSTANCE Lcom/juul/koap/Message$Option$Observe$Registration$Register;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/juul/koap/Message$Option$ProxyScheme : com/juul/koap/Message$Option {
