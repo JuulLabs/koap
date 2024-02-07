@@ -7,12 +7,12 @@ jobs:
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
-      - uses: gradle/wrapper-validation-action@v1
+      - uses: gradle/wrapper-validation-action@v2
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -42,7 +42,7 @@ jobs:
           fi
         if: ${{ runner.os == 'macOS' && github.repository_owner == 'JuulLabs' }}
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
 
       - run: |
           rm -f ~/.gradle/caches/modules-2/modules-2.lock
