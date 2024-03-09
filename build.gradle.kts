@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.dokka)
-    alias(libs.plugins.binary.compatibility.validator)
+    alias(libs.plugins.api)
 }
 
 allprojects {
