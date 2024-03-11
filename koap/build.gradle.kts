@@ -7,12 +7,6 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-apply(from = rootProject.file("gradle/jacoco.gradle.kts"))
-
-jacoco {
-    toolVersion = libs.versions.jacoco.get()
-}
-
 kotlin {
     jvm()
     js().browser()
