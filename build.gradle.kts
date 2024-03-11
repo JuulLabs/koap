@@ -29,6 +29,42 @@ allprojects {
             showCauses = true
         }
     }
+
+    withPluginWhenEvaluated("jacoco") {
+        tasks.withType<JacocoReport> {
+            group = "Verification"
+            description = "Generate JaCoCo test coverage report"
+
+            reports {
+                csv.required.set(false)
+                html.required.set(true)
+                xml.required.set(true)
+            }
+
+            classDirectories.setFrom(layout.buildDirectory.file("classes/kotlin/jvm"))
+            sourceDirectories.setFrom(layout.projectDirectory.files("src/commonMain", "src/jvmMain"))
+            executionData.setFrom(layout.buildDirectory.file("jacoco/jvmTest.exec"))
+
+            dependsOn("jvmTest")
+        }
+
+        configure<JacocoPluginExtension> {
+            toolVersion = libs.versions.jacoco.get()
+        }
+    }
+}
+
+fun Project.withPluginWhenEvaluated(plugin: String, action: Project.() -> Unit) {
+    pluginManager.withPlugin(plugin) { whenEvaluated(action) }
+}
+
+// `afterEvaluate` does nothing when the project is already in executed state, so we need a special check for this case.
+fun <T> Project.whenEvaluated(action: Project.() -> T) {
+    if (state.executed) {
+        action()
+    } else {
+        afterEvaluate { action() }
+    }
 }
 
 task<Copy>("assembleGitHubPages") {
