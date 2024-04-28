@@ -21,7 +21,11 @@ jobs:
         with:
           validate-wrappers: true
 
-      - run: ./gradlew check jacocoTestReport
-      - uses: codecov/codecov-action@v4
+      - uses: paambaati/codeclimate-action@v6.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: ./gradlew check jacocoTestReport
+          debug: true
       - run: ./gradlew assembleGitHubPages
       - run: ./gradlew -PRELEASE_SIGNING_ENABLED=false publishToMavenLocal
