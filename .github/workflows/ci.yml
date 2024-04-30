@@ -1,6 +1,11 @@
 name: CI
 on:
   pull_request:
+  # Trigger on merges to `main` to allow `actions/setup-gradle` runs to write their caches.
+  # https://github.com/gradle/actions/blob/main/docs/setup-gradle.md#using-the-cache-read-only
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -12,38 +17,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-      - uses: actions/cache@v4
+      - uses: gradle/actions/setup-gradle@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            ~/.konan
-          key: ${{ runner.os }}-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          validate-wrappers: true
 
       - run: ./gradlew check jacocoTestReport
-      - run: ./gradlew assembleGitHubPages
-
-      - run: |
-          set -o xtrace
-          if [ ! -z "${{ secrets.SIGNING_KEY }}" ]; then
-            ./gradlew \
-            -PVERSION_NAME="unspecified" \
-            -PsigningInMemoryKey="${{ secrets.SIGNING_KEY }}" \
-            -PsigningInMemoryKeyPassword="${{ secrets.SIGNING_PASSWORD }}" \
-            publishToMavenLocal
-          else
-            ./gradlew \
-            -PVERSION_NAME="unspecified" \
-            -PRELEASE_SIGNING_ENABLED=false \
-            publishToMavenLocal
-          fi
-        if: ${{ runner.os == 'macOS' && github.repository_owner == 'JuulLabs' }}
-
       - uses: codecov/codecov-action@v4
-
-      - run: |
-          rm -f ~/.gradle/caches/modules-2/modules-2.lock
-          rm -f ~/.gradle/caches/modules-2/gc.properties
+      - run: ./gradlew assembleGitHubPages
+      - run: ./gradlew -PRELEASE_SIGNING_ENABLED=false publishToMavenLocal
