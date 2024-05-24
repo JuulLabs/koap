@@ -1,6 +1,6 @@
 [versions]
 jacoco = "0.8.7"
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 okio = "3.9.0"
 
 [libraries]
