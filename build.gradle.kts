@@ -71,10 +71,10 @@ task<Copy>("assembleGitHubPages") {
     description = "Generates static web site for GitHub Pages."
     group = "Build"
 
-    dependsOn(":webapp:browserDevelopmentWebpack", ":koap:dokkaHtml")
+    dependsOn(":webapp:browserDistribution", ":koap:dokkaHtml")
 
     into("$buildDir/gh-pages")
-    from("${project(":webapp").buildDir}/dist/js/developmentExecutable") {
+    from("${project(":webapp").buildDir}/dist/js/productionExecutable") {
         include("**")
     }
 
