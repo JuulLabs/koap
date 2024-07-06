@@ -1,3 +1,5 @@
+rootProject.name = "koap"
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -5,6 +7,6 @@ pluginManagement {
 }
 
 include(
-    ":koap",
+    ":koap-core",
     ":webapp",
 )
