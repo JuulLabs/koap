@@ -268,7 +268,8 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
                 var write = false
 
                 // 4 is max length shown for a `uint` in RFC 7252 Table 4: Options
-                (4 downTo 0).forEach { i -> // 4 downTo 0 used to write `uint` in network byte-order
+                // `4 downTo 0` used to write `uint` in network byte-order
+                (4 downTo 0).forEach { i ->
                     val byte = (option.value shr (i * Byte.SIZE_BITS)).toInt() and 0xff
 
                     // Per RFC 7252 3.2, begin writing at first non-zero byte.

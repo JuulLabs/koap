@@ -110,7 +110,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */
-        data class UriHost(val uri: String) : Option() {
+        data class UriHost(
+            val uri: String,
+        ) : Option() {
             init {
                 require(uri.length in URI_HOST_LENGTH_RANGE) {
                     "Uri-Host length of ${uri.length} is outside allowable range of $URI_HOST_LENGTH_RANGE"
@@ -119,7 +121,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */
-        data class UriPort(val port: Long) : Option() {
+        data class UriPort(
+            val port: Long,
+        ) : Option() {
             init {
                 require(port in URI_PORT_RANGE) {
                     "Uri-Port value of $port is outside allowable range of $URI_PORT_RANGE"
@@ -134,7 +138,9 @@ sealed class Message {
          * > encoding is performed. The value of a Uri-Path Option MUST NOT be "." or ".." (as the
          * > request URI must be resolved before parsing it into options).
          */
-        data class UriPath(val uri: String) : Option() {
+        data class UriPath(
+            val uri: String,
+        ) : Option() {
             init {
                 require(uri != "." && uri != "..") { "Uri-Path must not be \".\" or \"..\"" }
                 require(uri.length in URI_PATH_LENGTH_RANGE) {
@@ -148,7 +154,9 @@ sealed class Message {
          *
          * @see UriPath
          */
-        data class UriQuery(val uri: String) : Option() {
+        data class UriQuery(
+            val uri: String,
+        ) : Option() {
             init {
                 require(uri != "." && uri != "..") { "Uri-Query must not be \".\" or \"..\"" }
                 require(uri.length in URI_QUERY_LENGTH_RANGE) {
@@ -158,7 +166,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.2. Proxy-Uri and Proxy-Scheme */
-        data class ProxyUri(val uri: String) : Option() {
+        data class ProxyUri(
+            val uri: String,
+        ) : Option() {
             init {
                 require(uri.length in PROXY_URI_LENGTH_RANGE) {
                     "Proxy-Uri length of ${uri.length} is outside allowable range of $PROXY_URI_LENGTH_RANGE"
@@ -167,7 +177,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.2. Proxy-Uri and Proxy-Scheme */
-        data class ProxyScheme(val uri: String) : Option() {
+        data class ProxyScheme(
+            val uri: String,
+        ) : Option() {
             init {
                 require(uri.length in PROXY_SCHEME_LENGTH_RANGE) {
                     "Proxy-Scheme length of ${uri.length} is outside allowable range of $PROXY_SCHEME_LENGTH_RANGE"
@@ -176,7 +188,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.3. Content-Format */
-        data class ContentFormat(val format: Long) : Option() {
+        data class ContentFormat(
+            val format: Long,
+        ) : Option() {
             init {
                 require(format in CONTENT_FORMAT_RANGE) {
                     "Content-Format of $format is outside allowable range of $CONTENT_FORMAT_RANGE"
@@ -201,7 +215,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.4. Accept */
-        data class Accept(val format: Long) : Option() {
+        data class Accept(
+            val format: Long,
+        ) : Option() {
 
             constructor(format: ContentFormat) : this(format.format)
 
@@ -215,16 +231,21 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.5. Max-Age */
-        data class MaxAge(val seconds: Long) : Option() {
+        data class MaxAge(
+            val seconds: Long,
+        ) : Option() {
             init {
-                require(seconds in MAX_AGE_RANGE) { // ~136.1 years
+                require(seconds in MAX_AGE_RANGE) {
+                    // ~136.1 years
                     "Max-Age of $seconds seconds is outside of allowable range of $MAX_AGE_RANGE"
                 }
             }
         }
 
         /** RFC 7252 5.10.6. ETag */
-        data class ETag(val etag: ByteArray) : Option() {
+        data class ETag(
+            val etag: ByteArray,
+        ) : Option() {
             init {
                 require(etag.size in ETAG_SIZE_RANGE) {
                     "ETag length of ${etag.size} is outside allowable range of $ETAG_SIZE_RANGE"
@@ -240,7 +261,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.7. Location-Path and Location-Query */
-        data class LocationPath(val uri: String) : Option() {
+        data class LocationPath(
+            val uri: String,
+        ) : Option() {
             init {
                 require(uri.length in LOCATION_PATH_LENGTH_RANGE) {
                     "Location-Path length of ${uri.length} is outside allowable range of $LOCATION_PATH_LENGTH_RANGE"
@@ -249,7 +272,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.7. Location-Path and Location-Query */
-        data class LocationQuery(val uri: String) : Option() {
+        data class LocationQuery(
+            val uri: String,
+        ) : Option() {
             init {
                 require(uri.length in LOCATION_QUERY_LENGTH_RANGE) {
                     "Location-Query length of ${uri.length} is outside allowable range of $LOCATION_QUERY_LENGTH_RANGE"
@@ -258,7 +283,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.8.1. If-Match */
-        data class IfMatch(val etag: ByteArray) : Option() {
+        data class IfMatch(
+            val etag: ByteArray,
+        ) : Option() {
             init {
                 require(etag.size in IF_MATCH_SIZE_RANGE) {
                     "If-Match length of ${etag.size} is outside allowable range of $IF_MATCH_SIZE_RANGE"
@@ -279,7 +306,9 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.9. Size1 Option */
-        data class Size1(val bytes: Long) : Option() {
+        data class Size1(
+            val bytes: Long,
+        ) : Option() {
             init {
                 require(bytes in SIZE1_RANGE) {
                     "Size1 of $bytes is outside allowable range of $SIZE1_RANGE"
@@ -288,7 +317,9 @@ sealed class Message {
         }
 
         /** [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2) */
-        data class Observe(val value: Long) : Option() {
+        data class Observe(
+            val value: Long,
+        ) : Option() {
 
             /**
              * Per [RFC 7641 2. The Observe Option](https://tools.ietf.org/html/rfc7641#section-2):
