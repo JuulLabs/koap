@@ -15,6 +15,8 @@ plugins {
 }
 
 allprojects {
+    group = "com.juul.koap"
+
     repositories {
         mavenCentral()
         maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
@@ -71,7 +73,7 @@ task<Copy>("assembleGitHubPages") {
     description = "Generates static web site for GitHub Pages."
     group = "Build"
 
-    dependsOn(":webapp:browserDistribution", ":koap:dokkaHtml")
+    dependsOn(":webapp:browserDistribution", ":koap-core:dokkaHtml")
 
     into("$buildDir/gh-pages")
     from("${project(":webapp").buildDir}/dist/js/productionExecutable") {
@@ -79,7 +81,7 @@ task<Copy>("assembleGitHubPages") {
     }
 
     into("docs") {
-        from("${project(":koap").buildDir}/dokka/html") {
+        from("${project(":koap-core").buildDir}/dokka/html") {
             include("**")
         }
     }

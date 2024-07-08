@@ -12,7 +12,7 @@ kotlin {
     sourceSets {
         val main by getting {
             dependencies {
-                implementation(project(":koap"))
+                implementation(project(":koap-core"))
                 implementation(libs.kotlinx.coroutines.js)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.okio.js)
