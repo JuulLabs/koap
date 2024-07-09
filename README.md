@@ -220,7 +220,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.juul.koap:koap:$version")
+    implementation("com.juul.koap:koap-core:$version")
 }
 ```
 
