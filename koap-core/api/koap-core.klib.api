@@ -1,0 +1,559 @@
+// Klib ABI Dump
+// Targets: [iosArm64, js, macosArm64, macosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <com.juul.koap:koap-core>
+sealed class com.juul.koap/Header { // com.juul.koap/Header|null[0]
+    constructor <init>() // com.juul.koap/Header.<init>|<init>(){}[0]
+
+    abstract val code // com.juul.koap/Header.code|{}code[0]
+        abstract fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Header.code.<get-code>|<get-code>(){}[0]
+    abstract val size // com.juul.koap/Header.size|{}size[0]
+        abstract fun <get-size>(): kotlin/Int // com.juul.koap/Header.size.<get-size>|<get-size>(){}[0]
+    abstract val token // com.juul.koap/Header.token|{}token[0]
+        abstract fun <get-token>(): kotlin/Long // com.juul.koap/Header.token.<get-token>|<get-token>(){}[0]
+
+    final class Tcp : com.juul.koap/Header { // com.juul.koap/Header.Tcp|null[0]
+        final val code // com.juul.koap/Header.Tcp.code|{}code[0]
+            final fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Header.Tcp.code.<get-code>|<get-code>(){}[0]
+        final val length // com.juul.koap/Header.Tcp.length|{}length[0]
+            final fun <get-length>(): kotlin/Long // com.juul.koap/Header.Tcp.length.<get-length>|<get-length>(){}[0]
+        final val size // com.juul.koap/Header.Tcp.size|{}size[0]
+            final fun <get-size>(): kotlin/Int // com.juul.koap/Header.Tcp.size.<get-size>|<get-size>(){}[0]
+        final val token // com.juul.koap/Header.Tcp.token|{}token[0]
+            final fun <get-token>(): kotlin/Long // com.juul.koap/Header.Tcp.token.<get-token>|<get-token>(){}[0]
+
+        final fun component1(): kotlin/Int // com.juul.koap/Header.Tcp.component1|component1(){}[0]
+        final fun component2(): kotlin/Long // com.juul.koap/Header.Tcp.component2|component2(){}[0]
+        final fun component3(): com.juul.koap/Message.Code // com.juul.koap/Header.Tcp.component3|component3(){}[0]
+        final fun component4(): kotlin/Long // com.juul.koap/Header.Tcp.component4|component4(){}[0]
+        final fun copy(kotlin/Int = ..., kotlin/Long = ..., com.juul.koap/Message.Code = ..., kotlin/Long = ...): com.juul.koap/Header.Tcp // com.juul.koap/Header.Tcp.copy|copy(kotlin.Int;kotlin.Long;com.juul.koap.Message.Code;kotlin.Long){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Header.Tcp.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.juul.koap/Header.Tcp.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.juul.koap/Header.Tcp.toString|toString(){}[0]
+    }
+
+    final class Udp : com.juul.koap/Header { // com.juul.koap/Header.Udp|null[0]
+        final val code // com.juul.koap/Header.Udp.code|{}code[0]
+            final fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Header.Udp.code.<get-code>|<get-code>(){}[0]
+        final val messageId // com.juul.koap/Header.Udp.messageId|{}messageId[0]
+            final fun <get-messageId>(): kotlin/Int // com.juul.koap/Header.Udp.messageId.<get-messageId>|<get-messageId>(){}[0]
+        final val size // com.juul.koap/Header.Udp.size|{}size[0]
+            final fun <get-size>(): kotlin/Int // com.juul.koap/Header.Udp.size.<get-size>|<get-size>(){}[0]
+        final val token // com.juul.koap/Header.Udp.token|{}token[0]
+            final fun <get-token>(): kotlin/Long // com.juul.koap/Header.Udp.token.<get-token>|<get-token>(){}[0]
+        final val type // com.juul.koap/Header.Udp.type|{}type[0]
+            final fun <get-type>(): com.juul.koap/Message.Udp.Type // com.juul.koap/Header.Udp.type.<get-type>|<get-type>(){}[0]
+        final val version // com.juul.koap/Header.Udp.version|{}version[0]
+            final fun <get-version>(): kotlin/Int // com.juul.koap/Header.Udp.version.<get-version>|<get-version>(){}[0]
+
+        final fun component1(): kotlin/Int // com.juul.koap/Header.Udp.component1|component1(){}[0]
+        final fun component2(): kotlin/Int // com.juul.koap/Header.Udp.component2|component2(){}[0]
+        final fun component3(): com.juul.koap/Message.Udp.Type // com.juul.koap/Header.Udp.component3|component3(){}[0]
+        final fun component4(): com.juul.koap/Message.Code // com.juul.koap/Header.Udp.component4|component4(){}[0]
+        final fun component5(): kotlin/Int // com.juul.koap/Header.Udp.component5|component5(){}[0]
+        final fun component6(): kotlin/Long // com.juul.koap/Header.Udp.component6|component6(){}[0]
+        final fun copy(kotlin/Int = ..., kotlin/Int = ..., com.juul.koap/Message.Udp.Type = ..., com.juul.koap/Message.Code = ..., kotlin/Int = ..., kotlin/Long = ...): com.juul.koap/Header.Udp // com.juul.koap/Header.Udp.copy|copy(kotlin.Int;kotlin.Int;com.juul.koap.Message.Udp.Type;com.juul.koap.Message.Code;kotlin.Int;kotlin.Long){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Header.Udp.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.juul.koap/Header.Udp.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.juul.koap/Header.Udp.toString|toString(){}[0]
+    }
+}
+
+sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
+    constructor <init>() // com.juul.koap/Message.<init>|<init>(){}[0]
+
+    abstract val code // com.juul.koap/Message.code|{}code[0]
+        abstract fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Message.code.<get-code>|<get-code>(){}[0]
+    abstract val options // com.juul.koap/Message.options|{}options[0]
+        abstract fun <get-options>(): kotlin.collections/List<com.juul.koap/Message.Option> // com.juul.koap/Message.options.<get-options>|<get-options>(){}[0]
+    abstract val payload // com.juul.koap/Message.payload|{}payload[0]
+        abstract fun <get-payload>(): kotlin/ByteArray // com.juul.koap/Message.payload.<get-payload>|<get-payload>(){}[0]
+    abstract val token // com.juul.koap/Message.token|{}token[0]
+        abstract fun <get-token>(): kotlin/Long // com.juul.koap/Message.token.<get-token>|<get-token>(){}[0]
+
+    final class Tcp : com.juul.koap/Message { // com.juul.koap/Message.Tcp|null[0]
+        constructor <init>(com.juul.koap/Message.Code, kotlin/Long, kotlin.collections/List<com.juul.koap/Message.Option>, kotlin/ByteArray) // com.juul.koap/Message.Tcp.<init>|<init>(com.juul.koap.Message.Code;kotlin.Long;kotlin.collections.List<com.juul.koap.Message.Option>;kotlin.ByteArray){}[0]
+
+        final val code // com.juul.koap/Message.Tcp.code|{}code[0]
+            final fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Message.Tcp.code.<get-code>|<get-code>(){}[0]
+        final val options // com.juul.koap/Message.Tcp.options|{}options[0]
+            final fun <get-options>(): kotlin.collections/List<com.juul.koap/Message.Option> // com.juul.koap/Message.Tcp.options.<get-options>|<get-options>(){}[0]
+        final val payload // com.juul.koap/Message.Tcp.payload|{}payload[0]
+            final fun <get-payload>(): kotlin/ByteArray // com.juul.koap/Message.Tcp.payload.<get-payload>|<get-payload>(){}[0]
+        final val token // com.juul.koap/Message.Tcp.token|{}token[0]
+            final fun <get-token>(): kotlin/Long // com.juul.koap/Message.Tcp.token.<get-token>|<get-token>(){}[0]
+
+        final fun component1(): com.juul.koap/Message.Code // com.juul.koap/Message.Tcp.component1|component1(){}[0]
+        final fun component2(): kotlin/Long // com.juul.koap/Message.Tcp.component2|component2(){}[0]
+        final fun component3(): kotlin.collections/List<com.juul.koap/Message.Option> // com.juul.koap/Message.Tcp.component3|component3(){}[0]
+        final fun component4(): kotlin/ByteArray // com.juul.koap/Message.Tcp.component4|component4(){}[0]
+        final fun copy(com.juul.koap/Message.Code = ..., kotlin/Long = ..., kotlin.collections/List<com.juul.koap/Message.Option> = ..., kotlin/ByteArray = ...): com.juul.koap/Message.Tcp // com.juul.koap/Message.Tcp.copy|copy(com.juul.koap.Message.Code;kotlin.Long;kotlin.collections.List<com.juul.koap.Message.Option>;kotlin.ByteArray){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Tcp.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.juul.koap/Message.Tcp.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.juul.koap/Message.Tcp.toString|toString(){}[0]
+    }
+
+    final class Udp : com.juul.koap/Message { // com.juul.koap/Message.Udp|null[0]
+        constructor <init>(com.juul.koap/Message.Udp.Type, com.juul.koap/Message.Code, kotlin/Int, kotlin/Long, kotlin.collections/List<com.juul.koap/Message.Option>, kotlin/ByteArray) // com.juul.koap/Message.Udp.<init>|<init>(com.juul.koap.Message.Udp.Type;com.juul.koap.Message.Code;kotlin.Int;kotlin.Long;kotlin.collections.List<com.juul.koap.Message.Option>;kotlin.ByteArray){}[0]
+
+        final val code // com.juul.koap/Message.Udp.code|{}code[0]
+            final fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Message.Udp.code.<get-code>|<get-code>(){}[0]
+        final val id // com.juul.koap/Message.Udp.id|{}id[0]
+            final fun <get-id>(): kotlin/Int // com.juul.koap/Message.Udp.id.<get-id>|<get-id>(){}[0]
+        final val options // com.juul.koap/Message.Udp.options|{}options[0]
+            final fun <get-options>(): kotlin.collections/List<com.juul.koap/Message.Option> // com.juul.koap/Message.Udp.options.<get-options>|<get-options>(){}[0]
+        final val payload // com.juul.koap/Message.Udp.payload|{}payload[0]
+            final fun <get-payload>(): kotlin/ByteArray // com.juul.koap/Message.Udp.payload.<get-payload>|<get-payload>(){}[0]
+        final val token // com.juul.koap/Message.Udp.token|{}token[0]
+            final fun <get-token>(): kotlin/Long // com.juul.koap/Message.Udp.token.<get-token>|<get-token>(){}[0]
+        final val type // com.juul.koap/Message.Udp.type|{}type[0]
+            final fun <get-type>(): com.juul.koap/Message.Udp.Type // com.juul.koap/Message.Udp.type.<get-type>|<get-type>(){}[0]
+
+        final fun component1(): com.juul.koap/Message.Udp.Type // com.juul.koap/Message.Udp.component1|component1(){}[0]
+        final fun component2(): com.juul.koap/Message.Code // com.juul.koap/Message.Udp.component2|component2(){}[0]
+        final fun component3(): kotlin/Int // com.juul.koap/Message.Udp.component3|component3(){}[0]
+        final fun component4(): kotlin/Long // com.juul.koap/Message.Udp.component4|component4(){}[0]
+        final fun component5(): kotlin.collections/List<com.juul.koap/Message.Option> // com.juul.koap/Message.Udp.component5|component5(){}[0]
+        final fun component6(): kotlin/ByteArray // com.juul.koap/Message.Udp.component6|component6(){}[0]
+        final fun copy(com.juul.koap/Message.Udp.Type = ..., com.juul.koap/Message.Code = ..., kotlin/Int = ..., kotlin/Long = ..., kotlin.collections/List<com.juul.koap/Message.Option> = ..., kotlin/ByteArray = ...): com.juul.koap/Message.Udp // com.juul.koap/Message.Udp.copy|copy(com.juul.koap.Message.Udp.Type;com.juul.koap.Message.Code;kotlin.Int;kotlin.Long;kotlin.collections.List<com.juul.koap.Message.Option>;kotlin.ByteArray){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Udp.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.juul.koap/Message.Udp.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.juul.koap/Message.Udp.toString|toString(){}[0]
+
+        sealed class Type { // com.juul.koap/Message.Udp.Type|null[0]
+            constructor <init>() // com.juul.koap/Message.Udp.Type.<init>|<init>(){}[0]
+
+            open fun toString(): kotlin/String // com.juul.koap/Message.Udp.Type.toString|toString(){}[0]
+
+            final object Acknowledgement : com.juul.koap/Message.Udp.Type // com.juul.koap/Message.Udp.Type.Acknowledgement|null[0]
+
+            final object Confirmable : com.juul.koap/Message.Udp.Type // com.juul.koap/Message.Udp.Type.Confirmable|null[0]
+
+            final object NonConfirmable : com.juul.koap/Message.Udp.Type // com.juul.koap/Message.Udp.Type.NonConfirmable|null[0]
+
+            final object Reset : com.juul.koap/Message.Udp.Type // com.juul.koap/Message.Udp.Type.Reset|null[0]
+        }
+    }
+
+    sealed class Code { // com.juul.koap/Message.Code|null[0]
+        constructor <init>() // com.juul.koap/Message.Code.<init>|<init>(){}[0]
+
+        abstract val class // com.juul.koap/Message.Code.class|{}class[0]
+            abstract fun <get-class>(): kotlin/Int // com.juul.koap/Message.Code.class.<get-class>|<get-class>(){}[0]
+        abstract val detail // com.juul.koap/Message.Code.detail|{}detail[0]
+            abstract fun <get-detail>(): kotlin/Int // com.juul.koap/Message.Code.detail.<get-detail>|<get-detail>(){}[0]
+
+        final class Raw : com.juul.koap/Message.Code { // com.juul.koap/Message.Code.Raw|null[0]
+            constructor <init>(kotlin/Int, kotlin/Int) // com.juul.koap/Message.Code.Raw.<init>|<init>(kotlin.Int;kotlin.Int){}[0]
+
+            final val class // com.juul.koap/Message.Code.Raw.class|{}class[0]
+                final fun <get-class>(): kotlin/Int // com.juul.koap/Message.Code.Raw.class.<get-class>|<get-class>(){}[0]
+            final val detail // com.juul.koap/Message.Code.Raw.detail|{}detail[0]
+                final fun <get-detail>(): kotlin/Int // com.juul.koap/Message.Code.Raw.detail.<get-detail>|<get-detail>(){}[0]
+
+            final fun component1(): kotlin/Int // com.juul.koap/Message.Code.Raw.component1|component1(){}[0]
+            final fun component2(): kotlin/Int // com.juul.koap/Message.Code.Raw.component2|component2(){}[0]
+            final fun copy(kotlin/Int = ..., kotlin/Int = ...): com.juul.koap/Message.Code.Raw // com.juul.koap/Message.Code.Raw.copy|copy(kotlin.Int;kotlin.Int){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Code.Raw.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Code.Raw.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Code.Raw.toString|toString(){}[0]
+        }
+
+        sealed class Method : com.juul.koap/Message.Code { // com.juul.koap/Message.Code.Method|null[0]
+            constructor <init>(kotlin/Int, kotlin/Int) // com.juul.koap/Message.Code.Method.<init>|<init>(kotlin.Int;kotlin.Int){}[0]
+
+            open val class // com.juul.koap/Message.Code.Method.class|{}class[0]
+                open fun <get-class>(): kotlin/Int // com.juul.koap/Message.Code.Method.class.<get-class>|<get-class>(){}[0]
+            open val detail // com.juul.koap/Message.Code.Method.detail|{}detail[0]
+                open fun <get-detail>(): kotlin/Int // com.juul.koap/Message.Code.Method.detail.<get-detail>|<get-detail>(){}[0]
+
+            open fun toString(): kotlin/String // com.juul.koap/Message.Code.Method.toString|toString(){}[0]
+
+            final object DELETE : com.juul.koap/Message.Code.Method // com.juul.koap/Message.Code.Method.DELETE|null[0]
+
+            final object GET : com.juul.koap/Message.Code.Method // com.juul.koap/Message.Code.Method.GET|null[0]
+
+            final object POST : com.juul.koap/Message.Code.Method // com.juul.koap/Message.Code.Method.POST|null[0]
+
+            final object PUT : com.juul.koap/Message.Code.Method // com.juul.koap/Message.Code.Method.PUT|null[0]
+        }
+
+        sealed class Response : com.juul.koap/Message.Code { // com.juul.koap/Message.Code.Response|null[0]
+            constructor <init>(kotlin/Int, kotlin/Int) // com.juul.koap/Message.Code.Response.<init>|<init>(kotlin.Int;kotlin.Int){}[0]
+
+            open val class // com.juul.koap/Message.Code.Response.class|{}class[0]
+                open fun <get-class>(): kotlin/Int // com.juul.koap/Message.Code.Response.class.<get-class>|<get-class>(){}[0]
+            open val detail // com.juul.koap/Message.Code.Response.detail|{}detail[0]
+                open fun <get-detail>(): kotlin/Int // com.juul.koap/Message.Code.Response.detail.<get-detail>|<get-detail>(){}[0]
+
+            open fun toString(): kotlin/String // com.juul.koap/Message.Code.Response.toString|toString(){}[0]
+
+            final object BadGateway : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.BadGateway|null[0]
+
+            final object BadOption : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.BadOption|null[0]
+
+            final object BadRequest : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.BadRequest|null[0]
+
+            final object Changed : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.Changed|null[0]
+
+            final object Content : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.Content|null[0]
+
+            final object Created : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.Created|null[0]
+
+            final object Deleted : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.Deleted|null[0]
+
+            final object Forbidden : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.Forbidden|null[0]
+
+            final object GatewayTimeout : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.GatewayTimeout|null[0]
+
+            final object InternalServerError : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.InternalServerError|null[0]
+
+            final object MethodNotAllowed : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.MethodNotAllowed|null[0]
+
+            final object NotAcceptable : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.NotAcceptable|null[0]
+
+            final object NotFound : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.NotFound|null[0]
+
+            final object NotImplemented : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.NotImplemented|null[0]
+
+            final object PreconditionFailed : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.PreconditionFailed|null[0]
+
+            final object ProxyingNotSupported : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.ProxyingNotSupported|null[0]
+
+            final object RequestEntityTooLarge : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.RequestEntityTooLarge|null[0]
+
+            final object ServiceUnavailable : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.ServiceUnavailable|null[0]
+
+            final object Unauthorized : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.Unauthorized|null[0]
+
+            final object UnsupportedContentFormat : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.UnsupportedContentFormat|null[0]
+
+            final object Valid : com.juul.koap/Message.Code.Response // com.juul.koap/Message.Code.Response.Valid|null[0]
+        }
+    }
+
+    sealed class Option { // com.juul.koap/Message.Option|null[0]
+        constructor <init>() // com.juul.koap/Message.Option.<init>|<init>(){}[0]
+
+        final class Accept : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Accept|null[0]
+            constructor <init>(com.juul.koap/Message.Option.ContentFormat) // com.juul.koap/Message.Option.Accept.<init>|<init>(com.juul.koap.Message.Option.ContentFormat){}[0]
+            constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.Accept.<init>|<init>(kotlin.Long){}[0]
+
+            final val format // com.juul.koap/Message.Option.Accept.format|{}format[0]
+                final fun <get-format>(): kotlin/Long // com.juul.koap/Message.Option.Accept.format.<get-format>|<get-format>(){}[0]
+
+            final fun component1(): kotlin/Long // com.juul.koap/Message.Option.Accept.component1|component1(){}[0]
+            final fun copy(kotlin/Long = ...): com.juul.koap/Message.Option.Accept // com.juul.koap/Message.Option.Accept.copy|copy(kotlin.Long){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Accept.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Accept.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.Accept.toString|toString(){}[0]
+        }
+
+        final class ContentFormat : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.ContentFormat|null[0]
+            constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.ContentFormat.<init>|<init>(kotlin.Long){}[0]
+
+            final val format // com.juul.koap/Message.Option.ContentFormat.format|{}format[0]
+                final fun <get-format>(): kotlin/Long // com.juul.koap/Message.Option.ContentFormat.format.<get-format>|<get-format>(){}[0]
+
+            final fun component1(): kotlin/Long // com.juul.koap/Message.Option.ContentFormat.component1|component1(){}[0]
+            final fun copy(kotlin/Long = ...): com.juul.koap/Message.Option.ContentFormat // com.juul.koap/Message.Option.ContentFormat.copy|copy(kotlin.Long){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.ContentFormat.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.ContentFormat.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.ContentFormat.toString|toString(){}[0]
+
+            final object Companion { // com.juul.koap/Message.Option.ContentFormat.Companion|null[0]
+                final val CBOR // com.juul.koap/Message.Option.ContentFormat.Companion.CBOR|{}CBOR[0]
+                    final fun <get-CBOR>(): com.juul.koap/Message.Option.ContentFormat // com.juul.koap/Message.Option.ContentFormat.Companion.CBOR.<get-CBOR>|<get-CBOR>(){}[0]
+                final val EXI // com.juul.koap/Message.Option.ContentFormat.Companion.EXI|{}EXI[0]
+                    final fun <get-EXI>(): com.juul.koap/Message.Option.ContentFormat // com.juul.koap/Message.Option.ContentFormat.Companion.EXI.<get-EXI>|<get-EXI>(){}[0]
+                final val JSON // com.juul.koap/Message.Option.ContentFormat.Companion.JSON|{}JSON[0]
+                    final fun <get-JSON>(): com.juul.koap/Message.Option.ContentFormat // com.juul.koap/Message.Option.ContentFormat.Companion.JSON.<get-JSON>|<get-JSON>(){}[0]
+                final val LinkFormat // com.juul.koap/Message.Option.ContentFormat.Companion.LinkFormat|{}LinkFormat[0]
+                    final fun <get-LinkFormat>(): com.juul.koap/Message.Option.ContentFormat // com.juul.koap/Message.Option.ContentFormat.Companion.LinkFormat.<get-LinkFormat>|<get-LinkFormat>(){}[0]
+                final val OctetStream // com.juul.koap/Message.Option.ContentFormat.Companion.OctetStream|{}OctetStream[0]
+                    final fun <get-OctetStream>(): com.juul.koap/Message.Option.ContentFormat // com.juul.koap/Message.Option.ContentFormat.Companion.OctetStream.<get-OctetStream>|<get-OctetStream>(){}[0]
+                final val PlainText // com.juul.koap/Message.Option.ContentFormat.Companion.PlainText|{}PlainText[0]
+                    final fun <get-PlainText>(): com.juul.koap/Message.Option.ContentFormat // com.juul.koap/Message.Option.ContentFormat.Companion.PlainText.<get-PlainText>|<get-PlainText>(){}[0]
+                final val XML // com.juul.koap/Message.Option.ContentFormat.Companion.XML|{}XML[0]
+                    final fun <get-XML>(): com.juul.koap/Message.Option.ContentFormat // com.juul.koap/Message.Option.ContentFormat.Companion.XML.<get-XML>|<get-XML>(){}[0]
+            }
+        }
+
+        final class ETag : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.ETag|null[0]
+            constructor <init>(kotlin/ByteArray) // com.juul.koap/Message.Option.ETag.<init>|<init>(kotlin.ByteArray){}[0]
+
+            final val etag // com.juul.koap/Message.Option.ETag.etag|{}etag[0]
+                final fun <get-etag>(): kotlin/ByteArray // com.juul.koap/Message.Option.ETag.etag.<get-etag>|<get-etag>(){}[0]
+
+            final fun component1(): kotlin/ByteArray // com.juul.koap/Message.Option.ETag.component1|component1(){}[0]
+            final fun copy(kotlin/ByteArray = ...): com.juul.koap/Message.Option.ETag // com.juul.koap/Message.Option.ETag.copy|copy(kotlin.ByteArray){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.ETag.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.ETag.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.ETag.toString|toString(){}[0]
+        }
+
+        final class IfMatch : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.IfMatch|null[0]
+            constructor <init>(kotlin/ByteArray) // com.juul.koap/Message.Option.IfMatch.<init>|<init>(kotlin.ByteArray){}[0]
+
+            final val etag // com.juul.koap/Message.Option.IfMatch.etag|{}etag[0]
+                final fun <get-etag>(): kotlin/ByteArray // com.juul.koap/Message.Option.IfMatch.etag.<get-etag>|<get-etag>(){}[0]
+
+            final fun component1(): kotlin/ByteArray // com.juul.koap/Message.Option.IfMatch.component1|component1(){}[0]
+            final fun copy(kotlin/ByteArray = ...): com.juul.koap/Message.Option.IfMatch // com.juul.koap/Message.Option.IfMatch.copy|copy(kotlin.ByteArray){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.IfMatch.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.IfMatch.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.IfMatch.toString|toString(){}[0]
+        }
+
+        final class LocationPath : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.LocationPath|null[0]
+            constructor <init>(kotlin/String) // com.juul.koap/Message.Option.LocationPath.<init>|<init>(kotlin.String){}[0]
+
+            final val uri // com.juul.koap/Message.Option.LocationPath.uri|{}uri[0]
+                final fun <get-uri>(): kotlin/String // com.juul.koap/Message.Option.LocationPath.uri.<get-uri>|<get-uri>(){}[0]
+
+            final fun component1(): kotlin/String // com.juul.koap/Message.Option.LocationPath.component1|component1(){}[0]
+            final fun copy(kotlin/String = ...): com.juul.koap/Message.Option.LocationPath // com.juul.koap/Message.Option.LocationPath.copy|copy(kotlin.String){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.LocationPath.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.LocationPath.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.LocationPath.toString|toString(){}[0]
+        }
+
+        final class LocationQuery : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.LocationQuery|null[0]
+            constructor <init>(kotlin/String) // com.juul.koap/Message.Option.LocationQuery.<init>|<init>(kotlin.String){}[0]
+
+            final val uri // com.juul.koap/Message.Option.LocationQuery.uri|{}uri[0]
+                final fun <get-uri>(): kotlin/String // com.juul.koap/Message.Option.LocationQuery.uri.<get-uri>|<get-uri>(){}[0]
+
+            final fun component1(): kotlin/String // com.juul.koap/Message.Option.LocationQuery.component1|component1(){}[0]
+            final fun copy(kotlin/String = ...): com.juul.koap/Message.Option.LocationQuery // com.juul.koap/Message.Option.LocationQuery.copy|copy(kotlin.String){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.LocationQuery.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.LocationQuery.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.LocationQuery.toString|toString(){}[0]
+        }
+
+        final class MaxAge : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.MaxAge|null[0]
+            constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.MaxAge.<init>|<init>(kotlin.Long){}[0]
+
+            final val seconds // com.juul.koap/Message.Option.MaxAge.seconds|{}seconds[0]
+                final fun <get-seconds>(): kotlin/Long // com.juul.koap/Message.Option.MaxAge.seconds.<get-seconds>|<get-seconds>(){}[0]
+
+            final fun component1(): kotlin/Long // com.juul.koap/Message.Option.MaxAge.component1|component1(){}[0]
+            final fun copy(kotlin/Long = ...): com.juul.koap/Message.Option.MaxAge // com.juul.koap/Message.Option.MaxAge.copy|copy(kotlin.Long){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.MaxAge.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.MaxAge.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.MaxAge.toString|toString(){}[0]
+        }
+
+        final class Observe : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Observe|null[0]
+            constructor <init>(com.juul.koap/Message.Option.Observe.Registration) // com.juul.koap/Message.Option.Observe.<init>|<init>(com.juul.koap.Message.Option.Observe.Registration){}[0]
+            constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.Observe.<init>|<init>(kotlin.Long){}[0]
+
+            final val value // com.juul.koap/Message.Option.Observe.value|{}value[0]
+                final fun <get-value>(): kotlin/Long // com.juul.koap/Message.Option.Observe.value.<get-value>|<get-value>(){}[0]
+
+            final fun component1(): kotlin/Long // com.juul.koap/Message.Option.Observe.component1|component1(){}[0]
+            final fun copy(kotlin/Long = ...): com.juul.koap/Message.Option.Observe // com.juul.koap/Message.Option.Observe.copy|copy(kotlin.Long){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Observe.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Observe.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.Observe.toString|toString(){}[0]
+
+            sealed class Registration { // com.juul.koap/Message.Option.Observe.Registration|null[0]
+                constructor <init>() // com.juul.koap/Message.Option.Observe.Registration.<init>|<init>(){}[0]
+
+                final object Deregister : com.juul.koap/Message.Option.Observe.Registration { // com.juul.koap/Message.Option.Observe.Registration.Deregister|null[0]
+                    final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Observe.Registration.Deregister.equals|equals(kotlin.Any?){}[0]
+                    final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Observe.Registration.Deregister.hashCode|hashCode(){}[0]
+                    final fun toString(): kotlin/String // com.juul.koap/Message.Option.Observe.Registration.Deregister.toString|toString(){}[0]
+                }
+
+                final object Register : com.juul.koap/Message.Option.Observe.Registration { // com.juul.koap/Message.Option.Observe.Registration.Register|null[0]
+                    final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Observe.Registration.Register.equals|equals(kotlin.Any?){}[0]
+                    final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Observe.Registration.Register.hashCode|hashCode(){}[0]
+                    final fun toString(): kotlin/String // com.juul.koap/Message.Option.Observe.Registration.Register.toString|toString(){}[0]
+                }
+            }
+        }
+
+        final class ProxyScheme : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.ProxyScheme|null[0]
+            constructor <init>(kotlin/String) // com.juul.koap/Message.Option.ProxyScheme.<init>|<init>(kotlin.String){}[0]
+
+            final val uri // com.juul.koap/Message.Option.ProxyScheme.uri|{}uri[0]
+                final fun <get-uri>(): kotlin/String // com.juul.koap/Message.Option.ProxyScheme.uri.<get-uri>|<get-uri>(){}[0]
+
+            final fun component1(): kotlin/String // com.juul.koap/Message.Option.ProxyScheme.component1|component1(){}[0]
+            final fun copy(kotlin/String = ...): com.juul.koap/Message.Option.ProxyScheme // com.juul.koap/Message.Option.ProxyScheme.copy|copy(kotlin.String){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.ProxyScheme.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.ProxyScheme.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.ProxyScheme.toString|toString(){}[0]
+        }
+
+        final class ProxyUri : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.ProxyUri|null[0]
+            constructor <init>(kotlin/String) // com.juul.koap/Message.Option.ProxyUri.<init>|<init>(kotlin.String){}[0]
+
+            final val uri // com.juul.koap/Message.Option.ProxyUri.uri|{}uri[0]
+                final fun <get-uri>(): kotlin/String // com.juul.koap/Message.Option.ProxyUri.uri.<get-uri>|<get-uri>(){}[0]
+
+            final fun component1(): kotlin/String // com.juul.koap/Message.Option.ProxyUri.component1|component1(){}[0]
+            final fun copy(kotlin/String = ...): com.juul.koap/Message.Option.ProxyUri // com.juul.koap/Message.Option.ProxyUri.copy|copy(kotlin.String){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.ProxyUri.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.ProxyUri.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.ProxyUri.toString|toString(){}[0]
+        }
+
+        final class Size1 : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Size1|null[0]
+            constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.Size1.<init>|<init>(kotlin.Long){}[0]
+
+            final val bytes // com.juul.koap/Message.Option.Size1.bytes|{}bytes[0]
+                final fun <get-bytes>(): kotlin/Long // com.juul.koap/Message.Option.Size1.bytes.<get-bytes>|<get-bytes>(){}[0]
+
+            final fun component1(): kotlin/Long // com.juul.koap/Message.Option.Size1.component1|component1(){}[0]
+            final fun copy(kotlin/Long = ...): com.juul.koap/Message.Option.Size1 // com.juul.koap/Message.Option.Size1.copy|copy(kotlin.Long){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Size1.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Size1.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.Size1.toString|toString(){}[0]
+        }
+
+        final class UriHost : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.UriHost|null[0]
+            constructor <init>(kotlin/String) // com.juul.koap/Message.Option.UriHost.<init>|<init>(kotlin.String){}[0]
+
+            final val uri // com.juul.koap/Message.Option.UriHost.uri|{}uri[0]
+                final fun <get-uri>(): kotlin/String // com.juul.koap/Message.Option.UriHost.uri.<get-uri>|<get-uri>(){}[0]
+
+            final fun component1(): kotlin/String // com.juul.koap/Message.Option.UriHost.component1|component1(){}[0]
+            final fun copy(kotlin/String = ...): com.juul.koap/Message.Option.UriHost // com.juul.koap/Message.Option.UriHost.copy|copy(kotlin.String){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.UriHost.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.UriHost.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.UriHost.toString|toString(){}[0]
+        }
+
+        final class UriPath : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.UriPath|null[0]
+            constructor <init>(kotlin/String) // com.juul.koap/Message.Option.UriPath.<init>|<init>(kotlin.String){}[0]
+
+            final val uri // com.juul.koap/Message.Option.UriPath.uri|{}uri[0]
+                final fun <get-uri>(): kotlin/String // com.juul.koap/Message.Option.UriPath.uri.<get-uri>|<get-uri>(){}[0]
+
+            final fun component1(): kotlin/String // com.juul.koap/Message.Option.UriPath.component1|component1(){}[0]
+            final fun copy(kotlin/String = ...): com.juul.koap/Message.Option.UriPath // com.juul.koap/Message.Option.UriPath.copy|copy(kotlin.String){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.UriPath.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.UriPath.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.UriPath.toString|toString(){}[0]
+        }
+
+        final class UriPort : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.UriPort|null[0]
+            constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.UriPort.<init>|<init>(kotlin.Long){}[0]
+
+            final val port // com.juul.koap/Message.Option.UriPort.port|{}port[0]
+                final fun <get-port>(): kotlin/Long // com.juul.koap/Message.Option.UriPort.port.<get-port>|<get-port>(){}[0]
+
+            final fun component1(): kotlin/Long // com.juul.koap/Message.Option.UriPort.component1|component1(){}[0]
+            final fun copy(kotlin/Long = ...): com.juul.koap/Message.Option.UriPort // com.juul.koap/Message.Option.UriPort.copy|copy(kotlin.Long){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.UriPort.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.UriPort.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.UriPort.toString|toString(){}[0]
+        }
+
+        final class UriQuery : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.UriQuery|null[0]
+            constructor <init>(kotlin/String) // com.juul.koap/Message.Option.UriQuery.<init>|<init>(kotlin.String){}[0]
+
+            final val uri // com.juul.koap/Message.Option.UriQuery.uri|{}uri[0]
+                final fun <get-uri>(): kotlin/String // com.juul.koap/Message.Option.UriQuery.uri.<get-uri>|<get-uri>(){}[0]
+
+            final fun component1(): kotlin/String // com.juul.koap/Message.Option.UriQuery.component1|component1(){}[0]
+            final fun copy(kotlin/String = ...): com.juul.koap/Message.Option.UriQuery // com.juul.koap/Message.Option.UriQuery.copy|copy(kotlin.String){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.UriQuery.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.UriQuery.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.UriQuery.toString|toString(){}[0]
+        }
+
+        sealed class Format : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Format|null[0]
+            constructor <init>() // com.juul.koap/Message.Option.Format.<init>|<init>(){}[0]
+
+            abstract val number // com.juul.koap/Message.Option.Format.number|{}number[0]
+                abstract fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Format.number.<get-number>|<get-number>(){}[0]
+
+            final class empty : com.juul.koap/Message.Option.Format { // com.juul.koap/Message.Option.Format.empty|null[0]
+                constructor <init>(kotlin/Int) // com.juul.koap/Message.Option.Format.empty.<init>|<init>(kotlin.Int){}[0]
+
+                final val number // com.juul.koap/Message.Option.Format.empty.number|{}number[0]
+                    final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Format.empty.number.<get-number>|<get-number>(){}[0]
+
+                final fun component1(): kotlin/Int // com.juul.koap/Message.Option.Format.empty.component1|component1(){}[0]
+                final fun copy(kotlin/Int = ...): com.juul.koap/Message.Option.Format.empty // com.juul.koap/Message.Option.Format.empty.copy|copy(kotlin.Int){}[0]
+                final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Format.empty.equals|equals(kotlin.Any?){}[0]
+                final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Format.empty.hashCode|hashCode(){}[0]
+                final fun toString(): kotlin/String // com.juul.koap/Message.Option.Format.empty.toString|toString(){}[0]
+            }
+
+            final class opaque : com.juul.koap/Message.Option.Format { // com.juul.koap/Message.Option.Format.opaque|null[0]
+                constructor <init>(kotlin/Int, kotlin/ByteArray) // com.juul.koap/Message.Option.Format.opaque.<init>|<init>(kotlin.Int;kotlin.ByteArray){}[0]
+
+                final val number // com.juul.koap/Message.Option.Format.opaque.number|{}number[0]
+                    final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Format.opaque.number.<get-number>|<get-number>(){}[0]
+                final val value // com.juul.koap/Message.Option.Format.opaque.value|{}value[0]
+                    final fun <get-value>(): kotlin/ByteArray // com.juul.koap/Message.Option.Format.opaque.value.<get-value>|<get-value>(){}[0]
+
+                final fun component1(): kotlin/Int // com.juul.koap/Message.Option.Format.opaque.component1|component1(){}[0]
+                final fun component2(): kotlin/ByteArray // com.juul.koap/Message.Option.Format.opaque.component2|component2(){}[0]
+                final fun copy(kotlin/Int = ..., kotlin/ByteArray = ...): com.juul.koap/Message.Option.Format.opaque // com.juul.koap/Message.Option.Format.opaque.copy|copy(kotlin.Int;kotlin.ByteArray){}[0]
+                final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Format.opaque.equals|equals(kotlin.Any?){}[0]
+                final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Format.opaque.hashCode|hashCode(){}[0]
+                final fun toString(): kotlin/String // com.juul.koap/Message.Option.Format.opaque.toString|toString(){}[0]
+            }
+
+            final class string : com.juul.koap/Message.Option.Format { // com.juul.koap/Message.Option.Format.string|null[0]
+                constructor <init>(kotlin/Int, kotlin/String) // com.juul.koap/Message.Option.Format.string.<init>|<init>(kotlin.Int;kotlin.String){}[0]
+
+                final val number // com.juul.koap/Message.Option.Format.string.number|{}number[0]
+                    final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Format.string.number.<get-number>|<get-number>(){}[0]
+                final val value // com.juul.koap/Message.Option.Format.string.value|{}value[0]
+                    final fun <get-value>(): kotlin/String // com.juul.koap/Message.Option.Format.string.value.<get-value>|<get-value>(){}[0]
+
+                final fun component1(): kotlin/Int // com.juul.koap/Message.Option.Format.string.component1|component1(){}[0]
+                final fun component2(): kotlin/String // com.juul.koap/Message.Option.Format.string.component2|component2(){}[0]
+                final fun copy(kotlin/Int = ..., kotlin/String = ...): com.juul.koap/Message.Option.Format.string // com.juul.koap/Message.Option.Format.string.copy|copy(kotlin.Int;kotlin.String){}[0]
+                final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Format.string.equals|equals(kotlin.Any?){}[0]
+                final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Format.string.hashCode|hashCode(){}[0]
+                final fun toString(): kotlin/String // com.juul.koap/Message.Option.Format.string.toString|toString(){}[0]
+            }
+
+            final class uint : com.juul.koap/Message.Option.Format { // com.juul.koap/Message.Option.Format.uint|null[0]
+                constructor <init>(kotlin/Int, kotlin/Long) // com.juul.koap/Message.Option.Format.uint.<init>|<init>(kotlin.Int;kotlin.Long){}[0]
+
+                final val number // com.juul.koap/Message.Option.Format.uint.number|{}number[0]
+                    final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Format.uint.number.<get-number>|<get-number>(){}[0]
+                final val value // com.juul.koap/Message.Option.Format.uint.value|{}value[0]
+                    final fun <get-value>(): kotlin/Long // com.juul.koap/Message.Option.Format.uint.value.<get-value>|<get-value>(){}[0]
+
+                final fun component1(): kotlin/Int // com.juul.koap/Message.Option.Format.uint.component1|component1(){}[0]
+                final fun component2(): kotlin/Long // com.juul.koap/Message.Option.Format.uint.component2|component2(){}[0]
+                final fun copy(kotlin/Int = ..., kotlin/Long = ...): com.juul.koap/Message.Option.Format.uint // com.juul.koap/Message.Option.Format.uint.copy|copy(kotlin.Int;kotlin.Long){}[0]
+                final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Format.uint.equals|equals(kotlin.Any?){}[0]
+                final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Format.uint.hashCode|hashCode(){}[0]
+                final fun toString(): kotlin/String // com.juul.koap/Message.Option.Format.uint.toString|toString(){}[0]
+            }
+        }
+
+        final object IfNoneMatch : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.IfNoneMatch|null[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.IfNoneMatch.toString|toString(){}[0]
+        }
+    }
+}
+
+final val com.juul.koap/isError // com.juul.koap/isError|@com.juul.koap.Message.Code.Response{}isError[0]
+    final fun (com.juul.koap/Message.Code.Response).<get-isError>(): kotlin/Boolean // com.juul.koap/isError.<get-isError>|<get-isError>@com.juul.koap.Message.Code.Response(){}[0]
+final val com.juul.koap/isSuccess // com.juul.koap/isSuccess|@com.juul.koap.Message.Code.Response{}isSuccess[0]
+    final fun (com.juul.koap/Message.Code.Response).<get-isSuccess>(): kotlin/Boolean // com.juul.koap/isSuccess.<get-isSuccess>|<get-isSuccess>@com.juul.koap.Message.Code.Response(){}[0]
+
+final fun (com.juul.koap/Message).com.juul.koap/encode(): kotlin/ByteArray // com.juul.koap/encode|encode@com.juul.koap.Message(){}[0]
+final fun (com.juul.koap/Message.Udp).com.juul.koap/encodeHeader(): kotlin/ByteArray // com.juul.koap/encodeHeader|encodeHeader@com.juul.koap.Message.Udp(){}[0]
+final fun (kotlin/ByteArray).com.juul.koap/decode(com.juul.koap/Header.Tcp, kotlin/Int = ...): com.juul.koap/Message.Tcp // com.juul.koap/decode|decode@kotlin.ByteArray(com.juul.koap.Header.Tcp;kotlin.Int){}[0]
+final fun (kotlin/ByteArray).com.juul.koap/decode(com.juul.koap/Header.Udp, kotlin/Int = ...): com.juul.koap/Message.Udp // com.juul.koap/decode|decode@kotlin.ByteArray(com.juul.koap.Header.Udp;kotlin.Int){}[0]
+final fun (kotlin/ByteArray).com.juul.koap/decodeTcp(): com.juul.koap/Message.Tcp // com.juul.koap/decodeTcp|decodeTcp@kotlin.ByteArray(){}[0]
+final fun (kotlin/ByteArray).com.juul.koap/decodeTcpHeader(): com.juul.koap/Header.Tcp // com.juul.koap/decodeTcpHeader|decodeTcpHeader@kotlin.ByteArray(){}[0]
+final fun (kotlin/ByteArray).com.juul.koap/decodeUdp(): com.juul.koap/Message.Udp // com.juul.koap/decodeUdp|decodeUdp@kotlin.ByteArray(){}[0]
+final fun (kotlin/ByteArray).com.juul.koap/decodeUdpHeader(): com.juul.koap/Header.Udp // com.juul.koap/decodeUdpHeader|decodeUdpHeader@kotlin.ByteArray(){}[0]
+final inline fun <#A: reified com.juul.koap/Message> (kotlin/ByteArray).com.juul.koap/decode(): #A // com.juul.koap/decode|decode@kotlin.ByteArray(){0§<com.juul.koap.Message>}[0]
