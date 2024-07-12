@@ -56,6 +56,13 @@ allprojects {
     }
 }
 
+apiValidation {
+    @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
+    klib {
+        enabled = true
+    }
+}
+
 fun Project.withPluginWhenEvaluated(plugin: String, action: Project.() -> Unit) {
     pluginManager.withPlugin(plugin) { whenEvaluated(action) }
 }
