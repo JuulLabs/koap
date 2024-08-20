@@ -18,7 +18,6 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: true
-          validate-wrappers: true
 
       - run: >
           ./gradlew
