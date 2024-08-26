@@ -7,8 +7,6 @@
 
 // Library unique name: <com.juul.koap:koap-core>
 sealed class com.juul.koap/Header { // com.juul.koap/Header|null[0]
-    constructor <init>() // com.juul.koap/Header.<init>|<init>(){}[0]
-
     abstract val code // com.juul.koap/Header.code|{}code[0]
         abstract fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Header.code.<get-code>|<get-code>(){}[0]
     abstract val size // com.juul.koap/Header.size|{}size[0]
@@ -64,8 +62,6 @@ sealed class com.juul.koap/Header { // com.juul.koap/Header|null[0]
 }
 
 sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
-    constructor <init>() // com.juul.koap/Message.<init>|<init>(){}[0]
-
     abstract val code // com.juul.koap/Message.code|{}code[0]
         abstract fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Message.code.<get-code>|<get-code>(){}[0]
     abstract val options // com.juul.koap/Message.options|{}options[0]
@@ -125,8 +121,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
         final fun toString(): kotlin/String // com.juul.koap/Message.Udp.toString|toString(){}[0]
 
         sealed class Type { // com.juul.koap/Message.Udp.Type|null[0]
-            constructor <init>() // com.juul.koap/Message.Udp.Type.<init>|<init>(){}[0]
-
             open fun toString(): kotlin/String // com.juul.koap/Message.Udp.Type.toString|toString(){}[0]
 
             final object Acknowledgement : com.juul.koap/Message.Udp.Type // com.juul.koap/Message.Udp.Type.Acknowledgement|null[0]
@@ -140,8 +134,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
     }
 
     sealed class Code { // com.juul.koap/Message.Code|null[0]
-        constructor <init>() // com.juul.koap/Message.Code.<init>|<init>(){}[0]
-
         abstract val class // com.juul.koap/Message.Code.class|{}class[0]
             abstract fun <get-class>(): kotlin/Int // com.juul.koap/Message.Code.class.<get-class>|<get-class>(){}[0]
         abstract val detail // com.juul.koap/Message.Code.detail|{}detail[0]
@@ -164,8 +156,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
         }
 
         sealed class Method : com.juul.koap/Message.Code { // com.juul.koap/Message.Code.Method|null[0]
-            constructor <init>(kotlin/Int, kotlin/Int) // com.juul.koap/Message.Code.Method.<init>|<init>(kotlin.Int;kotlin.Int){}[0]
-
             open val class // com.juul.koap/Message.Code.Method.class|{}class[0]
                 open fun <get-class>(): kotlin/Int // com.juul.koap/Message.Code.Method.class.<get-class>|<get-class>(){}[0]
             open val detail // com.juul.koap/Message.Code.Method.detail|{}detail[0]
@@ -183,8 +173,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
         }
 
         sealed class Response : com.juul.koap/Message.Code { // com.juul.koap/Message.Code.Response|null[0]
-            constructor <init>(kotlin/Int, kotlin/Int) // com.juul.koap/Message.Code.Response.<init>|<init>(kotlin.Int;kotlin.Int){}[0]
-
             open val class // com.juul.koap/Message.Code.Response.class|{}class[0]
                 open fun <get-class>(): kotlin/Int // com.juul.koap/Message.Code.Response.class.<get-class>|<get-class>(){}[0]
             open val detail // com.juul.koap/Message.Code.Response.detail|{}detail[0]
@@ -237,8 +225,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
     }
 
     sealed class Option { // com.juul.koap/Message.Option|null[0]
-        constructor <init>() // com.juul.koap/Message.Option.<init>|<init>(){}[0]
-
         final class Accept : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Accept|null[0]
             constructor <init>(com.juul.koap/Message.Option.ContentFormat) // com.juul.koap/Message.Option.Accept.<init>|<init>(com.juul.koap.Message.Option.ContentFormat){}[0]
             constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.Accept.<init>|<init>(kotlin.Long){}[0]
@@ -362,8 +348,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
             final fun toString(): kotlin/String // com.juul.koap/Message.Option.Observe.toString|toString(){}[0]
 
             sealed class Registration { // com.juul.koap/Message.Option.Observe.Registration|null[0]
-                constructor <init>() // com.juul.koap/Message.Option.Observe.Registration.<init>|<init>(){}[0]
-
                 final object Deregister : com.juul.koap/Message.Option.Observe.Registration { // com.juul.koap/Message.Option.Observe.Registration.Deregister|null[0]
                     final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Observe.Registration.Deregister.equals|equals(kotlin.Any?){}[0]
                     final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Observe.Registration.Deregister.hashCode|hashCode(){}[0]
@@ -470,8 +454,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
         }
 
         sealed class Format : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Format|null[0]
-            constructor <init>() // com.juul.koap/Message.Option.Format.<init>|<init>(){}[0]
-
             abstract val number // com.juul.koap/Message.Option.Format.number|{}number[0]
                 abstract fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Format.number.<get-number>|<get-number>(){}[0]
 
