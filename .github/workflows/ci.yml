@@ -20,6 +20,6 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - run: ./gradlew check jacocoTestReport
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
       - run: ./gradlew assembleGitHubPages
       - run: ./gradlew -PRELEASE_SIGNING_ENABLED=false publishToMavenLocal
