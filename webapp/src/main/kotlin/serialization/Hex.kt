@@ -13,5 +13,5 @@ internal fun ByteArray.hex(
             if (separator.isNotEmpty()) append(separator)
         }
     }
-    return if (lowerCase) hex.toLowerCase() else hex
+    return if (lowerCase) hex.lowercase() else hex
 }
