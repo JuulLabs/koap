@@ -89,5 +89,5 @@ class ByteArrayReaderTest {
 private fun String.parseByteArray() =
     replace(" ", "")
         .chunked(2)
-        .map { it.toUpperCase().toInt(16).toByte() }
+        .map { it.uppercase().toInt(16).toByte() }
         .toByteArray()
