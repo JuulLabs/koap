@@ -2,8 +2,8 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.dokka")
     id("org.jmailen.kotlinter")
-    jacoco
     id("com.vanniktech.maven.publish")
+    alias(libs.plugins.kover)
 }
 
 kotlin {
