@@ -43,4 +43,5 @@ internal fun Option.toFormat(): Format =
         is ProxyUri -> string(35, option.uri)
         is ProxyScheme -> string(39, option.uri)
         is Size1 -> uint(60, option.bytes)
+        is Option.NoResponse -> uint(258, option.value)
     }

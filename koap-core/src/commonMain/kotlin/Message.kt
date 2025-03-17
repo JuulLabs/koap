@@ -24,6 +24,7 @@ import com.juul.koap.Message.Option.Observe.Registration.Register
  * |  35 | Proxy-Uri      | string | 1-1034 | [RFC7252] CoAP                |
  * |  39 | Proxy-Scheme   | string | 1-255  | [RFC7252] CoAP                |
  * |  60 | Size1          | uint   | 0-4    | [RFC7252] CoAP                |
+ * | 258 | No-Response    | uint   | 0-1    | [RFC7967] No Server Response  |
  * +-----+----------------+--------+--------+-------------------------------+
  *
  * CoAP Option Numbers registry:
@@ -32,6 +33,7 @@ import com.juul.koap.Message.Option.Observe.Registration.Register
  * RFC links:
  * [RFC7252] https://tools.ietf.org/html/rfc7252#section-5.10 CoAP Table 4: Options
  * [RFC7641] https://tools.ietf.org/html/rfc7641#section-2 The Observe Option
+ * [RFC7967] https://tools.ietf.org/html/rfc7967#section-2 No-Response Option
  */
 private val IF_MATCH_SIZE_RANGE = 0..8
 private val URI_HOST_LENGTH_RANGE = 1..255
@@ -48,6 +50,7 @@ private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
+private val NO_RESPONSE_RANGE = 0..127
 
 sealed class Message {
 
@@ -359,6 +362,17 @@ sealed class Message {
             init {
                 require(value in OBSERVE_RANGE) {
                     "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
+                }
+            }
+        }
+
+        /** [RFC 7967 Option for No Server Response](https://tools.ietf.org/html/rfc7967#section-2) */
+        data class NoResponse(
+            val value: Long,
+        ) : Option() {
+            init {
+                require(value in NO_RESPONSE_RANGE) {
+                    "NoResponse value of $value is outside allowable range of $NO_RESPONSE_RANGE"
                 }
             }
         }
