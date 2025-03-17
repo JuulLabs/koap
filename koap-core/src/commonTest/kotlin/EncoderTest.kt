@@ -22,6 +22,7 @@ import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
 import com.juul.koap.Message.Option.Size2
+import com.juul.koap.Message.Option.UnknownOption
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
@@ -520,6 +521,17 @@ class EncoderTest {
             expected = """
                 E3 00 17 # Option Delta: 292, Option Length: 3
                 01 02 03 # Option Value: 1 2 3
+            """,
+        )
+    }
+
+    @Test
+    fun writeUnknownOption() {
+        testWriteOption(
+            option = UnknownOption(0x4321, byteArrayOf(0x04, 0x03, 0x02, 0x01)),
+            expected = """
+                E4 42 14    # Option Delta: 0x4321, Option Length: 3
+                04 03 02 01 # Option Value: 0x04, 0x03, 0x02, 0x01
             """,
         )
     }

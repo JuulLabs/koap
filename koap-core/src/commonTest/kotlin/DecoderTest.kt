@@ -22,6 +22,7 @@ import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
 import com.juul.koap.Message.Option.Size2
+import com.juul.koap.Message.Option.UnknownOption
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -456,6 +457,17 @@ class DecoderTest {
                 01 02 03 04 05 # Option Value: 1 2 3 4 5
             """,
             expected = RequestTag(byteArrayOf(1, 2, 3, 4, 5)),
+        )
+    }
+
+    @Test
+    fun decodeUnknownOption() {
+        testReadOption(
+            encoded = """
+                E3 11 27 # Option Delta: 0x1234, Option Length: 3
+                01 02 03 # Option Value: 0x01, 0x02, 0x03
+            """,
+            expected = UnknownOption(0x1234, byteArrayOf(0x01, 0x02, 0x03)),
         )
     }
 

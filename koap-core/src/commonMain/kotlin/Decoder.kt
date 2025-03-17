@@ -50,6 +50,7 @@ import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
 import com.juul.koap.Message.Option.Size2
+import com.juul.koap.Message.Option.UnknownOption
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -428,7 +429,7 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         252 -> Echo(readByteArray(length))
         258 -> NoResponse(readNumberOfLength(length))
         292 -> RequestTag(readByteArray(length))
-        else -> error("Unsupported option number $number")
+        else -> UnknownOption(number, readByteArray(length))
     }
 }
 
