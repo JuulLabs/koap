@@ -111,4 +111,58 @@ class DecodingTest {
             actual = decode<Message.Udp>(input).trim(),
         )
     }
+
+    @Test
+    fun coapWithUnknownOption() = GlobalScope.promise {
+        /* Message.Udp(
+         *     type = Confirmable,
+         *     code = GET,
+         *     id = 0xFEED,
+         *     token = 0xCAFE,
+         *     options = listOf(
+         *         ContentFormat.CBOR,
+         *         UnknownOption(0x1234, byteArrayOf(0x01, 0x02, 0xDE)),
+         *     ),
+         *     payload = <CBOR>,
+         * )
+         *
+         * CBOR payload:
+         * 83          # array(3)
+         *   61        # text(1)
+         *      61     # "a"
+         *   63        # text(3)
+         *      313233 # "123"
+         *   61        # text(1)
+         *      62     # "b"
+         */
+        val input = "42 01 FE ED CA FE C1 3C E3 11 1B 01 02 DE FF 83 61 61 63 31 32 33 61 62"
+            .replace(" ", "")
+            .decodeHex()
+            .toByteArray()
+
+        assertEquals(
+            expected = "Unsupported number length of 10 bytes",
+            actual = decode<Message.Tcp>(input),
+        )
+
+        assertEquals(
+            expected = """
+                <b>Message:</b>
+                {
+                  "type": "Confirmable",
+                  "code": "GET",
+                  "id": 65261,
+                  "token": 51966,
+                  "options": [
+                    "Content-Format: application/cbor",
+                    "UnknownOption(number=4660, value=01 02 DE)"
+                  ]
+                }
+
+                <b>Payload (CBOR):</b>
+                ["a", "123", "b"]
+            """.trimIndent(),
+            actual = decode<Message.Udp>(input).trim(),
+        )
+    }
 }

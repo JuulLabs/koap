@@ -18,6 +18,7 @@ import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
 import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.UnknownOption
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -43,4 +44,5 @@ internal fun Option.toFormat(): Format =
         is ProxyUri -> string(35, option.uri)
         is ProxyScheme -> string(39, option.uri)
         is Size1 -> uint(60, option.bytes)
+        is UnknownOption -> opaque(option.number, option.value)
     }

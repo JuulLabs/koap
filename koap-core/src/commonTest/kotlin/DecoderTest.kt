@@ -5,6 +5,7 @@ import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
+import com.juul.koap.Message.Option.UnknownOption
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -138,6 +139,17 @@ class DecoderTest {
                 01 # Option Value: 1 (Deregister)
             """,
             expected = Observe(Deregister),
+        )
+    }
+
+    @Test
+    fun decodeUnknownOption() {
+        testReadOption(
+            encoded = """
+                E3 11 27 # Option Delta: 0x1234, Option Length: 3
+                01 02 03 # Option Value: 0x01, 0x02, 0x03
+            """,
+            expected = UnknownOption(0x1234, byteArrayOf(0x01, 0x02, 0x03)),
         )
     }
 
