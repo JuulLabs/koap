@@ -481,6 +481,9 @@ internal fun ByteArrayReader.readNumberOfLength(
     2 -> readUShort().toLong()
     3 -> readUInt24().toLong()
     4 -> readUInt()
+    5 -> readNLong(5)
+    6 -> readNLong(6)
+    7 -> readNLong(7)
     8 -> readLong()
     else -> throw IllegalArgumentException("Unsupported number length of $bytes bytes")
 }

@@ -2,6 +2,7 @@ package com.juul.koap.test
 
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
+import com.juul.koap.Message.Code.Method.PUT
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
@@ -171,6 +172,27 @@ class DecoderTest {
             actual = message.encode().decode(),
         )
     }
+
+    @Test
+    fun canDecodeTokenOfAnyLength() {
+        fun emptyPut(token: Long) = Message.Udp(
+            type = Confirmable,
+            code = PUT,
+            id = 0x1415,
+            token = token,
+            options = emptyList(),
+            payload = byteArrayOf(),
+        )
+        testReadUdp("40031415", emptyPut(0x0))
+        testReadUdp("4103141592", emptyPut(0x92))
+        testReadUdp("420314159265", emptyPut(0x9265))
+        testReadUdp("43031415926535", emptyPut(0x926535))
+        testReadUdp("4403141592653589", emptyPut(0x92653589))
+        testReadUdp("450314159265358979", emptyPut(0x9265358979))
+        testReadUdp("46031415926535897932", emptyPut(0x926535897932))
+        testReadUdp("4703141592653589793238", emptyPut(0x92653589793238))
+        testReadUdp("480314159265358979323846", emptyPut(-0x6d9aca7686cdc7ba))
+    }
 }
 
 private fun testReadOption(
@@ -187,6 +209,22 @@ private fun testReadOption(
     assertEquals(
         expected = expected,
         actual = option,
+    )
+}
+
+private fun testReadUdp(
+    encoded: String,
+    expected: Message.Udp,
+) {
+    val msg = encoded
+        .stripComments()
+        .decodeHex()
+        .toByteArray()
+        .decode<Message.Udp>()
+
+    assertEquals(
+        expected = expected,
+        actual = msg,
     )
 }
 

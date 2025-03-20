@@ -67,6 +67,16 @@ internal class ByteArrayReader(
         return ((bytes[index++].toLong() and 0xFF) shl 24) or readUInt24().toLong()
     }
 
+    /** Reads N-bytes to acquire a 64-bit signed int. */
+    fun readNLong(n: Int): Long {
+        checkLength(n)
+        var result = 0L
+        for (i in 0 until n) {
+            result = (result shl 8) or (bytes[index++].toLong() and 0xFF)
+        }
+        return result
+    }
+
     /** Reads 8-bytes to acquire a 64-bit signed int. */
     fun readLong(): Long {
         checkIndex()
