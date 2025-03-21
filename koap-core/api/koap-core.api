@@ -243,6 +243,19 @@ public final class com/juul/koap/Message$Option$ETag : com/juul/koap/Message$Opt
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/juul/koap/Message$Option$ExperimentalUseOption : com/juul/koap/Message$Option {
+	public fun <init> (I[B)V
+	public final fun component1 ()I
+	public final fun component2 ()[B
+	public final fun copy (I[B)Lcom/juul/koap/Message$Option$ExperimentalUseOption;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ExperimentalUseOption;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$ExperimentalUseOption;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNumber ()I
+	public final fun getValue ()[B
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public abstract class com/juul/koap/Message$Option$Format : com/juul/koap/Message$Option {
 	public abstract fun getNumber ()I
 }
@@ -397,6 +410,19 @@ public final class com/juul/koap/Message$Option$ProxyUri : com/juul/koap/Message
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/juul/koap/Message$Option$ReservedOption : com/juul/koap/Message$Option {
+	public fun <init> (I[B)V
+	public final fun component1 ()I
+	public final fun component2 ()[B
+	public final fun copy (I[B)Lcom/juul/koap/Message$Option$ReservedOption;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ReservedOption;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$ReservedOption;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNumber ()I
+	public final fun getValue ()[B
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/juul/koap/Message$Option$Size1 : com/juul/koap/Message$Option {
 	public fun <init> (J)V
 	public final fun component1 ()J
@@ -408,12 +434,12 @@ public final class com/juul/koap/Message$Option$Size1 : com/juul/koap/Message$Op
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/juul/koap/Message$Option$UnknownOption : com/juul/koap/Message$Option {
+public final class com/juul/koap/Message$Option$UnassignedOption : com/juul/koap/Message$Option {
 	public fun <init> (I[B)V
 	public final fun component1 ()I
 	public final fun component2 ()[B
-	public final fun copy (I[B)Lcom/juul/koap/Message$Option$UnknownOption;
-	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$UnknownOption;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$UnknownOption;
+	public final fun copy (I[B)Lcom/juul/koap/Message$Option$UnassignedOption;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$UnassignedOption;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$UnassignedOption;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getNumber ()I
 	public final fun getValue ()[B
