@@ -6,7 +6,9 @@ import com.juul.koap.Message.Code.Response.Content
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
-import com.juul.koap.Message.Option.UnknownOption
+import com.juul.koap.Message.Option.ExperimentalUseOption
+import com.juul.koap.Message.Option.ReservedOption
+import com.juul.koap.Message.Option.UnassignedOption
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
@@ -339,12 +341,34 @@ class EncoderTest {
     }
 
     @Test
-    fun writeUnknownOption() {
+    fun writeUnassignedOption() {
         testWriteOption(
-            option = UnknownOption(0x4321, byteArrayOf(0x04, 0x03, 0x02, 0x01)),
+            option = UnassignedOption(0x4321, byteArrayOf(0x04, 0x03, 0x02, 0x01)),
             expected = """
-                E4 42 14    # Option Delta: 0x4321, Option Length: 3
+                E4 42 14    # Option Delta: 0x4321, Option Length: 4
                 04 03 02 01 # Option Value: 0x04, 0x03, 0x02, 0x01
+            """,
+        )
+    }
+
+    @Test
+    fun writeReservedOption() {
+        testWriteOption(
+            option = ReservedOption(136, byteArrayOf(0x34, 0x33, 0x32, 0x31)),
+            expected = """
+                D4 7B       # Option Delta: 136, Option Length: 4
+                34 33 32 31 # Option Value: 0x34, 0x33, 0x32, 0x31
+            """,
+        )
+    }
+
+    @Test
+    fun writeExperimentalUseOption() {
+        testWriteOption(
+            option = ExperimentalUseOption(65007, byteArrayOf(0x24, 0x23, 0x22, 0x21)),
+            expected = """
+                E4 FC E2    # Option Delta: 65007, Option Length: 4
+                24 23 22 21 # Option Value: 0x24, 0x23, 0x22, 0x21
             """,
         )
     }

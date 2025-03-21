@@ -155,7 +155,9 @@ private object OptionSerializer : KSerializer<Option> {
                 Option.Accept(60) -> "application/cbor"
                 else -> value.toString()
             }
-            is Option.UnknownOption -> "UnknownOption(number=${value.number}, value=${value.value.hex().trim()})"
+            is Option.UnassignedOption -> "UnassignedOption(number=${value.number}, value=${value.value.hex().trim()})"
+            is Option.ReservedOption -> "ReservedOption(number=${value.number}, value=${value.value.hex().trim()})"
+            is Option.ExperimentalUseOption -> "ExperimentalUseOption(number=${value.number}, value=${value.value.hex().trim()})"
             else -> value.toString()
         }
         encoder.encodeString(serialized)

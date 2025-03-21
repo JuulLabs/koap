@@ -4,6 +4,7 @@ import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Accept
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.ExperimentalUseOption
 import com.juul.koap.Message.Option.Format
 import com.juul.koap.Message.Option.Format.empty
 import com.juul.koap.Message.Option.Format.opaque
@@ -17,8 +18,9 @@ import com.juul.koap.Message.Option.MaxAge
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.ReservedOption
 import com.juul.koap.Message.Option.Size1
-import com.juul.koap.Message.Option.UnknownOption
+import com.juul.koap.Message.Option.UnassignedOption
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -44,5 +46,7 @@ internal fun Option.toFormat(): Format =
         is ProxyUri -> string(35, option.uri)
         is ProxyScheme -> string(39, option.uri)
         is Size1 -> uint(60, option.bytes)
-        is UnknownOption -> opaque(option.number, option.value)
+        is UnassignedOption -> opaque(option.number, option.value)
+        is ReservedOption -> opaque(option.number, option.value)
+        is ExperimentalUseOption -> opaque(option.number, option.value)
     }

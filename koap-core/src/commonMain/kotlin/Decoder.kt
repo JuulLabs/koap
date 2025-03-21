@@ -29,6 +29,7 @@ import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Accept
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.ExperimentalUseOption
 import com.juul.koap.Message.Option.Format
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
@@ -38,8 +39,9 @@ import com.juul.koap.Message.Option.MaxAge
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.ReservedOption
 import com.juul.koap.Message.Option.Size1
-import com.juul.koap.Message.Option.UnknownOption
+import com.juul.koap.Message.Option.UnassignedOption
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -407,7 +409,9 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         35 -> ProxyUri(readUtf8(length))
         39 -> ProxyScheme(readUtf8(length))
         60 -> Size1(readNumberOfLength(length))
-        else -> UnknownOption(number, readByteArray(length))
+        0, 128, 132, 136, 140 -> ReservedOption(number, readByteArray(length))
+        in 65000..65535 -> ExperimentalUseOption(number, readByteArray(length))
+        else -> UnassignedOption(number, readByteArray(length))
     }
 }
 
