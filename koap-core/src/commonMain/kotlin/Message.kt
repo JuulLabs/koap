@@ -115,12 +115,15 @@ sealed class Message {
             val value: ByteArray,
         ) : Option() {
             init {
-                require(when (number) { 0, 128, 132, 136, 140 -> false else -> true }) {
-                    "Option number ${number} is a reserved option number 0, 128, 132, 136, or 140. Use Reserved."
+                require(when (number) {
+                    0, 128, 132, 136, 140 -> false
+                    else -> true
+                }) {
+                    "Option number $number is a reserved option number 0, 128, 132, 136, or 140. Use Reserved."
                 }
                 require(!(number in EXPERIMENTAL_USE_OPTION_RANGE)) {
-                    "Option number ${number} is inside the experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE."+
-                    " Use ExperimentalUse."
+                    "Option number $number is inside the experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE." +
+                        " Use ExperimentalUse."
                 }
             }
             override fun equals(other: Any?): Boolean =
@@ -140,13 +143,16 @@ sealed class Message {
             val value: ByteArray,
         ) : Option() {
             init {
-                require(when (number) { 0, 128, 132, 136, 140 -> true else -> false }) {
-                    "Option number ${number} is not a reserved option number 0, 128, 132, 136, or 140"
+                require(when (number) {
+                    0, 128, 132, 136, 140 -> true
+                    else -> false
+                }) {
+                    "Option number $number is not a reserved option number 0, 128, 132, 136, or 140"
                 }
             }
             override fun equals(other: Any?): Boolean =
                 this === other ||
-                        (other is Reserved && number == other.number && value.contentEquals(other.value))
+                    (other is Reserved && number == other.number && value.contentEquals(other.value))
 
             override fun hashCode(): Int {
                 var result = number
@@ -162,12 +168,12 @@ sealed class Message {
         ) : Option() {
             init {
                 require(number in EXPERIMENTAL_USE_OPTION_RANGE) {
-                    "Option number ${number} is outside experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE"
+                    "Option number $number is outside experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE"
                 }
             }
             override fun equals(other: Any?): Boolean =
                 this === other ||
-                        (other is ExperimentalUse && number == other.number && value.contentEquals(other.value))
+                    (other is ExperimentalUse && number == other.number && value.contentEquals(other.value))
 
             override fun hashCode(): Int {
                 var result = number
