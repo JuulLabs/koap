@@ -174,7 +174,7 @@ class DecoderTest {
             actual = message.token,
         )
 
-        // Confirm remainder of message decodes properly.
+        // Confirm remainder of message decoded properly.
         val uri = message.options
             .filterIsInstance<UriPath>()
             .single()
