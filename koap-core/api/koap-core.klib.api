@@ -361,6 +361,22 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
             final fun toString(): kotlin/String // com.juul.koap/Message.Option.Echo.toString|toString(){}[0]
         }
 
+        final class ExperimentalUse : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.ExperimentalUse|null[0]
+            constructor <init>(kotlin/Int, kotlin/ByteArray) // com.juul.koap/Message.Option.ExperimentalUse.<init>|<init>(kotlin.Int;kotlin.ByteArray){}[0]
+
+            final val number // com.juul.koap/Message.Option.ExperimentalUse.number|{}number[0]
+                final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.ExperimentalUse.number.<get-number>|<get-number>(){}[0]
+            final val value // com.juul.koap/Message.Option.ExperimentalUse.value|{}value[0]
+                final fun <get-value>(): kotlin/ByteArray // com.juul.koap/Message.Option.ExperimentalUse.value.<get-value>|<get-value>(){}[0]
+
+            final fun component1(): kotlin/Int // com.juul.koap/Message.Option.ExperimentalUse.component1|component1(){}[0]
+            final fun component2(): kotlin/ByteArray // com.juul.koap/Message.Option.ExperimentalUse.component2|component2(){}[0]
+            final fun copy(kotlin/Int = ..., kotlin/ByteArray = ...): com.juul.koap/Message.Option.ExperimentalUse // com.juul.koap/Message.Option.ExperimentalUse.copy|copy(kotlin.Int;kotlin.ByteArray){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.ExperimentalUse.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.ExperimentalUse.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.ExperimentalUse.toString|toString(){}[0]
+        }
+
         final class HopLimit : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.HopLimit|null[0]
             constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.HopLimit.<init>|<init>(kotlin.Long){}[0]
 
@@ -573,6 +589,22 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
             final fun toString(): kotlin/String // com.juul.koap/Message.Option.RequestTag.toString|toString(){}[0]
         }
 
+        final class Reserved : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Reserved|null[0]
+            constructor <init>(kotlin/Int, kotlin/ByteArray) // com.juul.koap/Message.Option.Reserved.<init>|<init>(kotlin.Int;kotlin.ByteArray){}[0]
+
+            final val number // com.juul.koap/Message.Option.Reserved.number|{}number[0]
+                final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Reserved.number.<get-number>|<get-number>(){}[0]
+            final val value // com.juul.koap/Message.Option.Reserved.value|{}value[0]
+                final fun <get-value>(): kotlin/ByteArray // com.juul.koap/Message.Option.Reserved.value.<get-value>|<get-value>(){}[0]
+
+            final fun component1(): kotlin/Int // com.juul.koap/Message.Option.Reserved.component1|component1(){}[0]
+            final fun component2(): kotlin/ByteArray // com.juul.koap/Message.Option.Reserved.component2|component2(){}[0]
+            final fun copy(kotlin/Int = ..., kotlin/ByteArray = ...): com.juul.koap/Message.Option.Reserved // com.juul.koap/Message.Option.Reserved.copy|copy(kotlin.Int;kotlin.ByteArray){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Reserved.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Reserved.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.Reserved.toString|toString(){}[0]
+        }
+
         final class Size1 : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Size1|null[0]
             constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.Size1.<init>|<init>(kotlin.Long){}[0]
 
@@ -599,20 +631,20 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
             final fun toString(): kotlin/String // com.juul.koap/Message.Option.Size2.toString|toString(){}[0]
         }
 
-        final class UnknownOption : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.UnknownOption|null[0]
-            constructor <init>(kotlin/Int, kotlin/ByteArray) // com.juul.koap/Message.Option.UnknownOption.<init>|<init>(kotlin.Int;kotlin.ByteArray){}[0]
+        final class Unassigned : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Unassigned|null[0]
+            constructor <init>(kotlin/Int, kotlin/ByteArray) // com.juul.koap/Message.Option.Unassigned.<init>|<init>(kotlin.Int;kotlin.ByteArray){}[0]
 
-            final val number // com.juul.koap/Message.Option.UnknownOption.number|{}number[0]
-                final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.UnknownOption.number.<get-number>|<get-number>(){}[0]
-            final val value // com.juul.koap/Message.Option.UnknownOption.value|{}value[0]
-                final fun <get-value>(): kotlin/ByteArray // com.juul.koap/Message.Option.UnknownOption.value.<get-value>|<get-value>(){}[0]
+            final val number // com.juul.koap/Message.Option.Unassigned.number|{}number[0]
+                final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Unassigned.number.<get-number>|<get-number>(){}[0]
+            final val value // com.juul.koap/Message.Option.Unassigned.value|{}value[0]
+                final fun <get-value>(): kotlin/ByteArray // com.juul.koap/Message.Option.Unassigned.value.<get-value>|<get-value>(){}[0]
 
-            final fun component1(): kotlin/Int // com.juul.koap/Message.Option.UnknownOption.component1|component1(){}[0]
-            final fun component2(): kotlin/ByteArray // com.juul.koap/Message.Option.UnknownOption.component2|component2(){}[0]
-            final fun copy(kotlin/Int = ..., kotlin/ByteArray = ...): com.juul.koap/Message.Option.UnknownOption // com.juul.koap/Message.Option.UnknownOption.copy|copy(kotlin.Int;kotlin.ByteArray){}[0]
-            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.UnknownOption.equals|equals(kotlin.Any?){}[0]
-            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.UnknownOption.hashCode|hashCode(){}[0]
-            final fun toString(): kotlin/String // com.juul.koap/Message.Option.UnknownOption.toString|toString(){}[0]
+            final fun component1(): kotlin/Int // com.juul.koap/Message.Option.Unassigned.component1|component1(){}[0]
+            final fun component2(): kotlin/ByteArray // com.juul.koap/Message.Option.Unassigned.component2|component2(){}[0]
+            final fun copy(kotlin/Int = ..., kotlin/ByteArray = ...): com.juul.koap/Message.Option.Unassigned // com.juul.koap/Message.Option.Unassigned.copy|copy(kotlin.Int;kotlin.ByteArray){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Unassigned.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Unassigned.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.Unassigned.toString|toString(){}[0]
         }
 
         final class UriHost : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.UriHost|null[0]

@@ -8,6 +8,7 @@ import com.juul.koap.Message.Option.Block1
 import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.Echo
 import com.juul.koap.Message.Option.Edhoc
+import com.juul.koap.Message.Option.ExperimentalUse
 import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response2xx
@@ -20,9 +21,10 @@ import com.juul.koap.Message.Option.Oscore
 import com.juul.koap.Message.Option.QBlock1
 import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
+import com.juul.koap.Message.Option.Reserved
 import com.juul.koap.Message.Option.Size1
 import com.juul.koap.Message.Option.Size2
-import com.juul.koap.Message.Option.UnknownOption
+import com.juul.koap.Message.Option.Unassigned
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
@@ -526,14 +528,64 @@ class EncoderTest {
     }
 
     @Test
-    fun writeUnknownOption() {
+    fun writeUnassignedOption() {
         testWriteOption(
-            option = UnknownOption(0x4321, byteArrayOf(0x04, 0x03, 0x02, 0x01)),
+            option = Unassigned(0x4321, byteArrayOf(0x04, 0x03, 0x02, 0x01)),
             expected = """
-                E4 42 14    # Option Delta: 0x4321, Option Length: 3
+                E4 42 14    # Option Delta: 0x4321, Option Length: 4
                 04 03 02 01 # Option Value: 0x04, 0x03, 0x02, 0x01
             """,
         )
+    }
+
+    @Test
+    fun unassignedOptionWithReservedNumberThrowsIllegalArgumentException() {
+        assertFailsWith<IllegalArgumentException> {
+            Unassigned(128, byteArrayOf())
+        }
+    }
+
+    @Test
+    fun unassignedOptionWithNumberInExperimenalRangeThrowsIllegalArgumentException() {
+        assertFailsWith<IllegalArgumentException> {
+            Unassigned(65530, byteArrayOf())
+        }
+    }
+
+    @Test
+    fun writeReservedOption() {
+        testWriteOption(
+            option = Reserved(136, byteArrayOf(0x34, 0x33, 0x32, 0x31)),
+            expected = """
+                D4 7B       # Option Delta: 136, Option Length: 4
+                34 33 32 31 # Option Value: 0x34, 0x33, 0x32, 0x31
+            """,
+        )
+    }
+
+    @Test
+    fun reservedOptionWithNonReservedNumberThrowsIllegalArgumentException() {
+        assertFailsWith<IllegalArgumentException> {
+            Reserved(131, byteArrayOf())
+        }
+    }
+
+    @Test
+    fun writeExperimentalUseOption() {
+        testWriteOption(
+            option = ExperimentalUse(65007, byteArrayOf(0x24, 0x23, 0x22, 0x21)),
+            expected = """
+                E4 FC E2    # Option Delta: 65007, Option Length: 4
+                24 23 22 21 # Option Value: 0x24, 0x23, 0x22, 0x21
+            """,
+        )
+    }
+
+    @Test
+    fun experimentalUseOptionWithNumberOutsideExperimentalRangeThrowsIllegalArgumentException() {
+        assertFailsWith<IllegalArgumentException> {
+            Reserved(64999, byteArrayOf())
+        }
     }
 }
 
