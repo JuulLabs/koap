@@ -115,7 +115,7 @@ sealed class Message {
         ) : Option() {
             override fun equals(other: Any?): Boolean =
                 this === other ||
-                        (other is UnknownOption && number == other.number && value.contentEquals(other.value))
+                    (other is UnknownOption && number == other.number && value.contentEquals(other.value))
 
             override fun hashCode(): Int {
                 var result = number
