@@ -5,7 +5,7 @@ import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
-import com.juul.koap.Message.Option.UnknownOption
+import com.juul.koap.Message.Option.Unknown
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -143,13 +143,30 @@ class DecoderTest {
     }
 
     @Test
-    fun decodeUnknownOption() {
+    fun decodeUnknownOption4660() {
         testReadOption(
             encoded = """
-                E3 11 27 # Option Delta: 0x1234, Option Length: 3
+                E3 11 27 # Option Delta: 0x1127 + 269 = 4660, Option Length: 3
                 01 02 03 # Option Value: 0x01, 0x02, 0x03
             """,
-            expected = UnknownOption(0x1234, byteArrayOf(0x01, 0x02, 0x03)),
+
+            // Per https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers
+            // 2056-64999 is "Unassigned".
+            expected = Unknown(4660, byteArrayOf(0x01, 0x02, 0x03)),
+        )
+    }
+
+    @Test
+    fun decodeUnknownOption65535() {
+        testReadOption(
+            encoded = """
+                E3 FE F2 # Option Delta: 0xFEF2 + 269 = 65535, Option Length: 3
+                01 02 03 # Option Value: 0x01, 0x02, 0x03
+            """,
+
+            // Per https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers
+            // 65000-65535 is "Reserved for Experimental Use".
+            expected = Unknown(65535, byteArrayOf(0x01, 0x02, 0x03)),
         )
     }
 

@@ -109,21 +109,6 @@ sealed class Message {
             ) : Format()
         }
 
-        data class UnknownOption(
-            val number: Int,
-            val value: ByteArray,
-        ) : Option() {
-            override fun equals(other: Any?): Boolean =
-                this === other ||
-                        (other is UnknownOption && number == other.number && value.contentEquals(other.value))
-
-            override fun hashCode(): Int {
-                var result = number
-                result = 31 * result + value.contentHashCode()
-                return result
-            }
-        }
-
         /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */
         data class UriHost(
             val uri: String,
@@ -369,6 +354,22 @@ sealed class Message {
                 require(value in OBSERVE_RANGE) {
                     "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
                 }
+            }
+        }
+
+        data class Unknown(
+            val number: Int,
+            val value: ByteArray,
+        ) : Option() {
+
+            override fun equals(other: Any?): Boolean =
+                this === other ||
+                        (number == (other as? Unknown)?.number && value.contentEquals(other.value))
+
+            override fun hashCode(): Int {
+                var result = number
+                result = 31 * result + value.contentHashCode()
+                return result
             }
         }
     }
