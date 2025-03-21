@@ -121,7 +121,7 @@ class DecodingTest {
          *     token = 0xCAFE,
          *     options = listOf(
          *         ContentFormat.CBOR,
-         *         UnassignedOption(0x1234, byteArrayOf(0x01, 0x02, 0xDE)),
+         *         Unassigned(0x1234, byteArrayOf(0x01, 0x02, 0xDE)),
          *     ),
          *     payload = <CBOR>,
          * )
@@ -155,7 +155,7 @@ class DecodingTest {
                   "token": 51966,
                   "options": [
                     "Content-Format: application/cbor",
-                    "UnassignedOption(number=4660, value=01 02 DE)"
+                    "Unassigned(number=4660, value=01 02 DE)"
                   ]
                 }
 
@@ -175,7 +175,7 @@ class DecodingTest {
          *     token = 0xCAFE,
          *     options = listOf(
          *         ContentFormat.CBOR,
-         *         ReservedOption(132, byteArrayOf(0x01, 0x02, 0xDE)),
+         *         Reserved(132, byteArrayOf(0x01, 0x02, 0xDE)),
          *     ),
          *     payload = <CBOR>,
          * )
@@ -209,7 +209,7 @@ class DecodingTest {
                   "token": 51966,
                   "options": [
                     "Content-Format: application/cbor",
-                    "ReservedOption(number=132, value=01 02 DE)"
+                    "Reserved(number=132, value=01 02 DE)"
                   ]
                 }
 
@@ -229,7 +229,7 @@ class DecodingTest {
          *     token = 0xCAFE,
          *     options = listOf(
          *         ContentFormat.CBOR,
-         *         ExperimentalUseOption(65011, byteArrayOf(0x01, 0x02, 0xDE)),
+         *         ExperimentalUse(65011, byteArrayOf(0x01, 0x02, 0xDE)),
          *     ),
          *     payload = <CBOR>,
          * )
@@ -263,7 +263,7 @@ class DecodingTest {
                   "token": 51966,
                   "options": [
                     "Content-Format: application/cbor",
-                    "ExperimentalUseOption(number=65011, value=01 02 DE)"
+                    "ExperimentalUse(number=65011, value=01 02 DE)"
                   ]
                 }
 

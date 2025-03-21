@@ -243,12 +243,12 @@ public final class com/juul/koap/Message$Option$ETag : com/juul/koap/Message$Opt
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/juul/koap/Message$Option$ExperimentalUseOption : com/juul/koap/Message$Option {
+public final class com/juul/koap/Message$Option$ExperimentalUse : com/juul/koap/Message$Option {
 	public fun <init> (I[B)V
 	public final fun component1 ()I
 	public final fun component2 ()[B
-	public final fun copy (I[B)Lcom/juul/koap/Message$Option$ExperimentalUseOption;
-	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ExperimentalUseOption;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$ExperimentalUseOption;
+	public final fun copy (I[B)Lcom/juul/koap/Message$Option$ExperimentalUse;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ExperimentalUse;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$ExperimentalUse;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getNumber ()I
 	public final fun getValue ()[B
@@ -410,12 +410,12 @@ public final class com/juul/koap/Message$Option$ProxyUri : com/juul/koap/Message
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/juul/koap/Message$Option$ReservedOption : com/juul/koap/Message$Option {
+public final class com/juul/koap/Message$Option$Reserved : com/juul/koap/Message$Option {
 	public fun <init> (I[B)V
 	public final fun component1 ()I
 	public final fun component2 ()[B
-	public final fun copy (I[B)Lcom/juul/koap/Message$Option$ReservedOption;
-	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$ReservedOption;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$ReservedOption;
+	public final fun copy (I[B)Lcom/juul/koap/Message$Option$Reserved;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Reserved;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$Reserved;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getNumber ()I
 	public final fun getValue ()[B
@@ -434,12 +434,12 @@ public final class com/juul/koap/Message$Option$Size1 : com/juul/koap/Message$Op
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/juul/koap/Message$Option$UnassignedOption : com/juul/koap/Message$Option {
+public final class com/juul/koap/Message$Option$Unassigned : com/juul/koap/Message$Option {
 	public fun <init> (I[B)V
 	public final fun component1 ()I
 	public final fun component2 ()[B
-	public final fun copy (I[B)Lcom/juul/koap/Message$Option$UnassignedOption;
-	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$UnassignedOption;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$UnassignedOption;
+	public final fun copy (I[B)Lcom/juul/koap/Message$Option$Unassigned;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Unassigned;I[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$Unassigned;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getNumber ()I
 	public final fun getValue ()[B

@@ -5,9 +5,9 @@ import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
-import com.juul.koap.Message.Option.ExperimentalUseOption
-import com.juul.koap.Message.Option.ReservedOption
-import com.juul.koap.Message.Option.UnassignedOption
+import com.juul.koap.Message.Option.ExperimentalUse
+import com.juul.koap.Message.Option.Reserved
+import com.juul.koap.Message.Option.Unassigned
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -151,7 +151,7 @@ class DecoderTest {
                 E3 11 27 # Option Delta: 0x1234, Option Length: 3
                 01 02 03 # Option Value: 0x01, 0x02, 0x03
             """,
-            expected = UnassignedOption(0x1234, byteArrayOf(0x01, 0x02, 0x03)),
+            expected = Unassigned(0x1234, byteArrayOf(0x01, 0x02, 0x03)),
         )
     }
 
@@ -162,7 +162,7 @@ class DecoderTest {
                 D3 7F    # Option Delta: 140, Option Length: 3
                 61 62 63 # Option Value: 0x61, 0x62, 0x63
             """,
-            expected = ReservedOption(140, byteArrayOf(0x61, 0x62, 0x63)),
+            expected = Reserved(140, byteArrayOf(0x61, 0x62, 0x63)),
         )
     }
 
@@ -173,7 +173,7 @@ class DecoderTest {
                 E3 FC DE # Option Delta: 65003, Option Length: 3
                 41 42 43 # Option Value: 0x41, 0x42, 0x43
             """,
-            expected = ExperimentalUseOption(65003, byteArrayOf(0x41, 0x42, 0x43)),
+            expected = ExperimentalUse(65003, byteArrayOf(0x41, 0x42, 0x43)),
         )
     }
 

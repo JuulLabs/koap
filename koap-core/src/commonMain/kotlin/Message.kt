@@ -110,22 +110,22 @@ sealed class Message {
             ) : Format()
         }
 
-        data class UnassignedOption(
+        data class Unassigned(
             val number: Int,
             val value: ByteArray,
         ) : Option() {
             init {
                 require(when (number) { 0, 128, 132, 136, 140 -> false else -> true }) {
-                    "Option number ${number} is a reserved option number 0, 128, 132, 136, or 140. Use ReservedOption."
+                    "Option number ${number} is a reserved option number 0, 128, 132, 136, or 140. Use Reserved."
                 }
                 require(!(number in EXPERIMENTAL_USE_OPTION_RANGE)) {
                     "Option number ${number} is inside the experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE."+
-                    " Use ExperimentalUseOption."
+                    " Use ExperimentalUse."
                 }
             }
             override fun equals(other: Any?): Boolean =
                 this === other ||
-                    (other is UnassignedOption && number == other.number && value.contentEquals(other.value))
+                    (other is Unassigned && number == other.number && value.contentEquals(other.value))
 
             override fun hashCode(): Int {
                 var result = number
@@ -135,7 +135,7 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.7. Location-Path and Location-Query reserved option numbers, and zero */
-        data class ReservedOption(
+        data class Reserved(
             val number: Int,
             val value: ByteArray,
         ) : Option() {
@@ -146,7 +146,7 @@ sealed class Message {
             }
             override fun equals(other: Any?): Boolean =
                 this === other ||
-                        (other is ReservedOption && number == other.number && value.contentEquals(other.value))
+                        (other is Reserved && number == other.number && value.contentEquals(other.value))
 
             override fun hashCode(): Int {
                 var result = number
@@ -156,7 +156,7 @@ sealed class Message {
         }
 
         /** RFC 7252 12.2. CoAP Option Numbers Registry, Table 8, Experimental use */
-        data class ExperimentalUseOption(
+        data class ExperimentalUse(
             val number: Int,
             val value: ByteArray,
         ) : Option() {
@@ -167,7 +167,7 @@ sealed class Message {
             }
             override fun equals(other: Any?): Boolean =
                 this === other ||
-                        (other is ExperimentalUseOption && number == other.number && value.contentEquals(other.value))
+                        (other is ExperimentalUse && number == other.number && value.contentEquals(other.value))
 
             override fun hashCode(): Int {
                 var result = number
