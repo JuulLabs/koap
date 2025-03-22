@@ -6,6 +6,7 @@ import com.juul.koap.Message.Option.Block.Size.Bert
 import com.juul.koap.Message.Option.Block1
 import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.Edhoc
 import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response4xx
@@ -13,6 +14,7 @@ import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response5xx
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
+import com.juul.koap.Message.Option.Oscore
 import com.juul.koap.Message.Option.QBlock1
 import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
@@ -250,6 +252,38 @@ class DecoderTest {
                 A7    # Option Value: 3<<4 | 0x0 | 7
             """,
             expected = Block1(10, false, Bert),
+        )
+    }
+
+    @Test
+    fun decodeOscoreOptionWithEmptyCoseObject() {
+        testReadOption(
+            encoded = """
+                90 # Option Delta: 9, Option Length: 0
+            """,
+            expected = Oscore(byteArrayOf()),
+        )
+    }
+
+    @Test
+    fun decodeOscoreOptionWithSampleCoseObject() {
+        // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.6 Test Vector 6
+        testReadOption(
+            encoded = """
+                9b                               # Option Delta: 9, Option Length: 11
+                19 14 08 37 CB F3 21 00 17 A2 D3 # Option Value: (COSE object)
+            """,
+            expected = Oscore("19140837CBF3210017A2D3".decodeHex().toByteArray()),
+        )
+    }
+
+    @Test
+    fun decodeEdhocOption() {
+        testReadOption(
+            encoded = """
+                D0 08 # Option Delta: 21, Option Length: 0
+            """,
+            expected = Edhoc,
         )
     }
 

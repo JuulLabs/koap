@@ -7,6 +7,7 @@ import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
 import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.Edhoc
 import com.juul.koap.Message.Option.Format
 import com.juul.koap.Message.Option.Format.empty
 import com.juul.koap.Message.Option.Format.opaque
@@ -20,6 +21,7 @@ import com.juul.koap.Message.Option.LocationQuery
 import com.juul.koap.Message.Option.MaxAge
 import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.Observe
+import com.juul.koap.Message.Option.Oscore
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
 import com.juul.koap.Message.Option.QBlock1
@@ -43,6 +45,7 @@ internal fun Option.toFormat(): Format =
         is Observe -> uint(6, option.value)
         is UriPort -> uint(7, option.port)
         is LocationPath -> string(8, option.uri)
+        is Oscore -> opaque(9, option.coseObject)
         is UriPath -> string(11, option.uri)
         is ContentFormat -> uint(12, option.format)
         is MaxAge -> uint(14, option.seconds)
@@ -51,6 +54,7 @@ internal fun Option.toFormat(): Format =
         is Accept -> uint(17, option.format)
         is QBlock1 -> uint(19, option.intValue.toLong())
         is LocationQuery -> string(20, option.uri)
+        is Edhoc -> empty(21)
         is Block2 -> uint(23, option.intValue.toLong())
         is Block1 -> uint(27, option.intValue.toLong())
         is Size2 -> uint(28, option.bytes)

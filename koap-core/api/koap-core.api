@@ -309,6 +309,11 @@ public final class com/juul/koap/Message$Option$Echo : com/juul/koap/Message$Opt
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/juul/koap/Message$Option$Edhoc : com/juul/koap/Message$Option {
+	public static final field INSTANCE Lcom/juul/koap/Message$Option$Edhoc;
+	public fun toString ()Ljava/lang/String;
+}
+
 public abstract class com/juul/koap/Message$Option$Format : com/juul/koap/Message$Option {
 	public abstract fun getNumber ()I
 }
@@ -471,6 +476,17 @@ public final class com/juul/koap/Message$Option$Observe$Registration$Deregister 
 public final class com/juul/koap/Message$Option$Observe$Registration$Register : com/juul/koap/Message$Option$Observe$Registration {
 	public static final field INSTANCE Lcom/juul/koap/Message$Option$Observe$Registration$Register;
 	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Oscore : com/juul/koap/Message$Option {
+	public fun <init> ([B)V
+	public final fun component1 ()[B
+	public final fun copy ([B)Lcom/juul/koap/Message$Option$Oscore;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Oscore;[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$Oscore;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCoseObject ()[B
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
