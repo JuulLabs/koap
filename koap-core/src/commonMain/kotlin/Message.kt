@@ -389,6 +389,7 @@ sealed class Message {
             val value: Long,
         ) : Option() {
 
+            /** [RFC 7967 2.1. Granular Control over Response Suppression](https://tools.ietf.org/html/rfc7967#section-2.1) */
             @Suppress("ktlint:standard:no-multi-spaces")
             enum class NotInterestedIn(
                 val value: Int,
