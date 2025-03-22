@@ -4,11 +4,13 @@ import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Accept
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.Echo
 import com.juul.koap.Message.Option.Format
 import com.juul.koap.Message.Option.Format.empty
 import com.juul.koap.Message.Option.Format.opaque
 import com.juul.koap.Message.Option.Format.string
 import com.juul.koap.Message.Option.Format.uint
+import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.LocationPath
@@ -18,6 +20,7 @@ import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
@@ -39,10 +42,13 @@ internal fun Option.toFormat(): Format =
         is ContentFormat -> uint(12, option.format)
         is MaxAge -> uint(14, option.seconds)
         is UriQuery -> string(15, option.uri)
+        is HopLimit -> uint(16, option.hops)
         is Accept -> uint(17, option.format)
         is LocationQuery -> string(20, option.uri)
         is ProxyUri -> string(35, option.uri)
         is ProxyScheme -> string(39, option.uri)
         is Size1 -> uint(60, option.bytes)
+        is Echo -> opaque(252, option.value)
         is NoResponse -> uint(258, option.value)
+        is RequestTag -> opaque(292, option.tag)
     }

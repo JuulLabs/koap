@@ -29,7 +29,9 @@ import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Accept
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.Echo
 import com.juul.koap.Message.Option.Format
+import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.LocationPath
@@ -39,6 +41,7 @@ import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
@@ -402,12 +405,15 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         12 -> ContentFormat(readNumberOfLength(length))
         14 -> MaxAge(readNumberOfLength(length))
         15 -> UriQuery(readUtf8(length))
+        16 -> HopLimit(readNumberOfLength(length))
         17 -> Accept(readNumberOfLength(length))
         20 -> LocationQuery(readUtf8(length))
         35 -> ProxyUri(readUtf8(length))
         39 -> ProxyScheme(readUtf8(length))
         60 -> Size1(readNumberOfLength(length))
+        252 -> Echo(readByteArray(length))
         258 -> NoResponse(readNumberOfLength(length))
+        292 -> RequestTag(readByteArray(length))
         else -> error("Unsupported option number $number")
     }
 }

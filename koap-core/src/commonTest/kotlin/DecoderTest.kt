@@ -2,12 +2,15 @@ package com.juul.koap.test
 
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
+import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response4xx
 import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response5xx
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
+import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -162,6 +165,39 @@ class DecoderTest {
                 01 # Option Value: 1 (Deregister)
             """,
             expected = Observe(Deregister),
+        )
+    }
+
+    @Test
+    fun decodeHopLimit() {
+        testReadOption(
+            encoded = """
+                D1 03 # Option Delta: 16, Option Length: 1
+                21    # Option Value: 33
+            """,
+            expected = HopLimit(33),
+        )
+    }
+
+    @Test
+    fun decodeEcho() {
+        testReadOption(
+            encoded = """
+                D9 EF                      # Option Delta: 252, Option Length: 9
+                01 02 03 04 05 06 07 08 09 # Option Value: 1 2 3 4 5 6 7 8 9
+            """,
+            expected = Echo(byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9)),
+        )
+    }
+
+    @Test
+    fun decodeRequestTag() {
+        testReadOption(
+            encoded = """
+                E5 00 17       # Option Delta: 292, Option Length: 3
+                01 02 03 04 05 # Option Value: 1 2 3 4 5
+            """,
+            expected = RequestTag(byteArrayOf(1, 2, 3, 4, 5)),
         )
     }
 
