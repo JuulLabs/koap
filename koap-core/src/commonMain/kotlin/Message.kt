@@ -15,16 +15,26 @@ import com.juul.koap.Message.Option.Observe.Registration.Register
  * |   6 | Observe        | uint   | 0-3    | [RFC7641] Observing Resources |
  * |   7 | Uri-Port       | uint   | 0-2    | [RFC7252] CoAP                |
  * |   8 | Location-Path  | string | 0-255  | [RFC7252] CoAP                |
+ * |   9 | OSCORE         | opaque | 0-255  | [RFC8613] OSCORE              |
  * |  11 | Uri-Path       | string | 0-255  | [RFC7252] CoAP                |
  * |  12 | Content-Format | uint   | 0-2    | [RFC7252] CoAP                |
  * |  14 | Max-Age        | uint   | 0-4    | [RFC7252] CoAP                |
  * |  15 | Uri-Query      | string | 0-255  | [RFC7252] CoAP                |
+ * |  16 | Hop-Limit      | uint   | 1      | [RFC8768] Hop-Limit           |
  * |  17 | Accept         | uint   | 0-2    | [RFC7252] CoAP                |
+ * |  19 | Q-Block1       | uint   | 0-3    | [RFC9177] Block-wise robust   |
  * |  20 | Location-Query | string | 0-255  | [RFC7252] CoAP                |
+ * |  21 | EDHOC          | empty  | 0      | [RFC9668] EDHOC               |
+ * |  23 | Block2         | uint   | 0-3    | [RFC7959] Block-wise          |
+ * |  27 | Block1         | uint   | 0-3    | [RFC7959] Block-wise          |
+ * |  28 | Size2          | uint   | 0-4    | [RFC7959] Block-wise          |
+ * |  31 | Q-Block2       | uint   | 0-3    | [RFC9177] Block-wise robust   |
  * |  35 | Proxy-Uri      | string | 1-1034 | [RFC7252] CoAP                |
  * |  39 | Proxy-Scheme   | string | 1-255  | [RFC7252] CoAP                |
  * |  60 | Size1          | uint   | 0-4    | [RFC7252] CoAP                |
+ * | 252 | Echo           | opaque | 1-40   | [RFC9175] Echo, Request-Tag   |
  * | 258 | No-Response    | uint   | 0-1    | [RFC7967] No Server Response  |
+ * | 292 | Request-Tag    | opaque | 0-8    | [RFC9175] Echo, Request-Tag   |
  * +-----+----------------+--------+--------+-------------------------------+
  *
  * CoAP Option Numbers registry:
@@ -33,6 +43,14 @@ import com.juul.koap.Message.Option.Observe.Registration.Register
  * RFC links:
  * [RFC7252] https://tools.ietf.org/html/rfc7252#section-5.10 CoAP Table 4: Options
  * [RFC7641] https://tools.ietf.org/html/rfc7641#section-2 The Observe Option
+ * [RFC8613] https://tools.ietf.org/html/rfc8613#section-2 The OSCORE Option
+ * [RFC9668] https://tools.ietf.org/html/rfc9668#section-3.1 EDHOC Option
+ * [RFC8768] https://tools.ietf.org/html/rfc8768#section-3 Hop-Limit Option
+ * [RFC7959] https://tools.ietf.org/html/rfc7959#section-2.1 Block-Wise Block options
+ * [RFC7959] https://tools.ietf.org/html/rfc7959#section-4 Block-Wise Size options
+ * [RFC9177] https://tools.ietf.org/html/rfc9177#section-4 Block-Wise robust Q-Block1/2
+ * [RFC9175] https://tools.ietf.org/html/rfc9175#section-2.2.1 Echo Option
+ * [RFC9175] https://tools.ietf.org/html/rfc9175#section-3.2.1 Request-Tag Option
  * [RFC7967] https://tools.ietf.org/html/rfc7967#section-2 No-Response Option
  */
 private val IF_MATCH_SIZE_RANGE = 0..8
