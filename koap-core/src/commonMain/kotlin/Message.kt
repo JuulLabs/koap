@@ -384,10 +384,23 @@ sealed class Message {
             }
         }
 
-        /** [RFC 7967 Option for No Server Response](https://tools.ietf.org/html/rfc7967#section-2) */
+        /** [RFC 7967 2. Option Definition](https://tools.ietf.org/html/rfc7967#section-2) for no server response. */
         data class NoResponse(
             val value: Long,
         ) : Option() {
+
+            @Suppress("ktlint:standard:no-multi-spaces")
+            enum class NotInterestedIn(
+                val value: Int,
+            ) {
+                Response2xx(2),  // 0000_0010
+                Response4xx(8),  // 0000_1000
+                Response5xx(16), // 0001_0000
+            }
+
+            constructor(notInterestedIn: Set<NotInterestedIn>) : this(notInterestedIn.longValue)
+            constructor(vararg notInterestedIn: NotInterestedIn) : this(notInterestedIn.toSet())
+
             init {
                 require(value in NO_RESPONSE_RANGE) {
                     "NoResponse value of $value is outside allowable range of $NO_RESPONSE_RANGE"
@@ -595,6 +608,9 @@ private val Long.contentType: String
         60L -> "CBOR"
         else -> toString()
     }
+
+internal val Set<NoResponse.NotInterestedIn>.longValue: Long
+    get() = fold(0) { acc, notInterestedIn -> acc or notInterestedIn.value }.toLong()
 
 val Message.Code.Response.isSuccess: Boolean get() = `class` == 2
 val Message.Code.Response.isError: Boolean get() = `class` == 4 || `class` == 5

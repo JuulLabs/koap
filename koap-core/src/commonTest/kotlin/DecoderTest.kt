@@ -3,6 +3,8 @@ package com.juul.koap.test
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Option.NoResponse
+import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response4xx
+import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response5xx
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
@@ -117,7 +119,7 @@ class DecoderTest {
                 D1 F5 # Option Delta: 258, Option Length: 1
                 18    # Option Value: 24
             """,
-            expected = NoResponse(24),
+            expected = NoResponse(Response4xx, Response5xx),
         )
     }
 
@@ -127,7 +129,7 @@ class DecoderTest {
             encoded = """
                 D0 F5 # Option Delta: 258, Option Length: 0
             """,
-            expected = NoResponse(0),
+            expected = NoResponse(),
         )
     }
 
