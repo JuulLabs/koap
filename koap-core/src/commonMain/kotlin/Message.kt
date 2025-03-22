@@ -26,6 +26,12 @@ import com.juul.koap.Message.Option.Observe.Registration.Register
  * |  39 | Proxy-Scheme   | string | 1-255  | [RFC7252] CoAP                |
  * |  60 | Size1          | uint   | 0-4    | [RFC7252] CoAP                |
  * +-----+----------------+--------+--------+-------------------------------+
+ *
+ * CoAP Option Numbers registry:
+ * https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers
+ * RFC links:
+ * [RFC7252] https://tools.ietf.org/html/rfc7252#section-5.10 CoAP Table 4: Options
+ * [RFC7641] https://tools.ietf.org/html/rfc7641#section-2 The Observe Option
  */
 private val IF_MATCH_SIZE_RANGE = 0..8
 private val URI_HOST_LENGTH_RANGE = 1..255
