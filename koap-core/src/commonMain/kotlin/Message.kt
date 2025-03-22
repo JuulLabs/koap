@@ -3,8 +3,7 @@ package com.juul.koap
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
 
-/* RFC 7252 5.10. Table 4: Options
- * RFC 7641 2. The Observe Option (No. 6)
+/* CoAP Option Numbers: [RFC7252][IANA CoRE]
  *
  * +-----+----------------+--------+--------+-------------------------------+
  * | No. | Name           | Format | Length | RFC                           |
@@ -28,7 +27,8 @@ import com.juul.koap.Message.Option.Observe.Registration.Register
  * +-----+----------------+--------+--------+-------------------------------+
  *
  * CoAP Option Numbers registry:
- * https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers
+ * [RFC7275] https://tools.ietf.org/html/rfc7252#section-12.2 CoAP Option Numbers Registry
+ * [IANA CoRE] https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers
  * RFC links:
  * [RFC7252] https://tools.ietf.org/html/rfc7252#section-5.10 CoAP Table 4: Options
  * [RFC7641] https://tools.ietf.org/html/rfc7641#section-2 The Observe Option
