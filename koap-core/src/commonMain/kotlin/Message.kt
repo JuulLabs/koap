@@ -469,6 +469,15 @@ sealed class Message {
                     "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
                 }
             }
+
+            override fun toString(): String {
+                val reg = when (value) {
+                    0L -> "/Register"
+                    1L -> "/Deregister"
+                    else -> ""
+                }
+                return "Observe(value=$value$reg)"
+            }
         }
 
         interface Block {
