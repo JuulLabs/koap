@@ -6,26 +6,26 @@ import com.juul.koap.Message.Option.Observe.Registration.Register
 /* RFC 7252 5.10. Table 4: Options
  * RFC 7641 2. The Observe Option (No. 6)
  *
- * +-----+----------------+--------+--------+
- * | No. | Name           | Format | Length |
- * +-----+----------------+--------+--------+
- * |   1 | If-Match       | opaque | 0-8    |
- * |   3 | Uri-Host       | string | 1-255  |
- * |   4 | ETag           | opaque | 1-8    |
- * |   5 | If-None-Match  | empty  | 0      |
- * |   6 | Observe        | uint   | 0-3    |
- * |   7 | Uri-Port       | uint   | 0-2    |
- * |   8 | Location-Path  | string | 0-255  |
- * |  11 | Uri-Path       | string | 0-255  |
- * |  12 | Content-Format | uint   | 0-2    |
- * |  14 | Max-Age        | uint   | 0-4    |
- * |  15 | Uri-Query      | string | 0-255  |
- * |  17 | Accept         | uint   | 0-2    |
- * |  20 | Location-Query | string | 0-255  |
- * |  35 | Proxy-Uri      | string | 1-1034 |
- * |  39 | Proxy-Scheme   | string | 1-255  |
- * |  60 | Size1          | uint   | 0-4    |
- * +-----+----------------+--------+--------+
+ * +-----+----------------+--------+--------+-------------------------------+
+ * | No. | Name           | Format | Length | RFC                           |
+ * +-----+----------------+--------+--------+-------------------------------+
+ * |   1 | If-Match       | opaque | 0-8    | [RFC7252] CoAP                |
+ * |   3 | Uri-Host       | string | 1-255  | [RFC7252] CoAP                |
+ * |   4 | ETag           | opaque | 1-8    | [RFC7252] CoAP                |
+ * |   5 | If-None-Match  | empty  | 0      | [RFC7252] CoAP                |
+ * |   6 | Observe        | uint   | 0-3    | [RFC7641] Observing Resources |
+ * |   7 | Uri-Port       | uint   | 0-2    | [RFC7252] CoAP                |
+ * |   8 | Location-Path  | string | 0-255  | [RFC7252] CoAP                |
+ * |  11 | Uri-Path       | string | 0-255  | [RFC7252] CoAP                |
+ * |  12 | Content-Format | uint   | 0-2    | [RFC7252] CoAP                |
+ * |  14 | Max-Age        | uint   | 0-4    | [RFC7252] CoAP                |
+ * |  15 | Uri-Query      | string | 0-255  | [RFC7252] CoAP                |
+ * |  17 | Accept         | uint   | 0-2    | [RFC7252] CoAP                |
+ * |  20 | Location-Query | string | 0-255  | [RFC7252] CoAP                |
+ * |  35 | Proxy-Uri      | string | 1-1034 | [RFC7252] CoAP                |
+ * |  39 | Proxy-Scheme   | string | 1-255  | [RFC7252] CoAP                |
+ * |  60 | Size1          | uint   | 0-4    | [RFC7252] CoAP                |
+ * +-----+----------------+--------+--------+-------------------------------+
  */
 private val IF_MATCH_SIZE_RANGE = 0..8
 private val URI_HOST_LENGTH_RANGE = 1..255
