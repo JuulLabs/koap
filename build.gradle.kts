@@ -6,7 +6,6 @@ buildscript {
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
-    alias(libs.plugins.kotlin.js) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.maven.publish) apply false
@@ -39,13 +38,14 @@ apiValidation {
     klib {
         enabled = true
     }
+    ignoredProjects += "webapp"
 }
 
 task<Copy>("assembleGitHubPages") {
     description = "Generates static web site for GitHub Pages."
     group = "Build"
 
-    dependsOn(":webapp:browserDistribution", ":koap-core:dokkaHtml")
+    dependsOn(":webapp:jsBrowserDistribution", ":koap-core:dokkaHtml")
 
     into("$buildDir/gh-pages")
     from("${project(":webapp").buildDir}/dist/js/productionExecutable") {

@@ -1,5 +1,5 @@
 plugins {
-    kotlin("js")
+    kotlin("multiplatform")
     kotlin("plugin.serialization")
 }
 
@@ -10,7 +10,7 @@ kotlin {
     }
 
     sourceSets {
-        val main by getting {
+        val jsMain by getting {
             dependencies {
                 implementation(project(":koap-core"))
                 implementation(libs.kotlinx.coroutines.js)
@@ -23,7 +23,7 @@ kotlin {
             }
         }
 
-        val test by getting {
+        val jsTest by getting {
             dependencies {
                 implementation(kotlin("test-js"))
             }
