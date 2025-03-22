@@ -296,7 +296,7 @@ sealed class Message {
 
             override fun hashCode(): Int = etag.contentHashCode()
 
-            override fun toString(): String = "ETag(etag=${etag.toHexString()}"
+            override fun toString(): String = "ETag(etag=${etag.toHexString()})"
         }
 
         /** RFC 7252 5.10.7. Location-Path and Location-Query */
@@ -336,7 +336,7 @@ sealed class Message {
 
             override fun hashCode(): Int = etag.contentHashCode()
 
-            override fun toString(): String = "IfMatch(etag=${etag.toHexString()}"
+            override fun toString(): String = "IfMatch(etag=${etag.toHexString()})"
         }
 
         /** RFC 7252 5.10.8.2. If-None-Match */
