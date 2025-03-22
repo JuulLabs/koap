@@ -33,8 +33,9 @@ private val ACCEPT_RANGE = USHORT_RANGE
 private val LOCATION_QUERY_LENGTH_RANGE = 0..255
 private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
-private val SIZE1_RANGE = UINT_RANGE
+private val SIZE1_SIZE2_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
+private val BLOCK_RANGE = 0..16_777_215 // 3-byte unsigned int
 private val HOP_LIMIT_RANGE = 1..255
 private val ECHO_SIZE_RANGE = 1..40
 private val REQUEST_TAG_SIZE_RANGE = 0..8
@@ -86,13 +87,13 @@ sealed class Message {
      * |  15 | [Uri-Query][UriQuery]           | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
      * |  16 | [Hop-Limit][HopLimit]           | uint   | 1      | [RFC 8768](https://tools.ietf.org/html/rfc8768#section-3) Hop-Limit 3                    |
      * |  17 | [Accept][Accept]                | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.4) CoAP 5.10.4               |
-     * |  19 | Q-Block1                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
+     * |  19 | [Q-Block1][QBlock1]             | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
      * |  20 | [Location-Query][LocationQuery] | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
      * |  21 | EDHOC                           | empty  | 0      | [RFC 9668](https://tools.ietf.org/html/rfc9668#section-3.1) EDHOC 3.1                    |
-     * |  23 | Block2                          | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
-     * |  27 | Block1                          | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
-     * |  28 | Size2                           | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4                   |
-     * |  31 | Q-Block2                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
+     * |  23 | [Block2]                        | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
+     * |  27 | [Block1]                        | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
+     * |  28 | [Size2]                         | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4                   |
+     * |  31 | [Q-Block2][QBlock2]             | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
      * |  35 | [Proxy-Uri][ProxyUri]           | string | 1-1034 | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
      * |  39 | [Proxy-Scheme][ProxyScheme]     | string | 1-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
      * |  60 | [Size1][Size1]                  | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4 (and CoAP 5.10.9) |
@@ -340,8 +341,19 @@ sealed class Message {
             val bytes: Long,
         ) : Option() {
             init {
-                require(bytes in SIZE1_RANGE) {
-                    "Size1 of $bytes is outside allowable range of $SIZE1_RANGE"
+                require(bytes in SIZE1_SIZE2_RANGE) {
+                    "Size1 of $bytes is outside allowable range of $SIZE1_SIZE2_RANGE"
+                }
+            }
+        }
+
+        /** RFC 7959 4. The Size2 and Size1 Options */
+        data class Size2(
+            val bytes: Long,
+        ) : Option() {
+            init {
+                require(bytes in SIZE1_SIZE2_RANGE) {
+                    "Size1 of $bytes is outside allowable range of $SIZE1_SIZE2_RANGE"
                 }
             }
         }
@@ -384,6 +396,93 @@ sealed class Message {
                 require(value in OBSERVE_RANGE) {
                     "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
                 }
+            }
+        }
+
+        companion object {
+            fun numMSzx(blockNumber: Long, more: Boolean, blockSize: Int): Long =
+                (blockNumber shl 4) or (if (more) 0x08 else 0) or szx(blockSize)
+
+            fun szx(blockSize: Int): Long = when (blockSize) {
+                16 -> 0
+                32 -> 1
+                64 -> 2
+                128 -> 3
+                256 -> 4
+                512 -> 5
+                1024 -> 6
+                -1 -> 7 // use blockSize -1 for BERT blocks
+                // https://datatracker.ietf.org/doc/html/rfc8323#section-6
+                // https://datatracker.ietf.org/doc/html/draft-bormann-core-block-bert-00#section-2
+                else -> throw IllegalArgumentException("Invalid block size: $blockSize")
+            }
+
+            fun blockNumber(numMSzx: Long) = numMSzx shr 4
+            fun more(numMSzx: Long) = (numMSzx and 0x08) != 0L
+            fun blockSize(numMSzx: Long) = if ((numMSzx and 0x07) != 7L) 16 shl (numMSzx and 0x07).toInt() else -1
+        }
+
+        /** RFC 7959 2.1. The Block2 and Block1 Options */
+        data class Block1(
+            val blockNumber: Long,
+            val more: Boolean,
+            val blockSize: Int,
+        ) : Option() {
+            init {
+                val numMSzx = numMSzx(blockNumber, more, blockSize)
+                require(numMSzx in BLOCK_RANGE) {
+                    "Uri-Port value of $numMSzx is outside allowable range of $BLOCK_RANGE"
+                }
+            }
+            constructor(numMSzx: Long) : this(blockNumber(numMSzx), more(numMSzx), blockSize(numMSzx)) {
+            }
+        }
+
+        /** RFC 7959 2.1. The Block2 and Block1 Options */
+        data class Block2(
+            val blockNumber: Long,
+            val more: Boolean,
+            val blockSize: Int,
+        ) : Option() {
+            init {
+                val numMSzx = numMSzx(blockNumber, more, blockSize)
+                require(numMSzx in BLOCK_RANGE) {
+                    "Uri-Port value of $numMSzx is outside allowable range of $BLOCK_RANGE"
+                }
+            }
+            constructor(numMSzx: Long) : this(blockNumber(numMSzx), more(numMSzx), blockSize(numMSzx)) {
+            }
+        }
+
+        /** RFC 9177 4. The Q-Block1 and Q-Block2 Options */
+        data class QBlock1(
+            val blockNumber: Long,
+            val more: Boolean,
+            val blockSize: Int,
+        ) : Option() {
+            init {
+                val numMSzx = numMSzx(blockNumber, more, blockSize)
+                require(numMSzx in BLOCK_RANGE) {
+                    "Uri-Port value of $numMSzx is outside allowable range of $BLOCK_RANGE"
+                }
+            }
+            constructor(numMSzx: Long) : this(blockNumber(numMSzx), more(numMSzx), blockSize(numMSzx)) {
+            }
+        }
+
+        /** RFC 9177 4. The Q-Block1 and Q-Block2 Options */
+        data class QBlock2(
+            val blockNumber: Long,
+            val more: Boolean,
+            val blockSize: Int,
+        ) : Option() {
+            init {
+                val numMSzx = numMSzx(blockNumber, more, blockSize)
+                require(numMSzx in BLOCK_RANGE) {
+                    "Uri-Port value of $numMSzx is outside allowable range of $BLOCK_RANGE"
+                }
+            }
+            constructor(numMSzx: Long) : this(blockNumber(numMSzx), more(numMSzx), blockSize(numMSzx)) {
             }
         }
 

@@ -2,6 +2,8 @@ package com.juul.koap.test
 
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
+import com.juul.koap.Message.Option.Block1
+import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.Echo
 import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.NoResponse
@@ -10,7 +12,11 @@ import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response5xx
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
+import com.juul.koap.Message.Option.QBlock1
+import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
+import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.Size2
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -165,6 +171,83 @@ class DecoderTest {
                 01 # Option Value: 1 (Deregister)
             """,
             expected = Observe(Deregister),
+        )
+    }
+
+    @Test
+    fun decodeSize1Option() {
+        testReadOption(
+            encoded = """
+                D4 2F       # Option Delta: 60, Option Length: 1
+                01 02 03 04 # Option Value: 16909060
+            """,
+            expected = Size1(16909060),
+        )
+    }
+
+    @Test
+    fun decodeSize2Option() {
+        testReadOption(
+            encoded = """
+                D4 0F       # Option Delta: 28, Option Length: 2
+                FF FE FD FC # Option Value: 4294901244
+            """,
+            expected = Size2(4294901244),
+        )
+    }
+
+    @Test
+    fun decodeBlock1Option() {
+        testReadOption(
+            encoded = """
+                D1 0E # Option Delta: 27, Option Length: 1
+                AB    # Option Value: 3<<4 | 0x8 | 3
+            """,
+            expected = Block1(10, true, 128),
+        )
+    }
+
+    @Test
+    fun decodeBlock2Option() {
+        testReadOption(
+            encoded = """
+                D2 0A # Option Delta: 23, Option Length: 2
+                AB CD # Option Value: 2748<<4 | 0x8 | 5
+            """,
+            expected = Block2(2748, true, 512),
+        )
+    }
+
+    @Test
+    fun decodeQBlock1Option() {
+        testReadOption(
+            encoded = """
+                D2 06 # Option Delta: 19, Option Length: 1
+                12 34 # Option Value: 291<<4 | 0x0 | 4
+            """,
+            expected = QBlock1(291, false, 256),
+        )
+    }
+
+    @Test
+    fun decodeQBlock2Option() {
+        testReadOption(
+            encoded = """
+                D3 12       # Option Delta: 31, Option Length: 1
+                12 34 78    # Option Value: 74567<<4 | 0x8 | 0
+            """,
+            expected = QBlock2(74567, true, 16),
+        )
+    }
+
+    @Test
+    fun decodeBertBlock1Option() {
+        testReadOption(
+            encoded = """
+                D1 0E # Option Delta: 27, Option Length: 1
+                A7    # Option Value: 3<<4 | 0x0 | 7
+            """,
+            expected = Block1(10, false, -1),
         )
     }
 
