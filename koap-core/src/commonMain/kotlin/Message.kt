@@ -67,35 +67,35 @@ sealed class Message {
     /**
      * [CoAP Option Numbers](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers):
      *
-     * | No. | Name                            | Format | Length | Proposed Standard                                                         |
-     * |----:|---------------------------------|--------|--------|---------------------------------------------------------------------------|
-     * |   1 | [If-Match][IfMatch]             | opaque | 0-8    | [RFC 7252 5.10.8.1](https://tools.ietf.org/html/rfc7252#section-5.10.8.1) |
-     * |   3 | [Uri-Host][UriHost]             | string | 1-255  | [RFC 7252 5.10.1](https://tools.ietf.org/html/rfc7252#section-5.10.1)     |
-     * |   4 | [ETag][ETag]                    | opaque | 1-8    | [RFC 7252 5.10.6](https://tools.ietf.org/html/rfc7252#section-5.10.6)     |
-     * |   5 | [If-None-Match][IfNoneMatch]    | empty  | 0      | [RFC 7252 5.10.8.2](https://tools.ietf.org/html/rfc7252#section-5.10.8.2) |
-     * |   6 | [Observe][Observe]              | uint   | 0-3    | [RFC 7641 2](https://tools.ietf.org/html/rfc7641#section-2)               |
-     * |   7 | [Uri-Port][UriPort]             | uint   | 0-2    | [RFC 7252 5.10.1](https://tools.ietf.org/html/rfc7252#section-5.10.1)     |
-     * |   8 | [Location-Path][LocationPath]   | string | 0-255  | [RFC 7252 5.10.7](https://tools.ietf.org/html/rfc7252#section-5.10.7)     |
-     * |   9 | OSCORE                          | opaque | 0-255  | [RFC 8613 2](https://tools.ietf.org/html/rfc8613#section-2)               |
-     * |  11 | [Uri-Path][UriPath]             | string | 0-255  | [RFC 7252 5.10.1](https://tools.ietf.org/html/rfc7252#section-5.10.1)     |
-     * |  12 | [Content-Format][ContentFormat] | uint   | 0-2    | [RFC 7252 5.10.3](https://tools.ietf.org/html/rfc7252#section-5.10.3)     |
-     * |  14 | [Max-Age][MaxAge]               | uint   | 0-4    | [RFC 7252 5.10.5](https://tools.ietf.org/html/rfc7252#section-5.10.5)     |
-     * |  15 | [Uri-Query][UriQuery]           | string | 0-255  | [RFC 7252 5.10.1](https://tools.ietf.org/html/rfc7252#section-5.10.1)     |
-     * |  16 | Hop-Limit                       | uint   | 1      | [RFC 8768 3](https://tools.ietf.org/html/rfc8768#section-3)               |
-     * |  17 | [Accept][Accept]                | uint   | 0-2    | [RFC 7252 5.10.4](https://tools.ietf.org/html/rfc7252#section-5.10.4)     |
-     * |  19 | Q-Block1                        | uint   | 0-3    | [RFC 9177 4](https://tools.ietf.org/html/rfc9177#section-4)               |
-     * |  20 | [Location-Query][LocationQuery] | string | 0-255  | [RFC 7252 5.10.7](https://tools.ietf.org/html/rfc7252#section-5.10.7)     |
-     * |  21 | EDHOC                           | empty  | 0      | [RFC 9668 3.1](https://tools.ietf.org/html/rfc9668#section-3.1)           |
-     * |  23 | Block2                          | uint   | 0-3    | [RFC 7959 2.1](https://tools.ietf.org/html/rfc7959#section-2.1)           |
-     * |  27 | Block1                          | uint   | 0-3    | [RFC 7959 2.1](https://tools.ietf.org/html/rfc7959#section-2.1)           |
-     * |  28 | Size2                           | uint   | 0-4    | [RFC 7959 4](https://tools.ietf.org/html/rfc7959#section-4)               |
-     * |  31 | Q-Block2                        | uint   | 0-3    | [RFC 9177 4](https://tools.ietf.org/html/rfc9177#section-4)               |
-     * |  35 | [Proxy-Uri][ProxyUri]           | string | 1-1034 | [RFC 7252 5.10.2](https://tools.ietf.org/html/rfc7252#section-5.10.2)     |
-     * |  39 | [Proxy-Scheme][ProxyScheme]     | string | 1-255  | [RFC 7252 5.10.2](https://tools.ietf.org/html/rfc7252#section-5.10.2)     |
-     * |  60 | [Size1][Size1]                  | uint   | 0-4    | [RFC 7959 4](https://tools.ietf.org/html/rfc7959#section-4)               |
-     * | 252 | Echo                            | opaque | 1-40   | [RFC 9175 2.2.1](https://tools.ietf.org/html/rfc9175#section-2.2.1)       |
-     * | 258 | [No-Response][NoResponse]       | uint   | 0-1    | [RFC 7967 2](https://tools.ietf.org/html/rfc7967#section-2)               |
-     * | 292 | Request-Tag                     | opaque | 0-8    | [RFC 9175 3.2.1](https://tools.ietf.org/html/rfc9175#section-3.2.1)       |
+     * | No. | Name                            | Format | Length | Proposed Standard                                                                        |
+     * |----:|---------------------------------|--------|--------|------------------------------------------------------------------------------------------|
+     * |   1 | [If-Match][IfMatch]             | opaque | 0-8    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.8.1) CoAP 5.10.8.1           |
+     * |   3 | [Uri-Host][UriHost]             | string | 1-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
+     * |   4 | [ETag][ETag]                    | opaque | 1-8    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.6) CoAP 5.10.6               |
+     * |   5 | [If-None-Match][IfNoneMatch]    | empty  | 0      | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.8.2) CoAP 5.10.8.2           |
+     * |   6 | [Observe][Observe]              | uint   | 0-3    | [RFC 7641](https://tools.ietf.org/html/rfc7641#section-2) Observing Resources 2          |
+     * |   7 | [Uri-Port][UriPort]             | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
+     * |   8 | [Location-Path][LocationPath]   | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
+     * |   9 | OSCORE                          | opaque | 0-255  | [RFC 8613](https://tools.ietf.org/html/rfc8613#section-2) OSCORE 2                       |
+     * |  11 | [Uri-Path][UriPath]             | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
+     * |  12 | [Content-Format][ContentFormat] | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.3) CoAP 5.10.3               |
+     * |  14 | [Max-Age][MaxAge]               | uint   | 0-4    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.5) CoAP 5.10.5               |
+     * |  15 | [Uri-Query][UriQuery]           | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
+     * |  16 | Hop-Limit                       | uint   | 1      | [RFC 8768](https://tools.ietf.org/html/rfc8768#section-3) Hop-Limit 3                    |
+     * |  17 | [Accept][Accept]                | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.4) CoAP 5.10.4               |
+     * |  19 | Q-Block1                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
+     * |  20 | [Location-Query][LocationQuery] | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
+     * |  21 | EDHOC                           | empty  | 0      | [RFC 9668](https://tools.ietf.org/html/rfc9668#section-3.1) EDHOC 3.1                    |
+     * |  23 | Block2                          | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
+     * |  27 | Block1                          | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
+     * |  28 | Size2                           | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4                   |
+     * |  31 | Q-Block2                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
+     * |  35 | [Proxy-Uri][ProxyUri]           | string | 1-1034 | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
+     * |  39 | [Proxy-Scheme][ProxyScheme]     | string | 1-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
+     * |  60 | [Size1][Size1]                  | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4 (and CoAP 5.10.9) |
+     * | 252 | Echo                            | opaque | 1-40   | [RFC 9175](https://tools.ietf.org/html/rfc9175#section-2.2.1) Echo, Request-Tag 2.2.1    |
+     * | 258 | [No-Response][NoResponse]       | uint   | 0-1    | [RFC 7967](https://tools.ietf.org/html/rfc7967#section-2) No Server Response 2           |
+     * | 292 | Request-Tag                     | opaque | 0-8    | [RFC 9175](https://tools.ietf.org/html/rfc9175#section-3.2.1) Echo, Request-Tag 3.2.1    |
      */
     @Suppress("ClassName") // Names defined to match RFC.
     sealed class Option {
