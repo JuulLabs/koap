@@ -3,6 +3,10 @@ package com.juul.koap.test
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
+import com.juul.koap.Message.Option.NoResponse
+import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response2xx
+import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response4xx
+import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response5xx
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
@@ -284,6 +288,27 @@ class EncoderTest {
             token = Long.MIN_VALUE,
             expectedSize = 8,
             expectedHex = "80 00 00 00 00 00 00 00",
+        )
+    }
+
+    @Test
+    fun writeNoResponse2xx4xx5xxOption() {
+        testWriteOption(
+            option = NoResponse(Response2xx, Response4xx, Response5xx),
+            expected = """
+                D1 F5 # Option Delta: 258, Option Length: 1
+                1A    # Option Value: 26
+            """,
+        )
+    }
+
+    @Test
+    fun writeNoResponseEmptyOption() {
+        testWriteOption(
+            option = NoResponse(),
+            expected = """
+                D0 F5 # Option Delta: 258, Option Length: 0 (Option Value of 0 is implied)
+            """,
         )
     }
 

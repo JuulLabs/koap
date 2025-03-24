@@ -6,7 +6,6 @@ buildscript {
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
-    alias(libs.plugins.kotlin.js) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.maven.publish) apply false
@@ -39,21 +38,22 @@ apiValidation {
     klib {
         enabled = true
     }
+    ignoredProjects += "webapp"
 }
 
-task<Copy>("assembleGitHubPages") {
+tasks.register<Copy>("assembleGitHubPages") {
     description = "Generates static web site for GitHub Pages."
     group = "Build"
 
-    dependsOn(":webapp:browserDistribution", ":koap-core:dokkaHtml")
+    dependsOn(":webapp:jsBrowserDistribution", ":koap-core:dokkaHtml")
 
-    into("$buildDir/gh-pages")
-    from("${project(":webapp").buildDir}/dist/js/productionExecutable") {
+    into(layout.buildDirectory.dir("gh-pages"))
+    from(project(":webapp").layout.buildDirectory.dir("dist/js/productionExecutable")) {
         include("**")
     }
 
     into("docs") {
-        from("${project(":koap-core").buildDir}/dokka/html") {
+        from(project(":koap-core").layout.buildDirectory.dir("dokka/html")) {
             include("**")
         }
     }

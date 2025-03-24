@@ -35,6 +35,7 @@ import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.LocationPath
 import com.juul.koap.Message.Option.LocationQuery
 import com.juul.koap.Message.Option.MaxAge
+import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
@@ -406,6 +407,7 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         35 -> ProxyUri(readUtf8(length))
         39 -> ProxyScheme(readUtf8(length))
         60 -> Size1(readNumberOfLength(length))
+        258 -> NoResponse(readNumberOfLength(length))
         else -> error("Unsupported option number $number")
     }
 }
@@ -481,6 +483,7 @@ internal fun ByteArrayReader.readNumberOfLength(
     2 -> readUShort().toLong()
     3 -> readUInt24().toLong()
     4 -> readUInt()
+    5, 6, 7 -> readNLong(bytes)
     8 -> readLong()
     else -> throw IllegalArgumentException("Unsupported number length of $bytes bytes")
 }
