@@ -41,19 +41,19 @@ apiValidation {
     }
 }
 
-task<Copy>("assembleGitHubPages") {
+tasks.register<Copy>("assembleGitHubPages") {
     description = "Generates static web site for GitHub Pages."
     group = "Build"
 
     dependsOn(":webapp:browserDistribution", ":koap-core:dokkaHtml")
 
-    into("$buildDir/gh-pages")
-    from("${project(":webapp").buildDir}/dist/js/productionExecutable") {
+    into(layout.buildDirectory.dir("gh-pages"))
+    from(project(":webapp").layout.buildDirectory.dir("dist/js/productionExecutable")) {
         include("**")
     }
 
     into("docs") {
-        from("${project(":koap-core").buildDir}/dokka/html") {
+        from(project(":koap-core").layout.buildDirectory.dir("dokka/html")) {
             include("**")
         }
     }
