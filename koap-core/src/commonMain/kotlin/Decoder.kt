@@ -29,6 +29,7 @@ import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Accept
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.ExperimentalUse
 import com.juul.koap.Message.Option.Format
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
@@ -38,7 +39,9 @@ import com.juul.koap.Message.Option.MaxAge
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.Reserved
 import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.Unassigned
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -406,7 +409,9 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         35 -> ProxyUri(readUtf8(length))
         39 -> ProxyScheme(readUtf8(length))
         60 -> Size1(readNumberOfLength(length))
-        else -> error("Unsupported option number $number")
+        0, 128, 132, 136, 140 -> Reserved(number, readByteArray(length))
+        in 65000..65535 -> ExperimentalUse(number, readByteArray(length))
+        else -> Unassigned(number, readByteArray(length))
     }
 }
 

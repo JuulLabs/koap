@@ -42,6 +42,7 @@ private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
+private val EXPERIMENTAL_USE_OPTION_RANGE = 65000..65535
 
 sealed class Message {
 
@@ -107,6 +108,78 @@ sealed class Message {
                 override val number: Int,
                 val value: String,
             ) : Format()
+        }
+
+        data class Unassigned(
+            val number: Int,
+            val value: ByteArray,
+        ) : Option() {
+            init {
+                require(when (number) {
+                    0, 128, 132, 136, 140 -> false
+                    else -> true
+                }) {
+                    "Option number $number is a reserved option number 0, 128, 132, 136, or 140. Use Reserved."
+                }
+                require(!(number in EXPERIMENTAL_USE_OPTION_RANGE)) {
+                    "Option number $number is inside the experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE." +
+                        " Use ExperimentalUse."
+                }
+            }
+            override fun equals(other: Any?): Boolean =
+                this === other ||
+                    (other is Unassigned && number == other.number && value.contentEquals(other.value))
+
+            override fun hashCode(): Int {
+                var result = number
+                result = 31 * result + value.contentHashCode()
+                return result
+            }
+        }
+
+        /** RFC 7252 5.10.7. Location-Path and Location-Query reserved option numbers, and zero */
+        data class Reserved(
+            val number: Int,
+            val value: ByteArray,
+        ) : Option() {
+            init {
+                require(when (number) {
+                    0, 128, 132, 136, 140 -> true
+                    else -> false
+                }) {
+                    "Option number $number is not a reserved option number 0, 128, 132, 136, or 140"
+                }
+            }
+            override fun equals(other: Any?): Boolean =
+                this === other ||
+                    (other is Reserved && number == other.number && value.contentEquals(other.value))
+
+            override fun hashCode(): Int {
+                var result = number
+                result = 31 * result + value.contentHashCode()
+                return result
+            }
+        }
+
+        /** RFC 7252 12.2. CoAP Option Numbers Registry, Table 8, Experimental use */
+        data class ExperimentalUse(
+            val number: Int,
+            val value: ByteArray,
+        ) : Option() {
+            init {
+                require(number in EXPERIMENTAL_USE_OPTION_RANGE) {
+                    "Option number $number is outside experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE"
+                }
+            }
+            override fun equals(other: Any?): Boolean =
+                this === other ||
+                    (other is ExperimentalUse && number == other.number && value.contentEquals(other.value))
+
+            override fun hashCode(): Int {
+                var result = number
+                result = 31 * result + value.contentHashCode()
+                return result
+            }
         }
 
         /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */
