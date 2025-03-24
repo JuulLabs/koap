@@ -2,6 +2,9 @@ package com.juul.koap.test
 
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
+import com.juul.koap.Message.Option.NoResponse
+import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response4xx
+import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response5xx
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
@@ -110,6 +113,27 @@ class DecoderTest {
     }
 
     @Test
+    fun decodeNoResponseOptionWithValueOf24() {
+        testReadOption(
+            encoded = """
+                D1 F5 # Option Delta: 258, Option Length: 1
+                18    # Option Value: 24
+            """,
+            expected = NoResponse(Response4xx, Response5xx),
+        )
+    }
+
+    @Test
+    fun decodeNoResponseOptionWithEmptyValue() {
+        testReadOption(
+            encoded = """
+                D0 F5 # Option Delta: 258, Option Length: 0
+            """,
+            expected = NoResponse(),
+        )
+    }
+
+    @Test
     fun decodeObserveOptionWithValueOf16777215() {
         testReadOption(
             encoded = """
@@ -154,6 +178,34 @@ class DecoderTest {
         assertEquals(
             expected = message,
             actual = (message.encode() + extraData).decode(),
+        )
+    }
+
+    @Test
+    fun canDecodeTokenOfLength7() {
+        val encoded = """
+            47                   # 4 = Version: 1, Type: 0 (Confirmable), 7 = Token Length: 7
+            01                   # Code: 0.01 (GET)
+            FE ED                # Message ID
+            CA FE F0 0D AB CD EF # Token (0xCAFE_F00D_ABCDEF = 57_138_252_270_521_839L)
+            B7                   # B = Delta option: 11 (Uri-Path), 7 = Delta length: 7
+            65 78 61 6D 70 6C 65 # "example"
+        """.trimIndent().stripComments().decodeHex().toByteArray()
+
+        val message = encoded.decode<Message.Udp>()
+        assertEquals(
+            expected = 57_138_252_270_521_839L,
+            actual = message.token,
+        )
+
+        // Confirm remainder of message decoded properly.
+        val uri = message.options
+            .filterIsInstance<UriPath>()
+            .single()
+            .uri
+        assertEquals(
+            expected = "example",
+            actual = uri,
         )
     }
 

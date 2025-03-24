@@ -346,6 +346,29 @@ public final class com/juul/koap/Message$Option$MaxAge : com/juul/koap/Message$O
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/juul/koap/Message$Option$NoResponse : com/juul/koap/Message$Option {
+	public fun <init> (J)V
+	public fun <init> (Ljava/util/Set;)V
+	public fun <init> ([Lcom/juul/koap/Message$Option$NoResponse$NotInterestedIn;)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/juul/koap/Message$Option$NoResponse;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$NoResponse;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$NoResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$NoResponse$NotInterestedIn : java/lang/Enum {
+	public static final field Response2xx Lcom/juul/koap/Message$Option$NoResponse$NotInterestedIn;
+	public static final field Response4xx Lcom/juul/koap/Message$Option$NoResponse$NotInterestedIn;
+	public static final field Response5xx Lcom/juul/koap/Message$Option$NoResponse$NotInterestedIn;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getValue ()I
+	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Message$Option$NoResponse$NotInterestedIn;
+	public static fun values ()[Lcom/juul/koap/Message$Option$NoResponse$NotInterestedIn;
+}
+
 public final class com/juul/koap/Message$Option$Observe : com/juul/koap/Message$Option {
 	public fun <init> (J)V
 	public fun <init> (Lcom/juul/koap/Message$Option$Observe$Registration;)V
