@@ -84,6 +84,54 @@ class ByteArrayReaderTest {
 
         assertTrue { reader.exhausted() }
     }
+
+    @Test
+    fun read5ByteLong() {
+        val reader = "01 02 03 04 05 06 07".parseByteArray().reader()
+        //            ^^ ^^ ^^ ^^ ^^ ^^ ^^
+        //       byte  0  1  2  3  4  5  6
+
+        assertFalse { reader.exhausted() }
+        assertEquals(
+            expected = 4_328_719_365L,
+
+            // Reads 5 bytes, putting us at byte 5 (0x06).
+            actual = reader.readNLong(5),
+        )
+        assertFalse { reader.exhausted() }
+    }
+
+    @Test
+    fun read6ByteLong() {
+        val reader = "01 02 03 04 05 06 07".parseByteArray().reader()
+        //            ^^ ^^ ^^ ^^ ^^ ^^ ^^
+        //       byte  0  1  2  3  4  5  6
+
+        assertFalse { reader.exhausted() }
+        assertEquals(
+            expected = 1_108_152_157_446L,
+
+            // Reads 5 bytes, putting us at byte 6 (0x07).
+            actual = reader.readNLong(6),
+        )
+        assertFalse { reader.exhausted() }
+    }
+
+    @Test
+    fun read7ByteLong() {
+        val reader = "01 02 03 04 05 06 07".parseByteArray().reader()
+        //            ^^ ^^ ^^ ^^ ^^ ^^ ^^
+        //       byte  0  1  2  3  4  5  6
+
+        assertFalse { reader.exhausted() }
+        assertEquals(
+            expected = 28_368_6952_306_183L,
+
+            // Reads 5 bytes, putting us at end of ByteArray.
+            actual = reader.readNLong(7),
+        )
+        assertTrue { reader.exhausted() }
+    }
 }
 
 private fun String.parseByteArray() =

@@ -158,6 +158,34 @@ class DecoderTest {
     }
 
     @Test
+    fun canDecodeTokenOfLength7() {
+        val encoded = """
+            47                   # 4 = Version: 1, Type: 0 (Confirmable), 7 = Token Length: 7
+            01                   # Code: 0.01 (GET)
+            FE ED                # Message ID
+            CA FE F0 0D AB CD EF # Token (0xCAFE_F00D_ABCDEF = 57_138_252_270_521_839L)
+            B7                   # B = Delta option: 11 (Uri-Path), 7 = Delta length: 7
+            65 78 61 6D 70 6C 65 # "example"
+        """.trimIndent().stripComments().decodeHex().toByteArray()
+
+        val message = encoded.decode<Message.Udp>()
+        assertEquals(
+            expected = 57_138_252_270_521_839L,
+            actual = message.token,
+        )
+
+        // Confirm remainder of message decoded properly.
+        val uri = message.options
+            .filterIsInstance<UriPath>()
+            .single()
+            .uri
+        assertEquals(
+            expected = "example",
+            actual = uri,
+        )
+    }
+
+    @Test
     fun canDecodeTokenOfLength8() {
         val message = Message.Tcp(
             code = GET,
