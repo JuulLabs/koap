@@ -1,32 +1,25 @@
 package com.juul.koap
 
+import com.juul.koap.Message.Option.Accept
+import com.juul.koap.Message.Option.ContentFormat
+import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.IfMatch
+import com.juul.koap.Message.Option.IfNoneMatch
+import com.juul.koap.Message.Option.LocationPath
+import com.juul.koap.Message.Option.LocationQuery
+import com.juul.koap.Message.Option.MaxAge
+import com.juul.koap.Message.Option.NoResponse
+import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
+import com.juul.koap.Message.Option.ProxyScheme
+import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.UriHost
+import com.juul.koap.Message.Option.UriPath
+import com.juul.koap.Message.Option.UriPort
+import com.juul.koap.Message.Option.UriQuery
 
-/* RFC 7252 5.10. Table 4: Options
- * RFC 7641 2. The Observe Option (No. 6)
- *
- * +-----+----------------+--------+--------+
- * | No. | Name           | Format | Length |
- * +-----+----------------+--------+--------+
- * |   1 | If-Match       | opaque | 0-8    |
- * |   3 | Uri-Host       | string | 1-255  |
- * |   4 | ETag           | opaque | 1-8    |
- * |   5 | If-None-Match  | empty  | 0      |
- * |   6 | Observe        | uint   | 0-3    |
- * |   7 | Uri-Port       | uint   | 0-2    |
- * |   8 | Location-Path  | string | 0-255  |
- * |  11 | Uri-Path       | string | 0-255  |
- * |  12 | Content-Format | uint   | 0-2    |
- * |  14 | Max-Age        | uint   | 0-4    |
- * |  15 | Uri-Query      | string | 0-255  |
- * |  17 | Accept         | uint   | 0-2    |
- * |  20 | Location-Query | string | 0-255  |
- * |  35 | Proxy-Uri      | string | 1-1034 |
- * |  39 | Proxy-Scheme   | string | 1-255  |
- * |  60 | Size1          | uint   | 0-4    |
- * +-----+----------------+--------+--------+
- */
 private val IF_MATCH_SIZE_RANGE = 0..8
 private val URI_HOST_LENGTH_RANGE = 1..255
 private val ETAG_SIZE_RANGE = 1..8
@@ -42,6 +35,7 @@ private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
+private val NO_RESPONSE_RANGE = 0..127
 
 sealed class Message {
 
@@ -70,6 +64,39 @@ sealed class Message {
     abstract val options: List<Option>
     abstract val payload: ByteArray
 
+    /**
+     * [CoAP Option Numbers](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers):
+     *
+     * | No. | Name                            | Format | Length | Proposed Standard                                                                        |
+     * |----:|---------------------------------|--------|--------|------------------------------------------------------------------------------------------|
+     * |   1 | [If-Match][IfMatch]             | opaque | 0-8    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.8.1) CoAP 5.10.8.1           |
+     * |   3 | [Uri-Host][UriHost]             | string | 1-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
+     * |   4 | [ETag][ETag]                    | opaque | 1-8    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.6) CoAP 5.10.6               |
+     * |   5 | [If-None-Match][IfNoneMatch]    | empty  | 0      | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.8.2) CoAP 5.10.8.2           |
+     * |   6 | [Observe][Observe]              | uint   | 0-3    | [RFC 7641](https://tools.ietf.org/html/rfc7641#section-2) Observing Resources 2          |
+     * |   7 | [Uri-Port][UriPort]             | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
+     * |   8 | [Location-Path][LocationPath]   | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
+     * |   9 | OSCORE                          | opaque | 0-255  | [RFC 8613](https://tools.ietf.org/html/rfc8613#section-2) OSCORE 2                       |
+     * |  11 | [Uri-Path][UriPath]             | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
+     * |  12 | [Content-Format][ContentFormat] | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.3) CoAP 5.10.3               |
+     * |  14 | [Max-Age][MaxAge]               | uint   | 0-4    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.5) CoAP 5.10.5               |
+     * |  15 | [Uri-Query][UriQuery]           | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
+     * |  16 | Hop-Limit                       | uint   | 1      | [RFC 8768](https://tools.ietf.org/html/rfc8768#section-3) Hop-Limit 3                    |
+     * |  17 | [Accept][Accept]                | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.4) CoAP 5.10.4               |
+     * |  19 | Q-Block1                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
+     * |  20 | [Location-Query][LocationQuery] | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
+     * |  21 | EDHOC                           | empty  | 0      | [RFC 9668](https://tools.ietf.org/html/rfc9668#section-3.1) EDHOC 3.1                    |
+     * |  23 | Block2                          | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
+     * |  27 | Block1                          | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
+     * |  28 | Size2                           | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4                   |
+     * |  31 | Q-Block2                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
+     * |  35 | [Proxy-Uri][ProxyUri]           | string | 1-1034 | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
+     * |  39 | [Proxy-Scheme][ProxyScheme]     | string | 1-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
+     * |  60 | [Size1][Size1]                  | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4 (and CoAP 5.10.9) |
+     * | 252 | Echo                            | opaque | 1-40   | [RFC 9175](https://tools.ietf.org/html/rfc9175#section-2.2.1) Echo, Request-Tag 2.2.1    |
+     * | 258 | [No-Response][NoResponse]       | uint   | 0-1    | [RFC 7967](https://tools.ietf.org/html/rfc7967#section-2) No Server Response 2           |
+     * | 292 | Request-Tag                     | opaque | 0-8    | [RFC 9175](https://tools.ietf.org/html/rfc9175#section-3.2.1) Echo, Request-Tag 3.2.1    |
+     */
     @Suppress("ClassName") // Names defined to match RFC.
     sealed class Option {
 
@@ -356,6 +383,31 @@ sealed class Message {
                 }
             }
         }
+
+        /** [RFC 7967 2. Option Definition](https://tools.ietf.org/html/rfc7967#section-2) for no server response. */
+        data class NoResponse(
+            val value: Long,
+        ) : Option() {
+
+            /** [RFC 7967 2.1. Granular Control over Response Suppression](https://tools.ietf.org/html/rfc7967#section-2.1) */
+            @Suppress("ktlint:standard:no-multi-spaces")
+            enum class NotInterestedIn(
+                val value: Int,
+            ) {
+                Response2xx(2),  // 0000_0010
+                Response4xx(8),  // 0000_1000
+                Response5xx(16), // 0001_0000
+            }
+
+            constructor(notInterestedIn: Set<NotInterestedIn>) : this(notInterestedIn.longValue)
+            constructor(vararg notInterestedIn: NotInterestedIn) : this(notInterestedIn.toSet())
+
+            init {
+                require(value in NO_RESPONSE_RANGE) {
+                    "NoResponse value of $value is outside allowable range of $NO_RESPONSE_RANGE"
+                }
+            }
+        }
     }
 
     /**
@@ -557,6 +609,9 @@ private val Long.contentType: String
         60L -> "CBOR"
         else -> toString()
     }
+
+internal val Set<NoResponse.NotInterestedIn>.longValue: Long
+    get() = fold(0) { acc, notInterestedIn -> acc or notInterestedIn.value }.toLong()
 
 val Message.Code.Response.isSuccess: Boolean get() = `class` == 2
 val Message.Code.Response.isError: Boolean get() = `class` == 4 || `class` == 5
