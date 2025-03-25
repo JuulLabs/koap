@@ -3,6 +3,8 @@ package com.juul.koap.test
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
+import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response2xx
 import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response4xx
@@ -10,6 +12,7 @@ import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response5xx
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
+import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
@@ -360,6 +363,39 @@ class EncoderTest {
         assertFailsWith<IllegalArgumentException> {
             Observe(16_777_216)
         }
+    }
+
+    @Test
+    fun writeHopLimit() {
+        testWriteOption(
+            option = HopLimit(17),
+            expected = """
+                D1 03 # Option Delta: 16, Option Length: 1
+                11    # Option Value: 17
+            """,
+        )
+    }
+
+    @Test
+    fun writeEcho() {
+        testWriteOption(
+            option = Echo(byteArrayOf(1, 2, 3, 4, 5, 6, 7)),
+            expected = """
+                D7 EF                # Option Delta: 252, Option Length: 7
+                01 02 03 04 05 06 07 # Option Value: 1 2 3 4 5 6 7
+            """,
+        )
+    }
+
+    @Test
+    fun writeRequestTag() {
+        testWriteOption(
+            option = RequestTag(byteArrayOf(1, 2, 3)),
+            expected = """
+                E3 00 17 # Option Delta: 292, Option Length: 3
+                01 02 03 # Option Value: 1 2 3
+            """,
+        )
     }
 }
 

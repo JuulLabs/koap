@@ -282,6 +282,32 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
             final fun toString(): kotlin/String // com.juul.koap/Message.Option.ETag.toString|toString(){}[0]
         }
 
+        final class Echo : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Echo|null[0]
+            constructor <init>(kotlin/ByteArray) // com.juul.koap/Message.Option.Echo.<init>|<init>(kotlin.ByteArray){}[0]
+
+            final val value // com.juul.koap/Message.Option.Echo.value|{}value[0]
+                final fun <get-value>(): kotlin/ByteArray // com.juul.koap/Message.Option.Echo.value.<get-value>|<get-value>(){}[0]
+
+            final fun component1(): kotlin/ByteArray // com.juul.koap/Message.Option.Echo.component1|component1(){}[0]
+            final fun copy(kotlin/ByteArray = ...): com.juul.koap/Message.Option.Echo // com.juul.koap/Message.Option.Echo.copy|copy(kotlin.ByteArray){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Echo.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Echo.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.Echo.toString|toString(){}[0]
+        }
+
+        final class HopLimit : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.HopLimit|null[0]
+            constructor <init>(kotlin/Long) // com.juul.koap/Message.Option.HopLimit.<init>|<init>(kotlin.Long){}[0]
+
+            final val hops // com.juul.koap/Message.Option.HopLimit.hops|{}hops[0]
+                final fun <get-hops>(): kotlin/Long // com.juul.koap/Message.Option.HopLimit.hops.<get-hops>|<get-hops>(){}[0]
+
+            final fun component1(): kotlin/Long // com.juul.koap/Message.Option.HopLimit.component1|component1(){}[0]
+            final fun copy(kotlin/Long = ...): com.juul.koap/Message.Option.HopLimit // com.juul.koap/Message.Option.HopLimit.copy|copy(kotlin.Long){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.HopLimit.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.HopLimit.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.HopLimit.toString|toString(){}[0]
+        }
+
         final class IfMatch : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.IfMatch|null[0]
             constructor <init>(kotlin/ByteArray) // com.juul.koap/Message.Option.IfMatch.<init>|<init>(kotlin.ByteArray){}[0]
 
@@ -415,6 +441,19 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
             final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.ProxyUri.equals|equals(kotlin.Any?){}[0]
             final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.ProxyUri.hashCode|hashCode(){}[0]
             final fun toString(): kotlin/String // com.juul.koap/Message.Option.ProxyUri.toString|toString(){}[0]
+        }
+
+        final class RequestTag : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.RequestTag|null[0]
+            constructor <init>(kotlin/ByteArray) // com.juul.koap/Message.Option.RequestTag.<init>|<init>(kotlin.ByteArray){}[0]
+
+            final val tag // com.juul.koap/Message.Option.RequestTag.tag|{}tag[0]
+                final fun <get-tag>(): kotlin/ByteArray // com.juul.koap/Message.Option.RequestTag.tag.<get-tag>|<get-tag>(){}[0]
+
+            final fun component1(): kotlin/ByteArray // com.juul.koap/Message.Option.RequestTag.component1|component1(){}[0]
+            final fun copy(kotlin/ByteArray = ...): com.juul.koap/Message.Option.RequestTag // com.juul.koap/Message.Option.RequestTag.copy|copy(kotlin.ByteArray){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.RequestTag.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.RequestTag.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.RequestTag.toString|toString(){}[0]
         }
 
         final class Size1 : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Size1|null[0]

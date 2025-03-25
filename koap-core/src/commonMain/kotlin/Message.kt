@@ -35,6 +35,9 @@ private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE1_RANGE = UINT_RANGE
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
+private val HOP_LIMIT_RANGE = 1..255
+private val ECHO_SIZE_RANGE = 1..40
+private val REQUEST_TAG_SIZE_RANGE = 0..8
 private val NO_RESPONSE_RANGE = 0..127
 
 sealed class Message {
@@ -81,7 +84,7 @@ sealed class Message {
      * |  12 | [Content-Format][ContentFormat] | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.3) CoAP 5.10.3               |
      * |  14 | [Max-Age][MaxAge]               | uint   | 0-4    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.5) CoAP 5.10.5               |
      * |  15 | [Uri-Query][UriQuery]           | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
-     * |  16 | Hop-Limit                       | uint   | 1      | [RFC 8768](https://tools.ietf.org/html/rfc8768#section-3) Hop-Limit 3                    |
+     * |  16 | [Hop-Limit][HopLimit]           | uint   | 1      | [RFC 8768](https://tools.ietf.org/html/rfc8768#section-3) Hop-Limit 3                    |
      * |  17 | [Accept][Accept]                | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.4) CoAP 5.10.4               |
      * |  19 | Q-Block1                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
      * |  20 | [Location-Query][LocationQuery] | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
@@ -93,9 +96,9 @@ sealed class Message {
      * |  35 | [Proxy-Uri][ProxyUri]           | string | 1-1034 | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
      * |  39 | [Proxy-Scheme][ProxyScheme]     | string | 1-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
      * |  60 | [Size1][Size1]                  | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4 (and CoAP 5.10.9) |
-     * | 252 | Echo                            | opaque | 1-40   | [RFC 9175](https://tools.ietf.org/html/rfc9175#section-2.2.1) Echo, Request-Tag 2.2.1    |
+     * | 252 | [Echo]                          | opaque | 1-40   | [RFC 9175](https://tools.ietf.org/html/rfc9175#section-2.2.1) Echo, Request-Tag 2.2.1    |
      * | 258 | [No-Response][NoResponse]       | uint   | 0-1    | [RFC 7967](https://tools.ietf.org/html/rfc7967#section-2) No Server Response 2           |
-     * | 292 | Request-Tag                     | opaque | 0-8    | [RFC 9175](https://tools.ietf.org/html/rfc9175#section-3.2.1) Echo, Request-Tag 3.2.1    |
+     * | 292 | [Request-Tag][RequestTag]       | opaque | 0-8    | [RFC 9175](https://tools.ietf.org/html/rfc9175#section-3.2.1) Echo, Request-Tag 3.2.1    |
      */
     @Suppress("ClassName") // Names defined to match RFC.
     sealed class Option {
@@ -382,6 +385,53 @@ sealed class Message {
                     "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
                 }
             }
+        }
+
+        /** RFC 8768 3. Hop-Limit */
+        data class HopLimit(
+            val hops: Long,
+        ) : Option() {
+            init {
+                require(hops in HOP_LIMIT_RANGE) {
+                    "Hop-Limit value of $hops is outside allowable range of $HOP_LIMIT_RANGE"
+                }
+            }
+        }
+
+        /** RFC 9175 2.2.1. Echo */
+        data class Echo(
+            val value: ByteArray,
+        ) : Option() {
+            init {
+                require(value.size in ECHO_SIZE_RANGE) {
+                    "Echo length of ${value.size} is outside allowable range of $ECHO_SIZE_RANGE"
+                }
+            }
+
+            override fun equals(other: Any?): Boolean =
+                this === other || (other is Echo && value.contentEquals(other.value))
+
+            override fun hashCode(): Int = value.contentHashCode()
+
+            override fun toString(): String = "Echo(value=${value.toHexString()})"
+        }
+
+        /** RFC 9175 3.2.1. Request-Tag */
+        data class RequestTag(
+            val tag: ByteArray,
+        ) : Option() {
+            init {
+                require(tag.size in REQUEST_TAG_SIZE_RANGE) {
+                    "Echo length of ${tag.size} is outside allowable range of $REQUEST_TAG_SIZE_RANGE"
+                }
+            }
+
+            override fun equals(other: Any?): Boolean =
+                this === other || (other is RequestTag && tag.contentEquals(other.tag))
+
+            override fun hashCode(): Int = tag.contentHashCode()
+
+            override fun toString(): String = "RequestTag(tag=${tag.toHexString()})"
         }
 
         /** [RFC 7967 2. Option Definition](https://tools.ietf.org/html/rfc7967#section-2) for no server response. */
