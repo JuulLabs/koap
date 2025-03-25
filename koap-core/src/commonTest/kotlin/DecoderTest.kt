@@ -2,6 +2,7 @@ package com.juul.koap.test
 
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
+import com.juul.koap.Message.Code.Response.Changed
 import com.juul.koap.Message.Option.Block.Size.Bert
 import com.juul.koap.Message.Option.Block1
 import com.juul.koap.Message.Option.Block2
@@ -274,6 +275,35 @@ class DecoderTest {
                 19 14 08 37 CB F3 21 00 17 A2 D3 # Option Value: (COSE object)
             """,
             expected = Oscore("19140837CBF3210017A2D3".decodeHex().toByteArray()),
+        )
+    }
+
+    // Test Vector 8: OSCORE Response with Partial IV, Server
+    // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.8
+    @Test
+    fun decodeOscoreOptionTestVector8() {
+        val unprotectedCoapResponse = "64455d1f00003974ff48656c6c6f20576f726c6421".decodeHex().toByteArray().decode<Message.Udp>()
+
+        val oscoreOptionValue = "0100".decodeHex().toByteArray()
+        val ciphertext = "4d4c13669384b67354b2b6175ff4b8658c666a6cf88e".decodeHex().toByteArray()
+        val protectedCoapResponse = "64445d1f00003974920100ff4d4c13669384b67354b2b6175ff4b8658c666a6cf88e".decodeHex().toByteArray()
+
+        assertEquals(
+            expected = Message.Udp(
+                type = unprotectedCoapResponse.type,
+
+                // the Outer Code SHALL be set to [..] 2.04 (Changed) for responses
+                // https://datatracker.ietf.org/doc/html/rfc8613#section-4.2
+                code = Changed,
+
+                id = unprotectedCoapResponse.id,
+                token = unprotectedCoapResponse.token,
+                options = listOf(
+                    Oscore(oscoreOptionValue),
+                ),
+                payload = ciphertext,
+            ),
+            actual = protectedCoapResponse.decode<Message.Udp>(),
         )
     }
 
