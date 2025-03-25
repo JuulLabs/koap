@@ -494,14 +494,24 @@ public final class com/juul/koap/Message$Option$Observe$Registration$Register : 
 }
 
 public final class com/juul/koap/Message$Option$Oscore : com/juul/koap/Message$Option {
-	public fun <init> ([B)V
+	public static final field Companion Lcom/juul/koap/Message$Option$Oscore$Companion;
+	public fun <init> ([B[B[B)V
 	public final fun component1 ()[B
-	public final fun copy ([B)Lcom/juul/koap/Message$Option$Oscore;
-	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Oscore;[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$Oscore;
+	public final fun component2 ()[B
+	public final fun component3 ()[B
+	public final fun copy ([B[B[B)Lcom/juul/koap/Message$Option$Oscore;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Oscore;[B[B[BILjava/lang/Object;)Lcom/juul/koap/Message$Option$Oscore;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()[B
+	public final fun getKid ()[B
+	public final fun getKidContext ()[B
+	public final fun getPartialIv ()[B
 	public fun hashCode ()I
+	public final fun optionValue ()[B
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Oscore$Companion {
+	public final fun fromOptionValue ([B)Lcom/juul/koap/Message$Option$Oscore;
 }
 
 public final class com/juul/koap/Message$Option$ProxyScheme : com/juul/koap/Message$Option {
