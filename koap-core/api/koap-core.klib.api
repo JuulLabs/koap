@@ -486,8 +486,8 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
         final class Oscore : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Oscore|null[0]
             constructor <init>(kotlin/ByteArray) // com.juul.koap/Message.Option.Oscore.<init>|<init>(kotlin.ByteArray){}[0]
 
-            final val coseObject // com.juul.koap/Message.Option.Oscore.coseObject|{}coseObject[0]
-                final fun <get-coseObject>(): kotlin/ByteArray // com.juul.koap/Message.Option.Oscore.coseObject.<get-coseObject>|<get-coseObject>(){}[0]
+            final val value // com.juul.koap/Message.Option.Oscore.value|{}value[0]
+                final fun <get-value>(): kotlin/ByteArray // com.juul.koap/Message.Option.Oscore.value.<get-value>|<get-value>(){}[0]
 
             final fun component1(): kotlin/ByteArray // com.juul.koap/Message.Option.Oscore.component1|component1(){}[0]
             final fun copy(kotlin/ByteArray = ...): com.juul.koap/Message.Option.Oscore // com.juul.koap/Message.Option.Oscore.copy|copy(kotlin.ByteArray){}[0]

@@ -517,20 +517,20 @@ sealed class Message {
 
         /** RFC 8613 2. OSCORE */
         data class Oscore(
-            val coseObject: ByteArray,
+            val value: ByteArray,
         ) : Option() {
             init {
-                require(coseObject.size in OSCORE_LENGTH_RANGE) {
-                    "Oscore length of ${coseObject.size} is outside allowable range of $OSCORE_LENGTH_RANGE"
+                require(value.size in OSCORE_LENGTH_RANGE) {
+                    "Oscore length of ${value.size} is outside allowable range of $OSCORE_LENGTH_RANGE"
                 }
             }
 
             override fun equals(other: Any?): Boolean =
-                this === other || (other is Oscore && coseObject.contentEquals(other.coseObject))
+                this === other || (other is Oscore && value.contentEquals(other.value))
 
-            override fun hashCode(): Int = coseObject.contentHashCode()
+            override fun hashCode(): Int = value.contentHashCode()
 
-            override fun toString(): String = "Oscore(coseObject=${coseObject.toHexString()})"
+            override fun toString(): String = "Oscore(value=${value.toHexString()})"
         }
 
         /** RFC 9668 3.1. EDHOC */

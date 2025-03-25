@@ -369,7 +369,7 @@ class EncoderTest {
     }
 
     @Test
-    fun writeOscoreOptionWithEmptyCoseObject() {
+    fun writeOscoreOptionWithEmptyValue() {
         testWriteOption(
             option = Oscore(byteArrayOf()),
             expected = """
@@ -379,7 +379,7 @@ class EncoderTest {
     }
 
     @Test
-    fun writeOscoreOptionWithCoseObject() {
+    fun writeOscoreOptionTestVector4() {
         // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.4 Test Vector 4
         testWriteOption(
             option = Oscore(byteArrayOf(0x09, 0x14)),

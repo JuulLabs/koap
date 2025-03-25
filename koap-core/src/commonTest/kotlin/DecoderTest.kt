@@ -257,7 +257,7 @@ class DecoderTest {
     }
 
     @Test
-    fun decodeOscoreOptionWithEmptyCoseObject() {
+    fun decodeOscoreOptionWithEmptyValue() {
         testReadOption(
             encoded = """
                 90 # Option Delta: 9, Option Length: 0
@@ -267,7 +267,7 @@ class DecoderTest {
     }
 
     @Test
-    fun decodeOscoreOptionWithSampleCoseObject() {
+    fun decodeOscoreOptionTestVector6() {
         // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.6 Test Vector 6
         testReadOption(
             encoded = """

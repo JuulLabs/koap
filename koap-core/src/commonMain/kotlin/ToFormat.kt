@@ -45,7 +45,7 @@ internal fun Option.toFormat(): Format =
         is Observe -> uint(6, option.value)
         is UriPort -> uint(7, option.port)
         is LocationPath -> string(8, option.uri)
-        is Oscore -> opaque(9, option.coseObject)
+        is Oscore -> opaque(9, option.value)
         is UriPath -> string(11, option.uri)
         is ContentFormat -> uint(12, option.format)
         is MaxAge -> uint(14, option.seconds)
