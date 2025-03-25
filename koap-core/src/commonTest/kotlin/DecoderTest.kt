@@ -292,7 +292,7 @@ class DecoderTest {
             expected = Message.Udp(
                 type = unprotectedCoapResponse.type,
 
-                // the Outer Code SHALL be set to [..] 2.04 (Changed) for responses
+                // "the Outer Code SHALL be set to [..] 2.04 (Changed) for responses"
                 // https://datatracker.ietf.org/doc/html/rfc8613#section-4.2
                 code = Changed,
 
