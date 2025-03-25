@@ -2,6 +2,7 @@ package com.juul.koap.test
 
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
+import com.juul.koap.Message.Code.Method.POST
 import com.juul.koap.Message.Code.Response.Changed
 import com.juul.koap.Message.Option.Block.Size.Bert
 import com.juul.koap.Message.Option.Block1
@@ -266,15 +267,123 @@ class DecoderTest {
         )
     }
 
+    // Test Vector 4: OSCORE Request, Client
+    // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.4
+    @Test
+    fun decodeOscoreOptionTestVector4() {
+        val unprotectedCoapRequest = "44015d1f00003974396c6f63616c686f737483747631".decodeHex().toByteArray().decode<Message.Udp>()
+
+        val oscoreOptionValue = "0914".decodeHex().toByteArray()
+        val ciphertext = "612f1092f1776f1c1668b3825e".decodeHex().toByteArray()
+        val protectedCoapRequest = "44025d1f00003974396c6f63616c686f7374620914ff612f1092f1776f1c1668b3825e".decodeHex().toByteArray()
+
+        assertEquals(
+            expected = Message.Udp(
+                type = unprotectedCoapRequest.type,
+
+                // "the Outer Code SHALL be set to 0.02 (POST) for requests [..]"
+                // https://datatracker.ietf.org/doc/html/rfc8613#section-4.2
+                code = POST,
+
+                id = unprotectedCoapRequest.id,
+                token = unprotectedCoapRequest.token,
+                options = listOf(
+                    UriHost("localhost"),
+                    Oscore(oscoreOptionValue),
+                ),
+                payload = ciphertext,
+            ),
+            actual = protectedCoapRequest.decode<Message.Udp>(),
+        )
+    }
+
+    // Test Vector 5: OSCORE Request, Client
+    // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.5
+    @Test
+    fun decodeOscoreOptionTestVector5() {
+        val unprotectedCoapRequest = "440171c30000b932396c6f63616c686f737483747631".decodeHex().toByteArray().decode<Message.Udp>()
+
+        val oscoreOptionValue = "091400".decodeHex().toByteArray()
+        val ciphertext = "4ed339a5a379b0b8bc731fffb0".decodeHex().toByteArray()
+        val protectedCoapRequest = "440271c30000b932396c6f63616c686f737463091400ff4ed339a5a379b0b8bc731fffb0".decodeHex().toByteArray()
+
+        assertEquals(
+            expected = Message.Udp(
+                type = unprotectedCoapRequest.type,
+
+                // "the Outer Code SHALL be set to 0.02 (POST) for requests [..]"
+                // https://datatracker.ietf.org/doc/html/rfc8613#section-4.2
+                code = POST,
+
+                id = unprotectedCoapRequest.id,
+                token = unprotectedCoapRequest.token,
+                options = listOf(
+                    UriHost("localhost"),
+                    Oscore(oscoreOptionValue),
+                ),
+                payload = ciphertext,
+            ),
+            actual = protectedCoapRequest.decode<Message.Udp>(),
+        )
+    }
+
+    // Test Vector 6: OSCORE Request, Client
+    // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.6
     @Test
     fun decodeOscoreOptionTestVector6() {
-        // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.6 Test Vector 6
-        testReadOption(
-            encoded = """
-                9b                               # Option Delta: 9, Option Length: 11
-                19 14 08 37 CB F3 21 00 17 A2 D3 # Option Value: (COSE object)
-            """,
-            expected = Oscore("19140837CBF3210017A2D3".decodeHex().toByteArray()),
+        val unprotectedCoapRequest = "44012f8eef9bbf7a396c6f63616c686f737483747631".decodeHex().toByteArray().decode<Message.Udp>()
+
+        val oscoreOptionValue = "19140837cbf3210017a2d3".decodeHex().toByteArray()
+        val ciphertext = "72cd7273fd331ac45cffbe55c3".decodeHex().toByteArray()
+        val protectedCoapRequest =
+            "44022f8eef9bbf7a396c6f63616c686f73746b19140837cbf3210017a2d3ff72cd7273fd331ac45cffbe55c3".decodeHex().toByteArray()
+
+        assertEquals(
+            expected = Message.Udp(
+                type = unprotectedCoapRequest.type,
+
+                // "the Outer Code SHALL be set to 0.02 (POST) for requests [..]"
+                // https://datatracker.ietf.org/doc/html/rfc8613#section-4.2
+                code = POST,
+
+                id = unprotectedCoapRequest.id,
+                token = unprotectedCoapRequest.token,
+                options = listOf(
+                    UriHost("localhost"),
+                    Oscore(oscoreOptionValue),
+                ),
+                payload = ciphertext,
+            ),
+            actual = protectedCoapRequest.decode<Message.Udp>(),
+        )
+    }
+
+    // Test Vector 7: OSCORE Response, Server
+    // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.7
+    @Test
+    fun decodeOscoreOptionTestVector7() {
+        val unprotectedCoapResponse = "64455d1f00003974ff48656c6c6f20576f726c6421".decodeHex().toByteArray().decode<Message.Udp>()
+
+        val oscoreOptionValue = "".decodeHex().toByteArray()
+        val ciphertext = "dbaad1e9a7e7b2a813d3c31524378303cdafae119106".decodeHex().toByteArray()
+        val protectedCoapResponse = "64445d1f0000397490ffdbaad1e9a7e7b2a813d3c31524378303cdafae119106".decodeHex().toByteArray()
+
+        assertEquals(
+            expected = Message.Udp(
+                type = unprotectedCoapResponse.type,
+
+                // "the Outer Code SHALL be set to [..] 2.04 (Changed) for responses"
+                // https://datatracker.ietf.org/doc/html/rfc8613#section-4.2
+                code = Changed,
+
+                id = unprotectedCoapResponse.id,
+                token = unprotectedCoapResponse.token,
+                options = listOf(
+                    Oscore(oscoreOptionValue),
+                ),
+                payload = ciphertext,
+            ),
+            actual = protectedCoapResponse.decode<Message.Udp>(),
         )
     }
 
