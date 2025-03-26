@@ -32,9 +32,7 @@ private fun <T : Block> blockOf(type: KClass<T>, value: Long): T {
         "Block number $number (from option value of $value) is outside allowable range of $BLOCK_NUMBER_RANGE"
     }
     val more = (value and 0x8L) != 0L
-    val size = (value and 0b111).toInt().let {
-        Block.Size.entries[it]
-    }
+    val size = Block.Size.entries[value.toInt() and 0b111]
 
     @Suppress("UNCHECKED_CAST")
     return when (type) {
