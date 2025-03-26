@@ -36,7 +36,7 @@ class DecodingTest {
                   "id": 65261,
                   "token": 51966,
                   "options": [
-                    "UriPath(uri=example)",
+                    "Uri-Path: example",
                     "Content-Format: application/json"
                   ]
                 }
@@ -100,7 +100,7 @@ class DecodingTest {
                   "id": 65261,
                   "token": 51966,
                   "options": [
-                    "UriPath(uri=example)",
+                    "Uri-Path: example",
                     "Content-Format: application/cbor"
                   ]
                 }
