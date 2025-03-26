@@ -3,7 +3,7 @@ package com.juul.koap.test
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
-import com.juul.koap.Message.Option.Block
+import com.juul.koap.Message.Option.Block.Size.Bert
 import com.juul.koap.Message.Option.Block1
 import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.Echo
@@ -28,6 +28,7 @@ import com.juul.koap.UBYTE_MAX_VALUE
 import com.juul.koap.UINT32_MAX_EXTENDED_LENGTH
 import com.juul.koap.UINT_MAX_VALUE
 import com.juul.koap.USHORT_MAX_VALUE
+import com.juul.koap.blockSizeOf
 import com.juul.koap.encode
 import com.juul.koap.toFormat
 import com.juul.koap.toHexString
@@ -397,7 +398,7 @@ class EncoderTest {
     @Test
     fun writeBlock1Option() {
         testWriteOption(
-            option = Block1(3, true, Block.Size.`128`),
+            option = Block1(3, true, blockSizeOf(128)),
             expected = """
                 D1 0E # Option Delta: 27, Option Length: 1
                 3B    # Option Value: 3<<4 | 0x8 | 3
@@ -408,7 +409,7 @@ class EncoderTest {
     @Test
     fun writeBlock2Option() {
         testWriteOption(
-            option = Block2(17, true, Block.Size.`1024`),
+            option = Block2(17, true, blockSizeOf(1024)),
             expected = """
                 D2 0A # Option Delta: 23, Option Length: 2
                 01 1E # Option Value: 17<<4 | 0x8 | 6
@@ -419,7 +420,7 @@ class EncoderTest {
     @Test
     fun writeQBlock1Option() {
         testWriteOption(
-            option = QBlock1(170, false, Block.Size.`256`),
+            option = QBlock1(170, false, blockSizeOf(256)),
             expected = """
                 D2 06 # Option Delta: 19, Option Length: 1
                 0A A4 # Option Value: 170<<4 | 0x0 | 4
@@ -430,7 +431,7 @@ class EncoderTest {
     @Test
     fun writeQBlock2Option() {
         testWriteOption(
-            option = QBlock2(2, false, Block.Size.`512`),
+            option = QBlock2(2, false, blockSizeOf(512)),
             expected = """
                 D1 12 # Option Delta: 31, Option Length: 1
                 25    # Option Value: 2<<4 | 0x0 | 5
@@ -441,7 +442,7 @@ class EncoderTest {
     @Test
     fun writeBlock1BertOption() {
         testWriteOption(
-            option = Block1(1048575, false, Block.Size.Bert),
+            option = Block1(1048575, false, Bert),
             expected = """
                 D3 0E    # Option Delta: 27, Option Length: 1
                 FF FF F7 # Option Value: 1048575<<4 | 0x0 | 7
@@ -452,7 +453,7 @@ class EncoderTest {
     @Test
     fun blockOptionWithValueOutsideOfAllowableRangeThrowsIllegalArgumentException() {
         assertFailsWith<IllegalArgumentException> {
-            Block1(0xF_FF_FF + 1, false, Block.Size.`16`)
+            Block1(0xF_FF_FF + 1, false, blockSizeOf(16))
         }
     }
 

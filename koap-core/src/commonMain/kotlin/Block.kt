@@ -3,6 +3,20 @@ package com.juul.koap
 import com.juul.koap.Message.Option.Block
 import kotlin.reflect.KClass
 
+fun blockSizeOf(size: Int, bert: Boolean = false): Block.Size {
+    if (bert) {
+        require(size == Block.Size.Bert.size) {
+            "BERT block sizes must be ${Block.Size.Bert.size}, was $size"
+        }
+        return Block.Size.Bert
+    }
+    return Block.Size.entries.firstOrNull { it.size == size }
+        ?: run {
+            val sizes = Block.Size.entries.map { it.size }.toSet().joinToString(", ")
+            throw IllegalArgumentException("Block size of $size is invalid, allowed values: $sizes")
+        }
+}
+
 internal val Block.intValue: Int
     get() {
         val moreBit = if (more) 1 else 0
