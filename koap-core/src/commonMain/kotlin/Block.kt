@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 internal val Message.Option.Block.intValue: Int
     get() {
         val moreBit = if (more) 1 else 0
-        return (number shl 4) or (moreBit shl 3) or size.intValue
+        return (number shl 4) or (moreBit shl 3) or size.size
     }
 
 internal inline fun <reified T : Message.Option.Block> blockOf(value: Long): T =
