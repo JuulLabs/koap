@@ -33,7 +33,7 @@ private val ACCEPT_RANGE = USHORT_RANGE
 private val LOCATION_QUERY_LENGTH_RANGE = 0..255
 private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
-private val SIZE1_SIZE2_RANGE = UINT_RANGE
+private val SIZE_RANGE = UINT_RANGE // Size1, Size2
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
 private val BLOCK_RANGE = 0..16_777_215 // 3-byte unsigned int
 private val HOP_LIMIT_RANGE = 1..255
@@ -341,8 +341,8 @@ sealed class Message {
             val bytes: Long,
         ) : Option() {
             init {
-                require(bytes in SIZE1_SIZE2_RANGE) {
-                    "Size1 of $bytes is outside allowable range of $SIZE1_SIZE2_RANGE"
+                require(bytes in SIZE_RANGE) {
+                    "Size1 of $bytes is outside allowable range of $SIZE_RANGE"
                 }
             }
         }
@@ -352,8 +352,8 @@ sealed class Message {
             val bytes: Long,
         ) : Option() {
             init {
-                require(bytes in SIZE1_SIZE2_RANGE) {
-                    "Size1 of $bytes is outside allowable range of $SIZE1_SIZE2_RANGE"
+                require(bytes in SIZE_RANGE) {
+                    "Size1 of $bytes is outside allowable range of $SIZE_RANGE"
                 }
             }
         }
