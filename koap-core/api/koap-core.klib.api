@@ -245,6 +245,8 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
 
                 final val entries // com.juul.koap/Message.Option.Block.Size.entries|#static{}entries[0]
                     final fun <get-entries>(): kotlin.enums/EnumEntries<com.juul.koap/Message.Option.Block.Size> // com.juul.koap/Message.Option.Block.Size.entries.<get-entries>|<get-entries>#static(){}[0]
+                final val size // com.juul.koap/Message.Option.Block.Size.size|{}size[0]
+                    final fun <get-size>(): kotlin/Int // com.juul.koap/Message.Option.Block.Size.size.<get-size>|<get-size>(){}[0]
 
                 final fun valueOf(kotlin/String): com.juul.koap/Message.Option.Block.Size // com.juul.koap/Message.Option.Block.Size.valueOf|valueOf#static(kotlin.String){}[0]
                 final fun values(): kotlin/Array<com.juul.koap/Message.Option.Block.Size> // com.juul.koap/Message.Option.Block.Size.values|values#static(){}[0]
