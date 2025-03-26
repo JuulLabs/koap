@@ -1,8 +1,12 @@
 package com.juul.koap
 
 import com.juul.koap.Message.Option.Accept
+import com.juul.koap.Message.Option.Block1
+import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.LocationPath
@@ -14,7 +18,11 @@ import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.QBlock1
+import com.juul.koap.Message.Option.QBlock2
+import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.Size2
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -35,7 +43,7 @@ private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE_RANGE = UINT_RANGE // Size1, Size2
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
-private val BLOCK_RANGE = 0..16_777_215 // 3-byte unsigned int
+internal val BLOCK_NUMBER_RANGE = 0..0xF_FF_FF
 private val HOP_LIMIT_RANGE = 1..255
 private val ECHO_SIZE_RANGE = 1..40
 private val REQUEST_TAG_SIZE_RANGE = 0..8
@@ -399,90 +407,109 @@ sealed class Message {
             }
         }
 
-        companion object {
-            fun numMSzx(blockNumber: Long, more: Boolean, blockSize: Int): Long =
-                (blockNumber shl 4) or (if (more) 0x08 else 0) or szx(blockSize)
+        interface Block {
+            val number: Int
+            val more: Boolean
+            val size: Size
 
-            fun szx(blockSize: Int): Long = when (blockSize) {
-                16 -> 0
-                32 -> 1
-                64 -> 2
-                128 -> 3
-                256 -> 4
-                512 -> 5
-                1024 -> 6
-                -1 -> 7 // use blockSize -1 for BERT blocks
-                // https://datatracker.ietf.org/doc/html/rfc8323#section-6
-                // https://datatracker.ietf.org/doc/html/draft-bormann-core-block-bert-00#section-2
-                else -> throw IllegalArgumentException("Invalid block size: $blockSize")
+            @Suppress("ktlint:standard:enum-entry-name-case")
+            enum class Size(internal val intValue: Int) {
+                `16`(0),
+                `32`(1),
+                `64`(2),
+                `128`(3),
+                `256`(4),
+                `512`(5),
+                `1024`(6),
+
+                /**
+                 * Per RFC 8323
+                 * [Block-Wise Transfer and Reliable Transports](https://datatracker.ietf.org/doc/html/rfc8323#section-6):
+                 *
+                 * > BERT extends the block-wise transfer protocol to enable the use of larger
+                 * > messages over a reliable transport.
+                 */
+                Bert(7),
             }
-
-            fun blockNumber(numMSzx: Long) = numMSzx shr 4
-            fun more(numMSzx: Long) = (numMSzx and 0x08) != 0L
-            fun blockSize(numMSzx: Long) = if ((numMSzx and 0x07) != 7L) 16 shl (numMSzx and 0x07).toInt() else -1
         }
 
         /** RFC 7959 2.1. The Block2 and Block1 Options */
         data class Block1(
-            val blockNumber: Long,
-            val more: Boolean,
-            val blockSize: Int,
-        ) : Option() {
+
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
+
+            /** Whether more blocks are following (M). */
+            override val more: Boolean,
+
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
+        ) : Block, Option() {
+
             init {
-                val numMSzx = numMSzx(blockNumber, more, blockSize)
-                require(numMSzx in BLOCK_RANGE) {
-                    "Uri-Port value of $numMSzx is outside allowable range of $BLOCK_RANGE"
+                require(number in BLOCK_NUMBER_RANGE) {
+                    "Block1 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
                 }
-            }
-            constructor(numMSzx: Long) : this(blockNumber(numMSzx), more(numMSzx), blockSize(numMSzx)) {
             }
         }
 
         /** RFC 7959 2.1. The Block2 and Block1 Options */
         data class Block2(
-            val blockNumber: Long,
-            val more: Boolean,
-            val blockSize: Int,
-        ) : Option() {
+
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
+
+            /** Whether more blocks are following (M). */
+            override val more: Boolean,
+
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
+        ) : Block, Option() {
+
             init {
-                val numMSzx = numMSzx(blockNumber, more, blockSize)
-                require(numMSzx in BLOCK_RANGE) {
-                    "Uri-Port value of $numMSzx is outside allowable range of $BLOCK_RANGE"
+                require(number in BLOCK_NUMBER_RANGE) {
+                    "Block2 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
                 }
-            }
-            constructor(numMSzx: Long) : this(blockNumber(numMSzx), more(numMSzx), blockSize(numMSzx)) {
             }
         }
 
         /** RFC 9177 4. The Q-Block1 and Q-Block2 Options */
         data class QBlock1(
-            val blockNumber: Long,
-            val more: Boolean,
-            val blockSize: Int,
-        ) : Option() {
+
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
+
+            /** Whether more blocks are following (M). */
+            override val more: Boolean,
+
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
+        ) : Block, Option() {
+
             init {
-                val numMSzx = numMSzx(blockNumber, more, blockSize)
-                require(numMSzx in BLOCK_RANGE) {
-                    "Uri-Port value of $numMSzx is outside allowable range of $BLOCK_RANGE"
+                require(number in BLOCK_NUMBER_RANGE) {
+                    "QBlock1 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
                 }
-            }
-            constructor(numMSzx: Long) : this(blockNumber(numMSzx), more(numMSzx), blockSize(numMSzx)) {
             }
         }
 
         /** RFC 9177 4. The Q-Block1 and Q-Block2 Options */
         data class QBlock2(
-            val blockNumber: Long,
-            val more: Boolean,
-            val blockSize: Int,
-        ) : Option() {
+
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
+
+            /** Whether more blocks are following (M). */
+            override val more: Boolean,
+
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
+        ) : Block, Option() {
+
             init {
-                val numMSzx = numMSzx(blockNumber, more, blockSize)
-                require(numMSzx in BLOCK_RANGE) {
-                    "Uri-Port value of $numMSzx is outside allowable range of $BLOCK_RANGE"
+                require(number in BLOCK_NUMBER_RANGE) {
+                    "QBlock2 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
                 }
-            }
-            constructor(numMSzx: Long) : this(blockNumber(numMSzx), more(numMSzx), blockSize(numMSzx)) {
             }
         }
 

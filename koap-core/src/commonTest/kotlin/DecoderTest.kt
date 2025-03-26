@@ -2,6 +2,7 @@ package com.juul.koap.test
 
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
+import com.juul.koap.Message.Option.Block
 import com.juul.koap.Message.Option.Block1
 import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.Echo
@@ -203,7 +204,7 @@ class DecoderTest {
                 D1 0E # Option Delta: 27, Option Length: 1
                 AB    # Option Value: 3<<4 | 0x8 | 3
             """,
-            expected = Block1(10, true, 128),
+            expected = Block1(Block.Size.`128`, true, 10),
         )
     }
 
@@ -214,7 +215,7 @@ class DecoderTest {
                 D2 0A # Option Delta: 23, Option Length: 2
                 AB CD # Option Value: 2748<<4 | 0x8 | 5
             """,
-            expected = Block2(2748, true, 512),
+            expected = Block2(Block.Size.`512`, true, 2748),
         )
     }
 
@@ -225,7 +226,7 @@ class DecoderTest {
                 D2 06 # Option Delta: 19, Option Length: 1
                 12 34 # Option Value: 291<<4 | 0x0 | 4
             """,
-            expected = QBlock1(291, false, 256),
+            expected = QBlock1(Block.Size.`256`, false, 291),
         )
     }
 
@@ -236,7 +237,7 @@ class DecoderTest {
                 D3 12       # Option Delta: 31, Option Length: 1
                 12 34 78    # Option Value: 74567<<4 | 0x8 | 0
             """,
-            expected = QBlock2(74567, true, 16),
+            expected = QBlock2(Block.Size.`16`, true, 74567),
         )
     }
 
@@ -247,7 +248,7 @@ class DecoderTest {
                 D1 0E # Option Delta: 27, Option Length: 1
                 A7    # Option Value: 3<<4 | 0x0 | 7
             """,
-            expected = Block1(10, false, -1),
+            expected = Block1(Block.Size.Bert, false, 10),
         )
     }
 
