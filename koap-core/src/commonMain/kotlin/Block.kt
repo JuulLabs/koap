@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 /**
  * Creates a [Block.Size] of specified [size] (if allowed).
  *
- * Allowed sizes are: 16, 32, 64, 128, 256, 512, 1024
+ * Allowed [size]s are: 16, 32, 64, 128, 256, 512, 1024
  *
  * For [BERT](https://datatracker.ietf.org/doc/html/rfc8323#section-6) block size, use [Block.Size.Bert].
  *
