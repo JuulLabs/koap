@@ -18,8 +18,7 @@ private fun <T : Message.Option.Block> blockOf(type: KClass<T>, value: Long): T 
     }
     val more = (value and 0x8L) != 0L
     val size = (value and 0b111).toInt().let {
-        Message.Option.Block.Size.entries
-            .first { entry -> entry.intValue == it }
+        Block.Size.entries[it]
     }
 
     @Suppress("UNCHECKED_CAST")
