@@ -4,21 +4,21 @@ import com.juul.koap.Message.Option.Block
 import kotlin.reflect.KClass
 
 /**
- * Creates a [Block.Size] of specified [size] (if allowed).
+ * Creates a [Block.Size] of specified [bytes] (if allowed).
  *
- * Allowed [size]s are: 16, 32, 64, 128, 256, 512, 1024
+ * Allowed [bytes]s are: 16, 32, 64, 128, 256, 512, 1024
  *
  * For [BERT](https://datatracker.ietf.org/doc/html/rfc8323#section-6) block size, use [Block.Size.Bert].
  *
- * @throws IllegalArgumentException if specified [size] is not one of the allowed sizes.
+ * @throws IllegalArgumentException if specified [bytes] is not one of the allowed sizes.
  */
-fun blockSizeOf(size: Int): Block.Size = Block.Size.entries.firstOrNull { it.size == size }
+fun blockSizeOf(bytes: Int): Block.Size = Block.Size.entries.firstOrNull { it.bytes == bytes }
     ?: run {
         val sizes = Block.Size.entries
-            .map { it.size }
+            .map(Block.Size::bytes)
             .toSet()
             .joinToString(", ")
-        throw IllegalArgumentException("Block size of $size is invalid, allowed values: $sizes")
+        throw IllegalArgumentException("Block size of $bytes is invalid, allowed values: $sizes")
     }
 
 internal val Block.intValue: Int

@@ -413,7 +413,7 @@ sealed class Message {
             val size: Size
 
             @Suppress("ktlint:standard:enum-entry-name-case")
-            enum class Size(val size: Int) {
+            enum class Size(val bytes: Int) {
                 `16`(16),
                 `32`(32),
                 `64`(64),
