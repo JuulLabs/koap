@@ -24,10 +24,10 @@ private fun <T : Message.Option.Block> blockOf(type: KClass<T>, value: Long): T 
 
     @Suppress("UNCHECKED_CAST")
     return when (type) {
-        Message.Option.Block1::class -> Message.Option.Block1(size, more, number.toInt())
-        Message.Option.Block2::class -> Message.Option.Block2(size, more, number.toInt())
-        Message.Option.QBlock1::class -> Message.Option.QBlock1(size, more, number.toInt())
-        Message.Option.QBlock2::class -> Message.Option.QBlock2(size, more, number.toInt())
+        Message.Option.Block1::class -> Message.Option.Block1(number.toInt(), more, size)
+        Message.Option.Block2::class -> Message.Option.Block2(number.toInt(), more, size)
+        Message.Option.QBlock1::class -> Message.Option.QBlock1(number.toInt(), more, size)
+        Message.Option.QBlock2::class -> Message.Option.QBlock2(number.toInt(), more, size)
         else -> error("Unsupported Block type: ${type.simpleName}")
     } as T
 }

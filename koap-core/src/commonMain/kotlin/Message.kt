@@ -436,14 +436,14 @@ sealed class Message {
         /** RFC 7959 2.1. The Block2 and Block1 Options */
         data class Block1(
 
-            /** The size of the block (SZX). */
-            override val size: Block.Size,
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
 
             /** Whether more blocks are following (M). */
             override val more: Boolean,
 
-            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
-            override val number: Int,
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
         ) : Block, Option() {
 
             init {
@@ -456,14 +456,14 @@ sealed class Message {
         /** RFC 7959 2.1. The Block2 and Block1 Options */
         data class Block2(
 
-            /** The size of the block (SZX). */
-            override val size: Block.Size,
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
 
             /** Whether more blocks are following (M). */
             override val more: Boolean,
 
-            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
-            override val number: Int,
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
         ) : Block, Option() {
 
             init {
@@ -476,14 +476,14 @@ sealed class Message {
         /** RFC 9177 4. The Q-Block1 and Q-Block2 Options */
         data class QBlock1(
 
-            /** The size of the block (SZX). */
-            override val size: Block.Size,
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
 
             /** Whether more blocks are following (M). */
             override val more: Boolean,
 
-            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
-            override val number: Int,
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
         ) : Block, Option() {
 
             init {
@@ -496,14 +496,14 @@ sealed class Message {
         /** RFC 9177 4. The Q-Block1 and Q-Block2 Options */
         data class QBlock2(
 
-            /** The size of the block (SZX). */
-            override val size: Block.Size,
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
 
             /** Whether more blocks are following (M). */
             override val more: Boolean,
 
-            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
-            override val number: Int,
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
         ) : Block, Option() {
 
             init {
