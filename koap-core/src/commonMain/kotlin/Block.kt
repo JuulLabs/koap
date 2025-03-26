@@ -1,17 +1,18 @@
 package com.juul.koap
 
+import com.juul.koap.Message.Option.Block
 import kotlin.reflect.KClass
 
-internal val Message.Option.Block.intValue: Int
+internal val Block.intValue: Int
     get() {
         val moreBit = if (more) 1 else 0
         return (number shl 4) or (moreBit shl 3) or size.size
     }
 
-internal inline fun <reified T : Message.Option.Block> blockOf(value: Long): T =
+internal inline fun <reified T : Block> blockOf(value: Long): T =
     blockOf(T::class, value)
 
-private fun <T : Message.Option.Block> blockOf(type: KClass<T>, value: Long): T {
+private fun <T : Block> blockOf(type: KClass<T>, value: Long): T {
     val number = value shr 4
     require(number in BLOCK_NUMBER_RANGE) {
         "Block number $number (from option value of $value) is outside allowable range of $BLOCK_NUMBER_RANGE"
