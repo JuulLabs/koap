@@ -442,7 +442,7 @@ class EncoderTest {
     @Test
     fun writeBlock1BertOption() {
         testWriteOption(
-            option = Block1(1048575, false, Bert),
+            option = Block1(1_048_575, false, Bert),
             expected = """
                 D3 0E    # Option Delta: 27, Option Length: 1
                 FF FF F7 # Option Value: 1048575<<4 | 0x0 | 7

@@ -194,7 +194,7 @@ class DecoderTest {
                 D4 0F       # Option Delta: 28, Option Length: 2
                 FF FE FD FC # Option Value: 4294901244
             """,
-            expected = Size2(4294901244),
+            expected = Size2(4_294_901_244),
         )
     }
 
@@ -216,7 +216,7 @@ class DecoderTest {
                 D2 0A # Option Delta: 23, Option Length: 2
                 AB CD # Option Value: 2748<<4 | 0x8 | 5
             """,
-            expected = Block2(2748, true, blockSizeOf(512)),
+            expected = Block2(2_748, true, blockSizeOf(512)),
         )
     }
 
@@ -238,7 +238,7 @@ class DecoderTest {
                 D3 12       # Option Delta: 31, Option Length: 1
                 12 34 78    # Option Value: 74567<<4 | 0x8 | 0
             """,
-            expected = QBlock2(74567, true, blockSizeOf(16)),
+            expected = QBlock2(74_567, true, blockSizeOf(16)),
         )
     }
 
