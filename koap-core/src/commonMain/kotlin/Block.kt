@@ -3,22 +3,23 @@ package com.juul.koap
 import com.juul.koap.Message.Option.Block
 import kotlin.reflect.KClass
 
-fun blockSizeOf(size: Int, bert: Boolean = false): Block.Size {
-    if (bert) {
-        require(size == Block.Size.Bert.size) {
-            "BERT block sizes must be ${Block.Size.Bert.size}, was $size"
-        }
-        return Block.Size.Bert
+/**
+ * Creates a [Block.Size] of specified [size] (if allowed).
+ *
+ * Allowed sizes are: 16, 32, 64, 128, 256, 512, 1024
+ *
+ * For [BERT](https://datatracker.ietf.org/doc/html/rfc8323#section-6) block size, use [Block.Size.Bert].
+ *
+ * @throws IllegalArgumentException if specified [size] is not one of the allowed sizes.
+ */
+fun blockSizeOf(size: Int): Block.Size = Block.Size.entries.firstOrNull { it.size == size }
+    ?: run {
+        val sizes = Block.Size.entries
+            .map { it.size }
+            .toSet()
+            .joinToString(", ")
+        throw IllegalArgumentException("Block size of $size is invalid, allowed values: $sizes")
     }
-    return Block.Size.entries.firstOrNull { it.size == size }
-        ?: run {
-            val sizes = Block.Size.entries
-                .map { it.size }
-                .toSet()
-                .joinToString(", ")
-            throw IllegalArgumentException("Block size of $size is invalid, allowed values: $sizes")
-        }
-}
 
 internal val Block.intValue: Int
     get() {

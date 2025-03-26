@@ -723,5 +723,5 @@ final fun (kotlin/ByteArray).com.juul.koap/decodeTcp(): com.juul.koap/Message.Tc
 final fun (kotlin/ByteArray).com.juul.koap/decodeTcpHeader(): com.juul.koap/Header.Tcp // com.juul.koap/decodeTcpHeader|decodeTcpHeader@kotlin.ByteArray(){}[0]
 final fun (kotlin/ByteArray).com.juul.koap/decodeUdp(): com.juul.koap/Message.Udp // com.juul.koap/decodeUdp|decodeUdp@kotlin.ByteArray(){}[0]
 final fun (kotlin/ByteArray).com.juul.koap/decodeUdpHeader(): com.juul.koap/Header.Udp // com.juul.koap/decodeUdpHeader|decodeUdpHeader@kotlin.ByteArray(){}[0]
-final fun com.juul.koap/blockSizeOf(kotlin/Int, kotlin/Boolean = ...): com.juul.koap/Message.Option.Block.Size // com.juul.koap/blockSizeOf|blockSizeOf(kotlin.Int;kotlin.Boolean){}[0]
+final fun com.juul.koap/blockSizeOf(kotlin/Int): com.juul.koap/Message.Option.Block.Size // com.juul.koap/blockSizeOf|blockSizeOf(kotlin.Int){}[0]
 final inline fun <#A: reified com.juul.koap/Message> (kotlin/ByteArray).com.juul.koap/decode(): #A // com.juul.koap/decode|decode@kotlin.ByteArray(){0§<com.juul.koap.Message>}[0]

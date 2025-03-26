@@ -1,6 +1,5 @@
 public final class com/juul/koap/BlockKt {
-	public static final fun blockSizeOf (IZ)Lcom/juul/koap/Message$Option$Block$Size;
-	public static synthetic fun blockSizeOf$default (IZILjava/lang/Object;)Lcom/juul/koap/Message$Option$Block$Size;
+	public static final fun blockSizeOf (I)Lcom/juul/koap/Message$Option$Block$Size;
 }
 
 public final class com/juul/koap/DecoderKt {
