@@ -20,7 +20,7 @@ fun blockSizeOf(size: Int, bert: Boolean = false): Block.Size {
 internal val Block.intValue: Int
     get() {
         val moreBit = if (more) 1 else 0
-        return (number shl 4) or (moreBit shl 3) or size.size
+        return (number shl 4) or (moreBit shl 3) or size.ordinal
     }
 
 internal inline fun <reified T : Block> blockOf(value: Long): T =

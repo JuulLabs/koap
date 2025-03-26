@@ -414,13 +414,13 @@ sealed class Message {
 
             @Suppress("ktlint:standard:enum-entry-name-case")
             enum class Size(internal val size: Int) {
-                `16`(0),
-                `32`(1),
-                `64`(2),
-                `128`(3),
-                `256`(4),
-                `512`(5),
-                `1024`(6),
+                `16`(16),
+                `32`(32),
+                `64`(64),
+                `128`(128),
+                `256`(256),
+                `512`(512),
+                `1024`(1024),
 
                 /**
                  * Per RFC 8323
@@ -429,7 +429,7 @@ sealed class Message {
                  * > BERT extends the block-wise transfer protocol to enable the use of larger
                  * > messages over a reliable transport.
                  */
-                Bert(7),
+                Bert(1024),
             }
         }
 
