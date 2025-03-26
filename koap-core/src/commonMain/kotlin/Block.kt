@@ -12,7 +12,10 @@ fun blockSizeOf(size: Int, bert: Boolean = false): Block.Size {
     }
     return Block.Size.entries.firstOrNull { it.size == size }
         ?: run {
-            val sizes = Block.Size.entries.map { it.size }.toSet().joinToString(", ")
+            val sizes = Block.Size.entries
+                .map { it.size }
+                .toSet()
+                .joinToString(", ")
             throw IllegalArgumentException("Block size of $size is invalid, allowed values: $sizes")
         }
 }
