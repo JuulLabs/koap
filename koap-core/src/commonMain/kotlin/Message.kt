@@ -413,6 +413,7 @@ sealed class Message {
             val size: Size
 
             @Suppress("ktlint:standard:enum-entry-name-case")
+            // Note: Ordering is important as ordinal is used in `Block.intValue`.
             enum class Size(val bytes: Int) {
                 `16`(16),
                 `32`(32),
