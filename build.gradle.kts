@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.maven.publish) apply false
-    alias(libs.plugins.dokka)
+    alias(libs.plugins.dokka) apply false
     alias(libs.plugins.api)
     alias(libs.plugins.kover)
 }
@@ -45,7 +45,7 @@ tasks.register<Copy>("assembleGitHubPages") {
     description = "Generates static web site for GitHub Pages."
     group = "Build"
 
-    dependsOn(":webapp:jsBrowserDistribution", ":koap-core:dokkaHtml")
+    dependsOn(":webapp:jsBrowserDistribution", ":koap-core:dokkaGenerate")
 
     into(layout.buildDirectory.dir("gh-pages"))
     from(project(":webapp").layout.buildDirectory.dir("dist/js/productionExecutable")) {

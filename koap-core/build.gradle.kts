@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.dokka)
     id("org.jmailen.kotlinter")
     id("com.vanniktech.maven.publish")
     alias(libs.plugins.kover)
@@ -40,5 +40,12 @@ kotlin {
                 implementation(kotlin("test-js"))
             }
         }
+    }
+}
+
+dokka {
+    moduleName.set("KoAP")
+    pluginsConfiguration.html {
+        footerMessage.set("(c) JUUL Labs, Inc.")
     }
 }
