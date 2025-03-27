@@ -2,6 +2,8 @@ package com.juul.koap
 
 import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Accept
+import com.juul.koap.Message.Option.Block1
+import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
 import com.juul.koap.Message.Option.Echo
@@ -20,8 +22,11 @@ import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.QBlock1
+import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.Size2
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -44,7 +49,12 @@ internal fun Option.toFormat(): Format =
         is UriQuery -> string(15, option.uri)
         is HopLimit -> uint(16, option.hops)
         is Accept -> uint(17, option.format)
+        is QBlock1 -> uint(19, option.intValue.toLong())
         is LocationQuery -> string(20, option.uri)
+        is Block2 -> uint(23, option.intValue.toLong())
+        is Block1 -> uint(27, option.intValue.toLong())
+        is Size2 -> uint(28, option.bytes)
+        is QBlock2 -> uint(31, option.intValue.toLong())
         is ProxyUri -> string(35, option.uri)
         is ProxyScheme -> string(39, option.uri)
         is Size1 -> uint(60, option.bytes)

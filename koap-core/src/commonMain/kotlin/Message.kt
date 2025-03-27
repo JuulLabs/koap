@@ -1,8 +1,12 @@
 package com.juul.koap
 
 import com.juul.koap.Message.Option.Accept
+import com.juul.koap.Message.Option.Block1
+import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.LocationPath
@@ -14,7 +18,11 @@ import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.QBlock1
+import com.juul.koap.Message.Option.QBlock2
+import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.Size2
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -33,8 +41,9 @@ private val ACCEPT_RANGE = USHORT_RANGE
 private val LOCATION_QUERY_LENGTH_RANGE = 0..255
 private val PROXY_URI_LENGTH_RANGE = 1..1034
 private val PROXY_SCHEME_LENGTH_RANGE = 1..255
-private val SIZE1_RANGE = UINT_RANGE
+private val SIZE_RANGE = UINT_RANGE // Size1, Size2
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
+internal val BLOCK_NUMBER_RANGE = 0..0xF_FF_FF
 private val HOP_LIMIT_RANGE = 1..255
 private val ECHO_SIZE_RANGE = 1..40
 private val REQUEST_TAG_SIZE_RANGE = 0..8
@@ -86,13 +95,13 @@ sealed class Message {
      * |  15 | [Uri-Query][UriQuery]           | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
      * |  16 | [Hop-Limit][HopLimit]           | uint   | 1      | [RFC 8768](https://tools.ietf.org/html/rfc8768#section-3) Hop-Limit 3                    |
      * |  17 | [Accept][Accept]                | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.4) CoAP 5.10.4               |
-     * |  19 | Q-Block1                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
+     * |  19 | [Q-Block1][QBlock1]             | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
      * |  20 | [Location-Query][LocationQuery] | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
      * |  21 | EDHOC                           | empty  | 0      | [RFC 9668](https://tools.ietf.org/html/rfc9668#section-3.1) EDHOC 3.1                    |
-     * |  23 | Block2                          | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
-     * |  27 | Block1                          | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
-     * |  28 | Size2                           | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4                   |
-     * |  31 | Q-Block2                        | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
+     * |  23 | [Block2]                        | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
+     * |  27 | [Block1]                        | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
+     * |  28 | [Size2]                         | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4                   |
+     * |  31 | [Q-Block2][QBlock2]             | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
      * |  35 | [Proxy-Uri][ProxyUri]           | string | 1-1034 | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
      * |  39 | [Proxy-Scheme][ProxyScheme]     | string | 1-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.2) CoAP 5.10.2               |
      * |  60 | [Size1][Size1]                  | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4 (and CoAP 5.10.9) |
@@ -340,8 +349,19 @@ sealed class Message {
             val bytes: Long,
         ) : Option() {
             init {
-                require(bytes in SIZE1_RANGE) {
-                    "Size1 of $bytes is outside allowable range of $SIZE1_RANGE"
+                require(bytes in SIZE_RANGE) {
+                    "Size1 of $bytes is outside allowable range of $SIZE_RANGE"
+                }
+            }
+        }
+
+        /** RFC 7959 4. The Size2 and Size1 Options */
+        data class Size2(
+            val bytes: Long,
+        ) : Option() {
+            init {
+                require(bytes in SIZE_RANGE) {
+                    "Size1 of $bytes is outside allowable range of $SIZE_RANGE"
                 }
             }
         }
@@ -383,6 +403,113 @@ sealed class Message {
             init {
                 require(value in OBSERVE_RANGE) {
                     "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
+                }
+            }
+        }
+
+        interface Block {
+            val number: Int
+            val more: Boolean
+            val size: Size
+
+            @Suppress("ktlint:standard:enum-entry-name-case")
+            // Note: Ordering is important as ordinal is used in `Block.intValue`.
+            enum class Size(val bytes: Int) {
+                `16`(16),
+                `32`(32),
+                `64`(64),
+                `128`(128),
+                `256`(256),
+                `512`(512),
+                `1024`(1024),
+
+                /**
+                 * Per RFC 8323
+                 * [Block-Wise Transfer and Reliable Transports](https://datatracker.ietf.org/doc/html/rfc8323#section-6):
+                 *
+                 * > BERT extends the block-wise transfer protocol to enable the use of larger
+                 * > messages over a reliable transport.
+                 */
+                Bert(1024),
+            }
+        }
+
+        /** RFC 7959 2.1. The Block2 and Block1 Options */
+        data class Block1(
+
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
+
+            /** Whether more blocks are following (M). */
+            override val more: Boolean,
+
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
+        ) : Block, Option() {
+
+            init {
+                require(number in BLOCK_NUMBER_RANGE) {
+                    "Block1 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
+                }
+            }
+        }
+
+        /** RFC 7959 2.1. The Block2 and Block1 Options */
+        data class Block2(
+
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
+
+            /** Whether more blocks are following (M). */
+            override val more: Boolean,
+
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
+        ) : Block, Option() {
+
+            init {
+                require(number in BLOCK_NUMBER_RANGE) {
+                    "Block2 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
+                }
+            }
+        }
+
+        /** RFC 9177 4. The Q-Block1 and Q-Block2 Options */
+        data class QBlock1(
+
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
+
+            /** Whether more blocks are following (M). */
+            override val more: Boolean,
+
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
+        ) : Block, Option() {
+
+            init {
+                require(number in BLOCK_NUMBER_RANGE) {
+                    "QBlock1 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
+                }
+            }
+        }
+
+        /** RFC 9177 4. The Q-Block1 and Q-Block2 Options */
+        data class QBlock2(
+
+            /** The relative number of the block (NUM) within a sequence of blocks with the given size. */
+            override val number: Int,
+
+            /** Whether more blocks are following (M). */
+            override val more: Boolean,
+
+            /** The size of the block (SZX). */
+            override val size: Block.Size,
+        ) : Block, Option() {
+
+            init {
+                require(number in BLOCK_NUMBER_RANGE) {
+                    "QBlock2 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
                 }
             }
         }

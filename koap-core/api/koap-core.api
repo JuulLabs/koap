@@ -1,3 +1,7 @@
+public final class com/juul/koap/BlockKt {
+	public static final fun blockSizeOf (I)Lcom/juul/koap/Message$Option$Block$Size;
+}
+
 public final class com/juul/koap/DecoderKt {
 	public static final fun decode ([BLcom/juul/koap/Header$Tcp;I)Lcom/juul/koap/Message$Tcp;
 	public static final fun decode ([BLcom/juul/koap/Header$Udp;I)Lcom/juul/koap/Message$Udp;
@@ -206,6 +210,57 @@ public final class com/juul/koap/Message$Option$Accept : com/juul/koap/Message$O
 	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Accept;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Accept;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFormat ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/juul/koap/Message$Option$Block {
+	public abstract fun getMore ()Z
+	public abstract fun getNumber ()I
+	public abstract fun getSize ()Lcom/juul/koap/Message$Option$Block$Size;
+}
+
+public final class com/juul/koap/Message$Option$Block$Size : java/lang/Enum {
+	public static final field 1024 Lcom/juul/koap/Message$Option$Block$Size;
+	public static final field 128 Lcom/juul/koap/Message$Option$Block$Size;
+	public static final field 16 Lcom/juul/koap/Message$Option$Block$Size;
+	public static final field 256 Lcom/juul/koap/Message$Option$Block$Size;
+	public static final field 32 Lcom/juul/koap/Message$Option$Block$Size;
+	public static final field 512 Lcom/juul/koap/Message$Option$Block$Size;
+	public static final field 64 Lcom/juul/koap/Message$Option$Block$Size;
+	public static final field Bert Lcom/juul/koap/Message$Option$Block$Size;
+	public final fun getBytes ()I
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/juul/koap/Message$Option$Block$Size;
+	public static fun values ()[Lcom/juul/koap/Message$Option$Block$Size;
+}
+
+public final class com/juul/koap/Message$Option$Block1 : com/juul/koap/Message$Option, com/juul/koap/Message$Option$Block {
+	public fun <init> (IZLcom/juul/koap/Message$Option$Block$Size;)V
+	public final fun component1 ()I
+	public final fun component2 ()Z
+	public final fun component3 ()Lcom/juul/koap/Message$Option$Block$Size;
+	public final fun copy (IZLcom/juul/koap/Message$Option$Block$Size;)Lcom/juul/koap/Message$Option$Block1;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Block1;IZLcom/juul/koap/Message$Option$Block$Size;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$Block1;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getMore ()Z
+	public fun getNumber ()I
+	public fun getSize ()Lcom/juul/koap/Message$Option$Block$Size;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Block2 : com/juul/koap/Message$Option, com/juul/koap/Message$Option$Block {
+	public fun <init> (IZLcom/juul/koap/Message$Option$Block$Size;)V
+	public final fun component1 ()I
+	public final fun component2 ()Z
+	public final fun component3 ()Lcom/juul/koap/Message$Option$Block$Size;
+	public final fun copy (IZLcom/juul/koap/Message$Option$Block$Size;)Lcom/juul/koap/Message$Option$Block2;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Block2;IZLcom/juul/koap/Message$Option$Block$Size;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$Block2;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getMore ()Z
+	public fun getNumber ()I
+	public fun getSize ()Lcom/juul/koap/Message$Option$Block$Size;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -442,6 +497,36 @@ public final class com/juul/koap/Message$Option$ProxyUri : com/juul/koap/Message
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/juul/koap/Message$Option$QBlock1 : com/juul/koap/Message$Option, com/juul/koap/Message$Option$Block {
+	public fun <init> (IZLcom/juul/koap/Message$Option$Block$Size;)V
+	public final fun component1 ()I
+	public final fun component2 ()Z
+	public final fun component3 ()Lcom/juul/koap/Message$Option$Block$Size;
+	public final fun copy (IZLcom/juul/koap/Message$Option$Block$Size;)Lcom/juul/koap/Message$Option$QBlock1;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$QBlock1;IZLcom/juul/koap/Message$Option$Block$Size;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$QBlock1;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getMore ()Z
+	public fun getNumber ()I
+	public fun getSize ()Lcom/juul/koap/Message$Option$Block$Size;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$QBlock2 : com/juul/koap/Message$Option, com/juul/koap/Message$Option$Block {
+	public fun <init> (IZLcom/juul/koap/Message$Option$Block$Size;)V
+	public final fun component1 ()I
+	public final fun component2 ()Z
+	public final fun component3 ()Lcom/juul/koap/Message$Option$Block$Size;
+	public final fun copy (IZLcom/juul/koap/Message$Option$Block$Size;)Lcom/juul/koap/Message$Option$QBlock2;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$QBlock2;IZLcom/juul/koap/Message$Option$Block$Size;ILjava/lang/Object;)Lcom/juul/koap/Message$Option$QBlock2;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getMore ()Z
+	public fun getNumber ()I
+	public fun getSize ()Lcom/juul/koap/Message$Option$Block$Size;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/juul/koap/Message$Option$RequestTag : com/juul/koap/Message$Option {
 	public fun <init> ([B)V
 	public final fun component1 ()[B
@@ -458,6 +543,17 @@ public final class com/juul/koap/Message$Option$Size1 : com/juul/koap/Message$Op
 	public final fun component1 ()J
 	public final fun copy (J)Lcom/juul/koap/Message$Option$Size1;
 	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Size1;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Size1;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBytes ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Size2 : com/juul/koap/Message$Option {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/juul/koap/Message$Option$Size2;
+	public static synthetic fun copy$default (Lcom/juul/koap/Message$Option$Size2;JILjava/lang/Object;)Lcom/juul/koap/Message$Option$Size2;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBytes ()J
 	public fun hashCode ()I
