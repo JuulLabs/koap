@@ -25,10 +25,51 @@ import com.juul.koap.Message.Code.Response.ServiceUnavailable
 import com.juul.koap.Message.Code.Response.Unauthorized
 import com.juul.koap.Message.Code.Response.UnsupportedContentFormat
 import com.juul.koap.Message.Code.Response.Valid
+import com.juul.koap.Message.Option.Accept
+import com.juul.koap.Message.Option.ContentFormat
+import com.juul.koap.Message.Option.ETag
+import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.IfMatch
+import com.juul.koap.Message.Option.IfNoneMatch
+import com.juul.koap.Message.Option.Observe
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
+import com.juul.koap.Message.Option.RequestTag
+import com.juul.koap.Message.Option.UriHost
+import com.juul.koap.Message.Option.UriPort
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MessageTest {
+
+    @Test
+    fun optionToStringOverrides() {
+        // content format
+        assertToString(ContentFormat.JSON, "ContentFormat(JSON)")
+        assertToString(ContentFormat.CBOR, "ContentFormat(CBOR)")
+        assertToString(ContentFormat.PlainText, "ContentFormat(PlainText)")
+        assertToString(ContentFormat(20), "ContentFormat(20)")
+        assertToString(Accept(ContentFormat.JSON), "Accept(JSON)")
+
+        // hex
+        assertToString(ETag("123".encodeToByteArray()), "ETag(etag=31 32 33)")
+        assertToString(IfMatch("123".encodeToByteArray()), "IfMatch(etag=31 32 33)")
+        assertToString(IfMatch("".encodeToByteArray()), "IfMatch(etag=)")
+        assertToString(Echo("echo".encodeToByteArray()), "Echo(value=65 63 68 6F)")
+        assertToString(RequestTag("tag".encodeToByteArray()), "RequestTag(tag=74 61 67)")
+
+        // plain name
+        assertToString(IfNoneMatch, "IfNoneMatch")
+
+        // observe
+        assertToString(Observe(Register), "Observe(value=0/Register)")
+        assertToString(Observe(Deregister), "Observe(value=1/Deregister)")
+        assertToString(Observe(1234567), "Observe(value=1234567)")
+
+        // sample default data class implementations
+        assertToString(UriHost("localhost"), "UriHost(uri=localhost)")
+        assertToString(UriPort(1234), "UriPort(port=1234)")
+    }
 
     @Test
     fun methodToString() {
