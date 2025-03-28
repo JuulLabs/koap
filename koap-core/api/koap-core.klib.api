@@ -483,6 +483,19 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
             }
         }
 
+        final class Oscore : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Oscore|null[0]
+            constructor <init>(kotlin/ByteArray) // com.juul.koap/Message.Option.Oscore.<init>|<init>(kotlin.ByteArray){}[0]
+
+            final val value // com.juul.koap/Message.Option.Oscore.value|{}value[0]
+                final fun <get-value>(): kotlin/ByteArray // com.juul.koap/Message.Option.Oscore.value.<get-value>|<get-value>(){}[0]
+
+            final fun component1(): kotlin/ByteArray // com.juul.koap/Message.Option.Oscore.component1|component1(){}[0]
+            final fun copy(kotlin/ByteArray = ...): com.juul.koap/Message.Option.Oscore // com.juul.koap/Message.Option.Oscore.copy|copy(kotlin.ByteArray){}[0]
+            final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Oscore.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Oscore.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.Oscore.toString|toString(){}[0]
+        }
+
         final class ProxyScheme : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.ProxyScheme|null[0]
             constructor <init>(kotlin/String) // com.juul.koap/Message.Option.ProxyScheme.<init>|<init>(kotlin.String){}[0]
 
@@ -702,6 +715,10 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
                 final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Format.uint.hashCode|hashCode(){}[0]
                 final fun toString(): kotlin/String // com.juul.koap/Message.Option.Format.uint.toString|toString(){}[0]
             }
+        }
+
+        final object Edhoc : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Edhoc|null[0]
+            final fun toString(): kotlin/String // com.juul.koap/Message.Option.Edhoc.toString|toString(){}[0]
         }
 
         final object IfNoneMatch : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.IfNoneMatch|null[0]

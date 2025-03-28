@@ -44,6 +44,7 @@ private val PROXY_SCHEME_LENGTH_RANGE = 1..255
 private val SIZE_RANGE = UINT_RANGE // Size1, Size2
 private val OBSERVE_RANGE = 0..16_777_215 // 3-byte unsigned int
 internal val BLOCK_NUMBER_RANGE = 0..0xF_FF_FF
+private val OSCORE_LENGTH_RANGE = 0..255
 private val HOP_LIMIT_RANGE = 1..255
 private val ECHO_SIZE_RANGE = 1..40
 private val REQUEST_TAG_SIZE_RANGE = 0..8
@@ -88,7 +89,7 @@ sealed class Message {
      * |   6 | [Observe][Observe]              | uint   | 0-3    | [RFC 7641](https://tools.ietf.org/html/rfc7641#section-2) Observing Resources 2          |
      * |   7 | [Uri-Port][UriPort]             | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
      * |   8 | [Location-Path][LocationPath]   | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
-     * |   9 | OSCORE                          | opaque | 0-255  | [RFC 8613](https://tools.ietf.org/html/rfc8613#section-2) OSCORE 2                       |
+     * |   9 | [OSCORE][Oscore]                | opaque | 0-255  | [RFC 8613](https://tools.ietf.org/html/rfc8613#section-2) OSCORE 2                       |
      * |  11 | [Uri-Path][UriPath]             | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.1) CoAP 5.10.1               |
      * |  12 | [Content-Format][ContentFormat] | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.3) CoAP 5.10.3               |
      * |  14 | [Max-Age][MaxAge]               | uint   | 0-4    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.5) CoAP 5.10.5               |
@@ -97,7 +98,7 @@ sealed class Message {
      * |  17 | [Accept][Accept]                | uint   | 0-2    | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.4) CoAP 5.10.4               |
      * |  19 | [Q-Block1][QBlock1]             | uint   | 0-3    | [RFC 9177](https://tools.ietf.org/html/rfc9177#section-4) Block-Wise Robust 4            |
      * |  20 | [Location-Query][LocationQuery] | string | 0-255  | [RFC 7252](https://tools.ietf.org/html/rfc7252#section-5.10.7) CoAP 5.10.7               |
-     * |  21 | EDHOC                           | empty  | 0      | [RFC 9668](https://tools.ietf.org/html/rfc9668#section-3.1) EDHOC 3.1                    |
+     * |  21 | [EDHOC][Edhoc]                  | empty  | 0      | [RFC 9668](https://tools.ietf.org/html/rfc9668#section-3.1) EDHOC 3.1                    |
      * |  23 | [Block2]                        | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
      * |  27 | [Block1]                        | uint   | 0-3    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-2.1) Block-Wise 2.1               |
      * |  28 | [Size2]                         | uint   | 0-4    | [RFC 7959](https://tools.ietf.org/html/rfc7959#section-4) Block-Wise 4                   |
@@ -296,7 +297,7 @@ sealed class Message {
 
             override fun hashCode(): Int = etag.contentHashCode()
 
-            override fun toString(): String = "ETag(etag=${etag.toHexString()}"
+            override fun toString(): String = "ETag(etag=${etag.toHexString()})"
         }
 
         /** RFC 7252 5.10.7. Location-Path and Location-Query */
@@ -336,7 +337,7 @@ sealed class Message {
 
             override fun hashCode(): Int = etag.contentHashCode()
 
-            override fun toString(): String = "IfMatch(etag=${etag.toHexString()}"
+            override fun toString(): String = "IfMatch(etag=${etag.toHexString()})"
         }
 
         /** RFC 7252 5.10.8.2. If-None-Match */
@@ -512,6 +513,29 @@ sealed class Message {
                     "QBlock2 number of $number is outside allowable range of $BLOCK_NUMBER_RANGE"
                 }
             }
+        }
+
+        /** RFC 8613 2. OSCORE */
+        data class Oscore(
+            val value: ByteArray,
+        ) : Option() {
+            init {
+                require(value.size in OSCORE_LENGTH_RANGE) {
+                    "Oscore length of ${value.size} is outside allowable range of $OSCORE_LENGTH_RANGE"
+                }
+            }
+
+            override fun equals(other: Any?): Boolean =
+                this === other || (other is Oscore && value.contentEquals(other.value))
+
+            override fun hashCode(): Int = value.contentHashCode()
+
+            override fun toString(): String = "Oscore(value=${value.toHexString()})"
+        }
+
+        /** RFC 9668 3.1. EDHOC */
+        object Edhoc : Option() {
+            override fun toString(): String = "Edhoc"
         }
 
         /** RFC 8768 3. Hop-Limit */
