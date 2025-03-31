@@ -168,6 +168,7 @@ sealed class Message {
                         " Use ExperimentalUse."
                 }
             }
+
             override fun equals(other: Any?): Boolean =
                 this === other ||
                     (other is Unassigned && number == other.number && value.contentEquals(other.value))
@@ -177,6 +178,8 @@ sealed class Message {
                 result = 31 * result + value.contentHashCode()
                 return result
             }
+
+            override fun toString(): String = "Unassigned(number=$number, value=${value.toHexString()})"
         }
 
         /** RFC 7252 5.10.7. Location-Path and Location-Query reserved option numbers, and zero */
@@ -194,6 +197,7 @@ sealed class Message {
                     "Option number $number is not a reserved option number 0, 128, 132, 136, or 140"
                 }
             }
+
             override fun equals(other: Any?): Boolean =
                 this === other ||
                     (other is Reserved && number == other.number && value.contentEquals(other.value))
@@ -203,6 +207,8 @@ sealed class Message {
                 result = 31 * result + value.contentHashCode()
                 return result
             }
+
+            override fun toString(): String = "Reserved(number=$number, value=${value.toHexString()})"
         }
 
         /** RFC 7252 12.2. CoAP Option Numbers Registry, Table 8, Experimental use */
@@ -215,6 +221,7 @@ sealed class Message {
                     "Option number $number is outside experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE"
                 }
             }
+
             override fun equals(other: Any?): Boolean =
                 this === other ||
                     (other is ExperimentalUse && number == other.number && value.contentEquals(other.value))
@@ -224,6 +231,8 @@ sealed class Message {
                 result = 31 * result + value.contentHashCode()
                 return result
             }
+
+            override fun toString(): String = "ExperimentalUse(number=$number, value=${value.toHexString()})"
         }
 
         /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */
