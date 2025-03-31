@@ -25,10 +25,20 @@ import com.juul.koap.Message.Code.Response.ServiceUnavailable
 import com.juul.koap.Message.Code.Response.Unauthorized
 import com.juul.koap.Message.Code.Response.UnsupportedContentFormat
 import com.juul.koap.Message.Code.Response.Valid
+import com.juul.koap.Message.Option.Observe
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MessageTest {
+
+    @Test
+    fun optionToString() {
+        assertToString(Observe(Register), "Observe(value=0/Register)")
+        assertToString(Observe(Deregister), "Observe(value=1/Deregister)")
+        assertToString(Observe(1234567), "Observe(value=1234567)")
+    }
 
     @Test
     fun methodToString() {
