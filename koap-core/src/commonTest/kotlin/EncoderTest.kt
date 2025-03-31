@@ -3,7 +3,11 @@ package com.juul.koap.test
 import com.juul.koap.Message
 import com.juul.koap.Message.Code.Method.GET
 import com.juul.koap.Message.Code.Response.Content
+import com.juul.koap.Message.Option.Block.Size.Bert
+import com.juul.koap.Message.Option.Block1
+import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.Edhoc
 import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response2xx
@@ -12,7 +16,12 @@ import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response5xx
 import com.juul.koap.Message.Option.Observe
 import com.juul.koap.Message.Option.Observe.Registration.Deregister
 import com.juul.koap.Message.Option.Observe.Registration.Register
+import com.juul.koap.Message.Option.Oscore
+import com.juul.koap.Message.Option.QBlock1
+import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
+import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.Size2
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
 import com.juul.koap.Message.Udp.Type.Acknowledgement
@@ -21,6 +30,7 @@ import com.juul.koap.UBYTE_MAX_VALUE
 import com.juul.koap.UINT32_MAX_EXTENDED_LENGTH
 import com.juul.koap.UINT_MAX_VALUE
 import com.juul.koap.USHORT_MAX_VALUE
+import com.juul.koap.blockSizeOf
 import com.juul.koap.encode
 import com.juul.koap.toFormat
 import com.juul.koap.toHexString
@@ -359,9 +369,125 @@ class EncoderTest {
     }
 
     @Test
+    fun writeOscoreOptionWithEmptyValue() {
+        testWriteOption(
+            option = Oscore(byteArrayOf()),
+            expected = """
+                90 # Option Delta: 9, Option Length: 0
+            """,
+        )
+    }
+
+    @Test
+    fun writeOscoreOptionTestVector4() {
+        // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.4 Test Vector 4
+        testWriteOption(
+            option = Oscore(byteArrayOf(0x09, 0x14)),
+            expected = """
+                92    # Option Delta: 9, Option Length: 2
+                09 14 # Option Value: 09 14
+            """,
+        )
+    }
+
+    @Test
+    fun writeEdhocOption() {
+        testWriteOption(
+            option = Edhoc,
+            expected = """
+                D0 08 # Option Delta: 21, Option Length: 0
+            """,
+        )
+    }
+
+    @Test
     fun observeOptionWithValueOutsideOfAllowableRangeThrowsIllegalArgumentException() {
         assertFailsWith<IllegalArgumentException> {
             Observe(16_777_216)
+        }
+    }
+
+    @Test
+    fun writeSize1Option() {
+        testWriteOption(
+            option = Size1(255),
+            expected = """
+                D1 2F # Option Delta: 60, Option Length: 1
+                FF    # Option Value: 255
+            """,
+        )
+    }
+
+    @Test
+    fun writeSize2Option() {
+        testWriteOption(
+            option = Size2(1337),
+            expected = """
+                D2 0F # Option Delta: 28, Option Length: 2
+                05 39 # Option Value: 1337
+            """,
+        )
+    }
+
+    @Test
+    fun writeBlock1Option() {
+        testWriteOption(
+            option = Block1(3, true, blockSizeOf(128)),
+            expected = """
+                D1 0E # Option Delta: 27, Option Length: 1
+                3B    # Option Value: 3<<4 | 0x8 | 3
+            """,
+        )
+    }
+
+    @Test
+    fun writeBlock2Option() {
+        testWriteOption(
+            option = Block2(17, true, blockSizeOf(1024)),
+            expected = """
+                D2 0A # Option Delta: 23, Option Length: 2
+                01 1E # Option Value: 17<<4 | 0x8 | 6
+            """,
+        )
+    }
+
+    @Test
+    fun writeQBlock1Option() {
+        testWriteOption(
+            option = QBlock1(170, false, blockSizeOf(256)),
+            expected = """
+                D2 06 # Option Delta: 19, Option Length: 1
+                0A A4 # Option Value: 170<<4 | 0x0 | 4
+            """,
+        )
+    }
+
+    @Test
+    fun writeQBlock2Option() {
+        testWriteOption(
+            option = QBlock2(2, false, blockSizeOf(512)),
+            expected = """
+                D1 12 # Option Delta: 31, Option Length: 1
+                25    # Option Value: 2<<4 | 0x0 | 5
+            """,
+        )
+    }
+
+    @Test
+    fun writeBlock1BertOption() {
+        testWriteOption(
+            option = Block1(1_048_575, false, Bert),
+            expected = """
+                D3 0E    # Option Delta: 27, Option Length: 1
+                FF FF F7 # Option Value: 1048575<<4 | 0x0 | 7
+            """,
+        )
+    }
+
+    @Test
+    fun blockOptionWithValueOutsideOfAllowableRangeThrowsIllegalArgumentException() {
+        assertFailsWith<IllegalArgumentException> {
+            Block1(0xF_FF_FF + 1, false, blockSizeOf(16))
         }
     }
 

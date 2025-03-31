@@ -27,9 +27,12 @@ import com.juul.koap.Message.Code.Response.UnsupportedContentFormat
 import com.juul.koap.Message.Code.Response.Valid
 import com.juul.koap.Message.Option
 import com.juul.koap.Message.Option.Accept
+import com.juul.koap.Message.Option.Block1
+import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
 import com.juul.koap.Message.Option.Echo
+import com.juul.koap.Message.Option.Edhoc
 import com.juul.koap.Message.Option.Format
 import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.IfMatch
@@ -39,10 +42,14 @@ import com.juul.koap.Message.Option.LocationQuery
 import com.juul.koap.Message.Option.MaxAge
 import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.Observe
+import com.juul.koap.Message.Option.Oscore
 import com.juul.koap.Message.Option.ProxyScheme
 import com.juul.koap.Message.Option.ProxyUri
+import com.juul.koap.Message.Option.QBlock1
+import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
 import com.juul.koap.Message.Option.Size1
+import com.juul.koap.Message.Option.Size2
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -401,13 +408,20 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         6 -> Observe(readNumberOfLength(length))
         7 -> UriPort(readNumberOfLength(length))
         8 -> LocationPath(readUtf8(length))
+        9 -> Oscore(readByteArray(length))
         11 -> UriPath(readUtf8(length))
         12 -> ContentFormat(readNumberOfLength(length))
         14 -> MaxAge(readNumberOfLength(length))
         15 -> UriQuery(readUtf8(length))
         16 -> HopLimit(readNumberOfLength(length))
         17 -> Accept(readNumberOfLength(length))
+        19 -> blockOf<QBlock1>(readNumberOfLength(length))
         20 -> LocationQuery(readUtf8(length))
+        21 -> Edhoc
+        23 -> blockOf<Block2>(readNumberOfLength(length))
+        27 -> blockOf<Block1>(readNumberOfLength(length))
+        28 -> Size2(readNumberOfLength(length))
+        31 -> blockOf<QBlock2>(readNumberOfLength(length))
         35 -> ProxyUri(readUtf8(length))
         39 -> ProxyScheme(readUtf8(length))
         60 -> Size1(readNumberOfLength(length))
