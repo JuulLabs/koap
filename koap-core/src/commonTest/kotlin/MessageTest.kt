@@ -25,10 +25,19 @@ import com.juul.koap.Message.Code.Response.ServiceUnavailable
 import com.juul.koap.Message.Code.Response.Unauthorized
 import com.juul.koap.Message.Code.Response.UnsupportedContentFormat
 import com.juul.koap.Message.Code.Response.Valid
+import com.juul.koap.Message.Option.ExperimentalUse
+import com.juul.koap.Message.Option.Reserved
+import com.juul.koap.Message.Option.Unassigned
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MessageTest {
+    @Test
+    fun optionToString() {
+        assertToString(Unassigned(5674, "abc".encodeToByteArray()), "Unassigned(number=5674, value=61 62 63)")
+        assertToString(Reserved(136, "abc".encodeToByteArray()), "Reserved(number=136, value=61 62 63)")
+        assertToString(ExperimentalUse(65123, "abc".encodeToByteArray()), "ExperimentalUse(number=65123, value=61 62 63)")
+    }
 
     @Test
     fun methodToString() {
