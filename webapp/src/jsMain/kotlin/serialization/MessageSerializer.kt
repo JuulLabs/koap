@@ -129,7 +129,7 @@ private object CodeSerializer : KSerializer<Code> {
     override fun deserialize(decoder: Decoder): Code = TODO("Not yet implemented")
 }
 
-internal object OptionSerializer : KSerializer<Option> {
+private object OptionSerializer : KSerializer<Option> {
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Option", PrimitiveKind.STRING)
 
