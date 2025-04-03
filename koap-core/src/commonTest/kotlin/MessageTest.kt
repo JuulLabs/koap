@@ -32,11 +32,14 @@ import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
 import com.juul.koap.Message.Option.Echo
 import com.juul.koap.Message.Option.Edhoc
+import com.juul.koap.Message.Option.ExperimentalUse
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.Oscore
 import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
+import com.juul.koap.Message.Option.Reserved
+import com.juul.koap.Message.Option.Unassigned
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPort
 import kotlin.test.Test
@@ -63,6 +66,9 @@ class MessageTest {
         assertToString(UriPort(1234), "UriPort(port=1234)")
         assertToString(Block1(100, true, Block.Size.`64`), "Block1(number=100, more=true, size=64)")
         assertToString(QBlock2(101, false, Block.Size.Bert), "QBlock2(number=101, more=false, size=Bert)")
+        assertToString(Unassigned(5674, "abc".encodeToByteArray()), "Unassigned(number=5674, value=61 62 63)")
+        assertToString(Reserved(136, "abc".encodeToByteArray()), "Reserved(number=136, value=61 62 63)")
+        assertToString(ExperimentalUse(65123, "abc".encodeToByteArray()), "ExperimentalUse(number=65123, value=61 62 63)")
     }
 
     @Test

@@ -49,6 +49,8 @@ private val HOP_LIMIT_RANGE = 1..255
 private val ECHO_SIZE_RANGE = 1..40
 private val REQUEST_TAG_SIZE_RANGE = 0..8
 private val NO_RESPONSE_RANGE = 0..127
+internal val RESERVED_OPTION_NUMBERS = setOf(0, 128, 132, 136, 140)
+internal val EXPERIMENTAL_USE_OPTION_RANGE = 65000..65535
 
 sealed class Message {
 
@@ -147,6 +149,67 @@ sealed class Message {
                 override val number: Int,
                 val value: String,
             ) : Format()
+        }
+
+        data class Unassigned internal constructor(
+            val number: Int,
+            val value: ByteArray,
+        ) : Option() {
+
+            override fun equals(other: Any?): Boolean =
+                this === other ||
+                    (other is Unassigned && number == other.number && value.contentEquals(other.value))
+
+            override fun hashCode(): Int {
+                var result = number
+                result = 31 * result + value.contentHashCode()
+                return result
+            }
+
+            override fun toString(): String = "Unassigned(number=$number, value=${value.toHexString()})"
+        }
+
+        /** RFC 7252 5.10.7. Location-Path and Location-Query reserved option numbers, and zero */
+        data class Reserved internal constructor(
+            val number: Int,
+            val value: ByteArray,
+        ) : Option() {
+
+            override fun equals(other: Any?): Boolean =
+                this === other ||
+                    (other is Reserved && number == other.number && value.contentEquals(other.value))
+
+            override fun hashCode(): Int {
+                var result = number
+                result = 31 * result + value.contentHashCode()
+                return result
+            }
+
+            override fun toString(): String = "Reserved(number=$number, value=${value.toHexString()})"
+        }
+
+        /** RFC 7252 12.2. CoAP Option Numbers Registry, Table 8, Experimental use */
+        data class ExperimentalUse(
+            val number: Int,
+            val value: ByteArray,
+        ) : Option() {
+            init {
+                require(number in EXPERIMENTAL_USE_OPTION_RANGE) {
+                    "Option number $number is outside experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE"
+                }
+            }
+
+            override fun equals(other: Any?): Boolean =
+                this === other ||
+                    (other is ExperimentalUse && number == other.number && value.contentEquals(other.value))
+
+            override fun hashCode(): Int {
+                var result = number
+                result = 31 * result + value.contentHashCode()
+                return result
+            }
+
+            override fun toString(): String = "ExperimentalUse(number=$number, value=${value.toHexString()})"
         }
 
         /** RFC 7252 5.10.1. Uri-Host, Uri-Port, Uri-Path, and Uri-Query */

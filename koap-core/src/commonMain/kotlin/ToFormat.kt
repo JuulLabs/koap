@@ -8,6 +8,7 @@ import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
 import com.juul.koap.Message.Option.Echo
 import com.juul.koap.Message.Option.Edhoc
+import com.juul.koap.Message.Option.ExperimentalUse
 import com.juul.koap.Message.Option.Format
 import com.juul.koap.Message.Option.Format.empty
 import com.juul.koap.Message.Option.Format.opaque
@@ -27,8 +28,10 @@ import com.juul.koap.Message.Option.ProxyUri
 import com.juul.koap.Message.Option.QBlock1
 import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
+import com.juul.koap.Message.Option.Reserved
 import com.juul.koap.Message.Option.Size1
 import com.juul.koap.Message.Option.Size2
+import com.juul.koap.Message.Option.Unassigned
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -65,4 +68,7 @@ internal fun Option.toFormat(): Format =
         is Echo -> opaque(252, option.value)
         is NoResponse -> uint(258, option.value)
         is RequestTag -> opaque(292, option.tag)
+        is Reserved -> opaque(option.number, option.value)
+        is ExperimentalUse -> opaque(option.number, option.value)
+        is Unassigned -> opaque(option.number, option.value)
     }

@@ -9,6 +9,7 @@ import com.juul.koap.Message.Option.Block1
 import com.juul.koap.Message.Option.Block2
 import com.juul.koap.Message.Option.Echo
 import com.juul.koap.Message.Option.Edhoc
+import com.juul.koap.Message.Option.ExperimentalUse
 import com.juul.koap.Message.Option.HopLimit
 import com.juul.koap.Message.Option.NoResponse
 import com.juul.koap.Message.Option.NoResponse.NotInterestedIn.Response4xx
@@ -20,8 +21,10 @@ import com.juul.koap.Message.Option.Oscore
 import com.juul.koap.Message.Option.QBlock1
 import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
+import com.juul.koap.Message.Option.Reserved
 import com.juul.koap.Message.Option.Size1
 import com.juul.koap.Message.Option.Size2
+import com.juul.koap.Message.Option.Unassigned
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPath
 import com.juul.koap.Message.Option.UriPort
@@ -456,6 +459,39 @@ class DecoderTest {
                 01 02 03 04 05 # Option Value: 1 2 3 4 5
             """,
             expected = RequestTag(byteArrayOf(1, 2, 3, 4, 5)),
+        )
+    }
+
+    @Test
+    fun decodeUnassignedOption() {
+        testReadOption(
+            encoded = """
+                E3 11 27 # Option Delta: 0x1234, Option Length: 3
+                01 02 03 # Option Value: 0x01, 0x02, 0x03
+            """,
+            expected = Unassigned(0x1234, byteArrayOf(0x01, 0x02, 0x03)),
+        )
+    }
+
+    @Test
+    fun decodeReservedOption() {
+        testReadOption(
+            encoded = """
+                D3 7F    # Option Delta: 140, Option Length: 3
+                61 62 63 # Option Value: 0x61, 0x62, 0x63
+            """,
+            expected = Reserved(140, byteArrayOf(0x61, 0x62, 0x63)),
+        )
+    }
+
+    @Test
+    fun decodeExperimentalUseOption() {
+        testReadOption(
+            encoded = """
+                E3 FC DE # Option Delta: 65003, Option Length: 3
+                41 42 43 # Option Value: 0x41, 0x42, 0x43
+            """,
+            expected = ExperimentalUse(65003, byteArrayOf(0x41, 0x42, 0x43)),
         )
     }
 
