@@ -68,7 +68,7 @@ internal fun Option.toFormat(): Format =
         is Echo -> opaque(252, option.value)
         is NoResponse -> uint(258, option.value)
         is RequestTag -> opaque(292, option.tag)
-        is Unassigned -> opaque(option.number, option.value)
         is Reserved -> opaque(option.number, option.value)
+        is Unassigned -> opaque(option.number, option.value)
         is ExperimentalUse -> opaque(option.number, option.value)
     }
