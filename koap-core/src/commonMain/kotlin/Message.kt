@@ -150,24 +150,10 @@ sealed class Message {
             ) : Format()
         }
 
-        data class Unassigned(
+        data class Unassigned internal constructor(
             val number: Int,
             val value: ByteArray,
         ) : Option() {
-            init {
-                require(
-                    when (number) {
-                        0, 128, 132, 136, 140 -> false
-                        else -> true
-                    },
-                ) {
-                    "Option number $number is a reserved option number 0, 128, 132, 136, or 140. Use Reserved."
-                }
-                require(!(number in EXPERIMENTAL_USE_OPTION_RANGE)) {
-                    "Option number $number is inside the experimental use range of $EXPERIMENTAL_USE_OPTION_RANGE." +
-                        " Use ExperimentalUse."
-                }
-            }
 
             override fun equals(other: Any?): Boolean =
                 this === other ||
