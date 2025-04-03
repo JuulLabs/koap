@@ -563,7 +563,7 @@ class EncoderTest {
     @Test
     fun experimentalUseOptionWithNumberOutsideExperimentalRangeThrowsIllegalArgumentException() {
         assertFailsWith<IllegalArgumentException> {
-            Reserved(64999, byteArrayOf())
+            ExperimentalUse(64999, byteArrayOf())
         }
     }
 }
