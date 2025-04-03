@@ -50,6 +50,7 @@ private val ECHO_SIZE_RANGE = 1..40
 private val REQUEST_TAG_SIZE_RANGE = 0..8
 private val NO_RESPONSE_RANGE = 0..127
 private val EXPERIMENTAL_USE_OPTION_RANGE = 65000..65535
+internal val RESERVED_OPTION_NUMBERS = setOf(0, 128, 132, 136, 140)
 
 sealed class Message {
 
@@ -174,13 +175,8 @@ sealed class Message {
             val value: ByteArray,
         ) : Option() {
             init {
-                require(
-                    when (number) {
-                        0, 128, 132, 136, 140 -> true
-                        else -> false
-                    },
-                ) {
-                    "Option number $number is not a reserved option number 0, 128, 132, 136, or 140"
+                require(number in RESERVED_OPTION_NUMBERS) {
+                    "Option number $number is not a reserved option number: $RESERVED_OPTION_NUMBERS"
                 }
             }
 
