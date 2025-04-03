@@ -431,8 +431,8 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         252 -> Echo(readByteArray(length))
         258 -> NoResponse(readNumberOfLength(length))
         292 -> RequestTag(readByteArray(length))
-        in 65000..65535 -> ExperimentalUse(number, readByteArray(length))
         in RESERVED_OPTION_NUMBERS -> Reserved(number, readByteArray(length))
+        in EXPERIMENTAL_USE_OPTION_RANGE -> ExperimentalUse(number, readByteArray(length))
         else -> Unassigned(number, readByteArray(length))
     }
 }
