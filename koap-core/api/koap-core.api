@@ -568,7 +568,6 @@ public final class com/juul/koap/Message$Option$RequestTag : com/juul/koap/Messa
 }
 
 public final class com/juul/koap/Message$Option$Reserved : com/juul/koap/Message$Option {
-	public fun <init> (I[B)V
 	public final fun component1 ()I
 	public final fun component2 ()[B
 	public final fun copy (I[B)Lcom/juul/koap/Message$Option$Reserved;
@@ -603,7 +602,6 @@ public final class com/juul/koap/Message$Option$Size2 : com/juul/koap/Message$Op
 }
 
 public final class com/juul/koap/Message$Option$Unassigned : com/juul/koap/Message$Option {
-	public fun <init> (I[B)V
 	public final fun component1 ()I
 	public final fun component2 ()[B
 	public final fun copy (I[B)Lcom/juul/koap/Message$Option$Unassigned;

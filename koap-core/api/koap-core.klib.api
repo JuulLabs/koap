@@ -590,8 +590,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
         }
 
         final class Reserved : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Reserved|null[0]
-            constructor <init>(kotlin/Int, kotlin/ByteArray) // com.juul.koap/Message.Option.Reserved.<init>|<init>(kotlin.Int;kotlin.ByteArray){}[0]
-
             final val number // com.juul.koap/Message.Option.Reserved.number|{}number[0]
                 final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Reserved.number.<get-number>|<get-number>(){}[0]
             final val value // com.juul.koap/Message.Option.Reserved.value|{}value[0]
@@ -632,8 +630,6 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
         }
 
         final class Unassigned : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.Unassigned|null[0]
-            constructor <init>(kotlin/Int, kotlin/ByteArray) // com.juul.koap/Message.Option.Unassigned.<init>|<init>(kotlin.Int;kotlin.ByteArray){}[0]
-
             final val number // com.juul.koap/Message.Option.Unassigned.number|{}number[0]
                 final fun <get-number>(): kotlin/Int // com.juul.koap/Message.Option.Unassigned.number.<get-number>|<get-number>(){}[0]
             final val value // com.juul.koap/Message.Option.Unassigned.value|{}value[0]
