@@ -25,9 +25,6 @@ import com.juul.koap.Message.Code.Response.ServiceUnavailable
 import com.juul.koap.Message.Code.Response.Unauthorized
 import com.juul.koap.Message.Code.Response.UnsupportedContentFormat
 import com.juul.koap.Message.Code.Response.Valid
-import com.juul.koap.Message.Option.ExperimentalUse
-import com.juul.koap.Message.Option.Reserved
-import com.juul.koap.Message.Option.Unassigned
 import com.juul.koap.Message.Option.Accept
 import com.juul.koap.Message.Option.Block
 import com.juul.koap.Message.Option.Block1
@@ -35,11 +32,14 @@ import com.juul.koap.Message.Option.ContentFormat
 import com.juul.koap.Message.Option.ETag
 import com.juul.koap.Message.Option.Echo
 import com.juul.koap.Message.Option.Edhoc
+import com.juul.koap.Message.Option.ExperimentalUse
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
 import com.juul.koap.Message.Option.Oscore
 import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
+import com.juul.koap.Message.Option.Reserved
+import com.juul.koap.Message.Option.Unassigned
 import com.juul.koap.Message.Option.UriHost
 import com.juul.koap.Message.Option.UriPort
 import kotlin.test.Test
