@@ -170,15 +170,10 @@ sealed class Message {
         }
 
         /** RFC 7252 5.10.7. Location-Path and Location-Query reserved option numbers, and zero */
-        data class Reserved(
+        data class Reserved internal constructor(
             val number: Int,
             val value: ByteArray,
         ) : Option() {
-            init {
-                require(number in RESERVED_OPTION_NUMBERS) {
-                    "Option number $number is not a reserved option number: $RESERVED_OPTION_NUMBERS"
-                }
-            }
 
             override fun equals(other: Any?): Boolean =
                 this === other ||

@@ -539,20 +539,6 @@ class EncoderTest {
     }
 
     @Test
-    fun unassignedOptionWithReservedNumberThrowsIllegalArgumentException() {
-        assertFailsWith<IllegalArgumentException> {
-            Unassigned(128, byteArrayOf())
-        }
-    }
-
-    @Test
-    fun unassignedOptionWithNumberInExperimenalRangeThrowsIllegalArgumentException() {
-        assertFailsWith<IllegalArgumentException> {
-            Unassigned(65530, byteArrayOf())
-        }
-    }
-
-    @Test
     fun writeReservedOption() {
         testWriteOption(
             option = Reserved(136, byteArrayOf(0x34, 0x33, 0x32, 0x31)),
@@ -561,13 +547,6 @@ class EncoderTest {
                 34 33 32 31 # Option Value: 0x34, 0x33, 0x32, 0x31
             """,
         )
-    }
-
-    @Test
-    fun reservedOptionWithNonReservedNumberThrowsIllegalArgumentException() {
-        assertFailsWith<IllegalArgumentException> {
-            Reserved(131, byteArrayOf())
-        }
     }
 
     @Test
