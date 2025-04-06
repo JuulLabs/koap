@@ -470,13 +470,14 @@ sealed class Message {
                 }
             }
 
-            override fun toString(): String {
-                val reg = when (value) {
-                    0L -> "/Register"
-                    1L -> "/Deregister"
-                    else -> ""
+            override fun toString(): String = buildString {
+                append("Observe(value=")
+                append(value)
+                when (value) {
+                    0L -> append("|Register")
+                    1L -> append("|Deregister")
                 }
-                return "Observe(value=$value$reg)"
+                append(')')
             }
         }
 

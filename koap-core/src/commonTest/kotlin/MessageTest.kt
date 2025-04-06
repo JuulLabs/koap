@@ -72,8 +72,8 @@ class MessageTest {
         assertToString(Unassigned(5674, "abc".encodeToByteArray()), "Unassigned(number=5674, value=61 62 63)")
         assertToString(Reserved(136, "abc".encodeToByteArray()), "Reserved(number=136, value=61 62 63)")
         assertToString(ExperimentalUse(65123, "abc".encodeToByteArray()), "ExperimentalUse(number=65123, value=61 62 63)")
-        assertToString(Observe(Register), "Observe(value=0/Register)")
-        assertToString(Observe(Deregister), "Observe(value=1/Deregister)")
+        assertToString(Observe(Register), "Observe(value=0|Register)")
+        assertToString(Observe(Deregister), "Observe(value=1|Deregister)")
         assertToString(Observe(1234567), "Observe(value=1234567)")
     }
 
