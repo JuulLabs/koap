@@ -469,6 +469,16 @@ sealed class Message {
                     "Observe value of $value is outside allowable range of $OBSERVE_RANGE"
                 }
             }
+
+            override fun toString(): String = buildString {
+                append("Observe(value=")
+                append(value)
+                when (value) {
+                    0L -> append("|Register")
+                    1L -> append("|Deregister")
+                }
+                append(')')
+            }
         }
 
         interface Block {

@@ -35,6 +35,9 @@ import com.juul.koap.Message.Option.Edhoc
 import com.juul.koap.Message.Option.ExperimentalUse
 import com.juul.koap.Message.Option.IfMatch
 import com.juul.koap.Message.Option.IfNoneMatch
+import com.juul.koap.Message.Option.Observe
+import com.juul.koap.Message.Option.Observe.Registration.Deregister
+import com.juul.koap.Message.Option.Observe.Registration.Register
 import com.juul.koap.Message.Option.Oscore
 import com.juul.koap.Message.Option.QBlock2
 import com.juul.koap.Message.Option.RequestTag
@@ -69,6 +72,9 @@ class MessageTest {
         assertToString(Unassigned(5674, "abc".encodeToByteArray()), "Unassigned(number=5674, value=61 62 63)")
         assertToString(Reserved(136, "abc".encodeToByteArray()), "Reserved(number=136, value=61 62 63)")
         assertToString(ExperimentalUse(65123, "abc".encodeToByteArray()), "ExperimentalUse(number=65123, value=61 62 63)")
+        assertToString(Observe(Register), "Observe(value=0|Register)")
+        assertToString(Observe(Deregister), "Observe(value=1|Deregister)")
+        assertToString(Observe(1234567), "Observe(value=1234567)")
     }
 
     @Test
