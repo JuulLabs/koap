@@ -133,7 +133,6 @@ internal object OptionSerializer : KSerializer<Option> {
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Option", PrimitiveKind.STRING)
 
-    @ExperimentalStdlibApi // for `toHexString`
     override fun serialize(encoder: Encoder, value: Option) {
         fun format(format: Long): String = when (format) {
             PlainText.format -> "text/plain; charset=utf-8"

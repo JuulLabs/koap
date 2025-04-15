@@ -10,6 +10,10 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlin.ExperimentalStdlibApi")
+        }
+
         val jsMain by getting {
             dependencies {
                 implementation(project(":koap-core"))
