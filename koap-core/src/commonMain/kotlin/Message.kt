@@ -590,20 +590,86 @@ sealed class Message {
 
         /** RFC 8613 2. OSCORE */
         data class Oscore(
-            val value: ByteArray,
+            val partialIv: ByteArray,
+            val kidContext: ByteArray?,
+            val kid: ByteArray?,
         ) : Option() {
             init {
+                val value = optionValue()
                 require(value.size in OSCORE_LENGTH_RANGE) {
                     "Oscore length of ${value.size} is outside allowable range of $OSCORE_LENGTH_RANGE"
                 }
             }
 
             override fun equals(other: Any?): Boolean =
-                this === other || (other is Oscore && value.contentEquals(other.value))
+                this === other ||
+                    (
+                        other is Oscore &&
+                            partialIv.contentEquals(other.partialIv) &&
+                            kidContext.contentEquals(other.kidContext) &&
+                            kid.contentEquals(other.kid)
+                    )
 
-            override fun hashCode(): Int = value.contentHashCode()
+            override fun hashCode(): Int {
+                var result = partialIv.hashCode()
+                result = 31 * result + kidContext.contentHashCode()
+                result = 31 * result + kid.contentHashCode()
+                return result
+            }
 
-            override fun toString(): String = "Oscore(value=${value.toHexString()})"
+            override fun toString(): String {
+                val args = listOfNotNull(
+                    if (partialIv.size > 0) "partialIv=${partialIv.toHexString()}" else null,
+                    if (kidContext != null) "kidContext=${kidContext.toHexString()}" else null,
+                    if (kid != null) "kid=${kid?.toHexString()}" else null,
+                ).joinToString(separator = ", ")
+                return "Oscore($args)"
+            }
+
+            fun optionValue(): ByteArray {
+                val partialIvLength = partialIv.size
+                if (partialIvLength > 5) {
+                    throw IllegalArgumentException("Partial IV length of $partialIvLength is outside allowable range of 0..5")
+                }
+                val kidContextLength = if (kidContext != null) kidContext.size else 0
+                val kidFlag = if (kid != null) 0x08 else 0
+                val kidContextFlag = if (kidContext != null) 0x10 else 0
+                val flagBits = partialIvLength or kidFlag or kidContextFlag
+                if (flagBits == 0) {
+                    // If the OSCORE flag bits are all zero (0x00), the option value SHALL be empty
+                    return byteArrayOf()
+                }
+                var value = byteArrayOf(flagBits.toByte()) + partialIv
+                if (kidContext != null) {
+                    value += byteArrayOf(kidContextLength.toByte()) + kidContext
+                }
+                if (kid != null) {
+                    value += kid
+                }
+                return value
+            }
+
+            companion object {
+                fun fromOptionValue(value: ByteArray): Oscore {
+                    if (value.size == 0) {
+                        return Oscore(byteArrayOf(), null, null)
+                    }
+                    val flagBits = value[0].toInt()
+                    val partialIvLength = flagBits and 0x07
+                    val kidFlag = (flagBits and 0x08) != 0
+                    val kidContextFlag = (flagBits and 0x10) != 0
+                    val partialIv = value.sliceArray(1 until 1 + partialIvLength)
+                    val kidContextLength = if (kidContextFlag) value[1 + partialIvLength].toInt() else 0
+                    val kidContext = if (kidContextFlag) {
+                        value.sliceArray(2 + partialIvLength until 2 + partialIvLength + kidContextLength)
+                    } else {
+                        null
+                    }
+                    val kidOffset = (if (kidContextFlag) 2 else 1) + partialIvLength + kidContextLength
+                    val kid = if (kidFlag) value.sliceArray(kidOffset until value.size) else null
+                    return Oscore(partialIv, kidContext, kid)
+                }
+            }
         }
 
         /** RFC 9668 3.1. EDHOC */
