@@ -611,7 +611,7 @@ sealed class Message {
                     )
 
             override fun hashCode(): Int {
-                var result = partialIv.hashCode()
+                var result = partialIv.contentHashCode()
                 result = 31 * result + kidContext.contentHashCode()
                 result = 31 * result + kid.contentHashCode()
                 return result
