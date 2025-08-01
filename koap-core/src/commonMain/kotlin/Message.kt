@@ -590,20 +590,47 @@ sealed class Message {
 
         /** RFC 8613 2. OSCORE */
         data class Oscore(
-            val value: ByteArray,
+            val partialIv: ByteArray,
+            val kidContext: ByteArray?,
+            val kid: ByteArray?,
         ) : Option() {
             init {
+                val value = optionValue()
                 require(value.size in OSCORE_LENGTH_RANGE) {
                     "Oscore length of ${value.size} is outside allowable range of $OSCORE_LENGTH_RANGE"
                 }
             }
 
             override fun equals(other: Any?): Boolean =
-                this === other || (other is Oscore && value.contentEquals(other.value))
+                this === other ||
+                    (
+                        other is Oscore &&
+                            partialIv.contentEquals(other.partialIv) &&
+                            kidContext.contentEquals(other.kidContext) &&
+                            kid.contentEquals(other.kid)
+                    )
 
-            override fun hashCode(): Int = value.contentHashCode()
+            override fun hashCode(): Int {
+                var result = partialIv.contentHashCode()
+                result = 31 * result + kidContext.contentHashCode()
+                result = 31 * result + kid.contentHashCode()
+                return result
+            }
 
-            override fun toString(): String = "Oscore(value=${value.toHexString()})"
+            override fun toString(): String {
+                val args = listOfNotNull(
+                    if (partialIv.size > 0) "partialIv=${partialIv.toHexString()}" else null,
+                    if (kidContext != null) "kidContext=${kidContext.toHexString()}" else null,
+                    if (kid != null) "kid=${kid?.toHexString()}" else null,
+                ).joinToString(separator = ", ")
+                return "Oscore($args)"
+            }
+
+            fun optionValue(): ByteArray = oscoreOptionValue(this)
+
+            companion object {
+                fun fromOptionValue(value: ByteArray): Oscore = oscoreFromOptionValue(value)
+            }
         }
 
         /** RFC 9668 3.1. EDHOC */
