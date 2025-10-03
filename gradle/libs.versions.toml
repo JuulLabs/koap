@@ -3,7 +3,7 @@ kotlin = "2.2.20"
 okio = "3.16.0"
 
 [libraries]
-equalsverifier = { module = "nl.jqno.equalsverifier:equalsverifier", version = "4.1" }
+equalsverifier = { module = "nl.jqno.equalsverifier:equalsverifier", version = "4.1.1" }
 kotlinx-coroutines-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version = "1.10.2" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.9.0" }
 okio-core = { module = "com.squareup.okio:okio", version.ref = "okio" }
@@ -16,5 +16,5 @@ kotlin-js = { id = "org.jetbrains.kotlin.js", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version = "5.2.0" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kover = { id = "org.jetbrains.kotlinx.kover", version = "0.9.1" }
+kover = { id = "org.jetbrains.kotlinx.kover", version = "0.9.2" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
