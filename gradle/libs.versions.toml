@@ -11,7 +11,7 @@ okio-js = { module = "com.squareup.okio:okio-js", version.ref = "okio" }
 
 [plugins]
 api = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.18.1" }
-dokka = { id = "org.jetbrains.dokka", version = "2.0.0" }
+dokka = { id = "org.jetbrains.dokka", version = "2.1.0" }
 kotlin-js = { id = "org.jetbrains.kotlin.js", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version = "5.2.0" }
