@@ -411,7 +411,7 @@ internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
         6 -> Observe(readNumberOfLength(length))
         7 -> UriPort(readNumberOfLength(length))
         8 -> LocationPath(readUtf8(length))
-        9 -> Oscore.fromOptionValue(readByteArray(length))
+        9 -> Oscore(readByteArray(length))
         11 -> UriPath(readUtf8(length))
         12 -> ContentFormat(readNumberOfLength(length))
         14 -> MaxAge(readNumberOfLength(length))

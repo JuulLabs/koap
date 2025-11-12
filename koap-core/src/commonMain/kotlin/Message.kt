@@ -590,46 +590,29 @@ sealed class Message {
 
         /** RFC 8613 2. OSCORE */
         data class Oscore(
-            val partialIv: ByteArray,
-            val kidContext: ByteArray?,
-            val kid: ByteArray?,
+            val value: ByteArray,
         ) : Option() {
             init {
-                val value = optionValue()
                 require(value.size in OSCORE_LENGTH_RANGE) {
                     "Oscore length of ${value.size} is outside allowable range of $OSCORE_LENGTH_RANGE"
                 }
             }
 
             override fun equals(other: Any?): Boolean =
-                this === other ||
-                    (
-                        other is Oscore &&
-                            partialIv.contentEquals(other.partialIv) &&
-                            kidContext.contentEquals(other.kidContext) &&
-                            kid.contentEquals(other.kid)
-                    )
+                this === other || (other is Oscore && value.contentEquals(other.value))
 
-            override fun hashCode(): Int {
-                var result = partialIv.contentHashCode()
-                result = 31 * result + kidContext.contentHashCode()
-                result = 31 * result + kid.contentHashCode()
-                return result
-            }
+            override fun hashCode(): Int = value.contentHashCode()
 
             override fun toString(): String {
-                val args = listOfNotNull(
-                    if (partialIv.size > 0) "partialIv=${partialIv.toHexString()}" else null,
-                    if (kidContext != null) "kidContext=${kidContext.toHexString()}" else null,
-                    if (kid != null) "kid=${kid?.toHexString()}" else null,
-                ).joinToString(separator = ", ")
-                return "Oscore($args)"
+                val parts = oscorePartsFromOptionValue(value)
+                return parts.toString()
             }
 
-            fun optionValue(): ByteArray = oscoreOptionValue(this)
+            fun parts(): OscoreParts = oscorePartsFromOptionValue(value)
 
             companion object {
-                fun fromOptionValue(value: ByteArray): Oscore = oscoreFromOptionValue(value)
+                fun fromParts(partialIv: ByteArray, kidContext: ByteArray?, kid: ByteArray?): Oscore =
+                    Oscore(oscoreOptionValue(OscoreParts(partialIv, kidContext, kid)))
             }
         }
 

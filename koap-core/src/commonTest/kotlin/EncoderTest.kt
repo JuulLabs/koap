@@ -374,7 +374,7 @@ class EncoderTest {
     @Test
     fun writeOscoreOptionWithEmptyValue() {
         testWriteOption(
-            option = Oscore(byteArrayOf(), null, null),
+            option = Oscore.fromParts(byteArrayOf(), null, null),
             expected = """
                 90 # Option Delta: 9, Option Length: 0
             """,
@@ -385,7 +385,7 @@ class EncoderTest {
     fun writeOscoreOptionTestVector4() {
         // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.4 Test Vector 4
         testWriteOption(
-            option = Oscore(partialIv = byteArrayOf(0x14), kidContext = null, kid = byteArrayOf()),
+            option = Oscore.fromParts(partialIv = byteArrayOf(0x14), kidContext = null, kid = byteArrayOf()),
             expected = """
                 92    # Option Delta: 9, Option Length: 2
                 09 14 # Option Value: 09 14
@@ -406,7 +406,7 @@ class EncoderTest {
     @Test
     fun oscoreOptionIvParameterTooLongThrowsIllegalArgumentException() {
         assertFailsWith<IllegalArgumentException> {
-            Oscore(partialIv = byteArrayOf(1, 2, 3, 4, 5, 6), kid = null, kidContext = null)
+            Oscore.fromParts(partialIv = byteArrayOf(1, 2, 3, 4, 5, 6), kid = null, kidContext = null)
         }
     }
 
