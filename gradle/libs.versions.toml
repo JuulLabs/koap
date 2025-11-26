@@ -17,4 +17,4 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlinter = { id = "org.jmailen.kotlinter", version = "5.2.0" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version = "0.9.3" }
-maven-publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
+maven-publish = { id = "com.vanniktech.maven.publish", version = "0.35.0" }
