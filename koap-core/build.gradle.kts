@@ -8,7 +8,9 @@ plugins {
 
 kotlin {
     jvm()
+
     js().browser()
+    wasmJs().browser()
 
     macosX64()
     macosArm64()
@@ -28,21 +30,13 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test-annotations-common"))
-                implementation(kotlin("test-common"))
+                implementation(kotlin("test"))
             }
         }
 
         val jvmTest by getting {
             dependencies {
-                implementation(kotlin("test-junit"))
                 implementation(libs.equalsverifier)
-            }
-        }
-
-        val jsTest by getting {
-            dependencies {
-                implementation(kotlin("test-js"))
             }
         }
     }
