@@ -8,7 +8,9 @@ plugins {
 
 kotlin {
     jvm()
+
     js().browser()
+    wasmJs().browser()
 
     macosX64()
     macosArm64()
