@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.dokka) apply false
-    alias(libs.plugins.api)
     alias(libs.plugins.kover)
 }
 
@@ -31,14 +30,6 @@ allprojects {
             showCauses = true
         }
     }
-}
-
-apiValidation {
-    @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
-    klib {
-        enabled = true
-    }
-    ignoredProjects += "webapp"
 }
 
 tasks.register<Copy>("assembleGitHubPages") {

@@ -16,6 +16,11 @@ kotlin {
     macosArm64()
     iosArm64()
 
+    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
+    abiValidation {
+        enabled = true
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
