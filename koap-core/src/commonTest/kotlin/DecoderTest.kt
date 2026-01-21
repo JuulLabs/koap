@@ -266,7 +266,7 @@ class DecoderTest {
             encoded = """
                 90 # Option Delta: 9, Option Length: 0
             """,
-            expected = Oscore(byteArrayOf()),
+            expected = Oscore.fromParts(byteArrayOf(), null, null),
         )
     }
 
@@ -292,11 +292,15 @@ class DecoderTest {
                 token = unprotectedCoapRequest.token,
                 options = listOf(
                     UriHost("localhost"),
-                    Oscore(oscoreOptionValue),
+                    Oscore.fromParts(partialIv = byteArrayOf(0x14), kidContext = null, kid = byteArrayOf()),
                 ),
                 payload = ciphertext,
             ),
             actual = protectedCoapRequest.decode<Message.Udp>(),
+        )
+        assertEquals(
+            actual = Oscore(oscoreOptionValue),
+            expected = Oscore.fromParts(partialIv = byteArrayOf(0x14), kidContext = null, kid = byteArrayOf()),
         )
     }
 
@@ -322,11 +326,15 @@ class DecoderTest {
                 token = unprotectedCoapRequest.token,
                 options = listOf(
                     UriHost("localhost"),
-                    Oscore(oscoreOptionValue),
+                    Oscore.fromParts(partialIv = byteArrayOf(0x14), kidContext = null, kid = byteArrayOf(0x00)),
                 ),
                 payload = ciphertext,
             ),
             actual = protectedCoapRequest.decode<Message.Udp>(),
+        )
+        assertEquals(
+            actual = Oscore(oscoreOptionValue),
+            expected = Oscore.fromParts(partialIv = byteArrayOf(0x14), kidContext = null, kid = byteArrayOf(0x00)),
         )
     }
 
@@ -353,11 +361,21 @@ class DecoderTest {
                 token = unprotectedCoapRequest.token,
                 options = listOf(
                     UriHost("localhost"),
-                    Oscore(oscoreOptionValue),
+                    Oscore.fromParts(
+                        partialIv = byteArrayOf(0x14),
+                        kidContext = "37CBF3210017A2D3".decodeHex().toByteArray(),
+                        kid = byteArrayOf(),
+                    ),
                 ),
                 payload = ciphertext,
             ),
             actual = protectedCoapRequest.decode<Message.Udp>(),
+        )
+        assertEquals(
+            actual = Oscore(oscoreOptionValue),
+            expected = Oscore.fromParts(
+                partialIv = byteArrayOf(0x14), kidContext = "37CBF3210017A2D3".decodeHex().toByteArray(), kid = byteArrayOf(),
+            ),
         )
     }
 
@@ -382,11 +400,15 @@ class DecoderTest {
                 id = unprotectedCoapResponse.id,
                 token = unprotectedCoapResponse.token,
                 options = listOf(
-                    Oscore(oscoreOptionValue),
+                    Oscore.fromParts(partialIv = byteArrayOf(), kidContext = null, kid = null),
                 ),
                 payload = ciphertext,
             ),
             actual = protectedCoapResponse.decode<Message.Udp>(),
+        )
+        assertEquals(
+            actual = Oscore(oscoreOptionValue),
+            expected = Oscore.fromParts(partialIv = byteArrayOf(), kidContext = null, kid = null),
         )
     }
 
@@ -411,11 +433,15 @@ class DecoderTest {
                 id = unprotectedCoapResponse.id,
                 token = unprotectedCoapResponse.token,
                 options = listOf(
-                    Oscore(oscoreOptionValue),
+                    Oscore.fromParts(partialIv = byteArrayOf(0x00), kidContext = null, kid = null),
                 ),
                 payload = ciphertext,
             ),
             actual = protectedCoapResponse.decode<Message.Udp>(),
+        )
+        assertEquals(
+            actual = Oscore(oscoreOptionValue),
+            expected = Oscore.fromParts(partialIv = byteArrayOf(0x00), kidContext = null, kid = null),
         )
     }
 
