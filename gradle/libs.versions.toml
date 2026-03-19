@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.3.20"
-okio = "3.16.4"
+okio = "3.17.0"
 
 [libraries]
 equalsverifier = { module = "nl.jqno.equalsverifier:equalsverifier", version = "4.4.1" }
