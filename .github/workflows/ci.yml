@@ -20,6 +20,6 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
 
       - run: ./gradlew check koverXmlReport
-      - uses: codecov/codecov-action@v6
+      - uses: codecov/codecov-action@v7
       - run: ./gradlew assembleGitHubPages
       - run: ./gradlew -PRELEASE_SIGNING_ENABLED=false publishToMavenLocal
