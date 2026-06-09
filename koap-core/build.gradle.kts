@@ -1,3 +1,8 @@
+@file:OptIn(
+    org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class,
+    org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class,
+)
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.dokka)
@@ -7,6 +12,8 @@ plugins {
 }
 
 kotlin {
+    abiValidation()
+
     jvm()
 
     js().browser()
@@ -16,28 +23,17 @@ kotlin {
     macosArm64()
     iosArm64()
 
-    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
-    abiValidation {
-        enabled = true
-    }
-
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.okio.core)
-            }
+        commonMain.dependencies {
+            implementation(libs.okio.core)
         }
 
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
 
-        val jvmTest by getting {
-            dependencies {
-                implementation(libs.equalsverifier)
-            }
+        jvmTest.dependencies {
+            implementation(libs.equalsverifier)
         }
     }
 }
