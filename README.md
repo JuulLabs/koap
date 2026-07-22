@@ -208,9 +208,9 @@ Message.Udp(
 )
 ```
 
-# Setup
+## Setup
 
-## Gradle
+### Gradle
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.juul.koap/koap-core)](https://central.sonatype.com/artifact/com.juul.koap/koap-core)
 
@@ -224,7 +224,26 @@ dependencies {
 }
 ```
 
-# License
+## Development
+
+The Java version used to build this project can optionally be managed via [SDKMAN!], as
+declared in the [`.sdkmanrc`] file. With [SDKMAN!] installed, the appropriate JDK can be
+installed and activated from the repository root by running:
+
+```shell
+sdk env install
+sdk env
+```
+
+> [!TIP]
+> Have [SDKMAN!] automatically use the SDK defined in [`.sdkmanrc`] when changing directories by
+> running `sdk config` then setting `sdkman_auto_env=true`.
+
+> [!NOTE]
+> If not using [SDKMAN!], be sure the JDK version specified in [`.sdkmanrc`] is installed, as Gradle
+> [toolchain automatic downloading is disabled] for this project.
+
+## License
 
 ```
 Copyright 2020 JUUL Labs, Inc.
@@ -254,7 +273,10 @@ limitations under the License.
 [badge-tvos]: http://img.shields.io/badge/platform-tvos-808080.svg?style=flat
 [badge-wasm]: https://img.shields.io/badge/platform-wasm-624FE8.svg?style=flat
 
+[`.sdkmanrc`]: .sdkmanrc
 [RFC 7252]: https://tools.ietf.org/html/rfc7252
 [RFC 8323]: https://tools.ietf.org/html/rfc8323
 [RFC 7641]: https://tools.ietf.org/html/rfc7641
 [Figure 7: Message Format]: https://tools.ietf.org/html/rfc7252#section-3
+[SDKMAN!]: https://sdkman.io/
+[toolchain automatic downloading is disabled]: https://docs.gradle.org/current/userguide/toolchains.html#sub:disable_auto_provision
