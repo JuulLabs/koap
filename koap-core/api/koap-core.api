@@ -494,6 +494,7 @@ public final class com/juul/koap/Message$Option$Observe$Registration$Register : 
 }
 
 public final class com/juul/koap/Message$Option$Oscore : com/juul/koap/Message$Option {
+	public static final field Companion Lcom/juul/koap/Message$Option$Oscore$Companion;
 	public fun <init> ([B)V
 	public final fun component1 ()[B
 	public final fun copy ([B)Lcom/juul/koap/Message$Option$Oscore;
@@ -501,7 +502,12 @@ public final class com/juul/koap/Message$Option$Oscore : com/juul/koap/Message$O
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()[B
 	public fun hashCode ()I
+	public final fun parts ()Lcom/juul/koap/OscoreParts;
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/juul/koap/Message$Option$Oscore$Companion {
+	public final fun fromParts ([B[B[B)Lcom/juul/koap/Message$Option$Oscore;
 }
 
 public final class com/juul/koap/Message$Option$ProxyScheme : com/juul/koap/Message$Option {
@@ -718,5 +724,20 @@ public final class com/juul/koap/Message$Udp$Type$Reset : com/juul/koap/Message$
 public final class com/juul/koap/MessageKt {
 	public static final fun isError (Lcom/juul/koap/Message$Code$Response;)Z
 	public static final fun isSuccess (Lcom/juul/koap/Message$Code$Response;)Z
+}
+
+public final class com/juul/koap/OscoreParts {
+	public fun <init> ([B[B[B)V
+	public final fun component1 ()[B
+	public final fun component2 ()[B
+	public final fun component3 ()[B
+	public final fun copy ([B[B[B)Lcom/juul/koap/OscoreParts;
+	public static synthetic fun copy$default (Lcom/juul/koap/OscoreParts;[B[B[BILjava/lang/Object;)Lcom/juul/koap/OscoreParts;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKid ()[B
+	public final fun getKidContext ()[B
+	public final fun getPartialIv ()[B
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
