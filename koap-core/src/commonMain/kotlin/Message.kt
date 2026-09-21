@@ -603,7 +603,17 @@ sealed class Message {
 
             override fun hashCode(): Int = value.contentHashCode()
 
-            override fun toString(): String = "Oscore(value=${value.toHexString()})"
+            override fun toString(): String {
+                val parts = oscorePartsFromOptionValue(value)
+                return parts.toString()
+            }
+
+            fun parts(): OscoreParts = oscorePartsFromOptionValue(value)
+
+            companion object {
+                fun fromParts(partialIv: ByteArray, kidContext: ByteArray?, kid: ByteArray?): Oscore =
+                    Oscore(oscoreOptionValue(OscoreParts(partialIv, kidContext, kid)))
+            }
         }
 
         /** RFC 9668 3.1. EDHOC */
