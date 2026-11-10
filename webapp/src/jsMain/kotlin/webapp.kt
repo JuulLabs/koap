@@ -12,7 +12,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.await
 import kotlinx.coroutines.promise
 import kotlinx.serialization.json.Json
-import okio.ByteString.Companion.decodeHex
 import kotlin.js.Promise
 
 private val json = Json {
@@ -45,7 +44,7 @@ fun decode(hex: String?): Promise<String> = GlobalScope.promise {
     val bytes = try {
         val stripped = hex.replace(" ", "").replace("\n", "")
         console.info("Decoding: $stripped")
-        stripped.decodeHex().toByteArray()
+        stripped.hexToByteArray()
     } catch (t: Throwable) {
         console.error(t)
         return@promise t.message ?: "Failed to parse hex input"

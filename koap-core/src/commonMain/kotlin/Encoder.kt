@@ -12,8 +12,10 @@ import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
 import com.juul.koap.Message.Udp.Type.NonConfirmable
 import com.juul.koap.Message.Udp.Type.Reset
-import okio.Buffer
-import okio.BufferedSink
+import kotlinx.io.Buffer
+import kotlinx.io.Sink
+import kotlinx.io.readByteArray
+import kotlinx.io.writeString
 
 internal const val UINT32_MAX_EXTENDED_LENGTH = UINT_MAX_VALUE + 65805L
 
@@ -70,7 +72,7 @@ fun Message.encode(): ByteArray = Buffer().apply { writeMessage(this@encode) }.r
 fun Message.Udp.encodeHeader(): ByteArray =
     Buffer().apply { writeHeader(this@encodeHeader) }.readByteArray()
 
-private fun BufferedSink.writeMessage(message: Message) {
+private fun Sink.writeMessage(message: Message) {
     // Content is encoded first, as the encoded content length is needed for `Len` (in TCP header).
     val content = Buffer()
     content.apply {
@@ -88,8 +90,8 @@ private fun BufferedSink.writeMessage(message: Message) {
         }
     }
 
-    writeAll(header)
-    writeAll(content)
+    transferFrom(header)
+    transferFrom(content)
 }
 
 /**
@@ -106,7 +108,7 @@ private fun BufferedSink.writeMessage(message: Message) {
  *
  * @param message to write the header for
  */
-internal fun BufferedSink.writeHeader(message: Udp) {
+internal fun Sink.writeHeader(message: Udp) {
     // Token is encoded first, as it's length is needed for TKL.
     val token = Buffer().apply { writeToken(message.token) }
     val tokenLength = token.size
@@ -138,7 +140,7 @@ internal fun BufferedSink.writeHeader(message: Udp) {
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // |   Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    writeAll(token)
+    transferFrom(token)
 }
 
 /**
@@ -156,7 +158,7 @@ internal fun BufferedSink.writeHeader(message: Udp) {
  * @param message to write the header for
  * @param contentLength content length, used for calculating `Len`
  */
-internal fun BufferedSink.writeHeader(
+internal fun Sink.writeHeader(
     message: Tcp,
     contentLength: Long,
 ) {
@@ -217,14 +219,14 @@ internal fun BufferedSink.writeHeader(
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     // | Token (if any, TKL bytes) ...
     // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    writeAll(token)
+    transferFrom(token)
 }
 
-private fun BufferedSink.writeOptions(options: List<Option>) {
+private fun Sink.writeOptions(options: List<Option>) {
     val sorted = options.map(Option::toFormat).sortedBy(Format::number)
     for (i in sorted.indices) {
         val preceding = if (i == 0) null else sorted[i - 1]
-        buffer.writeOption(sorted[i], preceding)
+        writeOption(sorted[i], preceding)
     }
 }
 
@@ -249,7 +251,7 @@ private fun BufferedSink.writeOptions(options: List<Option>) {
  * ```
  */
 @Suppress("ktlint:standard:no-multi-spaces")
-internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
+internal fun Sink.writeOption(option: Format, preceding: Format?) {
     val delta = option.number - (preceding?.number ?: 0)
     val optionDelta = when {
         delta in 0..12 -> delta // No Option Delta (extended)
@@ -278,7 +280,7 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
                     if (write) writeByte(byte)
                 }
             }
-            is string -> writeUtf8(option.value)
+            is string -> writeString(option.value)
         }
     }
 
@@ -319,15 +321,15 @@ internal fun BufferedSink.writeOption(option: Format, preceding: Format?) {
     // /         Option Value          /   0 or more bytes
     // \                               \
     // +-------------------------------+
-    writeAll(optionValue)
+    transferFrom(optionValue)
 }
 
 /**
- * Writes [token] to receiver [BufferedSink].
+ * Writes [token] to receiver [Sink].
  *
  * @return length of [token] written.
  */
-internal fun BufferedSink.writeToken(token: Long) {
+internal fun Sink.writeToken(token: Long) {
     if (token == 0L) return
     when (token) {
         in UBYTE_RANGE -> writeByte(token and 0xFF)
@@ -337,11 +339,15 @@ internal fun BufferedSink.writeToken(token: Long) {
     }
 }
 
-private fun BufferedSink.writeByte(byte: Long) = writeByte(byte.toInt())
+private fun Sink.writeByte(byte: Int) = writeByte(byte.toByte())
 
-private fun BufferedSink.writeShort(short: Long) = writeShort(short.toInt())
+private fun Sink.writeByte(byte: Long) = writeByte(byte.toByte())
 
-private fun BufferedSink.writeInt(int: Long) = writeInt(int.toInt())
+private fun Sink.writeShort(short: Int) = writeShort(short.toShort())
+
+private fun Sink.writeShort(short: Long) = writeShort(short.toShort())
+
+private fun Sink.writeInt(int: Long) = writeInt(int.toInt())
 
 // Type (T): 2-bit unsigned integer
 // https://tools.ietf.org/html/rfc7252#section-3

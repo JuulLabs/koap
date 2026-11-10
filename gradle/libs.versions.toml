@@ -1,13 +1,12 @@
 [versions]
 kotlin = "2.4.21"
-okio = "3.18.2"
+kotlinx-io = "0.9.2"
 
 [libraries]
 equalsverifier = { module = "nl.jqno.equalsverifier:equalsverifier", version = "4.5.2" }
 kotlinx-coroutines-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version = "1.11.0" }
+kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.12.0" }
-okio-core = { module = "com.squareup.okio:okio", version.ref = "okio" }
-okio-js = { module = "com.squareup.okio:okio-js", version.ref = "okio" }
 
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version = "2.2.0" }

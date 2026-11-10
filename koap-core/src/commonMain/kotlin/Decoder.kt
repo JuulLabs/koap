@@ -61,7 +61,6 @@ import com.juul.koap.Message.Udp.Type.Acknowledgement
 import com.juul.koap.Message.Udp.Type.Confirmable
 import com.juul.koap.Message.Udp.Type.NonConfirmable
 import com.juul.koap.Message.Udp.Type.Reset
-import okio.BufferedSource
 
 /**
  * Decodes [ByteArray] receiver to a [Message].
@@ -346,7 +345,7 @@ private fun ByteArrayReader.readOptions(): List<Option> {
 }
 
 /**
- * Reads [Option] from [BufferedSource] receiver.
+ * Reads [Option] from [ByteArrayReader] receiver.
  *
  * 3.1. Option Format (Figure 8: Option Format)
  *
@@ -366,7 +365,7 @@ private fun ByteArrayReader.readOptions(): List<Option> {
  * +-------------------------------+
  * ```
  *
- * @return [Option] or `null` if [PAYLOAD_MARKER] was hit or [BufferedSource] receiver is exhausted.
+ * @return [Option] or `null` if [PAYLOAD_MARKER] was hit or [ByteArrayReader] receiver is exhausted.
  */
 internal fun ByteArrayReader.readOption(preceding: Format?): Option? {
     if (exhausted()) return null

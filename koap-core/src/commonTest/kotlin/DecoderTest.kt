@@ -34,7 +34,6 @@ import com.juul.koap.decode
 import com.juul.koap.encode
 import com.juul.koap.readOption
 import com.juul.koap.reader
-import okio.ByteString.Companion.decodeHex
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -274,11 +273,11 @@ class DecoderTest {
     // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.4
     @Test
     fun decodeOscoreOptionTestVector4() {
-        val unprotectedCoapRequest = "44015d1f00003974396c6f63616c686f737483747631".decodeHex().toByteArray().decode<Message.Udp>()
+        val unprotectedCoapRequest = "44015d1f00003974396c6f63616c686f737483747631".hexToByteArray().decode<Message.Udp>()
 
-        val oscoreOptionValue = "0914".decodeHex().toByteArray()
-        val ciphertext = "612f1092f1776f1c1668b3825e".decodeHex().toByteArray()
-        val protectedCoapRequest = "44025d1f00003974396c6f63616c686f7374620914ff612f1092f1776f1c1668b3825e".decodeHex().toByteArray()
+        val oscoreOptionValue = "0914".hexToByteArray()
+        val ciphertext = "612f1092f1776f1c1668b3825e".hexToByteArray()
+        val protectedCoapRequest = "44025d1f00003974396c6f63616c686f7374620914ff612f1092f1776f1c1668b3825e".hexToByteArray()
 
         assertEquals(
             expected = Message.Udp(
@@ -304,11 +303,11 @@ class DecoderTest {
     // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.5
     @Test
     fun decodeOscoreOptionTestVector5() {
-        val unprotectedCoapRequest = "440171c30000b932396c6f63616c686f737483747631".decodeHex().toByteArray().decode<Message.Udp>()
+        val unprotectedCoapRequest = "440171c30000b932396c6f63616c686f737483747631".hexToByteArray().decode<Message.Udp>()
 
-        val oscoreOptionValue = "091400".decodeHex().toByteArray()
-        val ciphertext = "4ed339a5a379b0b8bc731fffb0".decodeHex().toByteArray()
-        val protectedCoapRequest = "440271c30000b932396c6f63616c686f737463091400ff4ed339a5a379b0b8bc731fffb0".decodeHex().toByteArray()
+        val oscoreOptionValue = "091400".hexToByteArray()
+        val ciphertext = "4ed339a5a379b0b8bc731fffb0".hexToByteArray()
+        val protectedCoapRequest = "440271c30000b932396c6f63616c686f737463091400ff4ed339a5a379b0b8bc731fffb0".hexToByteArray()
 
         assertEquals(
             expected = Message.Udp(
@@ -334,12 +333,12 @@ class DecoderTest {
     // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.6
     @Test
     fun decodeOscoreOptionTestVector6() {
-        val unprotectedCoapRequest = "44012f8eef9bbf7a396c6f63616c686f737483747631".decodeHex().toByteArray().decode<Message.Udp>()
+        val unprotectedCoapRequest = "44012f8eef9bbf7a396c6f63616c686f737483747631".hexToByteArray().decode<Message.Udp>()
 
-        val oscoreOptionValue = "19140837cbf3210017a2d3".decodeHex().toByteArray()
-        val ciphertext = "72cd7273fd331ac45cffbe55c3".decodeHex().toByteArray()
+        val oscoreOptionValue = "19140837cbf3210017a2d3".hexToByteArray()
+        val ciphertext = "72cd7273fd331ac45cffbe55c3".hexToByteArray()
         val protectedCoapRequest =
-            "44022f8eef9bbf7a396c6f63616c686f73746b19140837cbf3210017a2d3ff72cd7273fd331ac45cffbe55c3".decodeHex().toByteArray()
+            "44022f8eef9bbf7a396c6f63616c686f73746b19140837cbf3210017a2d3ff72cd7273fd331ac45cffbe55c3".hexToByteArray()
 
         assertEquals(
             expected = Message.Udp(
@@ -365,11 +364,11 @@ class DecoderTest {
     // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.7
     @Test
     fun decodeOscoreOptionTestVector7() {
-        val unprotectedCoapResponse = "64455d1f00003974ff48656c6c6f20576f726c6421".decodeHex().toByteArray().decode<Message.Udp>()
+        val unprotectedCoapResponse = "64455d1f00003974ff48656c6c6f20576f726c6421".hexToByteArray().decode<Message.Udp>()
 
-        val oscoreOptionValue = "".decodeHex().toByteArray()
-        val ciphertext = "dbaad1e9a7e7b2a813d3c31524378303cdafae119106".decodeHex().toByteArray()
-        val protectedCoapResponse = "64445d1f0000397490ffdbaad1e9a7e7b2a813d3c31524378303cdafae119106".decodeHex().toByteArray()
+        val oscoreOptionValue = "".hexToByteArray()
+        val ciphertext = "dbaad1e9a7e7b2a813d3c31524378303cdafae119106".hexToByteArray()
+        val protectedCoapResponse = "64445d1f0000397490ffdbaad1e9a7e7b2a813d3c31524378303cdafae119106".hexToByteArray()
 
         assertEquals(
             expected = Message.Udp(
@@ -394,11 +393,11 @@ class DecoderTest {
     // https://datatracker.ietf.org/doc/html/rfc8613#appendix-C.8
     @Test
     fun decodeOscoreOptionTestVector8() {
-        val unprotectedCoapResponse = "64455d1f00003974ff48656c6c6f20576f726c6421".decodeHex().toByteArray().decode<Message.Udp>()
+        val unprotectedCoapResponse = "64455d1f00003974ff48656c6c6f20576f726c6421".hexToByteArray().decode<Message.Udp>()
 
-        val oscoreOptionValue = "0100".decodeHex().toByteArray()
-        val ciphertext = "4d4c13669384b67354b2b6175ff4b8658c666a6cf88e".decodeHex().toByteArray()
-        val protectedCoapResponse = "64445d1f00003974920100ff4d4c13669384b67354b2b6175ff4b8658c666a6cf88e".decodeHex().toByteArray()
+        val oscoreOptionValue = "0100".hexToByteArray()
+        val ciphertext = "4d4c13669384b67354b2b6175ff4b8658c666a6cf88e".hexToByteArray()
+        val protectedCoapResponse = "64445d1f00003974920100ff4d4c13669384b67354b2b6175ff4b8658c666a6cf88e".hexToByteArray()
 
         assertEquals(
             expected = Message.Udp(
@@ -520,7 +519,7 @@ class DecoderTest {
             CA FE F0 0D AB CD EF # Token (0xCAFE_F00D_ABCDEF = 57_138_252_270_521_839L)
             B7                   # B = Delta option: 11 (Uri-Path), 7 = Delta length: 7
             65 78 61 6D 70 6C 65 # "example"
-        """.trimIndent().stripComments().decodeHex().toByteArray()
+        """.trimIndent().stripComments().hexToByteArray()
 
         val message = encoded.decode<Message.Udp>()
         assertEquals(
@@ -561,8 +560,7 @@ private fun testReadOption(
 ) {
     val option = encoded
         .stripComments()
-        .decodeHex()
-        .toByteArray()
+        .hexToByteArray()
         .reader()
         .readOption(preceding = null)
 

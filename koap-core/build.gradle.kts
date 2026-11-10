@@ -28,7 +28,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.okio.core)
+            implementation(libs.kotlinx.io.core)
         }
 
         commonTest.dependencies {
