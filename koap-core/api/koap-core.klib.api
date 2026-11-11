@@ -6,6 +6,25 @@
 // - Show declarations: true
 
 // Library unique name: <com.juul.koap:koap-core>
+final class com.juul.koap/OscoreParts { // com.juul.koap/OscoreParts|null[0]
+    constructor <init>(kotlin/ByteArray, kotlin/ByteArray?, kotlin/ByteArray?) // com.juul.koap/OscoreParts.<init>|<init>(kotlin.ByteArray;kotlin.ByteArray?;kotlin.ByteArray?){}[0]
+
+    final val kid // com.juul.koap/OscoreParts.kid|{}kid[0]
+        final fun <get-kid>(): kotlin/ByteArray? // com.juul.koap/OscoreParts.kid.<get-kid>|<get-kid>(){}[0]
+    final val kidContext // com.juul.koap/OscoreParts.kidContext|{}kidContext[0]
+        final fun <get-kidContext>(): kotlin/ByteArray? // com.juul.koap/OscoreParts.kidContext.<get-kidContext>|<get-kidContext>(){}[0]
+    final val partialIv // com.juul.koap/OscoreParts.partialIv|{}partialIv[0]
+        final fun <get-partialIv>(): kotlin/ByteArray // com.juul.koap/OscoreParts.partialIv.<get-partialIv>|<get-partialIv>(){}[0]
+
+    final fun component1(): kotlin/ByteArray // com.juul.koap/OscoreParts.component1|component1(){}[0]
+    final fun component2(): kotlin/ByteArray? // com.juul.koap/OscoreParts.component2|component2(){}[0]
+    final fun component3(): kotlin/ByteArray? // com.juul.koap/OscoreParts.component3|component3(){}[0]
+    final fun copy(kotlin/ByteArray = ..., kotlin/ByteArray? = ..., kotlin/ByteArray? = ...): com.juul.koap/OscoreParts // com.juul.koap/OscoreParts.copy|copy(kotlin.ByteArray;kotlin.ByteArray?;kotlin.ByteArray?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/OscoreParts.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.juul.koap/OscoreParts.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.juul.koap/OscoreParts.toString|toString(){}[0]
+}
+
 sealed class com.juul.koap/Header { // com.juul.koap/Header|null[0]
     abstract val code // com.juul.koap/Header.code|{}code[0]
         abstract fun <get-code>(): com.juul.koap/Message.Code // com.juul.koap/Header.code.<get-code>|<get-code>(){}[0]
@@ -509,7 +528,12 @@ sealed class com.juul.koap/Message { // com.juul.koap/Message|null[0]
             final fun copy(kotlin/ByteArray = ...): com.juul.koap/Message.Option.Oscore // com.juul.koap/Message.Option.Oscore.copy|copy(kotlin.ByteArray){}[0]
             final fun equals(kotlin/Any?): kotlin/Boolean // com.juul.koap/Message.Option.Oscore.equals|equals(kotlin.Any?){}[0]
             final fun hashCode(): kotlin/Int // com.juul.koap/Message.Option.Oscore.hashCode|hashCode(){}[0]
+            final fun parts(): com.juul.koap/OscoreParts // com.juul.koap/Message.Option.Oscore.parts|parts(){}[0]
             final fun toString(): kotlin/String // com.juul.koap/Message.Option.Oscore.toString|toString(){}[0]
+
+            final object Companion { // com.juul.koap/Message.Option.Oscore.Companion|null[0]
+                final fun fromParts(kotlin/ByteArray, kotlin/ByteArray?, kotlin/ByteArray?): com.juul.koap/Message.Option.Oscore // com.juul.koap/Message.Option.Oscore.Companion.fromParts|fromParts(kotlin.ByteArray;kotlin.ByteArray?;kotlin.ByteArray?){}[0]
+            }
         }
 
         final class ProxyScheme : com.juul.koap/Message.Option { // com.juul.koap/Message.Option.ProxyScheme|null[0]
