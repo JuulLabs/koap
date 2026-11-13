@@ -40,7 +40,8 @@ import com.juul.koap.toHexString
 import com.juul.koap.writeHeader
 import com.juul.koap.writeOption
 import com.juul.koap.writeToken
-import okio.Buffer
+import kotlinx.io.Buffer
+import kotlinx.io.readByteArray
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

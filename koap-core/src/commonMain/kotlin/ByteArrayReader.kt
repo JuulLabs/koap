@@ -1,7 +1,5 @@
 package com.juul.koap
 
-import okio.ByteString.Companion.toByteString
-
 internal inline fun <T> ByteArray.withReader(
     startIndex: Int = 0,
     endIndex: Int = size,
@@ -103,7 +101,7 @@ internal class ByteArrayReader(
 
     fun readUtf8(length: Int): String {
         checkLength(length)
-        val utf8 = bytes.toByteString(index, length).utf8()
+        val utf8 = bytes.decodeToString(index, index + length)
         index += length
         return utf8
     }

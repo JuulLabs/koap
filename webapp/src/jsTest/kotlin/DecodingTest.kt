@@ -2,7 +2,6 @@ package com.juul.koap
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
-import okio.ByteString.Companion.decodeHex
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -24,8 +23,7 @@ class DecodingTest {
          */
         val input = "42 01 FE ED CA FE B7 65 78 61 6D 70 6C 65 11 32 FF 7B 22 65 78 61 6D 70 6C 65 22 3A 20 31 32 33 7D"
             .replace(" ", "")
-            .decodeHex()
-            .toByteArray()
+            .hexToByteArray()
 
         assertEquals(
             expected = """
@@ -83,8 +81,7 @@ class DecodingTest {
          */
         val input = "42 01 FE ED CA FE B7 65 78 61 6D 70 6C 65 11 3C FF BF 61 61 63 31 32 33 61 62 63 39 38 37 FF"
             .replace(" ", "")
-            .decodeHex()
-            .toByteArray()
+            .hexToByteArray()
 
         assertEquals(
             expected = "Unsupported number length of 10 bytes",
